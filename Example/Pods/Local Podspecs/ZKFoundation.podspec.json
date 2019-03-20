@@ -1,0 +1,60 @@
+{
+  "name": "ZKFoundation",
+  "version": "0.1.0",
+  "summary": "A short description of ZKFoundation.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/zhangkai/ZKFoundation",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "zhangkai": "deyang143@126.com"
+  },
+  "source": {
+    "git": "https://github.com/zhangkai/ZKFoundation.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "requires_arc": true,
+  "source_files": "ZKFoundation/Classes/Source/*.{h,m}",
+  "subspecs": [
+    {
+      "name": "LocationManager",
+      "platforms": {
+        "ios": "8.0"
+      },
+      "source_files": "ZKFoundation/Classes/Source/LocationManager/*.{h,m}"
+    },
+    {
+      "name": "UIKit",
+      "platforms": {
+        "ios": "8.0"
+      },
+      "source_files": "ZKFoundation/Classes/Source/iOS/*.{h,m}"
+    },
+    {
+      "name": "Helper",
+      "platforms": {
+        "ios": "8.0"
+      },
+      "source_files": "ZKFoundation/Classes/Source/Helper/*.{h,m}"
+    },
+    {
+      "name": "Categories",
+      "platforms": {
+        "ios": "8.0"
+      },
+      "source_files": "ZKFoundation/Classes/Source/Categories/*.{h,m}"
+    },
+    {
+      "name": "AuthContext",
+      "platforms": {
+        "ios": "8.0"
+      },
+      "source_files": "ZKFoundation/Classes/Source/AuthContext/*.{h,m}"
+    }
+  ]
+}

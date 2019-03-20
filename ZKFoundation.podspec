@@ -21,16 +21,41 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/zhangkai/ZKFoundation'
+  s.homepage         = 'https://github.com/kaiser143/ZKFoundation'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'zhangkai' => 'deyang143@126.com' }
-  s.source           = { :git => 'https://github.com/zhangkai/ZKFoundation.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/kaiser143/ZKFoundation.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
-
-  s.source_files = 'ZKFoundation/Classes/**/*'
+  s.requires_arc    = true
+  s.source_files = 'ZKFoundation/Classes/Source/*.{h,m}'
+  
+  s.subspec 'LocationManager' do |ss|
+      ss.ios.deployment_target = '8.0'
+      ss.source_files = 'ZKFoundation/Classes/Source/LocationManager/*.{h,m}'
+  end
+  
+  s.subspec 'UIKit' do |ss|
+      ss.ios.deployment_target = '8.0'
+      ss.source_files = 'ZKFoundation/Classes/Source/iOS/*.{h,m}'
+  end
+  
+  s.subspec 'Helper' do |ss|
+      ss.ios.deployment_target = '8.0'
+      ss.source_files = 'ZKFoundation/Classes/Source/Helper/*.{h,m}'
+  end
+  
+  s.subspec 'Categories' do |ss|
+      ss.ios.deployment_target = '8.0'
+      ss.source_files = 'ZKFoundation/Classes/Source/Categories/*.{h,m}'
+  end
+  
+  s.subspec 'AuthContext' do |ss|
+      ss.ios.deployment_target = '8.0'
+      ss.source_files = 'ZKFoundation/Classes/Source/AuthContext/*.{h,m}'
+  end
   
   # s.resource_bundles = {
   #   'ZKFoundation' => ['ZKFoundation/Assets/*.png']
