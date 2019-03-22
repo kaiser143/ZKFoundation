@@ -16,6 +16,9 @@
     if (curTableHelper) return curTableHelper;
     
     curTableHelper = ZKTableViewHelper.new;
+    curTableHelper.kai_tableView = self;
+    self.dataSource = curTableHelper;
+    self.delegate = curTableHelper;
     objc_setAssociatedObject(self, _cmd, curTableHelper, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     return curTableHelper;
 }
