@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UIView (Helper)
+@interface UIView (ZKHelper)
 
 - (CGSize)systemLayoutSizeFitting;
 

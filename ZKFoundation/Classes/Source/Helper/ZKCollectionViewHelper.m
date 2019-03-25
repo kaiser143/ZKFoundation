@@ -6,7 +6,7 @@
 //
 
 #import "ZKCollectionViewHelper.h"
-#import "UIView+Helper.h"
+#import "UIView+ZKHelper.h"
 
 @interface ZKCollectionViewHelper ()
 

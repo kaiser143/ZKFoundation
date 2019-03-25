@@ -5,8 +5,8 @@
 //  Created by Kaiser on 2019/3/12.
 //
 
-#import "UITableViewCell+Helper.h"
+#import "UITableViewCell+ZKHelper.h"
 
-@implementation UITableViewCell (Helper)
+@implementation UITableViewCell (ZKHelper)
 
 @end

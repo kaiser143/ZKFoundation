@@ -6,9 +6,9 @@
 //
 
 #import "ZKTableViewHelper.h"
-#import "UIView+Helper.h"
-#import "UITableView+Helper.h"
-#import "UITableViewCell+Helper.h"
+#import "UIView+ZKHelper.h"
+#import "UITableView+ZKHelper.h"
+#import "UITableViewCell+ZKHelper.h"
 
 #define defaultInterval .5 //默认时间间隔
 
@@ -82,7 +82,7 @@
     if (_cellIdentifier == nil) {
         NSString *curVCIdentifier = nil; //self.kai_tableView.viewController.cc_identifier;
         if (curVCIdentifier) {
-            NSString *curCellIdentifier = [NSString stringWithFormat:@"CC%@Cell", curVCIdentifier];
+            NSString *curCellIdentifier = [NSString stringWithFormat:@"KAI%@Cell", curVCIdentifier];
             _cellIdentifier             = curCellIdentifier;
         }
     }
@@ -329,8 +329,6 @@
 
 #pragma mark :. 侧边
 /**
- *  @author CC, 16-07-23
- *
  *  @brief 侧边栏字母
  */
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
@@ -342,8 +340,6 @@
 }
 
 /**
- *  @author CC, 16-07-23
- *
  *  @brief 侧边字母点击
  */
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
@@ -611,7 +607,7 @@
 - (void)kai_reloadGroupDataAry:(NSArray *)newDataAry {
     [self.dataArray removeAllObjects];
     for (NSInteger i = 0; i < newDataAry.count; i++)
-        [self cc_makeUpDataAryForSection:i];
+        [self kai_makeUpDataAryForSection:i];
 
     for (int idx = 0; idx < self.dataArray.count; idx++) {
         NSMutableArray *subAry = self.dataArray[ idx ];
@@ -702,7 +698,7 @@
 }
 
 - (void)kai_resetDataAry:(NSArray *)newDataAry forSection:(NSInteger)cSection {
-    [self cc_makeUpDataAryForSection:cSection];
+    [self kai_makeUpDataAryForSection:cSection];
     NSMutableArray *subAry = self.dataArray[ cSection ];
     if (subAry.count)
         [subAry removeAllObjects];
@@ -721,7 +717,7 @@
     if (newDataAry.count == 0)
         return;
 
-    NSIndexSet *curIndexSet = [self cc_makeUpDataAryForSection:cSection];
+    NSIndexSet *curIndexSet = [self kai_makeUpDataAryForSection:cSection];
     NSMutableArray *subAry  = self.dataArray[ cSection ];
     if (subAry.count)
         [subAry removeAllObjects];
@@ -744,7 +740,7 @@
     if (newDataAry.count == 0)
         return;
 
-    NSIndexSet *curIndexSet = [self cc_makeUpDataAryForSection:cSection];
+    NSIndexSet *curIndexSet = [self kai_makeUpDataAryForSection:cSection];
     NSMutableArray *subAry;
     if (cSection < 0) {
         subAry = self.dataArray[ 0 ];
@@ -770,7 +766,7 @@
 
 - (void)kai_insertData:(id)cModel atIndex:(NSIndexPath *)cIndexPath;
 {
-    NSIndexSet *curIndexSet = [self cc_makeUpDataAryForSection:cIndexPath.section];
+    NSIndexSet *curIndexSet = [self kai_makeUpDataAryForSection:cIndexPath.section];
     NSMutableArray *subAry  = self.dataArray[ cIndexPath.section ];
     if (subAry.count < cIndexPath.row)
         return;
@@ -830,7 +826,7 @@
     }
 }
 
-- (NSIndexSet *)cc_makeUpDataAryForSection:(NSInteger)cSection {
+- (NSIndexSet *)kai_makeUpDataAryForSection:(NSInteger)cSection {
     NSMutableIndexSet *curIndexSet = nil;
     if (self.dataArray.count <= cSection) {
         curIndexSet = [NSMutableIndexSet indexSet];
@@ -851,7 +847,7 @@
 
 - (NSMutableArray<NSMutableArray *> *)dataArray {
     if (!_dataArray) {
-        _dataArray = [NSMutableArray new];
+        _dataArray = NSMutableArray.new;
     }
     return _dataArray;
 }

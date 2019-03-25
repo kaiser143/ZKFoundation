@@ -5,11 +5,11 @@
 //  Created by Kaiser on 2019/3/12.
 //
 
-#import "UITableView+Helper.h"
+#import "UITableView+ZKHelper.h"
 #import "ZKTableViewHelper.h"
 #import <objc/runtime.h>
 
-@implementation UITableView (Helper)
+@implementation UITableView (ZKHelper)
 
 - (ZKTableViewHelper *)tableHelper {
     ZKTableViewHelper *curTableHelper = objc_getAssociatedObject(self, _cmd);
@@ -21,12 +21,6 @@
     self.delegate = curTableHelper;
     objc_setAssociatedObject(self, _cmd, curTableHelper, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     return curTableHelper;
-}
-
-- (void)extraCellLineHidden {
-    UIView *v = [[UIView alloc] initWithFrame:CGRectZero];
-    v.backgroundColor = [UIColor clearColor];
-    [self setTableFooterView:v];
 }
 
 @end

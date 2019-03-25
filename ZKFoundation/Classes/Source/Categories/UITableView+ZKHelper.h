@@ -11,11 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class ZKTableViewHelper;
 
-@interface UITableView (Helper)
+@interface UITableView (ZKHelper)
 
 @property (nonatomic, strong, readonly) ZKTableViewHelper *tableHelper;
-
-- (void)extraCellLineHidden;
 
 @end
 

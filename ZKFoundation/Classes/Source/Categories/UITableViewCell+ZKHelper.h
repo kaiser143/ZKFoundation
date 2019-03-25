@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface UITableViewCell (Helper) <ZKTableHelperProtocol>
+@interface UITableViewCell (ZKHelper) <ZKTableHelperProtocol>
 
 @end
 
