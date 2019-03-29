@@ -12,28 +12,28 @@
 #import <CoreLocation/CoreLocation.h>
 
 #if __has_feature(objc_generics)
-#   define __ZK_GENERICS(type, ...)       type<__VA_ARGS__>
+#define __ZK_GENERICS(type, ...) type<__VA_ARGS__>
 #else
-#   define __ZK_GENERICS(type, ...)       type
+#define __ZK_GENERICS(type, ...) type
 #endif
 
 #ifdef NS_DESIGNATED_INITIALIZER
-#   define __ZK_DESIGNATED_INITIALIZER    NS_DESIGNATED_INITIALIZER
+#define __ZK_DESIGNATED_INITIALIZER NS_DESIGNATED_INITIALIZER
 #else
-#   define __ZK_DESIGNATED_INITIALIZER
+#define __ZK_DESIGNATED_INITIALIZER
 #endif
 
-static const CLLocationAccuracy kZKHorizontalAccuracyThresholdCity =         5000.0;  // in meters
-static const CLLocationAccuracy kZKHorizontalAccuracyThresholdNeighborhood = 1000.0;  // in meters
-static const CLLocationAccuracy kZKHorizontalAccuracyThresholdBlock =         100.0;  // in meters
-static const CLLocationAccuracy kZKHorizontalAccuracyThresholdHouse =          15.0;  // in meters
-static const CLLocationAccuracy kZKHorizontalAccuracyThresholdRoom =            5.0;  // in meters
+static const CLLocationAccuracy kZKHorizontalAccuracyThresholdCity         = 5000.0; // in meters
+static const CLLocationAccuracy kZKHorizontalAccuracyThresholdNeighborhood = 1000.0; // in meters
+static const CLLocationAccuracy kZKHorizontalAccuracyThresholdBlock        = 100.0;  // in meters
+static const CLLocationAccuracy kZKHorizontalAccuracyThresholdHouse        = 15.0;   // in meters
+static const CLLocationAccuracy kZKHorizontalAccuracyThresholdRoom         = 5.0;    // in meters
 
-static const NSTimeInterval kZKUpdateTimeStaleThresholdCity =             600.0;  // in seconds
-static const NSTimeInterval kZKUpdateTimeStaleThresholdNeighborhood =     300.0;  // in seconds
-static const NSTimeInterval kZKUpdateTimeStaleThresholdBlock =             60.0;  // in seconds
-static const NSTimeInterval kZKUpdateTimeStaleThresholdHouse =             15.0;  // in seconds
-static const NSTimeInterval kZKUpdateTimeStaleThresholdRoom =               5.0;  // in seconds
+static const NSTimeInterval kZKUpdateTimeStaleThresholdCity         = 600.0; // in seconds
+static const NSTimeInterval kZKUpdateTimeStaleThresholdNeighborhood = 300.0; // in seconds
+static const NSTimeInterval kZKUpdateTimeStaleThresholdBlock        = 60.0;  // in seconds
+static const NSTimeInterval kZKUpdateTimeStaleThresholdHouse        = 15.0;  // in seconds
+static const NSTimeInterval kZKUpdateTimeStaleThresholdRoom         = 5.0;   // in seconds
 
 /** The possible states that location services can be in. */
 typedef NS_ENUM(NSInteger, ZKLocationServicesState) {
@@ -70,7 +70,7 @@ typedef NS_ENUM(NSInteger, ZKLocationAccuracy) {
     // 'None' is not valid as a desired accuracy.
     /** Inaccurate (>5000 meters, and/or received >10 minutes ago). */
     ZKLocationAccuracyNone = 0,
-    
+
     // The below options are valid desired accuracies.
     /** 5000 meters or better, and received within the last 10 minutes. Lowest accuracy. */
     ZKLocationAccuracyCity,
@@ -95,7 +95,7 @@ typedef NS_ENUM(NSInteger, ZKLocationStatus) {
     ZKLocationStatusSuccess = 0,
     /** Got a location, but the desired accuracy level was not reached before timeout. (Not applicable to subscriptions.) */
     ZKLocationStatusTimedOut,
-    
+
     // These statuses indicate some sort of error, and will accompany a nil location.
     /** User has not yet responded to the dialog that grants this app permission to access location services. */
     ZKLocationStatusServicesNotDetermined,
@@ -114,11 +114,11 @@ typedef NS_ENUM(NSInteger, ZKHeadingStatus) {
     // These statuses will accompany a valid heading.
     /** Got a heading successfully. */
     ZKHeadingStatusSuccess = 0,
-    
+
     // These statuses indicate some sort of error, and will accompany a nil heading.
     /** Heading was invalid. */
     ZKHeadingStatusInvalid,
-    
+
     /** Heading services are not available on the device */
     ZKHeadingStatusUnavailable
 };
@@ -132,14 +132,14 @@ typedef NS_ENUM(NSInteger, ZKHeadingStatus) {
  understand what the outcome of the request was, decide if/how to use the associated currentLocation, and determine whether other
  actions are required (such as displaying an error message to the user, retrying with another request, quietly proceeding, etc).
  */
-typedef void(^ZKLocationRequestBlock)(CLLocation *currentLocation, ZKLocationAccuracy achievedAccuracy, ZKLocationStatus status);
+typedef void (^ZKLocationRequestBlock)(CLLocation *currentLocation, ZKLocationAccuracy achievedAccuracy, ZKLocationStatus status);
 
 /**
  A block type for a heading request, which is executed when the request succeeds.
  @param currentHeading  The most recent current heading available when the block executes.
  @param status          The status of the request - whether it succeeded or failed due to some sort of error. This can be used to understand if any further action is needed.
  */
-typedef void(^ZKHeadingRequestBlock)(CLHeading *currentHeading, ZKHeadingStatus status);
+typedef void (^ZKHeadingRequestBlock)(CLHeading *currentHeading, ZKHeadingStatus status);
 
 typedef NS_ENUM(NSUInteger, ZKAuthorizationType) {
     ZKAuthorizationTypeAuto,

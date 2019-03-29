@@ -30,8 +30,8 @@
  */
 @property (nonatomic, strong) UISearchBar *searchBar;
 
-@property (nonatomic, copy) ZKTableHelperCellAutoHeightForRowBlock cellAutoHeightBlock;
-@property (nonatomic, copy) ZKTableHelperCellIdentifierBlock cellIdentifierBlock;
+@property (nonatomic, copy) ZKTableHelperCellAutoHeightForRowBlock cellAutoHeightForRowBlock;
+@property (nonatomic, copy) ZKTableHelperCellIdentifierForRowBlock cellIdentifierForRowAtIndexPathBlock;
 @property (nonatomic, copy) ZKTableHelperDidSelectBlock didSelectBlock;
 @property (nonatomic, copy) ZKTableHelperDidDeSelectBlock didDeSelectBlock;
 @property (nonatomic, copy) ZKTableHelperDidMoveToRowBlock didMoveToRowBlock;
@@ -40,12 +40,12 @@
 @property (nonatomic, copy) ZKTableHelperDidEditingBlock didEditingBlock;
 @property (nonatomic, copy) ZKTableHelperDidEditTitleBlock didEditTileBlock;
 
-@property (nonatomic, copy) ZKTableHelperEditingStyle didEditingStyle;
+@property (nonatomic, copy) ZKTableHelperEditingStyleBlock didEditingStyle;
 @property (nonatomic, copy) ZKTableHelperDidEditActionsBlock didEditActionsBlock;
 
-@property (nonatomic, copy) ZKScrollViewWillBeginDragging scrollViewBdBlock;
-@property (nonatomic, copy) ZKScrollViewDidScroll scrollViewddBlock;
-@property (nonatomic, copy) ZKScrollViewDidEndDragging scrollViewDicEndBlock;
+@property (nonatomic, copy) ZKScrollViewWillBeginDraggingBlock scrollViewBdBlock;
+@property (nonatomic, copy) ZKScrollViewDidScrollBlock scrollViewddBlock;
+@property (nonatomic, copy) ZKScrollViewDidEndDraggingBlock scrollViewDicEndBlock;
 
 @property (nonatomic, copy) ZKTableHelperHeaderBlock headerBlock;
 @property (nonatomic, copy) ZKTableHelperTitleHeaderBlock headerTitleBlock;
@@ -53,12 +53,11 @@
 @property (nonatomic, copy) ZKTableHelperFooterBlock footerBlock;
 @property (nonatomic, copy) ZKTableHelperTitleFooterBlock footerTitleBlock;
 
-@property (nonatomic, copy) ZKTableHelperNumberOfSections numberOfSections;
-@property (nonatomic, copy) ZKTableHelperNumberRows numberRow;
+@property (nonatomic, copy) ZKTableHelperNumberOfSectionsBlock numberOfSections;
+@property (nonatomic, copy) ZKTableHelperNumberRowsBlock numberRow;
 
-@property (nonatomic, copy) ZKTableHelperCellBlock cellViewEventsBlock;
-@property (nonatomic, copy) ZKTableHelperCurrentModelAtIndexPath currentModelAtIndexPath;
-@property (nonatomic, copy) ZKTableHelperScrollViewDidEndScrolling scrollViewDidEndScrolling;
+@property (nonatomic, copy) ZKTableHelperCurrentModelAtIndexPathBlock currentModelAtIndexPath;
+@property (nonatomic, copy) ZKTableHelperScrollViewDidEndScrollingBlock scrollViewDidEndScrolling;
 
 @end
 
@@ -80,7 +79,7 @@
 #pragma mark :. getset
 - (NSString *)cellIdentifier {
     if (_cellIdentifier == nil) {
-        NSString *curVCIdentifier = nil; //self.kai_tableView.viewController.cc_identifier;
+        NSString *curVCIdentifier = nil;
         if (curVCIdentifier) {
             NSString *curCellIdentifier = [NSString stringWithFormat:@"KAI%@Cell", curVCIdentifier];
             _cellIdentifier             = curCellIdentifier;
@@ -89,16 +88,16 @@
     return _cellIdentifier;
 }
 
-- (void)registerNibs:(NSArray<NSString *> *)cellNibNames {
-    if (cellNibNames.count > 0) {
-        [cellNibNames enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+- (void)registerNibs:(NSArray<NSString *> *)nibs {
+    if (nibs.count > 0) {
+        [nibs enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
             if (self.kai_cellXIB && [[self.kai_cellXIB objectAtIndex:idx] boolValue])
                 [self.kai_tableView registerNib:[UINib nibWithNibName:obj bundle:nil] forCellReuseIdentifier:obj];
             else
                 [self.kai_tableView registerClass:NSClassFromString(obj) forCellReuseIdentifier:obj];
         }];
-        if (cellNibNames.count == 1) {
-            self.cellIdentifier = cellNibNames[ 0 ];
+        if (nibs.count == 1) {
+            self.cellIdentifier = nibs[ 0 ];
         }
     }
 }
@@ -141,11 +140,11 @@
 #pragma mark :. Block事件
 
 - (void)autoHeightCell:(ZKTableHelperCellAutoHeightForRowBlock)cb {
-    self.cellAutoHeightBlock = cb;
+    self.cellAutoHeightForRowBlock = cb;
 }
 
-- (void)cellMultipleIdentifier:(ZKTableHelperCellIdentifierBlock)cb {
-    self.cellIdentifierBlock = cb;
+- (void)cellIdentifierForRowAtIndexPath:(ZKTableHelperCellIdentifierForRowBlock)cb {
+    self.cellIdentifierForRowAtIndexPathBlock = cb;
 }
 
 - (void)didSelect:(ZKTableHelperDidSelectBlock)cb {
@@ -156,15 +155,15 @@
     self.didDeSelectBlock = cb;
 }
 
-- (void)didEnditing:(ZKTableHelperDidEditingBlock)cb {
+- (void)didEditing:(ZKTableHelperDidEditingBlock)cb {
     self.didEditingBlock = cb;
 }
 
-- (void)didEnditTitle:(ZKTableHelperDidEditTitleBlock)cb {
+- (void)didEditTitle:(ZKTableHelperDidEditTitleBlock)cb {
     self.didEditTileBlock = cb;
 }
 
-- (void)didEditingStyle:(ZKTableHelperEditingStyle)cb {
+- (void)didEditingStyle:(ZKTableHelperEditingStyleBlock)cb {
     self.didEditingStyle = cb;
 }
 
@@ -180,11 +179,11 @@
     self.didWillDisplayBlock = cb;
 }
 
-- (void)didScrollViewWillBeginDragging:(ZKScrollViewWillBeginDragging)block {
+- (void)didScrollViewWillBeginDragging:(ZKScrollViewWillBeginDraggingBlock)block {
     self.scrollViewBdBlock = block;
 }
 
-- (void)didScrollViewEndDragging:(ZKScrollViewDidEndDragging)block {
+- (void)didScrollViewEndDragging:(ZKScrollViewDidEndDraggingBlock)block {
     self.scrollViewDicEndBlock = block;
 }
 
@@ -204,27 +203,23 @@
     self.footerTitleBlock = cb;
 }
 
-- (void)numberOfSections:(ZKTableHelperNumberOfSections)cb {
+- (void)numberOfSections:(ZKTableHelperNumberOfSectionsBlock)cb {
     self.numberOfSections = cb;
 }
 
-- (void)numberOfRowsInSection:(ZKTableHelperNumberRows)cb {
+- (void)numberOfRowsInSection:(ZKTableHelperNumberRowsBlock)cb {
     self.numberRow = cb;
 }
 
-- (void)cellViewEventBlock:(ZKTableHelperCellBlock)cb {
-    self.cellViewEventsBlock = cb;
-}
-
-- (void)didScrollViewDidScroll:(ZKScrollViewDidScroll)block {
+- (void)didScrollViewDidScroll:(ZKScrollViewDidScrollBlock)block {
     self.scrollViewddBlock = block;
 }
 
-- (void)currentModelIndexPath:(ZKTableHelperCurrentModelAtIndexPath)cb {
+- (void)currentModelIndexPath:(ZKTableHelperCurrentModelAtIndexPathBlock)cb {
     self.currentModelAtIndexPath = cb;
 }
 
-- (void)didScrollViewDidEndScrolling:(ZKTableHelperScrollViewDidEndScrolling)cb {
+- (void)didScrollViewDidEndScrolling:(ZKTableHelperScrollViewDidEndScrollingBlock)cb {
     self.scrollViewDidEndScrolling = cb;
 }
 
@@ -387,10 +382,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat curHeight = 0;
-    if (self.cellAutoHeightBlock) {
-        id curModel                 = [self currentModelAtIndexPath:indexPath];
-        NSString *identifier = [self cellIdentifierForRowAtIndexPath:indexPath model:curModel];
-        curHeight = self.cellAutoHeightBlock(tableView, indexPath, identifier, curModel);
+    if (self.cellAutoHeightForRowBlock) {
+        id curModel          = [self currentModelAtIndexPath:indexPath];
+        NSString *identifier = [self _kai_cellIdentifierForRowAtIndexPath:indexPath model:curModel];
+        curHeight            = self.cellAutoHeightForRowBlock(tableView, indexPath, identifier, curModel);
     } else {
         curHeight = tableView.rowHeight;
     }
@@ -411,7 +406,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     id curModel                 = [self currentModelAtIndexPath:indexPath];
-    NSString *curCellIdentifier = [self cellIdentifierForRowAtIndexPath:indexPath model:curModel];
+    NSString *curCellIdentifier = [self _kai_cellIdentifierForRowAtIndexPath:indexPath model:curModel];
     UITableViewCell *cell       = [tableView dequeueReusableCellWithIdentifier:curCellIdentifier forIndexPath:indexPath];
 
     NSAssert(cell, @"cell is nil Identifier ⤭ %@ ⤪", curCellIdentifier);
@@ -503,7 +498,7 @@
 
 #pragma mark :. handle
 
-//section 头部,为了IOS6的美化
+//section 头部,为了iOS6的美化
 - (UIView *)tableViewSectionView:(UITableView *)tableView section:(NSInteger)section {
     UIView *customHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.kai_tableView.bounds), self.titleHeaderHeight)];
     UIColor *color           = tableView.backgroundColor;
@@ -561,10 +556,10 @@
 
 #pragma mark :. Handler
 
-- (NSString *)cellIdentifierForRowAtIndexPath:(NSIndexPath *)cIndexPath model:(id)cModel {
+- (NSString *)_kai_cellIdentifierForRowAtIndexPath:(NSIndexPath *)cIndexPath model:(id)cModel {
     NSString *curCellIdentifier = nil;
-    if (self.cellIdentifierBlock) {
-        curCellIdentifier = self.cellIdentifierBlock(cIndexPath, cModel);
+    if (self.cellIdentifierForRowAtIndexPathBlock) {
+        curCellIdentifier = self.cellIdentifierForRowAtIndexPathBlock(cIndexPath, cModel);
     } else {
         curCellIdentifier = self.cellIdentifier;
     }

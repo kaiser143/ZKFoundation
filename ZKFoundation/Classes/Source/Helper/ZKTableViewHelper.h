@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString *__nonnull (^ZKTableHelperCellIdentifierBlock)(NSIndexPath *indexPath, id dataSource);
+typedef NSString *_Nullable (^ZKTableHelperCellIdentifierForRowBlock)(NSIndexPath *indexPath, id dataSource);
 typedef void (^ZKTableHelperDidSelectBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
 typedef void (^ZKTableHelperDidDeSelectBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
 typedef CGFloat (^ZKTableHelperCellAutoHeightForRowBlock)(UITableView *tableView, NSIndexPath *indexPath, NSString *identifier, id dataSource);
@@ -19,27 +19,26 @@ typedef void (^ZKTableHelperDidMoveToRowBlock)(UITableView *tableView, NSIndexPa
 typedef void (^ZKTableHelperDidWillDisplayBlock)(UITableViewCell *cell, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
 
 typedef void (^ZKTableHelperDidEditingBlock)(UITableView *tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath *indexPath, id dataSource);
-typedef NSString *__nonnull (^ZKTableHelperDidEditTitleBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
+typedef NSString *_Nullable (^ZKTableHelperDidEditTitleBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
 
-typedef UITableViewCellEditingStyle (^ZKTableHelperEditingStyle)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
-typedef NSArray<UITableViewRowAction *> *__nonnull (^ZKTableHelperDidEditActionsBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
+typedef UITableViewCellEditingStyle (^ZKTableHelperEditingStyleBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
+typedef NSArray<UITableViewRowAction *> *_Nullable (^ZKTableHelperDidEditActionsBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
 
-typedef void (^ZKScrollViewWillBeginDragging)(UIScrollView *scrollView);
-typedef void (^ZKScrollViewDidScroll)(UIScrollView *scrollView);
-typedef void (^ZKScrollViewDidEndDragging)(UIScrollView *scrollView);
-typedef void (^ZKTableHelperCellBlock)(NSString *info, id event);
+typedef void (^ZKScrollViewWillBeginDraggingBlock)(UIScrollView *scrollView);
+typedef void (^ZKScrollViewDidScrollBlock)(UIScrollView *scrollView);
+typedef void (^ZKScrollViewDidEndDraggingBlock)(UIScrollView *scrollView);
 
-typedef UIView *__nonnull (^ZKTableHelperHeaderBlock)(UITableView *tableView, NSInteger section, id dataSource);
-typedef UIView *__nonnull (^ZKTableHelperFooterBlock)(UITableView *tableView, NSInteger section, id dataSource);
+typedef UIView *_Nullable (^ZKTableHelperHeaderBlock)(UITableView *tableView, NSInteger section, id dataSource);
+typedef UIView *_Nullable (^ZKTableHelperFooterBlock)(UITableView *tableView, NSInteger section, id dataSource);
 
-typedef NSString *__nonnull (^ZKTableHelperTitleHeaderBlock)(UITableView *tableView, NSInteger section);
-typedef NSString *__nonnull (^ZKTableHelperTitleFooterBlock)(UITableView *tableView, NSInteger section);
+typedef NSString *_Nullable (^ZKTableHelperTitleHeaderBlock)(UITableView *tableView, NSInteger section);
+typedef NSString *_Nullable (^ZKTableHelperTitleFooterBlock)(UITableView *tableView, NSInteger section);
 
-typedef NSInteger (^ZKTableHelperNumberOfSections)(UITableView *tableView, NSInteger count);
-typedef NSInteger (^ZKTableHelperNumberRows)(UITableView *tableView, NSInteger section, NSArray *cModels);
-typedef id __nonnull (^ZKTableHelperCurrentModelAtIndexPath)(id dataAry, NSIndexPath *indexPath);
+typedef NSInteger (^ZKTableHelperNumberOfSectionsBlock)(UITableView *tableView, NSInteger count);
+typedef NSInteger (^ZKTableHelperNumberRowsBlock)(UITableView *tableView, NSInteger section, NSArray *dataSource);
+typedef id _Nullable (^ZKTableHelperCurrentModelAtIndexPathBlock)(id dataSource, NSIndexPath *indexPath);
 
-typedef void (^ZKTableHelperScrollViewDidEndScrolling)(UIScrollView *scrollView);
+typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scrollView);
 
 @interface ZKTableViewHelper : NSObject <UITableViewDataSource, UITableViewDelegate>
 
@@ -102,7 +101,7 @@ typedef void (^ZKTableHelperScrollViewDidEndScrolling)(UIScrollView *scrollView)
 /**
  *  When using xib, all incoming nib names
  */
-- (void)registerNibs:(NSArray<NSString *> *)cellNibNames;
+- (void)registerNibs:(NSArray<NSString *> *)nibs;
 
 - (UITableViewHeaderFooterView *)tableViewSectionViewWithIdentifier:(NSString *)identifier
                                                             section:(NSInteger)section;
@@ -115,11 +114,10 @@ typedef void (^ZKTableHelperScrollViewDidEndScrolling)(UIScrollView *scrollView)
  */
 - (void)autoHeightCell:(ZKTableHelperCellAutoHeightForRowBlock)cb;
 
-
 /**
  *  When there are multiple cell, returned identifier in block
  */
-- (void)cellMultipleIdentifier:(ZKTableHelperCellIdentifierBlock)cb;
+- (void)cellIdentifierForRowAtIndexPath:(ZKTableHelperCellIdentifierForRowBlock)cb;
 
 /**
  *  If you override tableView:didSelectRowAtIndexPath: method, it will be invalid
@@ -134,16 +132,16 @@ typedef void (^ZKTableHelperScrollViewDidEndScrolling)(UIScrollView *scrollView)
 /**
  *  @brief 编辑样式
  */
-- (void)didEditingStyle:(ZKTableHelperEditingStyle)cb;
+- (void)didEditingStyle:(ZKTableHelperEditingStyleBlock)cb;
 
 /**
  *  @brief  cell侧滑编辑事件
  */
-- (void)didEnditing:(ZKTableHelperDidEditingBlock)cb;
+- (void)didEditing:(ZKTableHelperDidEditingBlock)cb;
 /**
  *  @brief  cell侧滑标题
  */
-- (void)didEnditTitle:(ZKTableHelperDidEditTitleBlock)cb;
+- (void)didEditTitle:(ZKTableHelperDidEditTitleBlock)cb;
 
 /**
  *  @brief  cell侧滑菜单
@@ -160,9 +158,9 @@ typedef void (^ZKTableHelperScrollViewDidEndScrolling)(UIScrollView *scrollView)
  */
 - (void)cellWillDisplay:(ZKTableHelperDidWillDisplayBlock)cb;
 
-- (void)didScrollViewWillBeginDragging:(ZKScrollViewWillBeginDragging)block;
-- (void)didScrollViewDidScroll:(ZKScrollViewDidScroll)block;
-- (void)didScrollViewEndDragging:(ZKScrollViewDidEndDragging)block;
+- (void)didScrollViewWillBeginDragging:(ZKScrollViewWillBeginDraggingBlock)block;
+- (void)didScrollViewDidScroll:(ZKScrollViewDidScrollBlock)block;
+- (void)didScrollViewEndDragging:(ZKScrollViewDidEndDraggingBlock)block;
 
 /**
  *  @brief  Header视图
@@ -176,26 +174,21 @@ typedef void (^ZKTableHelperScrollViewDidEndScrolling)(UIScrollView *scrollView)
 - (void)footerView:(ZKTableHelperFooterBlock)cb;
 - (void)footerTitle:(ZKTableHelperTitleFooterBlock)cb;
 
-- (void)numberOfSections:(ZKTableHelperNumberOfSections)cb;
+- (void)numberOfSections:(ZKTableHelperNumberOfSectionsBlock)cb;
 /**
  *  @brief  NumberOfRowsInSection
  */
-- (void)numberOfRowsInSection:(ZKTableHelperNumberRows)cb;
-
-/**
- *  @brief 设置Cell回调Block
- */
-- (void)cellViewEventBlock:(ZKTableHelperCellBlock)cb;
+- (void)numberOfRowsInSection:(ZKTableHelperNumberRowsBlock)cb;
 
 /**
  *  @brief  处理获取当前模型
  */
-- (void)currentModelIndexPath:(ZKTableHelperCurrentModelAtIndexPath)cb;
+- (void)currentModelIndexPath:(ZKTableHelperCurrentModelAtIndexPathBlock)cb;
 
 /**
  滚动结束回调
  */
-- (void)didScrollViewDidEndScrolling:(ZKTableHelperScrollViewDidEndScrolling)cb;
+- (void)didScrollViewDidEndScrolling:(ZKTableHelperScrollViewDidEndScrollingBlock)cb;
 
 #pragma mark -
 #pragma mark :. Handler

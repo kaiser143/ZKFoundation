@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Returns a unique request ID (within the lifetime of the application).
  */
-+(ZKLocationRequestID)getUniqueRequestID;
++ (ZKLocationRequestID)getUniqueRequestID;
 
 @end
 

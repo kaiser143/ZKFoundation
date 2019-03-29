@@ -1,3 +1,4 @@
+
 //
 //  ZKLocationManager.m
 //  FBSnapshotTestCase
@@ -11,19 +12,18 @@
 #import "ZKHeadingRequest.h"
 
 #ifndef ZK_ENABLE_LOGGING
-#   ifdef DEBUG
-#       define ZK_ENABLE_LOGGING 1
-#   else
-#       define ZK_ENABLE_LOGGING 0
-#   endif /* DEBUG */
+#ifdef DEBUG
+#define ZK_ENABLE_LOGGING 1
+#else
+#define ZK_ENABLE_LOGGING 0
+#endif /* DEBUG */
 #endif /* ZK_ENABLE_LOGGING */
 
 #if ZK_ENABLE_LOGGING
-#   define ZKLMLog(...)          NSLog(@"ZKLocationManager: %@", [NSString stringWithFormat:__VA_ARGS__]);
+#define ZKLMLog(...) NSLog(@"ZKLocationManager: %@", [NSString stringWithFormat:__VA_ARGS__]);
 #else
-#   define ZKLMLog(...)
+#define ZKLMLog(...)
 #endif /* ZK_ENABLE_LOGGING */
-
 
 @interface ZKLocationManager () <CLLocationManagerDelegate, ZKLocationRequestDelegate>
 
@@ -44,14 +44,13 @@
 
 // An array of active location requests in the form:
 // @[ ZKLocationRequest *locationRequest1, ZKLocationRequest *locationRequest2, ... ]
-@property (nonatomic, strong) __ZK_GENERICS(NSArray, ZKLocationRequest *) *locationRequests;
+@property (nonatomic, strong) __ZK_GENERICS(NSArray, ZKLocationRequest *) * locationRequests;
 
 // An array of active heading requests in the form:
 // @[ ZKHeadingRequest *headingRequest1, ZKHeadingRequest *headingRequest2, ... ]
-@property (nonatomic, strong) __ZK_GENERICS(NSArray, ZKHeadingRequest *) *headingRequests;
+@property (nonatomic, strong) __ZK_GENERICS(NSArray, ZKHeadingRequest *) * headingRequests;
 
 @end
-
 
 @implementation ZKLocationManager
 
@@ -60,29 +59,24 @@ static id _sharedInstance;
 /**
  Returns the current state of location services for this app, based on the system settings and user authorization status.
  */
-+ (ZKLocationServicesState)locationServicesState
-{
++ (ZKLocationServicesState)locationServicesState {
     if ([CLLocationManager locationServicesEnabled] == NO) {
         return ZKLocationServicesStateDisabled;
-    }
-    else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
+    } else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
         return ZKLocationServicesStateNotDetermined;
-    }
-    else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
+    } else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
         return ZKLocationServicesStateDenied;
-    }
-    else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted) {
+    } else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted) {
         return ZKLocationServicesStateRestricted;
     }
-    
+
     return ZKLocationServicesStateAvailable;
 }
 
 /**
  Returns the current state of heading services for this device.
  */
-+ (ZKHeadingServicesState)headingServicesState
-{
++ (ZKHeadingServicesState)headingServicesState {
     if ([CLLocationManager headingAvailable]) {
         return ZKHeadingServicesStateAvailable;
     } else {
@@ -93,8 +87,7 @@ static id _sharedInstance;
 /**
  Returns the singleton instance of this class.
  */
-+ (instancetype)sharedInstance
-{
++ (instancetype)sharedInstance {
     static dispatch_once_t _onceToken;
     dispatch_once(&_onceToken, ^{
         _sharedInstance = [[self alloc] init];
@@ -102,15 +95,14 @@ static id _sharedInstance;
     return _sharedInstance;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     NSAssert(_sharedInstance == nil, @"Only one instance of ZKLocationManager should be created. Use +[ZKLocationManager sharedInstance] instead.");
     self = [super init];
     if (self) {
-        _locationManager = [[CLLocationManager alloc] init];
-        _locationManager.delegate = self;
+        _locationManager                = [[CLLocationManager alloc] init];
+        _locationManager.delegate       = self;
         self.preferredAuthorizationType = ZKAuthorizationTypeAuto;
-        
+
 #ifdef __IPHONE_8_4
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_8_4
         /* iOS 9 requires setting allowsBackgroundLocationUpdates to YES in order to receive background location updates.
@@ -124,7 +116,7 @@ static id _sharedInstance;
         }
 #endif /* __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_8_4 */
 #endif /* __IPHONE_8_4 */
-        
+
         _locationRequests = @[];
     }
     return self;
@@ -146,9 +138,8 @@ static id _sharedInstance;
  @return The location request ID, which can be used to force early completion or cancel the request while it is in progress.
  */
 - (ZKLocationRequestID)requestLocationWithDesiredAccuracy:(ZKLocationAccuracy)desiredAccuracy
-                                                    timeout:(NSTimeInterval)timeout
-                                                      block:(ZKLocationRequestBlock)block
-{
+                                                  timeout:(NSTimeInterval)timeout
+                                                    block:(ZKLocationRequestBlock)block {
     return [self requestLocationWithDesiredAccuracy:desiredAccuracy
                                             timeout:timeout
                                delayUntilAuthorized:NO
@@ -173,30 +164,29 @@ static id _sharedInstance;
  @return The location request ID, which can be used to force early completion or cancel the request while it is in progress.
  */
 - (ZKLocationRequestID)requestLocationWithDesiredAccuracy:(ZKLocationAccuracy)desiredAccuracy
-                                                    timeout:(NSTimeInterval)timeout
-                                       delayUntilAuthorized:(BOOL)delayUntilAuthorized
-                                                      block:(ZKLocationRequestBlock)block
-{
+                                                  timeout:(NSTimeInterval)timeout
+                                     delayUntilAuthorized:(BOOL)delayUntilAuthorized
+                                                    block:(ZKLocationRequestBlock)block {
     NSAssert([NSThread isMainThread], @"ZKLocationManager should only be called from the main thread.");
-    
+
     if (desiredAccuracy == ZKLocationAccuracyNone) {
         NSAssert(desiredAccuracy != ZKLocationAccuracyNone, @"ZKLocationAccuracyNone is not a valid desired accuracy.");
         desiredAccuracy = ZKLocationAccuracyCity; // default to the lowest valid desired accuracy
     }
-    
+
     ZKLocationRequest *locationRequest = [[ZKLocationRequest alloc] initWithType:ZKLocationRequestTypeSingle];
-    locationRequest.delegate = self;
-    locationRequest.desiredAccuracy = desiredAccuracy;
-    locationRequest.timeout = timeout;
-    locationRequest.block = block;
-    
+    locationRequest.delegate           = self;
+    locationRequest.desiredAccuracy    = desiredAccuracy;
+    locationRequest.timeout            = timeout;
+    locationRequest.block              = block;
+
     BOOL deferTimeout = delayUntilAuthorized && ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined);
     if (!deferTimeout) {
         [locationRequest startTimeoutTimerIfNeeded];
     }
-    
+
     [self addLocationRequest:locationRequest];
-    
+
     return locationRequest.requestID;
 }
 
@@ -210,8 +200,7 @@ static id _sharedInstance;
  
  @return The location request ID, which can be used to cancel the subscription of location updates to this block.
  */
-- (ZKLocationRequestID)subscribeToLocationUpdatesWithBlock:(ZKLocationRequestBlock)block
-{
+- (ZKLocationRequestID)subscribeToLocationUpdatesWithBlock:(ZKLocationRequestBlock)block {
     return [self subscribeToLocationUpdatesWithDesiredAccuracy:ZKLocationAccuracyRoom
                                                          block:block];
 }
@@ -229,16 +218,15 @@ static id _sharedInstance;
  @return The location request ID, which can be used to cancel the subscription of location updates to this block.
  */
 - (ZKLocationRequestID)subscribeToLocationUpdatesWithDesiredAccuracy:(ZKLocationAccuracy)desiredAccuracy
-                                                                 block:(ZKLocationRequestBlock)block
-{
+                                                               block:(ZKLocationRequestBlock)block {
     NSAssert([NSThread isMainThread], @"ZKLocationManager should only be called from the main thread.");
-    
+
     ZKLocationRequest *locationRequest = [[ZKLocationRequest alloc] initWithType:ZKLocationRequestTypeSubscription];
-    locationRequest.desiredAccuracy = desiredAccuracy;
-    locationRequest.block = block;
-    
+    locationRequest.desiredAccuracy    = desiredAccuracy;
+    locationRequest.block              = block;
+
     [self addLocationRequest:locationRequest];
-    
+
     return locationRequest.requestID;
 }
 
@@ -251,15 +239,14 @@ static id _sharedInstance;
  
  @return The location request ID, which can be used to cancel the subscription of significant location changes to this block.
  */
-- (ZKLocationRequestID)subscribeToSignificantLocationChangesWithBlock:(ZKLocationRequestBlock)block
-{
+- (ZKLocationRequestID)subscribeToSignificantLocationChangesWithBlock:(ZKLocationRequestBlock)block {
     NSAssert([NSThread isMainThread], @"ZKLocationManager should only be called from the main thread.");
-    
+
     ZKLocationRequest *locationRequest = [[ZKLocationRequest alloc] initWithType:ZKLocationRequestTypeSignificantChanges];
-    locationRequest.block = block;
-    
+    locationRequest.block              = block;
+
     [self addLocationRequest:locationRequest];
-    
+
     return locationRequest.requestID;
 }
 
@@ -267,10 +254,9 @@ static id _sharedInstance;
  Immediately forces completion of the location request with the given requestID (if it exists), and executes the original request block with the results.
  This is effectively a manual timeout, and will result in the request completing with status ZKLocationStatusTimedOut.
  */
-- (void)forceCompleteLocationRequest:(ZKLocationRequestID)requestID
-{
+- (void)forceCompleteLocationRequest:(ZKLocationRequestID)requestID {
     NSAssert([NSThread isMainThread], @"ZKLocationManager should only be called from the main thread.");
-    
+
     for (ZKLocationRequest *locationRequest in self.locationRequests) {
         if (locationRequest.requestID == requestID) {
             if (locationRequest.isRecurring) {
@@ -288,10 +274,9 @@ static id _sharedInstance;
 /**
  Immediately cancels the location request with the given requestID (if it exists), without executing the original request block.
  */
-- (void)cancelLocationRequest:(ZKLocationRequestID)requestID
-{
+- (void)cancelLocationRequest:(ZKLocationRequestID)requestID {
     NSAssert([NSThread isMainThread], @"ZKLocationManager should only be called from the main thread.");
-    
+
     for (ZKLocationRequest *locationRequest in self.locationRequests) {
         if (locationRequest.requestID == requestID) {
             [locationRequest cancel];
@@ -311,21 +296,19 @@ static id _sharedInstance;
  
  @return The heading request ID, which can be used remove the request from being called in the future.
  */
-- (ZKHeadingRequestID)subscribeToHeadingUpdatesWithBlock:(ZKHeadingRequestBlock)block
-{
+- (ZKHeadingRequestID)subscribeToHeadingUpdatesWithBlock:(ZKHeadingRequestBlock)block {
     ZKHeadingRequest *headingRequest = [[ZKHeadingRequest alloc] init];
-    headingRequest.block = block;
-    
+    headingRequest.block             = block;
+
     [self addHeadingRequest:headingRequest];
-    
+
     return headingRequest.requestID;
 }
 
 /**
  Immediately cancels the heading request with the given requestID (if it exists), without executing the original request block.
  */
-- (void)cancelHeadingRequest:(ZKHeadingRequestID)requestID
-{
+- (void)cancelHeadingRequest:(ZKHeadingRequestID)requestID {
     for (ZKHeadingRequest *headingRequest in self.headingRequests) {
         if (headingRequest.requestID == requestID) {
             [self removeHeadingRequest:headingRequest];
@@ -340,8 +323,7 @@ static id _sharedInstance;
 /**
  Adds the given location request to the array of requests, updates the maximum desired accuracy, and starts location updates if needed.
  */
-- (void)addLocationRequest:(ZKLocationRequest *)locationRequest
-{
+- (void)addLocationRequest:(ZKLocationRequest *)locationRequest {
     ZKLocationServicesState locationServicesState = [ZKLocationManager locationServicesState];
     if (locationServicesState == ZKLocationServicesStateDisabled ||
         locationServicesState == ZKLocationServicesStateDenied ||
@@ -350,11 +332,10 @@ static id _sharedInstance;
         [self completeLocationRequest:locationRequest];
         return;
     }
-    
+
     switch (locationRequest.type) {
         case ZKLocationRequestTypeSingle:
-        case ZKLocationRequestTypeSubscription:
-        {
+        case ZKLocationRequestTypeSubscription: {
             ZKLocationAccuracy maximumDesiredAccuracy = ZKLocationAccuracyNone;
             // Determine the maximum desired accuracy for all existing location requests (does not include the new request we're currently adding)
             for (ZKLocationRequest *locationRequest in [self activeLocationRequestsExcludingType:ZKLocationRequestTypeSignificantChanges]) {
@@ -365,10 +346,9 @@ static id _sharedInstance;
             // Take the max of the maximum desired accuracy for all existing location requests and the desired accuracy of the new request we're currently adding
             maximumDesiredAccuracy = MAX(locationRequest.desiredAccuracy, maximumDesiredAccuracy);
             [self updateWithMaximumDesiredAccuracy:maximumDesiredAccuracy];
-            
+
             [self startUpdatingLocationIfNeeded];
-        }
-            break;
+        } break;
         case ZKLocationRequestTypeSignificantChanges:
             [self startMonitoringSignificantLocationChangesIfNeeded];
             break;
@@ -377,7 +357,7 @@ static id _sharedInstance;
     [newLocationRequests addObject:locationRequest];
     self.locationRequests = newLocationRequests;
     ZKLMLog(@"Location Request added with ID: %ld", (long)locationRequest.requestID);
-    
+
     // Process all location requests now, as we may be able to immediately complete the request just added above
     // if a location update was recently received (stored in self.currentLocation) that satisfies its criteria.
     [self processLocationRequests];
@@ -386,16 +366,14 @@ static id _sharedInstance;
 /**
  Removes a given location request from the array of requests, updates the maximum desired accuracy, and stops location updates if needed.
  */
-- (void)removeLocationRequest:(ZKLocationRequest *)locationRequest
-{
+- (void)removeLocationRequest:(ZKLocationRequest *)locationRequest {
     __ZK_GENERICS(NSMutableArray, ZKLocationRequest *) *newLocationRequests = [NSMutableArray arrayWithArray:self.locationRequests];
     [newLocationRequests removeObject:locationRequest];
     self.locationRequests = newLocationRequests;
-    
+
     switch (locationRequest.type) {
         case ZKLocationRequestTypeSingle:
-        case ZKLocationRequestTypeSubscription:
-        {
+        case ZKLocationRequestTypeSubscription: {
             // Determine the maximum desired accuracy for all remaining location requests
             ZKLocationAccuracy maximumDesiredAccuracy = ZKLocationAccuracyNone;
             for (ZKLocationRequest *locationRequest in [self activeLocationRequestsExcludingType:ZKLocationRequestTypeSignificantChanges]) {
@@ -404,10 +382,9 @@ static id _sharedInstance;
                 }
             }
             [self updateWithMaximumDesiredAccuracy:maximumDesiredAccuracy];
-            
+
             [self stopUpdatingLocationIfPossible];
-        }
-            break;
+        } break;
         case ZKLocationRequestTypeSignificantChanges:
             [self stopMonitoringSignificantLocationChangesIfPossible];
             break;
@@ -417,8 +394,7 @@ static id _sharedInstance;
 /**
  Returns the most recent current location, or nil if the current location is unknown, invalid, or stale.
  */
-- (CLLocation *)currentLocation
-{
+- (CLLocation *)currentLocation {
     if (_currentLocation) {
         // Location isn't nil, so test to see if it is valid
         if (!CLLocationCoordinate2DIsValid(_currentLocation.coordinate) || (_currentLocation.coordinate.latitude == 0.0 && _currentLocation.coordinate.longitude == 0.0)) {
@@ -426,7 +402,7 @@ static id _sharedInstance;
             _currentLocation = nil;
         }
     }
-    
+
     // Location is either nil or valid at this point, return it
     return _currentLocation;
 }
@@ -434,30 +410,29 @@ static id _sharedInstance;
 /**
  Requests permission to use location services on devices with iOS 8+.
  */
-- (void)requestAuthorizationIfNeeded
-{
+- (void)requestAuthorizationIfNeeded {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
     // As of iOS 8, apps must explicitly request location services permissions. ZKLocationManager supports both levels, "Always" and "When In Use".
     // ZKLocationManager determines which level of permissions to request based on which description key is present in your app's Info.plist
     // If you provide values for both description keys, the more permissive "Always" level is requested.
-    
-    double iOSVersion = floor(NSFoundationVersionNumber);
+
+    double iOSVersion      = floor(NSFoundationVersionNumber);
     BOOL isiOSVersion7to10 = iOSVersion > NSFoundationVersionNumber_iOS_7_1 && iOSVersion <= NSFoundationVersionNumber10_11_Max;
     if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
-        BOOL canRequestAlways = NO;
+        BOOL canRequestAlways    = NO;
         BOOL canRequestWhenInUse = NO;
         if (isiOSVersion7to10) {
-            canRequestAlways = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationAlwaysUsageDescription"] != nil;
+            canRequestAlways    = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationAlwaysUsageDescription"] != nil;
             canRequestWhenInUse = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationWhenInUseUsageDescription"] != nil;
         } else {
-            canRequestAlways = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationAlwaysAndWhenInUseUsageDescription"] != nil;
+            canRequestAlways    = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationAlwaysAndWhenInUseUsageDescription"] != nil;
             canRequestWhenInUse = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationWhenInUseUsageDescription"] != nil;
         }
-        BOOL needRequestAlways = NO;
+        BOOL needRequestAlways    = NO;
         BOOL needRequestWhenInUse = NO;
         switch (self.preferredAuthorizationType) {
             case ZKAuthorizationTypeAuto:
-                needRequestAlways = canRequestAlways;
+                needRequestAlways    = canRequestAlways;
                 needRequestWhenInUse = canRequestWhenInUse;
                 break;
             case ZKAuthorizationTypeAlways:
@@ -466,7 +441,7 @@ static id _sharedInstance;
             case ZKAuthorizationTypeWhenInUse:
                 needRequestWhenInUse = canRequestWhenInUse;
                 break;
-                
+
             default:
                 break;
         }
@@ -490,8 +465,7 @@ static id _sharedInstance;
 /**
  Sets the CLLocationManager desiredAccuracy based on the given maximum desired accuracy (which should be the maximum desired accuracy of all active location requests).
  */
-- (void)updateWithMaximumDesiredAccuracy:(ZKLocationAccuracy)maximumDesiredAccuracy
-{
+- (void)updateWithMaximumDesiredAccuracy:(ZKLocationAccuracy)maximumDesiredAccuracy {
     switch (maximumDesiredAccuracy) {
         case ZKLocationAccuracyNone:
             break;
@@ -534,10 +508,9 @@ static id _sharedInstance;
 /**
  Inform CLLocationManager to start monitoring significant location changes.
  */
-- (void)startMonitoringSignificantLocationChangesIfNeeded
-{
+- (void)startMonitoringSignificantLocationChangesIfNeeded {
     [self requestAuthorizationIfNeeded];
-    
+
     NSArray *locationRequests = [self activeLocationRequestsWithType:ZKLocationRequestTypeSignificantChanges];
     if (locationRequests.count == 0) {
         [self.locationManager startMonitoringSignificantLocationChanges];
@@ -551,10 +524,9 @@ static id _sharedInstance;
 /**
  Inform CLLocationManager to start sending us updates to our location.
  */
-- (void)startUpdatingLocationIfNeeded
-{
+- (void)startUpdatingLocationIfNeeded {
     [self requestAuthorizationIfNeeded];
-    
+
     NSArray *locationRequests = [self activeLocationRequestsExcludingType:ZKLocationRequestTypeSignificantChanges];
     if (locationRequests.count == 0) {
         [self.locationManager startUpdatingLocation];
@@ -565,8 +537,7 @@ static id _sharedInstance;
     }
 }
 
-- (void)stopMonitoringSignificantLocationChangesIfPossible
-{
+- (void)stopMonitoringSignificantLocationChangesIfPossible {
     NSArray *locationRequests = [self activeLocationRequestsWithType:ZKLocationRequestTypeSignificantChanges];
     if (locationRequests.count == 0) {
         [self.locationManager stopMonitoringSignificantLocationChanges];
@@ -581,8 +552,7 @@ static id _sharedInstance;
  Checks to see if there are any outstanding locationRequests, and if there are none, informs CLLocationManager to stop sending
  location updates. This is done as soon as location updates are no longer needed in order to conserve the device's battery.
  */
-- (void)stopUpdatingLocationIfPossible
-{
+- (void)stopUpdatingLocationIfPossible {
     NSArray *locationRequests = [self activeLocationRequestsExcludingType:ZKLocationRequestTypeSignificantChanges];
     if (locationRequests.count == 0) {
         [self.locationManager stopUpdatingLocation];
@@ -597,17 +567,16 @@ static id _sharedInstance;
  Iterates over the array of active location requests to check and see if the most recent current location
  successfully satisfies any of their criteria.
  */
-- (void)processLocationRequests
-{
+- (void)processLocationRequests {
     CLLocation *mostRecentLocation = self.currentLocation;
-    
+
     for (ZKLocationRequest *locationRequest in self.locationRequests) {
         if (locationRequest.hasTimedOut) {
             // Non-recurring request has timed out, complete it
             [self completeLocationRequest:locationRequest];
             continue;
         }
-        
+
         if (mostRecentLocation != nil) {
             if (locationRequest.isRecurring) {
                 // This is a subscription request, which lives indefinitely (unless manually canceled) and receives every location update we get
@@ -615,10 +584,10 @@ static id _sharedInstance;
                 continue;
             } else {
                 // This is a regular one-time location request
-                NSTimeInterval currentLocationTimeSinceUpdate = fabs([mostRecentLocation.timestamp timeIntervalSinceNow]);
+                NSTimeInterval currentLocationTimeSinceUpdate        = fabs([mostRecentLocation.timestamp timeIntervalSinceNow]);
                 CLLocationAccuracy currentLocationHorizontalAccuracy = mostRecentLocation.horizontalAccuracy;
-                NSTimeInterval staleThreshold = [locationRequest updateTimeStaleThreshold];
-                CLLocationAccuracy horizontalAccuracyThreshold = [locationRequest horizontalAccuracyThreshold];
+                NSTimeInterval staleThreshold                        = [locationRequest updateTimeStaleThreshold];
+                CLLocationAccuracy horizontalAccuracyThreshold       = [locationRequest horizontalAccuracyThreshold];
                 if (currentLocationTimeSinceUpdate <= staleThreshold &&
                     currentLocationHorizontalAccuracy <= horizontalAccuracyThreshold) {
                     // The request's desired accuracy has been reached, complete it
@@ -634,8 +603,7 @@ static id _sharedInstance;
  Immediately completes all active location requests.
  Used in cases such as when the location services authorization status changes to Denied or Restricted.
  */
-- (void)completeAllLocationRequests
-{
+- (void)completeAllLocationRequests {
     // Iterate through a copy of the locationRequests array to avoid modifying the same array we are removing elements from
     __ZK_GENERICS(NSArray, ZKLocationRequest *) *locationRequests = [self.locationRequests copy];
     for (ZKLocationRequest *locationRequest in locationRequests) {
@@ -647,19 +615,18 @@ static id _sharedInstance;
 /**
  Completes the given location request by removing it from the array of locationRequests and executing its completion block.
  */
-- (void)completeLocationRequest:(ZKLocationRequest *)locationRequest
-{
+- (void)completeLocationRequest:(ZKLocationRequest *)locationRequest {
     if (locationRequest == nil) {
         return;
     }
-    
+
     [locationRequest complete];
     [self removeLocationRequest:locationRequest];
-    
-    ZKLocationStatus status = [self statusForLocationRequest:locationRequest];
-    CLLocation *currentLocation = self.currentLocation;
+
+    ZKLocationStatus status             = [self statusForLocationRequest:locationRequest];
+    CLLocation *currentLocation         = self.currentLocation;
     ZKLocationAccuracy achievedAccuracy = [self achievedAccuracyForLocation:currentLocation];
-    
+
     // ZKLocationManager is not thread safe and should only be called from the main thread, so we should already be executing on the main thread now.
     // dispatch_async is used to ensure that the completion block for a request is not executed before the request ID is returned, for example in the
     // case where the user has denied permission to access location services and the request is immediately completed with the appropriate error.
@@ -668,21 +635,20 @@ static id _sharedInstance;
             locationRequest.block(currentLocation, achievedAccuracy, status);
         }
     });
-    
-    ZKLMLog(@"Location Request completed with ID: %ld, currentLocation: %@, achievedAccuracy: %lu, status: %lu", (long)locationRequest.requestID, currentLocation, (unsigned long) achievedAccuracy, (unsigned long)status);
+
+    ZKLMLog(@"Location Request completed with ID: %ld, currentLocation: %@, achievedAccuracy: %lu, status: %lu", (long)locationRequest.requestID, currentLocation, (unsigned long)achievedAccuracy, (unsigned long)status);
 }
 
 /**
  Handles calling a recurring location request's block with the current location.
  */
-- (void)processRecurringRequest:(ZKLocationRequest *)locationRequest
-{
+- (void)processRecurringRequest:(ZKLocationRequest *)locationRequest {
     NSAssert(locationRequest.isRecurring, @"This method should only be called for recurring location requests.");
-    
-    ZKLocationStatus status = [self statusForLocationRequest:locationRequest];
-    CLLocation *currentLocation = self.currentLocation;
+
+    ZKLocationStatus status             = [self statusForLocationRequest:locationRequest];
+    CLLocation *currentLocation         = self.currentLocation;
     ZKLocationAccuracy achievedAccuracy = [self achievedAccuracyForLocation:currentLocation];
-    
+
     // ZKLocationManager is not thread safe and should only be called from the main thread, so we should already be executing on the main thread now.
     // dispatch_async is used to ensure that the completion block for a request is not executed before the request ID is returned.
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -695,49 +661,41 @@ static id _sharedInstance;
 /**
  Returns all active location requests with the given type.
  */
-- (NSArray *)activeLocationRequestsWithType:(ZKLocationRequestType)locationRequestType
-{
+- (NSArray *)activeLocationRequestsWithType:(ZKLocationRequestType)locationRequestType {
     return [self.locationRequests filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(ZKLocationRequest *evaluatedObject, NSDictionary *bindings) {
-        return evaluatedObject.type == locationRequestType;
-    }]];
+                                      return evaluatedObject.type == locationRequestType;
+                                  }]];
 }
 
 /**
  Returns all active location requests excluding requests with the given type.
  */
-- (NSArray *)activeLocationRequestsExcludingType:(ZKLocationRequestType)locationRequestType
-{
+- (NSArray *)activeLocationRequestsExcludingType:(ZKLocationRequestType)locationRequestType {
     return [self.locationRequests filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(ZKLocationRequest *evaluatedObject, NSDictionary *bindings) {
-        return evaluatedObject.type != locationRequestType;
-    }]];
+                                      return evaluatedObject.type != locationRequestType;
+                                  }]];
 }
 
 /**
  Returns the location manager status for the given location request.
  */
-- (ZKLocationStatus)statusForLocationRequest:(ZKLocationRequest *)locationRequest
-{
+- (ZKLocationStatus)statusForLocationRequest:(ZKLocationRequest *)locationRequest {
     ZKLocationServicesState locationServicesState = [ZKLocationManager locationServicesState];
-    
+
     if (locationServicesState == ZKLocationServicesStateDisabled) {
         return ZKLocationStatusServicesDisabled;
-    }
-    else if (locationServicesState == ZKLocationServicesStateNotDetermined) {
+    } else if (locationServicesState == ZKLocationServicesStateNotDetermined) {
         return ZKLocationStatusServicesNotDetermined;
-    }
-    else if (locationServicesState == ZKLocationServicesStateDenied) {
+    } else if (locationServicesState == ZKLocationServicesStateDenied) {
         return ZKLocationStatusServicesDenied;
-    }
-    else if (locationServicesState == ZKLocationServicesStateRestricted) {
+    } else if (locationServicesState == ZKLocationServicesStateRestricted) {
         return ZKLocationStatusServicesRestricted;
-    }
-    else if (self.updateFailed) {
+    } else if (self.updateFailed) {
         return ZKLocationStatusError;
-    }
-    else if (locationRequest.hasTimedOut) {
+    } else if (locationRequest.hasTimedOut) {
         return ZKLocationStatusTimedOut;
     }
-    
+
     return ZKLocationStatusSuccess;
 }
 
@@ -745,36 +703,30 @@ static id _sharedInstance;
  Returns the associated ZKLocationAccuracy level that has been achieved for a given location,
  based on that location's horizontal accuracy and recency.
  */
-- (ZKLocationAccuracy)achievedAccuracyForLocation:(CLLocation *)location
-{
+- (ZKLocationAccuracy)achievedAccuracyForLocation:(CLLocation *)location {
     if (!location) {
         return ZKLocationAccuracyNone;
     }
-    
-    NSTimeInterval timeSinceUpdate = fabs([location.timestamp timeIntervalSinceNow]);
+
+    NSTimeInterval timeSinceUpdate        = fabs([location.timestamp timeIntervalSinceNow]);
     CLLocationAccuracy horizontalAccuracy = location.horizontalAccuracy;
-    
+
     if (horizontalAccuracy <= kZKHorizontalAccuracyThresholdRoom &&
         timeSinceUpdate <= kZKUpdateTimeStaleThresholdRoom) {
         return ZKLocationAccuracyRoom;
-    }
-    else if (horizontalAccuracy <= kZKHorizontalAccuracyThresholdHouse &&
-             timeSinceUpdate <= kZKUpdateTimeStaleThresholdHouse) {
+    } else if (horizontalAccuracy <= kZKHorizontalAccuracyThresholdHouse &&
+               timeSinceUpdate <= kZKUpdateTimeStaleThresholdHouse) {
         return ZKLocationAccuracyHouse;
-    }
-    else if (horizontalAccuracy <= kZKHorizontalAccuracyThresholdBlock &&
-             timeSinceUpdate <= kZKUpdateTimeStaleThresholdBlock) {
+    } else if (horizontalAccuracy <= kZKHorizontalAccuracyThresholdBlock &&
+               timeSinceUpdate <= kZKUpdateTimeStaleThresholdBlock) {
         return ZKLocationAccuracyBlock;
-    }
-    else if (horizontalAccuracy <= kZKHorizontalAccuracyThresholdNeighborhood &&
-             timeSinceUpdate <= kZKUpdateTimeStaleThresholdNeighborhood) {
+    } else if (horizontalAccuracy <= kZKHorizontalAccuracyThresholdNeighborhood &&
+               timeSinceUpdate <= kZKUpdateTimeStaleThresholdNeighborhood) {
         return ZKLocationAccuracyNeighborhood;
-    }
-    else if (horizontalAccuracy <= kZKHorizontalAccuracyThresholdCity &&
-             timeSinceUpdate <= kZKUpdateTimeStaleThresholdCity) {
+    } else if (horizontalAccuracy <= kZKHorizontalAccuracyThresholdCity &&
+               timeSinceUpdate <= kZKUpdateTimeStaleThresholdCity) {
         return ZKLocationAccuracyCity;
-    }
-    else {
+    } else {
         return ZKLocationAccuracyNone;
     }
 }
@@ -784,14 +736,13 @@ static id _sharedInstance;
 /**
  Returns the most recent heading, or nil if the current heading is unknown or invalid.
  */
-- (CLHeading *)currentHeading
-{
+- (CLHeading *)currentHeading {
     // Heading isn't nil, so test to see if it is valid
     if (!ZKCLHeadingIsIsValid(_currentHeading)) {
         // The current heading is invalid; discard it and return nil
         _currentHeading = nil;
     }
-    
+
     // Heading is either nil or valid at this point, return it
     return _currentHeading;
 }
@@ -799,19 +750,17 @@ static id _sharedInstance;
 /**
  Checks whether the given @c CLHeading has valid properties.
  */
-BOOL ZKCLHeadingIsIsValid(CLHeading *heading)
-{
+BOOL ZKCLHeadingIsIsValid(CLHeading *heading) {
     return heading.trueHeading > 0 &&
-    heading.headingAccuracy > 0;
+           heading.headingAccuracy > 0;
 }
 
 /**
  Adds the given heading request to the array of requests and starts heading updates.
  */
-- (void)addHeadingRequest:(ZKHeadingRequest *)headingRequest
-{
+- (void)addHeadingRequest:(ZKHeadingRequest *)headingRequest {
     NSAssert(headingRequest, @"Must pass in a non-nil heading request.");
-    
+
     // If heading services are not available, just return
     if ([ZKLocationManager headingServicesState] == ZKHeadingServicesStateUnavailable) {
         // dispatch_async is used to ensure that the completion block for a request is not executed before the request ID is returned.
@@ -823,20 +772,19 @@ BOOL ZKCLHeadingIsIsValid(CLHeading *heading)
         ZKLMLog(@"Heading Request (ID %ld) NOT added since device heading is unavailable.", (long)headingRequest.requestID);
         return;
     }
-    
+
     __ZK_GENERICS(NSMutableArray, ZKHeadingRequest *) *newHeadingRequests = [NSMutableArray arrayWithArray:self.headingRequests];
     [newHeadingRequests addObject:headingRequest];
     self.headingRequests = newHeadingRequests;
     ZKLMLog(@"Heading Request added with ID: %ld", (long)headingRequest.requestID);
-    
+
     [self startUpdatingHeadingIfNeeded];
 }
 
 /**
  Inform CLLocationManager to start sending us updates to our heading.
  */
-- (void)startUpdatingHeadingIfNeeded
-{
+- (void)startUpdatingHeadingIfNeeded {
     if (self.headingRequests.count != 0) {
         [self.locationManager startUpdatingHeading];
         if (self.isUpdatingHeading == NO) {
@@ -849,12 +797,11 @@ BOOL ZKCLHeadingIsIsValid(CLHeading *heading)
 /**
  Removes a given heading request from the array of requests and stops heading updates if needed.
  */
-- (void)removeHeadingRequest:(ZKHeadingRequest *)headingRequest
-{
+- (void)removeHeadingRequest:(ZKHeadingRequest *)headingRequest {
     __ZK_GENERICS(NSMutableArray, ZKHeadingRequest *) *newHeadingRequests = [NSMutableArray arrayWithArray:self.headingRequests];
     [newHeadingRequests removeObject:headingRequest];
     self.headingRequests = newHeadingRequests;
-    
+
     [self stopUpdatingHeadingIfPossible];
 }
 
@@ -862,8 +809,7 @@ BOOL ZKCLHeadingIsIsValid(CLHeading *heading)
  Checks to see if there are any outstanding headingRequests, and if there are none, informs CLLocationManager to stop sending
  heading updates. This is done as soon as heading updates are no longer needed in order to conserve the device's battery.
  */
-- (void)stopUpdatingHeadingIfPossible
-{
+- (void)stopUpdatingHeadingIfPossible {
     if (self.headingRequests.count == 0) {
         [self.locationManager stopUpdatingHeading];
         if (self.isUpdatingHeading) {
@@ -876,8 +822,7 @@ BOOL ZKCLHeadingIsIsValid(CLHeading *heading)
 /**
  Iterates over the array of active heading requests and processes each
  */
-- (void)processRecurringHeadingRequests
-{
+- (void)processRecurringHeadingRequests {
     for (ZKHeadingRequest *headingRequest in self.headingRequests) {
         [self processRecurringHeadingRequest:headingRequest];
     }
@@ -886,12 +831,11 @@ BOOL ZKCLHeadingIsIsValid(CLHeading *heading)
 /**
  Handles calling a recurring heading request's block with the current heading.
  */
-- (void)processRecurringHeadingRequest:(ZKHeadingRequest *)headingRequest
-{
+- (void)processRecurringHeadingRequest:(ZKHeadingRequest *)headingRequest {
     NSAssert(headingRequest.isRecurring, @"This method should only be called for recurring heading requests.");
-    
+
     ZKHeadingStatus status = [self statusForHeadingRequest:headingRequest];
-    
+
     // Check if the request had a fatal error and should be canceled
     if (status == ZKHeadingStatusUnavailable) {
         // dispatch_async is used to ensure that the completion block for a request is not executed before the request ID is returned.
@@ -900,11 +844,11 @@ BOOL ZKCLHeadingIsIsValid(CLHeading *heading)
                 headingRequest.block(nil, status);
             }
         });
-        
+
         [self cancelHeadingRequest:headingRequest.requestID];
         return;
     }
-    
+
     // dispatch_async is used to ensure that the completion block for a request is not executed before the request ID is returned.
     dispatch_async(dispatch_get_main_queue(), ^{
         if (headingRequest.block) {
@@ -916,24 +860,22 @@ BOOL ZKCLHeadingIsIsValid(CLHeading *heading)
 /**
  Returns the status for the given heading request.
  */
-- (ZKHeadingStatus)statusForHeadingRequest:(ZKHeadingRequest *)headingRequest
-{
+- (ZKHeadingStatus)statusForHeadingRequest:(ZKHeadingRequest *)headingRequest {
     if ([ZKLocationManager headingServicesState] == ZKHeadingServicesStateUnavailable) {
         return ZKHeadingStatusUnavailable;
     }
-    
+
     // The accessor will return nil for an invalid heading results
     if (!self.currentHeading) {
         return ZKHeadingStatusInvalid;
     }
-    
+
     return ZKHeadingStatusSuccess;
 }
 
 #pragma mark ZKLocationRequestDelegate method
 
-- (void)locationRequestDidTimeout:(ZKLocationRequest *)locationRequest
-{
+- (void)locationRequestDidTimeout:(ZKLocationRequest *)locationRequest {
     // For robustness, only complete the location request if it is still active (by checking to see that it hasn't been removed from the locationRequests array).
     for (ZKLocationRequest *activeLocationRequest in self.locationRequests) {
         if (activeLocationRequest.requestID == locationRequest.requestID) {
@@ -945,31 +887,28 @@ BOOL ZKCLHeadingIsIsValid(CLHeading *heading)
 
 #pragma mark CLLocationManagerDelegate methods
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
-{
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     // Received update successfully, so clear any previous errors
     self.updateFailed = NO;
-    
+
     CLLocation *mostRecentLocation = [locations lastObject];
-    self.currentLocation = mostRecentLocation;
-    
+    self.currentLocation           = mostRecentLocation;
+
     // Process the location requests using the updated location
     [self processLocationRequests];
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading
-{
+- (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading {
     self.currentHeading = newHeading;
-    
+
     // Process the heading requests using the updated heading
     [self processRecurringHeadingRequests];
 }
 
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-{
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     ZKLMLog(@"Location services error: %@", [error localizedDescription]);
     self.updateFailed = YES;
-    
+
     for (ZKLocationRequest *locationRequest in self.locationRequests) {
         if (locationRequest.isRecurring) {
             // Keep the recurring request alive
@@ -981,8 +920,7 @@ BOOL ZKCLHeadingIsIsValid(CLHeading *heading)
     }
 }
 
-- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
-{
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     if (status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted) {
         // Clear out any active location requests (which will execute the blocks with a status that reflects
         // the unavailability of location services) since we now no longer have location services permissions
@@ -993,31 +931,32 @@ BOOL ZKCLHeadingIsIsValid(CLHeading *heading)
 #else
     else if (status == kCLAuthorizationStatusAuthorized) {
 #endif /* __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1 */
-            
+
         // Start the timeout timer for location requests that were waiting for authorization
         for (ZKLocationRequest *locationRequest in self.locationRequests) {
             [locationRequest startTimeoutTimerIfNeeded];
         }
     }
 }
-    
+
 #pragma mark - Additions
+
 /** It is possible to force enable background location fetch even if your set any kind of Authorizations */
-- (void)setBackgroundLocationUpdate:(BOOL) enabled {
+- (void)setBackgroundLocationUpdate:(BOOL)enabled {
     if (@available(iOS 9, *)) {
         _locationManager.allowsBackgroundLocationUpdates = enabled;
     }
 }
 
-- (void)setShowsBackgroundLocationIndicator:(BOOL) shows {
+- (void)setShowsBackgroundLocationIndicator:(BOOL)shows {
     if (@available(iOS 11, *)) {
         _locationManager.showsBackgroundLocationIndicator = shows;
     }
 }
 
-- (void)setPausesLocationUpdatesAutomatically:(BOOL) pauses
-{
+- (void)setPausesLocationUpdatesAutomatically:(BOOL)pauses {
     _locationManager.pausesLocationUpdatesAutomatically = pauses;
 }
 
 @end
+

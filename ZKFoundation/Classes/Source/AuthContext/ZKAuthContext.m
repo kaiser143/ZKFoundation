@@ -24,7 +24,7 @@ static inline void _kai_dispatch_async_on_main_queue(void (^block)(void)) {
     dispatch_once(&onceToken, ^{
         instance = ZKAuthContext.new;
     });
-    
+
     return instance;
 }
 
@@ -38,16 +38,16 @@ static inline void _kai_dispatch_async_on_main_queue(void (^block)(void)) {
 
 - (void)authWithDescribe:(NSString *)desc completionBlock:(void (^)(ZKAuthContextType, NSError *_Nullable))block {
     if (!block) return;
-    
+
     if (@available(iOS 8.0, *)) {
         NSError *error = nil;
         if ([self canEvaluate:&error]) {
             __weak __typeof(self) weakSelf = self;
             [self evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
                  localizedReason:desc
-                           reply:^(BOOL success, NSError * _Nullable error) {
+                           reply:^(BOOL success, NSError *_Nullable error) {
                                __strong __typeof(weakSelf) strongSelf = weakSelf;
-                               ZKAuthContextType type = success ? ZKAuthContextTypeSuccess : [strongSelf translateTypeFrom:error.code];
+                               ZKAuthContextType type                 = success ? ZKAuthContextTypeSuccess : [strongSelf translateTypeFrom:error.code];
                                _kai_dispatch_async_on_main_queue(^{
                                    block(type, error);
                                });
@@ -97,11 +97,11 @@ static inline void _kai_dispatch_async_on_main_queue(void (^block)(void)) {
         case LAErrorInvalidContext:
             type = ZKAuthContextTypeInvalidContext;
             break;
-            
+
         default:
             break;
     }
-    
+
     return type;
 }
 

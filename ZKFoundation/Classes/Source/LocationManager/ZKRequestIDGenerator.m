@@ -11,8 +11,7 @@
 
 static ZKLocationRequestID _nextRequestID = 0;
 
-+(ZKLocationRequestID)getUniqueRequestID
-{
++ (ZKLocationRequestID)getUniqueRequestID {
     _nextRequestID++;
     return _nextRequestID;
 }

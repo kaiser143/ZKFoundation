@@ -9,15 +9,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString * (^ZKCollectionHelperCellIdentifierBlock)(NSIndexPath *indexPath, id dataSource);
-typedef NSString * (^ZKCollectionHelperHeaderIdentifierBlock)(NSIndexPath *indexPath, id dataSource);
-typedef NSString * (^ZKCollectionHelperFooterIdentifierBlock)(NSIndexPath *indexPath, id dataSource);
+typedef NSString *_Nullable (^ZKCollectionHelperCellIdentifierBlock)(NSIndexPath *indexPath, id dataSource);
+typedef NSString *_Nullable (^ZKCollectionHelperHeaderIdentifierBlock)(NSIndexPath *indexPath, id dataSource);
+typedef NSString *_Nullable (^ZKCollectionHelperFooterIdentifierBlock)(NSIndexPath *indexPath, id dataSource);
 typedef CGFloat (^ZKCollectionHelperItemAutoHeightForRowBlock)(UICollectionView *collectionView, NSIndexPath *indexPath, NSString *identifier, id dataSource);
 
 typedef NSInteger (^ZKCollectionHelperNumberOfItemsInSection)(UICollectionView *collectionView, NSInteger section, id dataSource);
 
-typedef UICollectionReusableView * (^ZKCollectionHelperHeaderView)(UICollectionView *collectionView, NSString *kind, NSString *curCellIdentifier, NSIndexPath *cindexPath, id dataSource);
-typedef UICollectionReusableView * (^ZKCollectionHelperFooterView)(UICollectionView *collectionView, NSString *kind, NSString *curCellIdentifier, NSIndexPath *cindexPath, id dataSource);
+typedef UICollectionReusableView *_Nullable (^ZKCollectionHelperHeaderView)(UICollectionView *collectionView, NSString *kind, NSString *curCellIdentifier, NSIndexPath *cindexPath, id dataSource);
+typedef UICollectionReusableView *_Nullable (^ZKCollectionHelperFooterView)(UICollectionView *collectionView, NSString *kind, NSString *curCellIdentifier, NSIndexPath *cindexPath, id dataSource);
 
 typedef void (^ZKCollectionHelperDidSelectItemAtIndexPath)(UICollectionView *collectionView, NSIndexPath *indexPath, id dataSource);
 typedef void (^ZKCollectionHelperCellForItemAtIndexPath)(UICollectionViewCell *Cell, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
@@ -31,9 +31,9 @@ typedef CGSize (^ZKCollectionHelperReferenceFooterSize)(UICollectionView *collec
 typedef UIEdgeInsets (^ZKCollectionHelperCellItemMargin)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger cSection, id dataSource);
 typedef CGFloat (^ZKCollectionHelperMinimumInteritemSpacingForSection)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger cSection, id dataSource);
 
-typedef id (^ZKCollectionHelperCurrentModelAtIndexPath)(id dataAry, NSIndexPath *indexPath);
-typedef id (^ZKCollectionHelperCurrentHeaderModelAtIndexPath)(id dataAry, NSIndexPath *indexPath);
-typedef id (^ZKCollectionHelperCurrentFooterModelAtIndexPath)(id dataAry, NSIndexPath *indexPath);
+typedef id _Nullable (^ZKCollectionHelperCurrentModelAtIndexPath)(id dataAry, NSIndexPath *indexPath);
+typedef id _Nullable (^ZKCollectionHelperCurrentHeaderModelAtIndexPath)(id dataAry, NSIndexPath *indexPath);
+typedef id _Nullable (^ZKCollectionHelperCurrentFooterModelAtIndexPath)(id dataAry, NSIndexPath *indexPath);
 
 typedef void (^ZKScrollViewDidScroll)(UIScrollView *scrollView);
 typedef void (^ZKScrollViewDidEndDragging)(UIScrollView *scrollView);

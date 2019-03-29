@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 // The block to execute if a monitored folder changes
-typedef void(^ZKFolderMonitorBlock)(void);
+typedef void (^ZKFolderMonitorBlock)(void);
 
 /**
  Class for monitoring changes on a folder. This can be used to monitor the application documents folder for changes in the files there if the user adds or removes files via iTunes file sharing.
@@ -30,8 +30,7 @@ typedef void(^ZKFolderMonitorBlock)(void);
  @param block The block to execute if the folder is being modified
  @returns The instantiated monitor in suspended mode. Call -startMonitoring to start monitoring.
  */
-+ (ZKFolderMonitor * _Nonnull)folderMonitorForURL:(NSURL * _Nonnull)URL block: (ZKFolderMonitorBlock _Nullable)block;
-
++ (ZKFolderMonitor *_Nonnull)folderMonitorForURL:(NSURL *_Nonnull)URL block:(ZKFolderMonitorBlock _Nullable)block;
 
 /**
  @name Starting/Stopping Monitoring

@@ -18,31 +18,31 @@
 @property (nonatomic, copy) ZKCollectionHelperFooterView footerView;
 
 @property (nonatomic, copy) ZKCollectionHelperItemAutoHeightForRowBlock itemAutoHeightBlock;
-@property (nonatomic, copy) ZKCollectionHelperCellIdentifierBlock   cellIdentifierBlock;
+@property (nonatomic, copy) ZKCollectionHelperCellIdentifierBlock cellIdentifierBlock;
 @property (nonatomic, copy) ZKCollectionHelperHeaderIdentifierBlock headerIdentifierBlock;
 @property (nonatomic, copy) ZKCollectionHelperFooterIdentifierBlock footerIdentifierBlock;
 
 @property (nonatomic, copy) ZKCollectionHelperNumberOfItemsInSection numberOfItemsInSection;
 
-@property (nonatomic, copy) ZKCollectionHelperCellForItemAtIndexPath   cellForItemAtIndexPath;
+@property (nonatomic, copy) ZKCollectionHelperCellForItemAtIndexPath cellForItemAtIndexPath;
 @property (nonatomic, copy) ZKCollectionHelperHeaderForItemAtIndexPath headerForItemAtIndexPath;
 @property (nonatomic, copy) ZKCollectionHelperFooterForItemAtIndexPath footerForItemAtIndexPath;
 
-@property (nonatomic, copy) ZKCollectionHelperCellForItemSize     sizeForItemAtIndexPath;
+@property (nonatomic, copy) ZKCollectionHelperCellForItemSize sizeForItemAtIndexPath;
 @property (nonatomic, copy) ZKCollectionHelperReferenceHeaderSize referenceHeaderSize;
 @property (nonatomic, copy) ZKCollectionHelperReferenceFooterSize referenceFooterSize;
 
 @property (nonatomic, copy) ZKCollectionHelperDidSelectItemAtIndexPath didSelectItemAtIndexPath;
 
-@property (nonatomic, copy) ZKCollectionHelperCurrentModelAtIndexPath       currentModelAtIndexPath;
+@property (nonatomic, copy) ZKCollectionHelperCurrentModelAtIndexPath currentModelAtIndexPath;
 @property (nonatomic, copy) ZKCollectionHelperCurrentHeaderModelAtIndexPath currentHeaderModelAtIndexPath;
 @property (nonatomic, copy) ZKCollectionHelperCurrentFooterModelAtIndexPath currentFooterModelAtIndexPath;
 
-@property (nonatomic, copy) ZKCollectionHelperCellItemMargin                    cellItemMargin;
+@property (nonatomic, copy) ZKCollectionHelperCellItemMargin cellItemMargin;
 @property (nonatomic, copy) ZKCollectionHelperMinimumInteritemSpacingForSection minimumInteritemSpacingForSection;
 
-@property (nonatomic, copy) ZKScrollViewDidScroll          scrollViewDidScroll;
-@property (nonatomic, copy) ZKScrollViewDidEndDragging     scrollViewDidEndDragging;
+@property (nonatomic, copy) ZKScrollViewDidScroll scrollViewDidScroll;
+@property (nonatomic, copy) ZKScrollViewDidEndDragging scrollViewDidEndDragging;
 @property (nonatomic, copy) ZKScrollViewDidEndDecelerating scrollViewDidEndDecelerating;
 
 @end

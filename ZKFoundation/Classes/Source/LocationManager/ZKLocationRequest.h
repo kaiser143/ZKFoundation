@@ -35,7 +35,6 @@ typedef NS_ENUM(NSInteger, ZKLocationRequestType) {
 
 @end
 
-
 /**
  Represents a geolocation request that is created and managed by ZKLocationManager.
  */

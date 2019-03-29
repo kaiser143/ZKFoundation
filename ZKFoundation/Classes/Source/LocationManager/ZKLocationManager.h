@@ -39,8 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
  @return The location request ID, which can be used to force early completion or cancel the request while it is in progress.
  */
 - (ZKLocationRequestID)requestLocationWithDesiredAccuracy:(ZKLocationAccuracy)desiredAccuracy
-                                                    timeout:(NSTimeInterval)timeout
-                                                      block:(ZKLocationRequestBlock)block;
+                                                  timeout:(NSTimeInterval)timeout
+                                                    block:(ZKLocationRequestBlock)block;
 
 /**
  Asynchronously requests the current location of the device using location services, optionally delaying the timeout countdown until the user has
@@ -57,9 +57,9 @@ NS_ASSUME_NONNULL_BEGIN
  @return The location request ID, which can be used to force early completion or cancel the request while it is in progress.
  */
 - (ZKLocationRequestID)requestLocationWithDesiredAccuracy:(ZKLocationAccuracy)desiredAccuracy
-                                                    timeout:(NSTimeInterval)timeout
-                                       delayUntilAuthorized:(BOOL)delayUntilAuthorized
-                                                      block:(ZKLocationRequestBlock)block;
+                                                  timeout:(NSTimeInterval)timeout
+                                     delayUntilAuthorized:(BOOL)delayUntilAuthorized
+                                                    block:(ZKLocationRequestBlock)block;
 
 /**
  Creates a subscription for location updates that will execute the block once per update indefinitely (until canceled), regardless of the accuracy of each location.
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
  @return The location request ID, which can be used to cancel the subscription of location updates to this block.
  */
 - (ZKLocationRequestID)subscribeToLocationUpdatesWithDesiredAccuracy:(ZKLocationAccuracy)desiredAccuracy
-                                                                 block:(ZKLocationRequestBlock)block;
+                                                               block:(ZKLocationRequestBlock)block;
 
 /**
  Creates a subscription for significant location changes that will execute the block once per change indefinitely (until canceled).
@@ -123,7 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Additions
 
 /** It is possible to force enable background location fetch even if your set any kind of Authorizations */
-- (void)setBackgroundLocationUpdate:(BOOL) enabled;
+- (void)setBackgroundLocationUpdate:(BOOL)enabled;
 
 /**
  Sets a Boolean indicating whether the status bar changes its appearance when location services
@@ -139,14 +139,14 @@ NS_ASSUME_NONNULL_BEGIN
  
  @param shows           Boolean indicating whether the status bar changes its appearance when location services are used in the background.
  */
-- (void)setShowsBackgroundLocationIndicator:(BOOL) shows;
+- (void)setShowsBackgroundLocationIndicator:(BOOL)shows;
 
 /**
  Sets a Boolean value indicating whether the location manager object may pause location updates.
  
  @param pauses           Boolean value indicating whether the location manager object may pause location updates.
  */
-- (void)setPausesLocationUpdatesAutomatically:(BOOL) pauses;
+- (void)setPausesLocationUpdatesAutomatically:(BOOL)pauses;
 
 @end
 
