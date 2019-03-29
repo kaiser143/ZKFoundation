@@ -140,7 +140,7 @@
 #pragma mark -
 #pragma mark :. Block事件
 
-- (void)cellAutoSizeCell:(ZKTableHelperCellAutoHeightForRowBlock)cb {
+- (void)autoHeightCell:(ZKTableHelperCellAutoHeightForRowBlock)cb {
     self.cellAutoHeightBlock = cb;
 }
 
@@ -390,7 +390,7 @@
     if (self.cellAutoHeightBlock) {
         id curModel                 = [self currentModelAtIndexPath:indexPath];
         NSString *identifier = [self cellIdentifierForRowAtIndexPath:indexPath model:curModel];
-        curHeight = self.cellAutoHeightBlock(tableView, identifier, curModel);
+        curHeight = self.cellAutoHeightBlock(tableView, indexPath, identifier, curModel);
     } else {
         curHeight = tableView.rowHeight;
     }

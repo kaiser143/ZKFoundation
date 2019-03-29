@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NSString *__nonnull (^ZKTableHelperCellIdentifierBlock)(NSIndexPath *indexPath, id dataSource);
 typedef void (^ZKTableHelperDidSelectBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
 typedef void (^ZKTableHelperDidDeSelectBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
-typedef CGFloat (^ZKTableHelperCellAutoHeightForRowBlock)(UITableView *tableView, NSString *cellIdentifier, id dataSource);
+typedef CGFloat (^ZKTableHelperCellAutoHeightForRowBlock)(UITableView *tableView, NSIndexPath *indexPath, NSString *identifier, id dataSource);
 
 typedef void (^ZKTableHelperDidMoveToRowBlock)(UITableView *tableView, NSIndexPath *sourceIndexPath, id sourceModel, NSIndexPath *destinationIndexPath, id destinationModel);
 
@@ -113,7 +113,7 @@ typedef void (^ZKTableHelperScrollViewDidEndScrolling)(UIScrollView *scrollView)
 /*!
  *  @brief    计算高度
  */
-- (void)cellAutoSizeCell:(ZKTableHelperCellAutoHeightForRowBlock)cb;
+- (void)autoHeightCell:(ZKTableHelperCellAutoHeightForRowBlock)cb;
 
 
 /**
