@@ -430,7 +430,6 @@
     }
 
     id curModel = [self currentModelAtIndexPath:indexPath];
-    [self configureCell:cell forIndexPath:indexPath withObjet:curModel];
 
     if (self.didWillDisplayBlock) {
         self.didWillDisplayBlock(cell, indexPath, curModel, YES);
