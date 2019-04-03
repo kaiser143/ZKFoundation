@@ -22,6 +22,8 @@
 }
 
 - (CGRect)imageRectForContentRect:(CGRect)contentRect {
+    if (CGRectIsEmpty(contentRect)) return contentRect;
+    
     CGFloat imageX;
     CGFloat imageY;
     
@@ -33,22 +35,11 @@
             
             /*
              图片在上 文字在下
-             首先 设置 image 的 h 为 (整个按钮高度 - 两个内边距之后) 的 0.65
-             其次 设置 image 的 w 等于 image 的高度
-             再者 设置 image 的 x 为 (整个按钮的宽度 - image 的宽度) / 2
-             最后 设置 image 的 y 为 一个内边距
-             image 是一个正方形
-             
-             同理 设置 titleLabelFrame 的时候:
-             首先 设置 label 的 x 为 一个内边距
-             其次 设置 label 的 y 为 (整个按钮高度 - 两个内边距之后) 的 0.65 + 一个内边距 + space
-             再者 设置 label 的 w 为 整个按钮高度 - 两个内边距
-             最后 设置 label 的 h 为 整个按钮的高度 - label 的 y - 一个内边距的值
              */
-            imageH = (CGRectGetHeight(contentRect) - _delta * 2) * 0.65;
-            imageW = imageH;
+            imageH = self.imageView.image.size.height;
+            imageW = self.imageView.image.size.width;
             
-            imageX = (CGRectGetWidth(contentRect) - imageW) / 2;
+            imageX = (CGRectGetWidth(contentRect) - imageW) / 2.f;
             imageY = _delta;
             
         }
@@ -57,47 +48,24 @@
             
             /*
              图片在左，文字在右
-             首先 设置 image 的 x 是 一个内边距
-             其次 设置 image 的 y 是 一个内边距
-             再者 设置 image 的 h 是 整个按钮高度 - 两个内边距
-             最后 设置 image 的 w 等于 image 的高度
-             image 是个正方形
-             
-             同理 设置 titleLableFrame 的时候:
-             首先 设置 label 的 x 为 一个内边距 + (整个按钮的高度 - 两个内边距) + space
-             其次 设置 label 的 y 是 一个内边距
-             再者 设置 label 的 w 是 整个按钮宽度 - label 的起始位置 x - 一个内边距
-             最后 设置 label 的 h 是 整个按钮高度 - 两个内边距
              */
+            imageH = self.imageView.image.size.height;
+            imageW = self.imageView.image.size.width;
+            
             imageX = _delta;
-            imageY = _delta;
-            
-            imageH = CGRectGetHeight(contentRect) - _delta * 2;
-            imageW = imageH;
-            
+            imageY = (CGRectGetHeight(contentRect) - imageH)/2.f;
         }
             break;
         case ZKButtonStyleImageAtRight: {
             
             /*
              图片在右，文字在左
-             首先 设置 image 的 h 是 整个按钮高度 - 两个内边距
-             其次 设置 image 的 w 等于 image 的高度
-             再者 设置 image 的 x 是 整个按钮的宽度 - image 的宽度 - 一个内边距
-             最后 设置 image 的 y 是 一个内边距
-             image 是个正方形
-             
-             同理 设置 titleLableFrame 的时候:
-             首先 设置 label 的 x 是 一个内边距
-             其次 设置 label 的 y 是 一个内边距
-             再者 设置 label 的 w 是 整个按钮宽度 - image 的宽度 - 两个内边距 - space
-             最后 设置 label 的 h 是 整个按钮高度 - 两个内边距
              */
-            imageH = CGRectGetHeight(contentRect) - _delta * 2;
-            imageW = imageH;
+            imageH = self.imageView.image.size.height;
+            imageW = self.imageView.image.size.width;
             
             imageX = CGRectGetWidth(contentRect) - imageW - _delta;
-            imageY = _delta;
+            imageY = (CGRectGetHeight(contentRect) - imageH)/2.f;
             
         }
             break;
@@ -105,20 +73,9 @@
             
             /*
              图片在下 文字在上
-             首先 设置 image 的 h 为 (整个按钮高度 - 两个内边距之后) 的 0.65
-             其次 设置 image 的 w 等于 image 的高度
-             再者 设置 image 的 x 为 (整个按钮的宽度 - image 的宽度) / 2
-             最后 设置 image 的 y 为 (整个按钮高度 - 两个内边距之后) - image 的 h + 一个内边距 + space
-             image 是一个正方形
-             
-             同理 设置 titleLabelFrame 的时候:
-             首先 设置 label 的 x 为 一个内边距
-             其次 设置 label 的 y 为 一个内边距
-             再者 设置 label 的 w 为 整个按钮高度 - 两个内边距
-             最后 设置 label 的 h 为 整个按钮的高度 - image 的 h - 两个内边距的值 - spcae
              */
-            imageH = (CGRectGetHeight(contentRect) - _delta * 2) * 0.65;
-            imageW = imageH;
+            imageH = self.imageView.image.size.height;
+            imageW = self.imageView.image.size.width;
             
             imageX = (CGRectGetWidth(contentRect) - imageW) / 2;
             imageY = (CGRectGetHeight(contentRect) - _delta * 2) - imageH + _delta  + _space;
@@ -133,6 +90,7 @@
 }
 
 - (CGRect)titleRectForContentRect:(CGRect)contentRect {
+    if (CGRectIsEmpty(contentRect)) return contentRect;
     
     CGFloat titleX;
     CGFloat titleY;
@@ -143,20 +101,21 @@
     switch (_style) {
         case ZKButtonStyleImageAtTop: {
             
-            titleX = _delta;
-            titleY = (CGRectGetHeight(contentRect) - _delta * 2) * 0.65 + _delta + _space;
+            titleY = (CGRectGetHeight(contentRect) - self.imageView.image.size.height) - self.delta - self.space;
+            (CGRectGetHeight(contentRect) - _delta * 2) * 0.65 + _delta + _space;
             
             titleW = CGRectGetWidth(contentRect) - _delta * 2;
             titleH = CGRectGetHeight(contentRect) - titleY - _delta;
             
+            titleX = (CGRectGetWidth(contentRect) - titleW)/2.f;
         }
             break;
         case ZKButtonStyleImageAtLeft: {
             
-            titleX = _delta + (CGRectGetHeight(contentRect) - _delta * 2) + _space;
+            titleX = _delta + self.imageView.image.size.width + _space;
             titleY = _delta;
             
-            titleW = CGRectGetWidth(contentRect) - titleX - _delta;
+            titleW = CGRectGetWidth(contentRect) - self.imageView.image.size.width - 2*self.delta - self.space;
             titleH = CGRectGetHeight(contentRect) - _delta * 2;
             
         }
@@ -166,7 +125,7 @@
             titleX = _delta;
             titleY = _delta;
             
-            titleW = CGRectGetWidth(contentRect) - (CGRectGetHeight(contentRect) - _delta * 2) - _delta * 2 - _space;
+            titleW = CGRectGetWidth(contentRect) - self.imageView.image.size.width - 2*self.delta - self.space;
             titleH = CGRectGetHeight(contentRect) - _delta * 2;
         }
             break;
@@ -186,6 +145,31 @@
     }
     
     return CGRectMake(titleX, titleY, titleW, titleH);
+}
+
+- (CGSize)intrinsicContentSize {
+    CGRect imageRect = [super imageRectForContentRect:CGRectInfinite];
+    CGRect titleRect = [super titleRectForContentRect:CGRectInfinite];
+    CGSize intrinsicContentSize = [super intrinsicContentSize];
+    
+    switch (self.style) {
+        case ZKButtonStyleImageAtTop:
+        case ZKButtonStyleImageAtBottom: {
+            intrinsicContentSize.height = 2*self.delta + CGRectGetHeight(imageRect) + self.space + CGRectGetHeight(titleRect);
+            intrinsicContentSize.width = MAX(CGRectGetWidth(titleRect), CGRectGetWidth(imageRect)) + 2*self.delta;
+        }
+            break;
+        case ZKButtonStyleImageAtLeft:
+        case ZKButtonStyleImageAtRight: {
+            intrinsicContentSize.height = MAX(CGRectGetHeight(titleRect), CGRectGetHeight(imageRect)) + 2*self.delta;
+            intrinsicContentSize.width = 2*self.delta + CGRectGetWidth(imageRect) + self.space + CGRectGetWidth(titleRect);
+        }
+            break;
+        default:
+            break;
+    }
+    
+    return intrinsicContentSize;
 }
 
 @end

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "summary": "A short description of ZKFoundation.",
   "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/zhangkai/ZKFoundation",
+  "homepage": "https://github.com/kaiser143/ZKFoundation",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
@@ -12,7 +12,7 @@
     "zhangkai": "deyang143@126.com"
   },
   "source": {
-    "git": "https://github.com/zhangkai/ZKFoundation.git",
+    "git": "https://github.com/kaiser143/ZKFoundation.git",
     "tag": "0.1.0"
   },
   "platforms": {

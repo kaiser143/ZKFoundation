@@ -36,7 +36,7 @@ static inline void _kai_dispatch_async_on_main_queue(void (^block)(void)) {
     return [self canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:error];
 }
 
-- (void)authWithDescribe:(NSString *)desc completionBlock:(void (^)(ZKAuthContextType, NSError *_Nullable))block {
+- (void)authWithDescribe:(NSString *)desc callback:(void (^)(ZKAuthContextType, NSError *_Nullable))block {
     if (!block) return;
 
     if (@available(iOS 8.0, *)) {

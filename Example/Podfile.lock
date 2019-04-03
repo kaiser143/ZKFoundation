@@ -1,9 +1,5 @@
 PODS:
-  - FBSnapshotTestCase (2.1.4):
-    - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
-  - FBSnapshotTestCase/Core (2.1.4)
-  - FBSnapshotTestCase/SwiftSupport (2.1.4):
-    - FBSnapshotTestCase/Core
+  - Masonry (1.1.0)
   - ZKFoundation (0.1.0):
     - ZKFoundation/AuthContext (= 0.1.0)
     - ZKFoundation/Categories (= 0.1.0)
@@ -17,21 +13,21 @@ PODS:
   - ZKFoundation/UIKit (0.1.0)
 
 DEPENDENCIES:
-  - FBSnapshotTestCase
+  - Masonry
   - ZKFoundation (from `../`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - FBSnapshotTestCase
+    - Masonry
 
 EXTERNAL SOURCES:
   ZKFoundation:
     :path: "../"
 
 SPEC CHECKSUMS:
-  FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
-  ZKFoundation: 999009cf6b3acf792f886d41f41c3f2a775d5d08
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  ZKFoundation: c92917d3137f7b87df15feaf097ed1a056758f80
 
-PODFILE CHECKSUM: 93731f3026639ac95510cbc337a69e6fee127026
+PODFILE CHECKSUM: d8216eedef2ea67c732095ef09b8386630490a95
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1

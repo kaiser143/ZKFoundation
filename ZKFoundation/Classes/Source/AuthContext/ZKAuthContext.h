@@ -75,7 +75,7 @@ typedef NS_ENUM(NSUInteger, ZKAuthContextType) {
 - (BOOL)canEvaluate;
 
 
-- (void)authWithDescribe:(NSString *)desc completionBlock:(void(^)(ZKAuthContextType type, NSError *_Nullable error))block;
+- (void)authWithDescribe:(NSString *)desc callback:(void(^)(ZKAuthContextType type, NSError *_Nullable error))block;
 
 @end
 

@@ -14,9 +14,10 @@
 #import "ZKFolderMonitor.h"
 #import "ZKVersion.h"
 #import "ZKAuthContext.h"
-#import "UITableView+Helper.h"
-#import "UITableViewCell+Helper.h"
-#import "UIView+Helper.h"
+#import "UICollectionView+ZKHelper.h"
+#import "UITableView+ZKHelper.h"
+#import "UITableViewCell+ZKHelper.h"
+#import "UIView+ZKHelper.h"
 #import "ZKCollectionViewHelper.h"
 #import "ZKTableViewHelper.h"
 #import "ZKHeadingRequest.h"
@@ -26,6 +27,7 @@
 #import "ZKLocationRequestDefines.h"
 #import "ZKRequestIDGenerator.h"
 #import "ZKButton.h"
+#import "ZKPageControl.h"
 
 FOUNDATION_EXPORT double ZKFoundationVersionNumber;
 FOUNDATION_EXPORT const unsigned char ZKFoundationVersionString[];
