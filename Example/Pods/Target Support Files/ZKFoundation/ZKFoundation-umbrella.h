@@ -28,6 +28,7 @@
 #import "ZKRequestIDGenerator.h"
 #import "ZKButton.h"
 #import "ZKPageControl.h"
+#import "ZKTintedActionButton.h"
 
 FOUNDATION_EXPORT double ZKFoundationVersionNumber;
 FOUNDATION_EXPORT const unsigned char ZKFoundationVersionString[];

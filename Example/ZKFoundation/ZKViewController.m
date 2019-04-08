@@ -9,6 +9,7 @@
 #import "ZKViewController.h"
 #import <Masonry/Masonry.h>
 #import <ZKButton.h>
+#import <ZKTintedActionButton.h>
 
 @interface ZKViewController ()
 
@@ -34,6 +35,19 @@
     [self.view addSubview:button];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.view);
+    }];
+    
+    ZKTintedActionButton *action = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
+    action.tintColor = UIColor.redColor;
+    action.layer.cornerRadius = 8;
+    action.clipsToBounds = YES;
+    [action setTitle:@"Continue" forState:UIControlStateNormal];
+    [self.view addSubview:action];
+    [action mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(220);
+        make.height.mas_equalTo(48);
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(button.mas_bottom).offset(30);
     }];
 }
 

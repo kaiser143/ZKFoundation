@@ -6,9 +6,9 @@ target 'ZKFoundation_Example' do
   pod 'ZKFoundation', :path => '../'
   pod 'Masonry'
 
-#  target 'ZKFoundation_Tests' do
-#    inherit! :search_paths
-#
-#    pod 'FBSnapshotTestCase'
-#  end
+ # target 'ZKFoundation_Tests' do
+ #   inherit! :search_paths
+
+ #   pod 'FBSnapshotTestCase'
+ # end
 end
