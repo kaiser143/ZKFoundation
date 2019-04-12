@@ -593,8 +593,8 @@
 }
 
 - (void)configureCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath withObjet:(id)obj {
-    if ([cell respondsToSelector:@selector(kai_cellWillDisplayWithModel:)]) {
-        [cell performSelector:@selector(kai_cellWillDisplayWithModel:) withObject:obj];
+    if ([cell respondsToSelector:@selector(bindViewModel:)]) {
+        [cell performSelector:@selector(bindViewModel:) withObject:obj];
     }
 }
 

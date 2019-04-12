@@ -11,7 +11,7 @@ static NSString *ZKHasBeenLaunch = @"ZKHasBeenLaunch";
 
 @implementation ZKApp
 
-+ (void)applicationDidLaunch:(void(^ _Nullable)(BOOL didLaunched))block {
++ (void)applicationDidLaunched:(void(^ _Nullable)(BOOL didLaunched))block {
     if (!block) return;
     
     NSString *version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];

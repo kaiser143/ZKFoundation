@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param block The block to execute, returns isFirstLaunchForCurrentVersion
  */
-+ (void)applicationDidLaunch:(void(^ _Nullable)(BOOL didLaunched))block;
++ (void)applicationDidLaunched:(void(^ _Nullable)(BOOL didLaunched))block;
 
 @end
 
