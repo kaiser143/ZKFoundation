@@ -10,6 +10,7 @@
 
 @protocol ZKTableViewHelperInjectionDelegate <NSObject>
 
+@optional
 - (void)bindViewModel:(__kindof NSObject *)viewModel;
 
 @end

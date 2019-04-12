@@ -16,7 +16,6 @@
 #import <ZKFoundation/ZKAuthContext.h>
 #import <ZKFoundation/UICollectionView+ZKHelper.h>
 #import <ZKFoundation/UITableView+ZKHelper.h>
-#import <ZKFoundation/UITableViewCell+ZKHelper.h>
 #import <ZKFoundation/UIView+ZKHelper.h>
 #import <ZKFoundation/ZKCollectionViewHelper.h>
 #import <ZKFoundation/ZKTableViewHelper.h>
@@ -39,7 +38,6 @@
 #import "ZKAuthContext.h"
 #import "UICollectionView+ZKHelper.h"
 #import "UITableView+ZKHelper.h"
-#import "UITableViewCell+ZKHelper.h"
 #import "UIView+ZKHelper.h"
 #import "ZKCollectionViewHelper.h"
 #import "ZKTableViewHelper.h"
