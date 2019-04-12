@@ -8,7 +8,7 @@
 #import "ZKTableViewHelper.h"
 #import "UIView+ZKHelper.h"
 #import "UITableView+ZKHelper.h"
-#import "UITableViewCell+ZKHelper.h"
+#import "ZKTableViewHelperInjectionDelegate.h"
 
 #define defaultInterval .5 //默认时间间隔
 
