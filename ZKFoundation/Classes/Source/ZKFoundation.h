@@ -22,13 +22,14 @@
 #import <ZKFoundation/ZKTableViewHelperInjectionDelegate.h>
 #import <ZKFoundation/ZKHeadingRequest.h>
 #import <ZKFoundation/ZKLocationManager.h>
-#import <ZKFoundation/ZKLocationManaget+Internal.h>
+#import <ZKFoundation/ZKLocationManager+Internal.h>
 #import <ZKFoundation/ZKLocationRequest.h>
 #import <ZKFoundation/ZKLocationRequestDefines.h>
 #import <ZKFoundation/ZKRequestIDGenerator.h>
 #import <ZKFoundation/ZKButton.h>
 #import <ZKFoundation/ZKPageControl.h>
 #import <ZKFoundation/ZKTintedActionButton.h>
+#import <ZKFoundation/ZKInitialsPlaceholderView.h>
 
 #else
 
@@ -51,6 +52,7 @@
 #import "ZKButton.h"
 #import "ZKPageControl.h"
 #import "ZKTintedActionButton.h"
+#import "ZKInitialsPlaceholderView.h"
 
 #endif /* __has_include*/
 
