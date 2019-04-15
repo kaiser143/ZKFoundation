@@ -11,7 +11,7 @@
 @protocol ZKTableViewHelperInjectionDelegate <NSObject>
 
 @optional
-- (void)bindViewModel:(__kindof NSObject *)viewModel;
+- (void)bindViewModel:(__kindof NSObject *)viewModel forIndexPath:(NSIndexPath *)indexPath;
 
 @end
 

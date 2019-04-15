@@ -593,8 +593,8 @@
 }
 
 - (void)configureCell:(UITableViewCell<ZKTableViewHelperInjectionDelegate> *)cell forIndexPath:(NSIndexPath *)indexPath withObjet:(id)obj {
-    if ([cell respondsToSelector:@selector(bindViewModel:)]) {
-        [cell performSelector:@selector(bindViewModel:) withObject:obj];
+    if ([cell respondsToSelector:@selector(bindViewModel:forIndexPath:)]) {
+        [cell bindViewModel:obj forIndexPath:indexPath];
     }
 }
 
