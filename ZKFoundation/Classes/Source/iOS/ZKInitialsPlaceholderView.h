@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
  The designated initializer (using another initializer will produce
  undefined results)
  */
-- (instancetype)initWithDiameter:(CGFloat)diameter;
+- (instancetype)initWithDiameter:(CGFloat)diameter NS_DESIGNATED_INITIALIZER;
 
 /**
  Performant ways to set all of your options without redrawing the view on

@@ -11,6 +11,9 @@
 
 @property (strong) UIImage *cachedVisualRepresentation;
 
+- (instancetype)initWithFrame:(CGRect)frame NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+
 @end
 
 @implementation ZKInitialsPlaceholderView
@@ -19,6 +22,20 @@
 @synthesize textColor   = _textColor;
 @synthesize circleColor = _circleColor;
 @synthesize font        = _font;
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self == nil) return nil;
+    
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self == nil) return nil;
+    
+    return self;
+}
 
 - (instancetype)initWithDiameter:(CGFloat)diameter {
     self = [super initWithFrame:CGRectMake(0, 0, diameter, diameter)];
@@ -92,12 +109,6 @@
 
 - (UIFont *)font {
     return _font ? _font : [UIFont boldSystemFontOfSize:16.0];
-}
-
-- (void)setFrame:(CGRect)frame {
-    [super setFrame:frame];
-    
-    [self generateCachedVisualRepresentation];
 }
 
 - (void)batchUpdateViewWithInitials:(NSString *)initials circleColor:(UIColor *)circleColor textColor:(UIColor *)textColor font:(UIFont *)font {
