@@ -22,6 +22,8 @@
 		4A383621F096F5A7F0A9011B102DD4FD /* ZKLocationManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 53004422B991288EFF602C83DA38D4F5 /* ZKLocationManager+Internal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4B1A43BE2264427E003200DE /* ZKInitialsPlaceholderView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B1A43BC2264427E003200DE /* ZKInitialsPlaceholderView.h */; };
 		4B1A43BF2264427E003200DE /* ZKInitialsPlaceholderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1A43BD2264427E003200DE /* ZKInitialsPlaceholderView.m */; };
+		4B70C4D9226C4ABF00DA0D65 /* ZKPopupController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B70C4D7226C4ABF00DA0D65 /* ZKPopupController.h */; };
+		4B70C4DA226C4ABF00DA0D65 /* ZKPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B70C4D8226C4ABF00DA0D65 /* ZKPopupController.m */; };
 		4F0A52A70E4C1F544C2DBC0F797A6309 /* ZKHeadingRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9B8ACFE7B9C23A7022C2B3E2C92B6E /* ZKHeadingRequest.m */; };
 		4FDED973490EB6A8908D2671154FDB89 /* View+MASShorthandAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 78526D2C8FDDA6A9A4034A969422E45B /* View+MASShorthandAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5293F06574C5148781335878131E9775 /* ZKPageControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CCD479C8704260C955199C66D0D2B44 /* ZKPageControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -132,6 +134,8 @@
 		45DC5065BB111F8417B0ACF5A5A88C4B /* ZKFoundation.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = ZKFoundation.modulemap; sourceTree = "<group>"; };
 		4B1A43BC2264427E003200DE /* ZKInitialsPlaceholderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ZKInitialsPlaceholderView.h; path = ZKFoundation/Classes/Source/iOS/ZKInitialsPlaceholderView.h; sourceTree = "<group>"; };
 		4B1A43BD2264427E003200DE /* ZKInitialsPlaceholderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ZKInitialsPlaceholderView.m; path = ZKFoundation/Classes/Source/iOS/ZKInitialsPlaceholderView.m; sourceTree = "<group>"; };
+		4B70C4D7226C4ABF00DA0D65 /* ZKPopupController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ZKPopupController.h; path = ZKFoundation/Classes/Source/iOS/ZKPopupController.h; sourceTree = "<group>"; };
+		4B70C4D8226C4ABF00DA0D65 /* ZKPopupController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ZKPopupController.m; path = ZKFoundation/Classes/Source/iOS/ZKPopupController.m; sourceTree = "<group>"; };
 		4C9B2014C24ADA03537F3B21DB6735E4 /* ViewController+MASAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "ViewController+MASAdditions.m"; path = "Masonry/ViewController+MASAdditions.m"; sourceTree = "<group>"; };
 		53004422B991288EFF602C83DA38D4F5 /* ZKLocationManager+Internal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "ZKLocationManager+Internal.h"; path = "ZKFoundation/Classes/Source/LocationManager/ZKLocationManager+Internal.h"; sourceTree = "<group>"; };
 		54CC9C5EC8733BEE5BA07DFD96DF16AD /* ZKFoundation-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ZKFoundation-dummy.m"; sourceTree = "<group>"; };
@@ -275,6 +279,8 @@
 				92759BCEAFC7A6439085158E2EF82CCE /* ZKTintedActionButton.m */,
 				4B1A43BC2264427E003200DE /* ZKInitialsPlaceholderView.h */,
 				4B1A43BD2264427E003200DE /* ZKInitialsPlaceholderView.m */,
+				4B70C4D7226C4ABF00DA0D65 /* ZKPopupController.h */,
+				4B70C4D8226C4ABF00DA0D65 /* ZKPopupController.m */,
 			);
 			name = UIKit;
 			sourceTree = "<group>";
@@ -518,6 +524,7 @@
 				9269E802D3E20C338BDDFF5DA07029E5 /* MASViewAttribute.h in Headers */,
 				626B143296611EBC98F20F738CFB4AA8 /* MASViewConstraint.h in Headers */,
 				27F1DAFCBA43BFC893AAB8D70B811B04 /* NSArray+MASAdditions.h in Headers */,
+				4B70C4D9226C4ABF00DA0D65 /* ZKPopupController.h in Headers */,
 				1E4C2B7E07259DD5B60C4FE6A8A70C6F /* NSArray+MASShorthandAdditions.h in Headers */,
 				DADF5150B678D8FAB699D940DED2C71D /* NSLayoutConstraint+MASDebugAdditions.h in Headers */,
 				357FF480909B78B01A5BBA13263779DE /* View+MASAdditions.h in Headers */,
@@ -675,6 +682,7 @@
 				07818F5781210B4DD5E5D0E0E77CE532 /* MASViewAttribute.m in Sources */,
 				73300003438DC542B9D0546D73877707 /* MASViewConstraint.m in Sources */,
 				DDC5DE76CA3AC9073FB5C6BFBA026AFE /* NSArray+MASAdditions.m in Sources */,
+				4B70C4DA226C4ABF00DA0D65 /* ZKPopupController.m in Sources */,
 				D892D5CB8E1711B1FE8FCA30D5D1713F /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				75C5B6C21E0CC4898AE48E52DDA91375 /* View+MASAdditions.m in Sources */,
 				4B1A43BF2264427E003200DE /* ZKInitialsPlaceholderView.m in Sources */,
