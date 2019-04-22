@@ -100,8 +100,8 @@
     
     switch (_style) {
         case ZKButtonStyleImageAtTop: {
-            
-            titleY = CGRectGetMaxY([self titleRectForContentRect:contentRect]) + self.space;
+            CGRect frame = [self imageRectForContentRect:contentRect];
+            titleY = CGRectGetMaxY(frame) + self.space;
             
             titleW = CGRectGetWidth(contentRect) - _delta * 2;
             titleH = CGRectGetHeight(contentRect) - titleY - _delta;
@@ -110,11 +110,11 @@
         }
             break;
         case ZKButtonStyleImageAtLeft: {
-            
-            titleX = CGRectGetMaxX([self titleRectForContentRect:contentRect]) + self.space;
+            CGRect frame = [self imageRectForContentRect:contentRect];
+            titleX = CGRectGetMaxX(frame) + self.space;
             titleY = _delta;
             
-            titleW = CGRectGetWidth(contentRect) - self.imageView.image.size.width - 2*self.delta - self.space;
+            titleW = CGRectGetWidth(contentRect) - CGRectGetWidth(frame) - 2*self.delta - self.space;
             titleH = CGRectGetHeight(contentRect) - _delta * 2;
             
         }
