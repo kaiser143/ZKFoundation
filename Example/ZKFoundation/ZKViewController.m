@@ -23,7 +23,7 @@
 	// Do any additional setup after loading the view, typically from a nib.
     
     ZKButton *button = [ZKButton buttonWithType:UIButtonTypeCustom];
-    button.style = ZKButtonStyleImageAtBottom;
+    button.style = ZKButtonStyleImageAtTop;
     [button setImage:[UIImage imageNamed:@"arrow_l"] forState:UIControlStateNormal];
     [button setTitle:@"去开启" forState:UIControlStateNormal];
     [button setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
