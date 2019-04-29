@@ -31,6 +31,7 @@
 #import <ZKFoundation/ZKTintedActionButton.h>
 #import <ZKFoundation/ZKInitialsPlaceholderView.h>
 #import <ZKFoundation/ZKPopupController.h>
+#import <ZKFoundation/ZKLoadingSpinner.h>
 
 #else
 
@@ -55,6 +56,7 @@
 #import "ZKTintedActionButton.h"
 #import "ZKInitialsPlaceholderView.h"
 #import "ZKPopupController.h"
+#import "ZKLoadingSpinner.h"
 
 #endif /* __has_include*/
 

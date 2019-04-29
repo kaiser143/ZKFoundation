@@ -21,6 +21,7 @@ typedef void (^ZKTableHelperDidWillDisplayBlock)(UITableViewCell *cell, NSIndexP
 typedef void (^ZKTableHelperDidEditingBlock)(UITableView *tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath *indexPath, id dataSource);
 typedef NSString *_Nullable (^ZKTableHelperDidEditTitleBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
 
+typedef BOOL(^ZKTableHelperCanEditRowAtIndexPathBlock)(id dataSource, NSIndexPath *indexPath);
 typedef UITableViewCellEditingStyle (^ZKTableHelperEditingStyleBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
 typedef NSArray<UITableViewRowAction *> *_Nullable (^ZKTableHelperDidEditActionsBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
 
@@ -128,6 +129,11 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
  *  If you override tableView:didDeselectRowAtIndexPath: method, it will be invalid
  */
 - (void)didDeSelect:(ZKTableHelperDidDeSelectBlock)cb;
+
+/*!
+ *  @brief    是否可编辑
+ */
+- (void)canEditRow:(ZKTableHelperCanEditRowAtIndexPathBlock)cb;
 
 /**
  *  @brief 编辑样式

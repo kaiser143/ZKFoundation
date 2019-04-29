@@ -56,6 +56,8 @@
 @property (nonatomic, copy) ZKTableHelperNumberOfSectionsBlock numberOfSections;
 @property (nonatomic, copy) ZKTableHelperNumberRowsBlock numberRow;
 
+@property (nonatomic, copy) ZKTableHelperCanEditRowAtIndexPathBlock canEditRow;
+
 @property (nonatomic, copy) ZKTableHelperCurrentModelAtIndexPathBlock currentModelAtIndexPath;
 @property (nonatomic, copy) ZKTableHelperScrollViewDidEndScrollingBlock scrollViewDidEndScrolling;
 
@@ -161,6 +163,10 @@
 
 - (void)didEditTitle:(ZKTableHelperDidEditTitleBlock)cb {
     self.didEditTileBlock = cb;
+}
+
+- (void)canEditRow:(ZKTableHelperCanEditRowAtIndexPathBlock)cb {
+    self.canEditRow = cb;
 }
 
 - (void)didEditingStyle:(ZKTableHelperEditingStyleBlock)cb {
@@ -348,6 +354,15 @@
 }
 
 #pragma mark :. delegate
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    BOOL edit = NO;
+    if (self.canEditRow) {
+        edit = self.canEditRow([self currentModelAtIndexPath:indexPath], indexPath);
+    }
+    
+    return edit;
+}
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCellEditingStyle style = UITableViewCellEditingStyleNone;

@@ -24,6 +24,8 @@
 		4B1A43BF2264427E003200DE /* ZKInitialsPlaceholderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B1A43BD2264427E003200DE /* ZKInitialsPlaceholderView.m */; };
 		4B70C4D9226C4ABF00DA0D65 /* ZKPopupController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B70C4D7226C4ABF00DA0D65 /* ZKPopupController.h */; };
 		4B70C4DA226C4ABF00DA0D65 /* ZKPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B70C4D8226C4ABF00DA0D65 /* ZKPopupController.m */; };
+		4B70C4F522771D2800DA0D65 /* ZKLoadingSpinner.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B70C4F322771D2800DA0D65 /* ZKLoadingSpinner.h */; };
+		4B70C4F622771D2800DA0D65 /* ZKLoadingSpinner.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B70C4F422771D2800DA0D65 /* ZKLoadingSpinner.m */; };
 		4F0A52A70E4C1F544C2DBC0F797A6309 /* ZKHeadingRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9B8ACFE7B9C23A7022C2B3E2C92B6E /* ZKHeadingRequest.m */; };
 		4FDED973490EB6A8908D2671154FDB89 /* View+MASShorthandAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 78526D2C8FDDA6A9A4034A969422E45B /* View+MASShorthandAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5293F06574C5148781335878131E9775 /* ZKPageControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CCD479C8704260C955199C66D0D2B44 /* ZKPageControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -136,6 +138,8 @@
 		4B1A43BD2264427E003200DE /* ZKInitialsPlaceholderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ZKInitialsPlaceholderView.m; path = ZKFoundation/Classes/Source/iOS/ZKInitialsPlaceholderView.m; sourceTree = "<group>"; };
 		4B70C4D7226C4ABF00DA0D65 /* ZKPopupController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ZKPopupController.h; path = ZKFoundation/Classes/Source/iOS/ZKPopupController.h; sourceTree = "<group>"; };
 		4B70C4D8226C4ABF00DA0D65 /* ZKPopupController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ZKPopupController.m; path = ZKFoundation/Classes/Source/iOS/ZKPopupController.m; sourceTree = "<group>"; };
+		4B70C4F322771D2800DA0D65 /* ZKLoadingSpinner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ZKLoadingSpinner.h; path = ZKFoundation/Classes/Source/iOS/ZKLoadingSpinner.h; sourceTree = "<group>"; };
+		4B70C4F422771D2800DA0D65 /* ZKLoadingSpinner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ZKLoadingSpinner.m; path = ZKFoundation/Classes/Source/iOS/ZKLoadingSpinner.m; sourceTree = "<group>"; };
 		4C9B2014C24ADA03537F3B21DB6735E4 /* ViewController+MASAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "ViewController+MASAdditions.m"; path = "Masonry/ViewController+MASAdditions.m"; sourceTree = "<group>"; };
 		53004422B991288EFF602C83DA38D4F5 /* ZKLocationManager+Internal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "ZKLocationManager+Internal.h"; path = "ZKFoundation/Classes/Source/LocationManager/ZKLocationManager+Internal.h"; sourceTree = "<group>"; };
 		54CC9C5EC8733BEE5BA07DFD96DF16AD /* ZKFoundation-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ZKFoundation-dummy.m"; sourceTree = "<group>"; };
@@ -281,6 +285,8 @@
 				4B1A43BD2264427E003200DE /* ZKInitialsPlaceholderView.m */,
 				4B70C4D7226C4ABF00DA0D65 /* ZKPopupController.h */,
 				4B70C4D8226C4ABF00DA0D65 /* ZKPopupController.m */,
+				4B70C4F322771D2800DA0D65 /* ZKLoadingSpinner.h */,
+				4B70C4F422771D2800DA0D65 /* ZKLoadingSpinner.m */,
 			);
 			name = UIKit;
 			sourceTree = "<group>";
@@ -522,6 +528,7 @@
 				F50920C2026473CF11E5C635750F12EE /* Masonry.h in Headers */,
 				67843D6939DCFB92F851C88AD853EB8B /* MASUtilities.h in Headers */,
 				9269E802D3E20C338BDDFF5DA07029E5 /* MASViewAttribute.h in Headers */,
+				4B70C4F522771D2800DA0D65 /* ZKLoadingSpinner.h in Headers */,
 				626B143296611EBC98F20F738CFB4AA8 /* MASViewConstraint.h in Headers */,
 				27F1DAFCBA43BFC893AAB8D70B811B04 /* NSArray+MASAdditions.h in Headers */,
 				4B70C4D9226C4ABF00DA0D65 /* ZKPopupController.h in Headers */,
@@ -675,6 +682,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F5C9CAD634744DFE373DA45B0CD1806C /* MASCompositeConstraint.m in Sources */,
+				4B70C4F622771D2800DA0D65 /* ZKLoadingSpinner.m in Sources */,
 				62449CA0C38A2DC85B0982B25394E90E /* MASConstraint.m in Sources */,
 				57DFE313C53DA21975AD94A81F166BD1 /* MASConstraintMaker.m in Sources */,
 				BC9D138592743C6138E5EEBDCF679053 /* MASLayoutConstraint.m in Sources */,
