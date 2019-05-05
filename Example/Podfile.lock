@@ -1,16 +1,23 @@
 PODS:
   - Masonry (1.1.0)
+  - ZKCategories (0.2.1)
   - ZKFoundation (0.1.0):
+    - ZKCategories
     - ZKFoundation/AuthContext (= 0.1.0)
     - ZKFoundation/Categories (= 0.1.0)
     - ZKFoundation/Helper (= 0.1.0)
     - ZKFoundation/LocationManager (= 0.1.0)
     - ZKFoundation/UIKit (= 0.1.0)
-  - ZKFoundation/AuthContext (0.1.0)
-  - ZKFoundation/Categories (0.1.0)
-  - ZKFoundation/Helper (0.1.0)
-  - ZKFoundation/LocationManager (0.1.0)
-  - ZKFoundation/UIKit (0.1.0)
+  - ZKFoundation/AuthContext (0.1.0):
+    - ZKCategories
+  - ZKFoundation/Categories (0.1.0):
+    - ZKCategories
+  - ZKFoundation/Helper (0.1.0):
+    - ZKCategories
+  - ZKFoundation/LocationManager (0.1.0):
+    - ZKCategories
+  - ZKFoundation/UIKit (0.1.0):
+    - ZKCategories
 
 DEPENDENCIES:
   - Masonry
@@ -19,6 +26,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Masonry
+    - ZKCategories
 
 EXTERNAL SOURCES:
   ZKFoundation:
@@ -26,7 +34,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  ZKFoundation: c92917d3137f7b87df15feaf097ed1a056758f80
+  ZKCategories: c06fa15b5784f0d16399e83c640d5b90a27d61fb
+  ZKFoundation: 224fc5bb11f63196d93421954a3c6a22a2650818
 
 PODFILE CHECKSUM: 5d7ab6c1c4a090cdde891c46984b4771c27bd33d
 

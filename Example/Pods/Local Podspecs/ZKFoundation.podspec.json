@@ -20,6 +20,11 @@
   },
   "requires_arc": true,
   "source_files": "ZKFoundation/Classes/Source/*.{h,m}",
+  "dependencies": {
+    "ZKCategories": [
+
+    ]
+  },
   "subspecs": [
     {
       "name": "LocationManager",
