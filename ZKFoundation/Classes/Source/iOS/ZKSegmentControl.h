@@ -7,6 +7,9 @@
 
 #import <UIKit/UIKit.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol ZKSegmentControlDelegate <NSObject>
 
 @optional
@@ -14,7 +17,29 @@
 
 @end
 
-NS_ASSUME_NONNULL_BEGIN
+/**
+ e.g
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    [self.segmentView didBeginDraaWillBeginDragging:scrollView.contentOffset];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.segmentView didScrollViewDidScroll:scrollView];
+}
+
+- (void)didScrollSelectedIndex:(NSInteger)index {
+    if (self.contentScrollView.contentOffsetX != index * self.contentScrollView.width)
+        [self.contentScrollView scrollToHorizontalPageIndex:index animated:YES];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    [self.segmentView didScrollViewDidEndDecelerating:scrollView];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    [self.segmentView didScrollViewDidEndDragging:scrollView willDecelerate:decelerate];
+}
+*/
 
 @interface ZKSegmentControl : UIScrollView
 
@@ -25,6 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIColor *titleColor;
 /** 选中后默认显示颜色 **/
 @property (nonatomic, strong) UIColor *titleSelectedColor;
+/** 滑块颜色 **/
+@property (nonatomic, strong) UIColor *sliderColor;
 /** 底部线偏移 **/
 @property(nonatomic, assign) NSInteger lineOffsetY;
 /** 底部线高度 **/

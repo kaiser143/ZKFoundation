@@ -87,11 +87,11 @@ static CGFloat const kSpacing = 15;
     lineView.backgroundColor = [UIColor colorWithHexString:@"EAEBEC"];
     [self addSubview:_lineView = lineView];
 
-    if (!self.isSlider) {
+    if (self.isSlider) {
         //    滑块
         UIView *sliderView = [[UIView alloc] init];
         [self addSubview:sliderView];
-        sliderView.backgroundColor = [UIColor colorWithHexString:@"558FFF"];
+        sliderView.backgroundColor = self.sliderColor;
         self.sliderView            = sliderView;
 
         self.sliderView.width = kSiderWidth;
@@ -104,7 +104,7 @@ static CGFloat const kSpacing = 15;
                 self.sliderView.width = self.lineWidth;
         }
         self.sliderView.height = self.lineHeight;
-        self.sliderView.top      = self.height - self.lineHeight - self.lineOffsetY;
+        self.sliderView.top    = self.height - self.lineHeight - self.lineOffsetY;
         kai_view_radius(self.sliderView, self.sliderView.height / 2);
     }
 }
@@ -146,7 +146,7 @@ static CGFloat const kSpacing = 15;
 - (void)layoutSubviews {
     [super layoutSubviews];
     if (_isint) {
-        self.lineView.top      = self.height - self.lineView.height;
+        self.lineView.top    = self.height - self.lineView.height;
         self.lineView.hidden = self.isLine;
 
         //    按钮
@@ -161,23 +161,23 @@ static CGFloat const kSpacing = 15;
                     currentBtn = btn;
 
                 if (self.isFullof) {
-                    btn.left      = totalX;
-                    btn.top      = 1;
+                    btn.left   = totalX;
+                    btn.top    = 1;
                     btn.width  = self.width / self.titleArr.count;
                     btn.height = self.height;
 
                     totalX = totalX + btn.width;
                 } else {
                     CGRect btnRect = [btn.currentTitle boundingRectWithSize:CGSizeMake(MAXFLOAT, btnH) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:self.titleFontSize], NSFontAttributeName, nil] context:nil];
-                    btn.left          = totalX;
-                    btn.top          = 1;
+                    btn.left       = totalX;
+                    btn.top        = 1;
                     btn.width      = btnRect.size.width + kSpacing;
                     btn.height     = btnH;
 
                     if (self.isSlider) {
                         btn.width  = btnRect.size.width + 30;
                         btn.height = btnRect.size.height + 8;
-                        btn.top      = (btnH - btn.height) / 2;
+                        btn.top    = (btnH - btn.height) / 2;
 
                         if (self.isSlider)
                             kai_view_border_radius(btn, btn.height / 2, 0.5, btn.selected ? self.titleSelectedColor : self.titleColor);
