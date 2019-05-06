@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZKSegmentControl : UIScrollView
 
-@property (nonatomic, weak) id<ZKSegmentControlDelegate> delegate;
+@property (nonatomic, weak) id<ZKSegmentControlDelegate> kai_delegate;
 /** 当前选中下标 **/
 @property (nonatomic, assign) NSInteger currentIndex;
 /** 默认显示颜色 **/

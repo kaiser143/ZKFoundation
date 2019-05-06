@@ -238,8 +238,8 @@ static CGFloat const kSpacing = 15;
             self.sliderView.centerX = currentButton.centerX;
         }
         completion:^(BOOL finished) {
-            if ([self.delegate respondsToSelector:@selector(didScrollSelectedIndex:)])
-                [self.delegate didScrollSelectedIndex:self->_currentIndex];
+            if ([self.kai_delegate respondsToSelector:@selector(didScrollSelectedIndex:)])
+                [self.kai_delegate didScrollSelectedIndex:self->_currentIndex];
         }];
 }
 
@@ -323,8 +323,8 @@ static CGFloat const kSpacing = 15;
 
     [self titleViewDidEndScroll];
 
-    if ([self.delegate respondsToSelector:@selector(didScrollSelectedIndex:)])
-        [self.delegate didScrollSelectedIndex:self->_currentIndex];
+    if ([self.kai_delegate respondsToSelector:@selector(didScrollSelectedIndex:)])
+        [self.kai_delegate didScrollSelectedIndex:self->_currentIndex];
 }
 
 - (void)didScrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
