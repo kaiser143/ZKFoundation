@@ -141,48 +141,48 @@
 #pragma mark -
 #pragma mark :. Block事件
 
-- (void)autoHeightCell:(ZKTableHelperCellAutoHeightForRowBlock)cb {
-    self.cellAutoHeightForRowBlock = cb;
+- (void)autoHeightCell:(ZKTableHelperCellAutoHeightForRowBlock)block {
+    self.cellAutoHeightForRowBlock = block;
 }
 
-- (void)cellIdentifierForRowAtIndexPath:(ZKTableHelperCellIdentifierForRowBlock)cb {
-    self.cellIdentifierForRowAtIndexPathBlock = cb;
+- (void)cellIdentifierForRowAtIndexPath:(ZKTableHelperCellIdentifierForRowBlock)block {
+    self.cellIdentifierForRowAtIndexPathBlock = block;
 }
 
-- (void)didSelect:(ZKTableHelperDidSelectBlock)cb {
-    self.didSelectBlock = cb;
+- (void)didSelect:(ZKTableHelperDidSelectBlock)block {
+    self.didSelectBlock = block;
 }
 
-- (void)didDeSelect:(ZKTableHelperDidDeSelectBlock)cb {
-    self.didDeSelectBlock = cb;
+- (void)didDeSelect:(ZKTableHelperDidDeSelectBlock)block {
+    self.didDeSelectBlock = block;
 }
 
-- (void)didEditing:(ZKTableHelperDidEditingBlock)cb {
-    self.didEditingBlock = cb;
+- (void)didEditing:(ZKTableHelperDidEditingBlock)block {
+    self.didEditingBlock = block;
 }
 
-- (void)didEditTitle:(ZKTableHelperDidEditTitleBlock)cb {
-    self.didEditTileBlock = cb;
+- (void)didEditTitle:(ZKTableHelperDidEditTitleBlock)block {
+    self.didEditTileBlock = block;
 }
 
-- (void)canEditRow:(ZKTableHelperCanEditRowAtIndexPathBlock)cb {
-    self.canEditRow = cb;
+- (void)canEditRow:(ZKTableHelperCanEditRowAtIndexPathBlock)block {
+    self.canEditRow = block;
 }
 
-- (void)didEditingStyle:(ZKTableHelperEditingStyleBlock)cb {
-    self.didEditingStyle = cb;
+- (void)didEditingStyle:(ZKTableHelperEditingStyleBlock)block {
+    self.didEditingStyle = block;
 }
 
-- (void)didEditActions:(ZKTableHelperDidEditActionsBlock)cb {
-    self.didEditActionsBlock = cb;
+- (void)didEditActions:(ZKTableHelperDidEditActionsBlock)block {
+    self.didEditActionsBlock = block;
 }
 
-- (void)didMoveToRowBlock:(ZKTableHelperDidMoveToRowBlock)cb {
-    self.didMoveToRowBlock = cb;
+- (void)didMoveToRowBlock:(ZKTableHelperDidMoveToRowBlock)block {
+    self.didMoveToRowBlock = block;
 }
 
-- (void)cellWillDisplay:(ZKTableHelperDidWillDisplayBlock)cb {
-    self.didWillDisplayBlock = cb;
+- (void)cellWillDisplay:(ZKTableHelperDidWillDisplayBlock)block {
+    self.didWillDisplayBlock = block;
 }
 
 - (void)didScrollViewWillBeginDragging:(ZKScrollViewWillBeginDraggingBlock)block {
@@ -193,40 +193,40 @@
     self.scrollViewDicEndBlock = block;
 }
 
-- (void)headerView:(ZKTableHelperHeaderBlock)cb {
-    self.headerBlock = cb;
+- (void)headerView:(ZKTableHelperHeaderBlock)block {
+    self.headerBlock = block;
 }
 
-- (void)headerTitle:(ZKTableHelperTitleHeaderBlock)cb {
-    self.headerTitleBlock = cb;
+- (void)headerTitle:(ZKTableHelperTitleHeaderBlock)block {
+    self.headerTitleBlock = block;
 }
 
-- (void)footerView:(ZKTableHelperFooterBlock)cb {
-    self.footerBlock = cb;
+- (void)footerView:(ZKTableHelperFooterBlock)block {
+    self.footerBlock = block;
 }
 
-- (void)footerTitle:(ZKTableHelperTitleFooterBlock)cb {
-    self.footerTitleBlock = cb;
+- (void)footerTitle:(ZKTableHelperTitleFooterBlock)block {
+    self.footerTitleBlock = block;
 }
 
-- (void)numberOfSections:(ZKTableHelperNumberOfSectionsBlock)cb {
-    self.numberOfSections = cb;
+- (void)numberOfSections:(ZKTableHelperNumberOfSectionsBlock)block {
+    self.numberOfSections = block;
 }
 
-- (void)numberOfRowsInSection:(ZKTableHelperNumberRowsBlock)cb {
-    self.numberRow = cb;
+- (void)numberOfRowsInSection:(ZKTableHelperNumberRowsBlock)block {
+    self.numberRow = block;
 }
 
 - (void)didScrollViewDidScroll:(ZKScrollViewDidScrollBlock)block {
     self.scrollViewddBlock = block;
 }
 
-- (void)currentModelIndexPath:(ZKTableHelperCurrentModelAtIndexPathBlock)cb {
-    self.currentModelAtIndexPath = cb;
+- (void)currentModelIndexPath:(ZKTableHelperCurrentModelAtIndexPathBlock)block {
+    self.currentModelAtIndexPath = block;
 }
 
-- (void)didScrollViewDidEndScrolling:(ZKTableHelperScrollViewDidEndScrollingBlock)cb {
-    self.scrollViewDidEndScrolling = cb;
+- (void)didScrollViewDidEndScrolling:(ZKTableHelperScrollViewDidEndScrollingBlock)block {
+    self.scrollViewDidEndScrolling = block;
 }
 
 #pragma mark -
@@ -255,6 +255,7 @@
 }
 
 #pragma mark :. GourpsView
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     CGFloat height = self.titleHeaderHeight;
     if (self.headerBlock) {
@@ -578,6 +579,10 @@
         curCellIdentifier = self.cellIdentifier;
     }
     return curCellIdentifier;
+}
+
+- (NSString *)identifierForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [self _kai_cellIdentifierForRowAtIndexPath:indexPath model:[self currentModelAtIndexPath:indexPath]];
 }
 
 - (id)currentSectionModel:(NSInteger)section {

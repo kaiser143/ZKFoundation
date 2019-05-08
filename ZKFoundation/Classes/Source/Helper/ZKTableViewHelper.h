@@ -113,56 +113,56 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
 /*!
  *  @brief    计算高度
  */
-- (void)autoHeightCell:(ZKTableHelperCellAutoHeightForRowBlock)cb;
+- (void)autoHeightCell:(ZKTableHelperCellAutoHeightForRowBlock)block;
 
 /**
  *  When there are multiple cell, returned identifier in block
  */
-- (void)cellIdentifierForRowAtIndexPath:(ZKTableHelperCellIdentifierForRowBlock)cb;
+- (void)cellIdentifierForRowAtIndexPath:(ZKTableHelperCellIdentifierForRowBlock)block;
 
 /**
  *  If you override tableView:didSelectRowAtIndexPath: method, it will be invalid
  */
-- (void)didSelect:(ZKTableHelperDidSelectBlock)cb;
+- (void)didSelect:(ZKTableHelperDidSelectBlock)block;
 
 /**
  *  If you override tableView:didDeselectRowAtIndexPath: method, it will be invalid
  */
-- (void)didDeSelect:(ZKTableHelperDidDeSelectBlock)cb;
+- (void)didDeSelect:(ZKTableHelperDidDeSelectBlock)block;
 
 /*!
  *  @brief    是否可编辑
  */
-- (void)canEditRow:(ZKTableHelperCanEditRowAtIndexPathBlock)cb;
+- (void)canEditRow:(ZKTableHelperCanEditRowAtIndexPathBlock)block;
 
 /**
  *  @brief 编辑样式
  */
-- (void)didEditingStyle:(ZKTableHelperEditingStyleBlock)cb;
+- (void)didEditingStyle:(ZKTableHelperEditingStyleBlock)block;
 
 /**
  *  @brief  cell侧滑编辑事件
  */
-- (void)didEditing:(ZKTableHelperDidEditingBlock)cb;
+- (void)didEditing:(ZKTableHelperDidEditingBlock)block;
 /**
  *  @brief  cell侧滑标题
  */
-- (void)didEditTitle:(ZKTableHelperDidEditTitleBlock)cb;
+- (void)didEditTitle:(ZKTableHelperDidEditTitleBlock)block;
 
 /**
  *  @brief  cell侧滑菜单
  */
-- (void)didEditActions:(ZKTableHelperDidEditActionsBlock)cb;
+- (void)didEditActions:(ZKTableHelperDidEditActionsBlock)block;
 
 /**
  移动Cell
  */
-- (void)didMoveToRowBlock:(ZKTableHelperDidMoveToRowBlock)cb;
+- (void)didMoveToRowBlock:(ZKTableHelperDidMoveToRowBlock)block;
 
 /**
  *  @brief 设置Cell显示
  */
-- (void)cellWillDisplay:(ZKTableHelperDidWillDisplayBlock)cb;
+- (void)cellWillDisplay:(ZKTableHelperDidWillDisplayBlock)block;
 
 - (void)didScrollViewWillBeginDragging:(ZKScrollViewWillBeginDraggingBlock)block;
 - (void)didScrollViewDidScroll:(ZKScrollViewDidScrollBlock)block;
@@ -171,30 +171,30 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
 /**
  *  @brief  Header视图
  */
-- (void)headerView:(ZKTableHelperHeaderBlock)cb;
-- (void)headerTitle:(ZKTableHelperTitleHeaderBlock)cb;
+- (void)headerView:(ZKTableHelperHeaderBlock)block;
+- (void)headerTitle:(ZKTableHelperTitleHeaderBlock)block;
 
 /**
  *  @brief  Footer视图
  */
-- (void)footerView:(ZKTableHelperFooterBlock)cb;
-- (void)footerTitle:(ZKTableHelperTitleFooterBlock)cb;
+- (void)footerView:(ZKTableHelperFooterBlock)block;
+- (void)footerTitle:(ZKTableHelperTitleFooterBlock)block;
 
-- (void)numberOfSections:(ZKTableHelperNumberOfSectionsBlock)cb;
+- (void)numberOfSections:(ZKTableHelperNumberOfSectionsBlock)block;
 /**
  *  @brief  NumberOfRowsInSection
  */
-- (void)numberOfRowsInSection:(ZKTableHelperNumberRowsBlock)cb;
+- (void)numberOfRowsInSection:(ZKTableHelperNumberRowsBlock)block;
 
 /**
  *  @brief  处理获取当前模型
  */
-- (void)currentModelIndexPath:(ZKTableHelperCurrentModelAtIndexPathBlock)cb;
+- (void)currentModelIndexPath:(ZKTableHelperCurrentModelAtIndexPathBlock)block;
 
 /**
  滚动结束回调
  */
-- (void)didScrollViewDidEndScrolling:(ZKTableHelperScrollViewDidEndScrollingBlock)cb;
+- (void)didScrollViewDidEndScrolling:(ZKTableHelperScrollViewDidEndScrollingBlock)block;
 
 #pragma mark -
 #pragma mark :. Handler
@@ -210,10 +210,10 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
  重新加载该分组数据
  
  @param newDataAry 分组数据
- @param cSection 分组下标
+ @param section 分组下标
  */
 - (void)kai_reloadGroupDataAry:(NSArray *)newDataAry
-                    forSection:(NSInteger)cSection;
+                    forSection:(NSInteger)section;
 
 /**
  *  @brief  添加分组数据
@@ -226,28 +226,28 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
  *  @brief  插入分组数据
  *
  *  @param newDataAry 数据源
- *  @param cSection   下标
+ *  @param section   下标
  *                    如下标为-1 是往前插入
  */
 - (void)kai_insertGroupDataAry:(NSArray *)newDataAry
-                    forSection:(NSInteger)cSection;
+                    forSection:(NSInteger)section;
 
 /**
  *  @brief  插入多条分组数据
  *
  *  @param newDataAry 数据源
- *  @param cSection   下标
+ *  @param section   下标
  *                    如下标为-1 是往前插入
  */
 - (void)kai_insertMultiplGroupDataAry:(NSArray *)newDataAry
-                           forSection:(NSInteger)cSection;
+                           forSection:(NSInteger)section;
 
 /**
  删除分组数据
  
- @param cSection 分组下标
+ @param section 分组下标
  */
-- (void)kai_deleteGroupData:(NSInteger)cSection;
+- (void)kai_deleteGroupData:(NSInteger)section;
 
 #pragma mark -
 #pragma mark :. Plain
@@ -262,9 +262,9 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
  *  @brief  显示数据
  *
  *  @param newDataAry 数据源
- *  @param cSection   分组数
+ *  @param section   分组数
  */
-- (void)kai_resetDataAry:(NSArray *)newDataAry forSection:(NSInteger)cSection;
+- (void)kai_resetDataAry:(NSArray *)newDataAry forSection:(NSInteger)section;
 
 /**
  *  @brief  刷新并加入新数据
@@ -277,9 +277,9 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
  *  @brief  刷新并加入新数据
  *
  *  @param newDataAry 数据源
- *  @param cSection   分组数
+ *  @param section   分组数
  */
-- (void)kai_reloadDataAry:(NSArray *)newDataAry forSection:(NSInteger)cSection;
+- (void)kai_reloadDataAry:(NSArray *)newDataAry forSection:(NSInteger)section;
 
 /**
  *  @brief  批量添加数据
@@ -291,17 +291,17 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
  *  @brief  批量添加
  *
  *  @param newDataAry 数据源
- *  @param cSection   分组数
+ *  @param section   分组数
  */
-- (void)kai_addDataAry:(NSArray *)newDataAry forSection:(NSInteger)cSection;
+- (void)kai_addDataAry:(NSArray *)newDataAry forSection:(NSInteger)section;
 
 /**
  *  @brief  单个添加
  *
- *  @param cModel     数据模型
+ *  @param obj     数据模型
  *  @param cIndexPath 下标位置
  */
-- (void)kai_insertData:(id)cModel atIndex:(NSIndexPath *)cIndexPath;
+- (void)kai_insertData:(id)obj atIndex:(NSIndexPath *)cIndexPath;
 
 /**
  *  @brief 替换数据对象
@@ -325,6 +325,7 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
 - (void)kai_deleteDataAtIndexs:(NSArray<NSIndexPath *> *)indexPaths;
 
 
+- (NSString *)identifierForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (id)currentModel;
 - (id)currentModelAtIndexPath:(NSIndexPath *)cIndexPath;
 - (void)configureCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath withObjet:(id)obj;
