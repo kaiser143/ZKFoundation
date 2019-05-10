@@ -194,7 +194,7 @@ static CGFloat const kSpacing = 15;
             self.contentSize = CGSizeMake(totalX, 0);
         }
 
-        if (!self.isSlider) {
+        if (self.isSlider) {
             if (self.isFullof) {
                 NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObject:[UIFont systemFontOfSize:_titleFontSize] forKey:NSFontAttributeName];
                 CGSize textSize          = [currentBtn.currentTitle boundingRectWithSize:CGSizeMake(MAXFLOAT, 0.0) options:NSStringDrawingUsesLineFragmentOrigin attributes:dic context:nil].size;
@@ -301,7 +301,7 @@ static CGFloat const kSpacing = 15;
     //    CGFloat moveTotalW = targetLabel.frame.size.width - sourceLabel.frame.size.width;
 
     //计算滚动的范围差值
-    if (!self.isSlider) {
+    if (self.isSlider) {
         CGFloat x = sourceLabel.frame.origin.x + ((sourceLabel.frame.size.width - (self.isFullof ? self.sliderView.width : self.lineWidth)) / 2.0) + moveTotalX * progress;
         //        CGFloat width = self.lineWidth + moveTotalW * progress;
         self.sliderView.left = x;

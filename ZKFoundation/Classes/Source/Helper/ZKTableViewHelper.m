@@ -259,10 +259,10 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     CGFloat height = self.titleHeaderHeight;
     if (self.headerBlock) {
-        UIView *headerView = [tableView headerViewForSection:section];
+        UIView *headerView = self.headerBlock(tableView, section, [self currentSectionModel:section]);
         if (headerView) {
-            if ([headerView systemLayoutSizeFitting].height > height)
-                height = [headerView systemLayoutSizeFitting].height;
+            if ([headerView systemFittingSize].height > height)
+                height = [headerView systemFittingSize].height;
         }
 
         if (section > 0)
@@ -295,10 +295,10 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     CGFloat height = self.titleFooterHeight;
     if (self.footerBlock) {
-        UIView *footerView = [tableView footerViewForSection:section];
+        UIView *footerView = self.footerBlock(tableView, section, [self currentSectionModel:section]);
         if (footerView) {
-            if ([footerView systemLayoutSizeFitting].height > height)
-                height = [footerView systemLayoutSizeFitting].height;
+            if ([footerView systemFittingSize].height > height)
+                height = [footerView systemFittingSize].height;
         }
 
         if (section > 0)

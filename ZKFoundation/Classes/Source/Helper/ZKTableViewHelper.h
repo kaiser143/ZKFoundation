@@ -29,8 +29,8 @@ typedef void (^ZKScrollViewWillBeginDraggingBlock)(UIScrollView *scrollView);
 typedef void (^ZKScrollViewDidScrollBlock)(UIScrollView *scrollView);
 typedef void (^ZKScrollViewDidEndDraggingBlock)(UIScrollView *scrollView);
 
-typedef UIView *_Nullable (^ZKTableHelperHeaderBlock)(UITableView *tableView, NSInteger section, id dataSource);
-typedef UIView *_Nullable (^ZKTableHelperFooterBlock)(UITableView *tableView, NSInteger section, id dataSource);
+typedef __kindof UITableViewHeaderFooterView *_Nullable (^ZKTableHelperHeaderBlock)(UITableView *tableView, NSInteger section, id dataSource);
+typedef __kindof UITableViewHeaderFooterView *_Nullable (^ZKTableHelperFooterBlock)(UITableView *tableView, NSInteger section, id dataSource);
 
 typedef NSString *_Nullable (^ZKTableHelperTitleHeaderBlock)(UITableView *tableView, NSInteger section);
 typedef NSString *_Nullable (^ZKTableHelperTitleFooterBlock)(UITableView *tableView, NSInteger section);

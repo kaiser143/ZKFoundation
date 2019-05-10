@@ -10,7 +10,7 @@
 
 @implementation UIView (Helper)
 
-- (CGSize)systemLayoutSizeFitting {
+- (CGSize)systemFittingSize {
     CGFloat contentViewWidth = CGRectGetWidth(self.frame);
     
     CGSize viewSize = CGSizeMake(contentViewWidth, 0);
