@@ -113,7 +113,7 @@
         contentSize = self.referenceHeaderSize(collectionView, collectionViewLayout, section, curModel);
     } else if (CGSizeEqualToSize(contentSize, CGSizeMake(0, 0))) {
         if (@available(iOS 9.0, *)) {
-            contentSize = [[collectionView supplementaryViewForElementKind:UICollectionElementKindSectionHeader atIndexPath:indexPath] systemFittingSize];
+            contentSize = [[collectionView supplementaryViewForElementKind:UICollectionElementKindSectionHeader atIndexPath:indexPath] systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
         }
     }
     return contentSize;
@@ -127,7 +127,7 @@
         contentSize = self.referenceFooterSize(collectionView, collectionViewLayout, section, curModel);
     } else if (CGSizeEqualToSize(contentSize, CGSizeMake(0, 0))) {
         if (@available(iOS 9.0, *)) {
-            contentSize = [[collectionView supplementaryViewForElementKind:UICollectionElementKindSectionFooter atIndexPath:indexPath] systemFittingSize];
+            contentSize = [[collectionView supplementaryViewForElementKind:UICollectionElementKindSectionFooter atIndexPath:indexPath] systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
         }
     }
     return contentSize;

@@ -9,9 +9,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UIView (ZKHelper)
+@interface UITableViewHeaderFooterView (ZKHelper)
 
-- (CGSize)systemFittingSize;
+@property (nonatomic, assign, readonly) CGFloat systemFittingHeightForHeaderFooterView;
 
 @end
 

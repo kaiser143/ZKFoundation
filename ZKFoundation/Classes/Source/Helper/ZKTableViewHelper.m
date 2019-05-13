@@ -98,9 +98,19 @@
             else
                 [self.kai_tableView registerClass:NSClassFromString(obj) forCellReuseIdentifier:obj];
         }];
-        if (nibs.count == 1) {
-            self.cellIdentifier = nibs[ 0 ];
-        }
+        if (nibs.count == 1) self.cellIdentifier = nibs.firstObject;
+    }
+}
+
+- (void)registerHeaderFooterViewNibs:(NSArray<NSString *> *)nibs {
+    if (nibs.count > 0) {
+        [nibs enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+            if (self.kai_cellXIB && [[self.kai_cellXIB objectAtIndex:idx] boolValue])
+                [self.kai_tableView registerNib:[UINib nibWithNibName:obj bundle:nil] forHeaderFooterViewReuseIdentifier:obj];
+            else
+                [self.kai_tableView registerClass:NSClassFromString(obj) forHeaderFooterViewReuseIdentifier:obj];
+        }];
+        if (nibs.count == 1) self.headerFooterIdentifier = nibs.firstObject;
     }
 }
 
@@ -259,10 +269,10 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     CGFloat height = self.titleHeaderHeight;
     if (self.headerBlock) {
-        UIView *headerView = self.headerBlock(tableView, section, [self currentSectionModel:section]);
-        if (headerView) {
-            if ([headerView systemFittingSize].height > height)
-                height = [headerView systemFittingSize].height;
+        UITableViewHeaderFooterView *headerView = self.headerBlock(tableView, section, [self currentSectionModel:section]);
+        CGFloat fittingHeight;
+        if (headerView && (fittingHeight = headerView.systemFittingHeightForHeaderFooterView) > height) {
+            height = fittingHeight;
         }
 
         if (section > 0)
@@ -295,10 +305,10 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     CGFloat height = self.titleFooterHeight;
     if (self.footerBlock) {
-        UIView *footerView = self.footerBlock(tableView, section, [self currentSectionModel:section]);
-        if (footerView) {
-            if ([footerView systemFittingSize].height > height)
-                height = [footerView systemFittingSize].height;
+        UITableViewHeaderFooterView *footerView = self.footerBlock(tableView, section, [self currentSectionModel:section]);
+        CGFloat fittingHeight;
+        if (footerView && (fittingHeight = footerView.systemFittingHeightForHeaderFooterView) > height) {
+            height = fittingHeight;
         }
 
         if (section > 0)

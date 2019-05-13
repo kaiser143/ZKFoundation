@@ -93,6 +93,7 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
  *  When using the storyboard and a single cell, set the property inspector same identifier
  */
 @property (nullable, nonatomic, copy) NSString *cellIdentifier;
+@property (nullable, nonatomic, copy) NSString *headerFooterIdentifier;
 
 @property (nonatomic, strong) NSArray *kai_cellXIB;
 
@@ -103,6 +104,7 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
  *  When using xib, all incoming nib names
  */
 - (void)registerNibs:(NSArray<NSString *> *)nibs;
+- (void)registerHeaderFooterViewNibs:(NSArray<NSString *> *)nibs;
 
 - (UITableViewHeaderFooterView *)tableViewSectionViewWithIdentifier:(NSString *)identifier
                                                             section:(NSInteger)section;
