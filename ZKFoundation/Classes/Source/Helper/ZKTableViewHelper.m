@@ -6,7 +6,7 @@
 //
 
 #import "ZKTableViewHelper.h"
-#import "UIView+ZKHelper.h"
+#import "UITableViewHeaderFooterView+ZKHelper.h"
 #import "UITableView+ZKHelper.h"
 #import "ZKTableViewHelperInjectionDelegate.h"
 

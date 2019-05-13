@@ -16,7 +16,7 @@
 #import <ZKFoundation/ZKAuthContext.h>
 #import <ZKFoundation/UICollectionView+ZKHelper.h>
 #import <ZKFoundation/UITableView+ZKHelper.h>
-#import <ZKFoundation/UIView+ZKHelper.h>
+#import <ZKFoundation/UITableViewHeaderFooterView+ZKHelper.h>
 #import <ZKFoundation/ZKCollectionViewHelper.h>
 #import <ZKFoundation/ZKTableViewHelper.h>
 #import <ZKFoundation/ZKTableViewHelperInjectionDelegate.h>
@@ -33,6 +33,7 @@
 #import <ZKFoundation/ZKPopupController.h>
 #import <ZKFoundation/ZKLoadingSpinner.h>
 #import <ZKFoundation/ZKSegmentControl.h>
+#import <ZKFoundation/ZKURLResponse.h>
 
 #else
 
@@ -42,7 +43,7 @@
 #import "ZKAuthContext.h"
 #import "UICollectionView+ZKHelper.h"
 #import "UITableView+ZKHelper.h"
-#import "UIView+ZKHelper.h"
+#import "UITableViewHeaderFooterView+ZKHelper.h"
 #import "ZKCollectionViewHelper.h"
 #import "ZKTableViewHelper.h"
 #import "ZKTableViewHelperInjectionDelegate.h"
@@ -59,6 +60,7 @@
 #import "ZKPopupController.h"
 #import "ZKLoadingSpinner.h"
 #import "ZKSegmentControl.h"
+#import "ZKURLResponse.h"
 
 #endif /* __has_include*/
 

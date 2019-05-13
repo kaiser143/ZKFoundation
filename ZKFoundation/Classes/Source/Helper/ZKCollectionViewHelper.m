@@ -6,7 +6,7 @@
 //
 
 #import "ZKCollectionViewHelper.h"
-#import "UIView+ZKHelper.h"
+#import "UITableViewHeaderFooterView+ZKHelper.h"
 
 @interface ZKCollectionViewHelper ()
 

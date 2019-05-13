@@ -301,35 +301,35 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
  *  @brief  单个添加
  *
  *  @param obj     数据模型
- *  @param cIndexPath 下标位置
+ *  @param indexPath 下标位置
  */
-- (void)kai_insertData:(id)obj atIndex:(NSIndexPath *)cIndexPath;
+- (void)kai_insertData:(id)obj atIndex:(NSIndexPath *)indexPath;
 
 /**
  *  @brief 替换数据对象
  *
  *  @param model      对象
- *  @param cIndexPath 下标位置
+ *  @param indexPath 下标位置
  */
 - (void)kai_replaceDataAtIndex:(id)model
-                  forIndexPath:(NSIndexPath *)cIndexPath;
+                  forIndexPath:(NSIndexPath *)indexPath;
 
 - (void)kai_replaceDataAtIndex:(id)model
-                  forIndexPath:(NSIndexPath *)cIndexPath
+                  forIndexPath:(NSIndexPath *)indexPath
               withRowAnimation:(UITableViewRowAnimation)animated;
 
 /**
  *  @brief  根据下标删除数据
  *
- *  @param cIndexPath 下标位置
+ *  @param indexPath 下标位置
  */
-- (void)kai_deleteDataAtIndex:(NSIndexPath *)cIndexPath;
+- (void)kai_deleteDataAtIndex:(NSIndexPath *)indexPath;
 - (void)kai_deleteDataAtIndexs:(NSArray<NSIndexPath *> *)indexPaths;
 
 
 - (NSString *)identifierForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (id)currentModel;
-- (id)currentModelAtIndexPath:(NSIndexPath *)cIndexPath;
+- (id)currentModelAtIndexPath:(NSIndexPath *)indexPath;
 - (void)configureCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath withObjet:(id)obj;
 
 @end

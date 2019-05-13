@@ -1,11 +1,11 @@
 //
-//  UIView+Foundation.m
+//  UITableViewHeaderFooterView+Foundation.m
 //  FBSnapshotTestCase
 //
 //  Created by Kaiser on 2019/3/12.
 //
 
-#import "UIView+ZKHelper.h"
+#import "UITableViewHeaderFooterView+ZKHelper.h"
 #import <objc/runtime.h>
 #import "ZKCategories.h"
 

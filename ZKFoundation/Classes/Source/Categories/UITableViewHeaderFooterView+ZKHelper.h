@@ -1,5 +1,5 @@
 //
-//  UIView+Foundation.h
+//  UITableViewHeaderFooterView+Foundation.h
 //  FBSnapshotTestCase
 //
 //  Created by Kaiser on 2019/3/12.
