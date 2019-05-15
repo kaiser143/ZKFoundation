@@ -79,6 +79,16 @@
 
 #pragma mark -
 #pragma mark :. getset
+
+- (BOOL)allowsMultipleSelectionDuringEditing {
+    return self.kai_tableView.allowsMultipleSelectionDuringEditing;
+}
+
+- (void)setAllowsMultipleSelectionDuringEditing:(BOOL)allowsMultipleSelectionDuringEditing {
+    self.kai_tableView.allowsMultipleSelectionDuringEditing = allowsMultipleSelectionDuringEditing;
+    self.kai_tableView.editing = allowsMultipleSelectionDuringEditing;
+}
+
 - (NSString *)cellIdentifier {
     if (_cellIdentifier == nil) {
         NSString *curVCIdentifier = nil;
@@ -367,7 +377,7 @@
 #pragma mark :. delegate
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    BOOL edit = NO;
+    BOOL edit = tableView.editing;
     if (self.canEditRow) {
         edit = self.canEditRow([self currentModelAtIndexPath:indexPath], indexPath);
     }
@@ -437,7 +447,7 @@
 
     NSAssert(cell, @"cell is nil Identifier ⤭ %@ ⤪", curCellIdentifier);
 
-    [self configureCell:cell forIndexPath:indexPath withObjet:curModel];
+    [self configureCell:cell forIndexPath:indexPath withObject:curModel];
 
     return cell;
 }
@@ -581,18 +591,14 @@
 
 #pragma mark :. Handler
 
-- (NSString *)_kai_cellIdentifierForRowAtIndexPath:(NSIndexPath *)cIndexPath model:(id)cModel {
+- (NSString *)_kai_cellIdentifierForRowAtIndexPath:(NSIndexPath *)indexPath model:(id)model {
     NSString *curCellIdentifier = nil;
     if (self.cellIdentifierForRowAtIndexPathBlock) {
-        curCellIdentifier = self.cellIdentifierForRowAtIndexPathBlock(cIndexPath, cModel);
+        curCellIdentifier = self.cellIdentifierForRowAtIndexPathBlock(indexPath, model);
     } else {
         curCellIdentifier = self.cellIdentifier;
     }
     return curCellIdentifier;
-}
-
-- (NSString *)identifierForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [self _kai_cellIdentifierForRowAtIndexPath:indexPath model:[self currentModelAtIndexPath:indexPath]];
 }
 
 - (id)currentSectionModel:(NSInteger)section {
@@ -605,24 +611,37 @@
     return currentModel;
 }
 
+- (NSArray *)modelsForSelectedRows {
+    NSArray<NSIndexPath *> *indexPaths = [self.kai_tableView indexPathsForSelectedRows];
+    if (indexPaths.count == 0) return nil;
+    
+    NSMutableArray *result = NSMutableArray.new;
+    for (NSIndexPath *each in indexPaths) {
+        id obj = [self currentModelAtIndexPath:each];
+        [result addObject:obj];
+    }
+    
+    return result;
+}
+
 - (id)currentModel {
     return [self currentModelAtIndexPath:self.kai_indexPath];
 }
 
-- (id)currentModelAtIndexPath:(NSIndexPath *)cIndexPath {
+- (id)currentModelAtIndexPath:(NSIndexPath *)indexPath {
     if (self.currentModelAtIndexPath) {
-        return self.currentModelAtIndexPath(self.dataArray, cIndexPath);
-    } else if (self.dataArray.count > cIndexPath.section) {
-        NSMutableArray *subDataAry = self.dataArray[ cIndexPath.section ];
-        if (subDataAry.count > cIndexPath.row) {
-            id curModel = subDataAry[ cIndexPath.row ];
+        return self.currentModelAtIndexPath(self.dataArray, indexPath);
+    } else if (self.dataArray.count > indexPath.section) {
+        NSMutableArray *subDataAry = self.dataArray[ indexPath.section ];
+        if (subDataAry.count > indexPath.row) {
+            id curModel = subDataAry[ indexPath.row ];
             return curModel;
         }
     }
     return nil;
 }
 
-- (void)configureCell:(UITableViewCell<ZKTableViewHelperInjectionDelegate> *)cell forIndexPath:(NSIndexPath *)indexPath withObjet:(id)obj {
+- (void)configureCell:(UITableViewCell<ZKTableViewHelperInjectionDelegate> *)cell forIndexPath:(NSIndexPath *)indexPath withObject:(id)obj {
     if ([cell respondsToSelector:@selector(bindViewModel:forIndexPath:)]) {
         [cell bindViewModel:obj forIndexPath:indexPath];
     }
@@ -648,17 +667,17 @@
 }
 
 - (void)kai_reloadGroupDataAry:(NSArray *)newDataAry
-                    forSection:(NSInteger)cSection {
+                    forSection:(NSInteger)section {
     if (newDataAry.count == 0)
         return;
 
-    NSMutableArray *subAry = self.dataArray[ cSection ];
+    NSMutableArray *subAry = self.dataArray[ section ];
     if (subAry.count)
         [subAry removeAllObjects];
     [subAry addObjectsFromArray:newDataAry];
 
     [self.kai_tableView beginUpdates];
-    [self.kai_tableView reloadSections:[NSIndexSet indexSetWithIndex:cSection] withRowAnimation:UITableViewRowAnimationNone];
+    [self.kai_tableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationNone];
     [self.kai_tableView endUpdates];
 }
 
@@ -668,23 +687,23 @@
 }
 
 - (void)kai_insertGroupDataAry:(NSArray *)newDataAry
-                    forSection:(NSInteger)cSection {
-    [self.dataArray insertObject:[NSMutableArray arrayWithArray:newDataAry] atIndex:cSection == -1 ? 0 : cSection];
+                    forSection:(NSInteger)section {
+    [self.dataArray insertObject:[NSMutableArray arrayWithArray:newDataAry] atIndex:section == -1 ? 0 : section];
     [self.kai_tableView reloadData];
 }
 
 - (void)kai_insertMultiplGroupDataAry:(NSArray *)newDataAry
-                           forSection:(NSInteger)cSection {
+                           forSection:(NSInteger)section {
     NSMutableArray *idxArray = [NSMutableArray array];
-    if (cSection < 0) {
+    if (section < 0) {
         for (NSInteger i = 0; i < newDataAry.count; i++) {
             [self.dataArray insertObject:[NSMutableArray array] atIndex:0];
             [idxArray addObject:@(i)];
         }
     } else {
         for (NSInteger i = 0; i < newDataAry.count; i++) {
-            [self.dataArray insertObject:[NSMutableArray array] atIndex:cSection + i];
-            [idxArray addObject:@(cSection + i)];
+            [self.dataArray insertObject:[NSMutableArray array] atIndex:section + i];
+            [idxArray addObject:@(section + i)];
         }
     }
 
@@ -703,13 +722,13 @@
     [self.kai_tableView reloadData];
 }
 
-- (void)kai_deleteGroupData:(NSInteger)cSection {
-    NSMutableArray *subAry = self.dataArray[ cSection ];
+- (void)kai_deleteGroupData:(NSInteger)section {
+    NSMutableArray *subAry = self.dataArray[ section ];
     if (subAry.count)
         [subAry removeAllObjects];
 
     [self.kai_tableView beginUpdates];
-    [self.kai_tableView deleteSections:[NSIndexSet indexSetWithIndex:cSection] withRowAnimation:UITableViewRowAnimationNone];
+    [self.kai_tableView deleteSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationNone];
     [self.kai_tableView endUpdates];
 }
 
@@ -721,9 +740,9 @@
     [self kai_resetDataAry:newDataAry forSection:0];
 }
 
-- (void)kai_resetDataAry:(NSArray *)newDataAry forSection:(NSInteger)cSection {
-    [self kai_makeUpDataAryForSection:cSection];
-    NSMutableArray *subAry = self.dataArray[ cSection ];
+- (void)kai_resetDataAry:(NSArray *)newDataAry forSection:(NSInteger)section {
+    [self kai_makeUpDataAryForSection:section];
+    NSMutableArray *subAry = self.dataArray[ section ];
     if (subAry.count)
         [subAry removeAllObjects];
     if (newDataAry.count) {
@@ -737,12 +756,12 @@
     [self kai_reloadDataAry:newDataAry forSection:0];
 }
 
-- (void)kai_reloadDataAry:(NSArray *)newDataAry forSection:(NSInteger)cSection {
+- (void)kai_reloadDataAry:(NSArray *)newDataAry forSection:(NSInteger)section {
     if (newDataAry.count == 0)
         return;
 
-    NSIndexSet *curIndexSet = [self kai_makeUpDataAryForSection:cSection];
-    NSMutableArray *subAry  = self.dataArray[ cSection ];
+    NSIndexSet *curIndexSet = [self kai_makeUpDataAryForSection:section];
+    NSMutableArray *subAry  = self.dataArray[ section ];
     if (subAry.count)
         [subAry removeAllObjects];
     [subAry addObjectsFromArray:newDataAry];
@@ -751,7 +770,7 @@
     if (curIndexSet) {
         [self.kai_tableView insertSections:curIndexSet withRowAnimation:UITableViewRowAnimationAutomatic];
     } else {
-        [self.kai_tableView reloadSections:[NSIndexSet indexSetWithIndex:cSection] withRowAnimation:UITableViewRowAnimationNone];
+        [self.kai_tableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationNone];
     }
     [self.kai_tableView endUpdates];
 }
@@ -760,16 +779,16 @@
     [self kai_addDataAry:newDataAry forSection:0];
 }
 
-- (void)kai_addDataAry:(NSArray *)newDataAry forSection:(NSInteger)cSection {
+- (void)kai_addDataAry:(NSArray *)newDataAry forSection:(NSInteger)section {
     if (newDataAry.count == 0)
         return;
 
-    NSIndexSet *curIndexSet = [self kai_makeUpDataAryForSection:cSection];
+    NSIndexSet *curIndexSet = [self kai_makeUpDataAryForSection:section];
     NSMutableArray *subAry;
-    if (cSection < 0) {
+    if (section < 0) {
         subAry = self.dataArray[ 0 ];
     } else
-        subAry = self.dataArray[ cSection ];
+        subAry = self.dataArray[ section ];
 
     if (curIndexSet) {
         [subAry addObjectsFromArray:newDataAry];
@@ -779,7 +798,7 @@
     } else {
         __block NSMutableArray *curIndexPaths = [NSMutableArray arrayWithCapacity:newDataAry.count];
         [newDataAry enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-            [curIndexPaths addObject:[NSIndexPath indexPathForRow:subAry.count + idx inSection:cSection]];
+            [curIndexPaths addObject:[NSIndexPath indexPathForRow:subAry.count + idx inSection:section]];
         }];
         [subAry addObjectsFromArray:newDataAry];
         [self.kai_tableView beginUpdates];
@@ -788,25 +807,25 @@
     }
 }
 
-- (void)kai_insertData:(id)cModel atIndex:(NSIndexPath *)cIndexPath;
+- (void)kai_insertData:(id)model atIndex:(NSIndexPath *)indexPath;
 {
-    NSIndexSet *curIndexSet = [self kai_makeUpDataAryForSection:cIndexPath.section];
-    NSMutableArray *subAry  = self.dataArray[ cIndexPath.section ];
-    if (subAry.count < cIndexPath.row)
+    NSIndexSet *curIndexSet = [self kai_makeUpDataAryForSection:indexPath.section];
+    NSMutableArray *subAry  = self.dataArray[ indexPath.section ];
+    if (subAry.count < indexPath.row)
         return;
-    [subAry insertObject:cModel atIndex:cIndexPath.row];
+    [subAry insertObject:model atIndex:indexPath.row];
 
     [self.kai_tableView beginUpdates];
     if (curIndexSet) {
         [self.kai_tableView insertSections:curIndexSet withRowAnimation:UITableViewRowAnimationAutomatic];
     } else {
-        [self.kai_tableView insertRowsAtIndexPaths:@[cIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.kai_tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     [self.kai_tableView endUpdates];
 }
 
-- (void)kai_deleteDataAtIndex:(NSIndexPath *)cIndexPath {
-    [self kai_deleteDataAtIndexs:@[cIndexPath]];
+- (void)kai_deleteDataAtIndex:(NSIndexPath *)indexPath {
+    [self kai_deleteDataAtIndexs:@[indexPath]];
 }
 
 - (void)kai_deleteDataAtIndexs:(NSArray *)indexPaths {
@@ -834,35 +853,35 @@
 }
 
 - (void)kai_replaceDataAtIndex:(id)model
-                  forIndexPath:(NSIndexPath *)cIndexPath {
-    [self kai_replaceDataAtIndex:model forIndexPath:cIndexPath withRowAnimation:UITableViewRowAnimationAutomatic];
+                  forIndexPath:(NSIndexPath *)indexPath {
+    [self kai_replaceDataAtIndex:model forIndexPath:indexPath withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void)kai_replaceDataAtIndex:(id)model
-                  forIndexPath:(NSIndexPath *)cIndexPath
+                  forIndexPath:(NSIndexPath *)indexPath
               withRowAnimation:(UITableViewRowAnimation)animated {
-    if (self.dataArray.count > cIndexPath.section) {
-        NSMutableArray *subDataAry = self.dataArray[ cIndexPath.section ];
-        if (subDataAry.count > cIndexPath.row) {
-            [subDataAry replaceObjectAtIndex:cIndexPath.row withObject:model];
-            [self.kai_tableView reloadRowsAtIndexPaths:@[cIndexPath] withRowAnimation:animated];
+    if (self.dataArray.count > indexPath.section) {
+        NSMutableArray *subDataAry = self.dataArray[ indexPath.section ];
+        if (subDataAry.count > indexPath.row) {
+            [subDataAry replaceObjectAtIndex:indexPath.row withObject:model];
+            [self.kai_tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:animated];
         }
     }
 }
 
-- (NSIndexSet *)kai_makeUpDataAryForSection:(NSInteger)cSection {
+- (NSIndexSet *)kai_makeUpDataAryForSection:(NSInteger)section {
     NSMutableIndexSet *curIndexSet = nil;
-    if (self.dataArray.count <= cSection) {
+    if (self.dataArray.count <= section) {
         curIndexSet = [NSMutableIndexSet indexSet];
-        for (NSInteger idx = 0; idx < (cSection - self.dataArray.count + 1); idx++) {
+        for (NSInteger idx = 0; idx < (section - self.dataArray.count + 1); idx++) {
             NSMutableArray *subAry = [NSMutableArray array];
-            if (cSection < 0) {
+            if (section < 0) {
                 [self.dataArray insertObject:subAry atIndex:0];
                 [curIndexSet addIndex:0];
                 break;
             } else {
                 [self.dataArray addObject:subAry];
-                [curIndexSet addIndex:cSection - idx];
+                [curIndexSet addIndex:section - idx];
             }
         }
     }

@@ -89,6 +89,8 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
  */
 @property (nonatomic, assign) BOOL isHover;
 
+@property (nonatomic) BOOL allowsMultipleSelectionDuringEditing NS_AVAILABLE_IOS(5_0);
+
 /**
  *  When using the storyboard and a single cell, set the property inspector same identifier
  */
@@ -326,11 +328,10 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
 - (void)kai_deleteDataAtIndex:(NSIndexPath *)indexPath;
 - (void)kai_deleteDataAtIndexs:(NSArray<NSIndexPath *> *)indexPaths;
 
-
-- (NSString *)identifierForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (nullable NSArray *)modelsForSelectedRows;
 - (id)currentModel;
 - (id)currentModelAtIndexPath:(NSIndexPath *)indexPath;
-- (void)configureCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath withObjet:(id)obj;
+- (void)configureCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath withObject:(id)obj;
 
 @end
 
