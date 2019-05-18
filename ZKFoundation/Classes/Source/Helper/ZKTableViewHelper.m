@@ -77,29 +77,6 @@
     self.titleFooterHeight = 0.1;
 }
 
-#pragma mark -
-#pragma mark :. getset
-
-- (BOOL)allowsMultipleSelectionDuringEditing {
-    return self.kai_tableView.allowsMultipleSelectionDuringEditing;
-}
-
-- (void)setAllowsMultipleSelectionDuringEditing:(BOOL)allowsMultipleSelectionDuringEditing {
-    self.kai_tableView.allowsMultipleSelectionDuringEditing = allowsMultipleSelectionDuringEditing;
-    self.kai_tableView.editing = allowsMultipleSelectionDuringEditing;
-}
-
-- (NSString *)cellIdentifier {
-    if (_cellIdentifier == nil) {
-        NSString *curVCIdentifier = nil;
-        if (curVCIdentifier) {
-            NSString *curCellIdentifier = [NSString stringWithFormat:@"KAI%@Cell", curVCIdentifier];
-            _cellIdentifier             = curCellIdentifier;
-        }
-    }
-    return _cellIdentifier;
-}
-
 - (void)registerNibs:(NSArray<NSString *> *)nibs {
     if (nibs.count > 0) {
         [nibs enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
@@ -122,40 +99,6 @@
         }];
         if (nibs.count == 1) self.headerFooterIdentifier = nibs.firstObject;
     }
-}
-
-- (NSMutableArray *)dataSource {
-    NSMutableArray *array = [NSMutableArray array];
-    if (self.dataArray.count > 1)
-        array = self.dataArray;
-    else
-        array = self.dataArray.firstObject;
-
-    return array;
-}
-
-- (NSArray *)sectionIndexTitles {
-    if (!_sectionIndexTitles) {
-        NSMutableArray *sectionIndex = [NSMutableArray array];
-        if (self.kai_tableView.tableHeaderView && [self.kai_tableView.tableHeaderView isKindOfClass:[UISearchBar class]]) {
-            self.searchBar = (UISearchBar *)self.kai_tableView.tableHeaderView;
-            [sectionIndex addObject:UITableViewIndexSearch];
-        }
-
-        if (self.sectionIndexTitle)
-            [sectionIndex addObjectsFromArray:self.sectionIndexTitle];
-        else
-            [sectionIndex addObjectsFromArray:[UILocalizedIndexedCollation.currentCollation sectionIndexTitles]];
-        _sectionIndexTitles = sectionIndex;
-    }
-    return _sectionIndexTitles;
-}
-
-- (UILocalizedIndexedCollation *)theCollation {
-    if (!_theCollation) {
-        _theCollation = [UILocalizedIndexedCollation currentCollation];
-    }
-    return _theCollation;
 }
 
 #pragma mark -
@@ -531,7 +474,7 @@
         self.scrollViewDidEndScrolling(scrollView);
 }
 
-#pragma mark :. handle
+#pragma mark - :. public methods
 
 //section 头部,为了iOS6的美化
 - (UIView *)tableViewSectionView:(UITableView *)tableView section:(NSInteger)section {
@@ -732,9 +675,6 @@
     [self.kai_tableView endUpdates];
 }
 
-#pragma mark -
-#pragma mark :. Plain
-
 - (void)kai_resetDataAry:(NSArray *)newDataAry {
     self.dataArray = nil;
     [self kai_resetDataAry:newDataAry forSection:0];
@@ -888,6 +828,8 @@
     return curIndexSet;
 }
 
+#pragma mark - :. getters and setters
+
 - (NSMutableArray<NSMutableArray *> *)dataArray {
     if (!_dataArray) {
         _dataArray = NSMutableArray.new;
@@ -895,6 +837,65 @@
     return _dataArray;
 }
 
+- (NSMutableArray *)dataSource {
+    NSMutableArray *array = [NSMutableArray array];
+    if (self.dataArray.count > 1)
+        array = self.dataArray;
+    else
+        array = self.dataArray.firstObject;
+    
+    return array;
+}
+
+- (NSArray *)sectionIndexTitles {
+    if (!_sectionIndexTitles) {
+        NSMutableArray *sectionIndex = [NSMutableArray array];
+        if (self.kai_tableView.tableHeaderView && [self.kai_tableView.tableHeaderView isKindOfClass:[UISearchBar class]]) {
+            self.searchBar = (UISearchBar *)self.kai_tableView.tableHeaderView;
+            [sectionIndex addObject:UITableViewIndexSearch];
+        }
+        
+        if (self.sectionIndexTitle)
+            [sectionIndex addObjectsFromArray:self.sectionIndexTitle];
+        else
+            [sectionIndex addObjectsFromArray:[UILocalizedIndexedCollation.currentCollation sectionIndexTitles]];
+        _sectionIndexTitles = sectionIndex;
+    }
+    return _sectionIndexTitles;
+}
+
+- (void)setSectionIndexTitle:(NSArray *)sectionIndexTitle {
+    _sectionIndexTitle = sectionIndexTitle;
+    _sectionIndexTitles = nil;
+    if (sectionIndexTitle.count != 0 && _titleHeaderHeight < 0.2) _titleHeaderHeight = 30.f;
+}
+
+- (UILocalizedIndexedCollation *)theCollation {
+    if (!_theCollation) {
+        _theCollation = [UILocalizedIndexedCollation currentCollation];
+    }
+    return _theCollation;
+}
+
+- (BOOL)allowsMultipleSelectionDuringEditing {
+    return self.kai_tableView.allowsMultipleSelectionDuringEditing;
+}
+
+- (void)setAllowsMultipleSelectionDuringEditing:(BOOL)allowsMultipleSelectionDuringEditing {
+    self.kai_tableView.editing = allowsMultipleSelectionDuringEditing;
+    self.kai_tableView.allowsMultipleSelectionDuringEditing = allowsMultipleSelectionDuringEditing;
+}
+
+- (NSString *)cellIdentifier {
+    if (_cellIdentifier == nil) {
+        NSString *curVCIdentifier = nil;
+        if (curVCIdentifier) {
+            NSString *curCellIdentifier = [NSString stringWithFormat:@"KAI%@Cell", curVCIdentifier];
+            _cellIdentifier             = curCellIdentifier;
+        }
+    }
+    return _cellIdentifier;
+}
 
 @end
 

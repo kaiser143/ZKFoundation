@@ -30,7 +30,7 @@ typedef void (^ZKFolderMonitorBlock)(void);
  @param block The block to execute if the folder is being modified
  @returns The instantiated monitor in suspended mode. Call -startMonitoring to start monitoring.
  */
-+ (ZKFolderMonitor *_Nonnull)folderMonitorForURL:(NSURL *_Nonnull)URL block:(ZKFolderMonitorBlock _Nullable)block;
++ (ZKFolderMonitor *_Nonnull)folderMonitorForURL:(NSURL *_Nonnull)URL block:(ZKFolderMonitorBlock _Nonnull)block;
 
 /**
  @name Starting/Stopping Monitoring
