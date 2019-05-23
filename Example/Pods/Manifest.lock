@@ -2,22 +2,22 @@ PODS:
   - Masonry (1.1.0)
   - ZKCategories (0.2.1)
   - ZKFoundation (0.1.0):
-    - ZKCategories
+    - ZKCategories (~> 0.2.1)
     - ZKFoundation/AuthContext (= 0.1.0)
     - ZKFoundation/Categories (= 0.1.0)
     - ZKFoundation/Helper (= 0.1.0)
     - ZKFoundation/LocationManager (= 0.1.0)
     - ZKFoundation/UIKit (= 0.1.0)
   - ZKFoundation/AuthContext (0.1.0):
-    - ZKCategories
+    - ZKCategories (~> 0.2.1)
   - ZKFoundation/Categories (0.1.0):
-    - ZKCategories
+    - ZKCategories (~> 0.2.1)
   - ZKFoundation/Helper (0.1.0):
-    - ZKCategories
+    - ZKCategories (~> 0.2.1)
   - ZKFoundation/LocationManager (0.1.0):
-    - ZKCategories
+    - ZKCategories (~> 0.2.1)
   - ZKFoundation/UIKit (0.1.0):
-    - ZKCategories
+    - ZKCategories (~> 0.2.1)
 
 DEPENDENCIES:
   - Masonry
@@ -35,7 +35,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   ZKCategories: c06fa15b5784f0d16399e83c640d5b90a27d61fb
-  ZKFoundation: 224fc5bb11f63196d93421954a3c6a22a2650818
+  ZKFoundation: 825aa5f536a0255e51a2c9d84cb8313a9735a786
 
 PODFILE CHECKSUM: 5d7ab6c1c4a090cdde891c46984b4771c27bd33d
 

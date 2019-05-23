@@ -22,7 +22,7 @@
   "source_files": "ZKFoundation/Classes/Source/*.{h,m}",
   "dependencies": {
     "ZKCategories": [
-
+      "~> 0.2.1"
     ]
   },
   "subspecs": [
