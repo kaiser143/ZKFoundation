@@ -12,15 +12,15 @@
 @implementation UITableView (ZKHelper)
 
 - (ZKTableViewHelper *)tableHelper {
-    ZKTableViewHelper *curTableHelper = objc_getAssociatedObject(self, _cmd);
-    if (curTableHelper) return curTableHelper;
+    ZKTableViewHelper *tableHelper = objc_getAssociatedObject(self, _cmd);
+    if (tableHelper) return tableHelper;
     
-    curTableHelper = ZKTableViewHelper.new;
-    curTableHelper.kai_tableView = self;
-    self.dataSource = curTableHelper;
-    self.delegate = curTableHelper;
-    objc_setAssociatedObject(self, _cmd, curTableHelper, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    return curTableHelper;
+    tableHelper = ZKTableViewHelper.new;
+    tableHelper.kai_tableView = self;
+    self.dataSource = tableHelper;
+    self.delegate = tableHelper;
+    objc_setAssociatedObject(self, _cmd, tableHelper, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    return tableHelper;
 }
 
 @end

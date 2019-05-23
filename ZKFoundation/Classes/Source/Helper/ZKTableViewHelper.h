@@ -9,6 +9,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern CGFloat ZKAutoHeightForHeaderFooterView;
+
 typedef NSString *_Nullable (^ZKTableHelperCellIdentifierForRowBlock)(NSIndexPath *indexPath, id dataSource);
 typedef void (^ZKTableHelperDidSelectBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
 typedef void (^ZKTableHelperDidDeSelectBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
@@ -31,6 +33,9 @@ typedef void (^ZKScrollViewDidEndDraggingBlock)(UIScrollView *scrollView);
 
 typedef __kindof UITableViewHeaderFooterView *_Nullable (^ZKTableHelperHeaderBlock)(UITableView *tableView, NSInteger section, id dataSource);
 typedef __kindof UITableViewHeaderFooterView *_Nullable (^ZKTableHelperFooterBlock)(UITableView *tableView, NSInteger section, id dataSource);
+
+typedef CGFloat (^ZKTableHelperHeightForHeaderBlock)(UITableView *tableView, NSInteger section, id dataSource);
+typedef CGFloat (^ZKTableHelperHeightForFooterBlock)(UITableView *tableView, NSInteger section, id dataSource);
 
 typedef NSString *_Nullable (^ZKTableHelperTitleHeaderBlock)(UITableView *tableView, NSInteger section);
 typedef NSString *_Nullable (^ZKTableHelperTitleFooterBlock)(UITableView *tableView, NSInteger section);
@@ -94,8 +99,8 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
 /**
  *  When using the storyboard and a single cell, set the property inspector same identifier
  */
-@property (nullable, nonatomic, copy) NSString *cellIdentifier;
-@property (nullable, nonatomic, copy) NSString *headerFooterIdentifier;
+@property (nullable, nonatomic, copy, readonly) NSString *cellIdentifier;
+@property (nullable, nonatomic, copy, readonly) NSString *headerFooterIdentifier;
 
 @property (nonatomic, strong) NSArray *kai_cellXIB;
 
@@ -115,7 +120,7 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
 #pragma mark :. Block事件
 
 /*!
- *  @brief    计算高度
+ *  @brief    计算高度cell的高度并返回
  */
 - (void)autoHeightCell:(ZKTableHelperCellAutoHeightForRowBlock)block;
 
@@ -177,12 +182,14 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
  */
 - (void)headerView:(ZKTableHelperHeaderBlock)block;
 - (void)headerTitle:(ZKTableHelperTitleHeaderBlock)block;
+- (void)heightForHeaderView:(ZKTableHelperHeightForHeaderBlock)block;
 
 /**
  *  @brief  Footer视图
  */
 - (void)footerView:(ZKTableHelperFooterBlock)block;
 - (void)footerTitle:(ZKTableHelperTitleFooterBlock)block;
+- (void)heightForFooterView:(ZKTableHelperHeightForFooterBlock)block;
 
 - (void)numberOfSections:(ZKTableHelperNumberOfSectionsBlock)block;
 /**

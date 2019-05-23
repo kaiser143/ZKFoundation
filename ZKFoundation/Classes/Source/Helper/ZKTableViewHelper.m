@@ -11,6 +11,7 @@
 #import "ZKTableViewHelperInjectionDelegate.h"
 
 #define defaultInterval .5 //默认时间间隔
+CGFloat ZKAutoHeightForHeaderFooterView = -1;
 
 @interface ZKTableViewHelper ()
 
@@ -49,9 +50,11 @@
 
 @property (nonatomic, copy) ZKTableHelperHeaderBlock headerBlock;
 @property (nonatomic, copy) ZKTableHelperTitleHeaderBlock headerTitleBlock;
+@property (nonatomic, copy) ZKTableHelperHeightForHeaderBlock heightForHeaderBlock;
 
 @property (nonatomic, copy) ZKTableHelperFooterBlock footerBlock;
 @property (nonatomic, copy) ZKTableHelperTitleFooterBlock footerTitleBlock;
+@property (nonatomic, copy) ZKTableHelperHeightForFooterBlock heightForFooterBlock;
 
 @property (nonatomic, copy) ZKTableHelperNumberOfSectionsBlock numberOfSections;
 @property (nonatomic, copy) ZKTableHelperNumberRowsBlock numberRow;
@@ -60,6 +63,9 @@
 
 @property (nonatomic, copy) ZKTableHelperCurrentModelAtIndexPathBlock currentModelAtIndexPath;
 @property (nonatomic, copy) ZKTableHelperScrollViewDidEndScrollingBlock scrollViewDidEndScrolling;
+
+@property (nullable, nonatomic, copy) NSString *cellIdentifier;
+@property (nullable, nonatomic, copy) NSString *headerFooterIdentifier;
 
 @end
 
@@ -73,8 +79,8 @@
 }
 
 - (void)initialization {
-    self.titleHeaderHeight = 0.1;
-    self.titleFooterHeight = 0.1;
+    self.titleHeaderHeight = 0.001;
+    self.titleFooterHeight = 0.001;
 }
 
 - (void)registerNibs:(NSArray<NSString *> *)nibs {
@@ -164,12 +170,20 @@
     self.headerTitleBlock = block;
 }
 
+- (void)heightForHeaderView:(ZKTableHelperHeightForHeaderBlock)block {
+    self.heightForHeaderBlock = block;
+}
+
 - (void)footerView:(ZKTableHelperFooterBlock)block {
     self.footerBlock = block;
 }
 
 - (void)footerTitle:(ZKTableHelperTitleFooterBlock)block {
     self.footerTitleBlock = block;
+}
+
+- (void)heightForFooterView:(ZKTableHelperHeightForFooterBlock)block {
+    self.heightForFooterBlock = block;
 }
 
 - (void)numberOfSections:(ZKTableHelperNumberOfSectionsBlock)block {
@@ -221,7 +235,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     CGFloat height = self.titleHeaderHeight;
-    if (self.headerBlock) {
+    if (self.heightForHeaderBlock) {
+        height = self.heightForHeaderBlock(tableView, section, [self currentSectionModel:section]) ?: 0.001;
+    }
+    
+    if (self.headerBlock && ((self.heightForHeaderBlock && height <= 0) || !self.heightForHeaderBlock)) {
         UITableViewHeaderFooterView *headerView = self.headerBlock(tableView, section, [self currentSectionModel:section]);
         CGFloat fittingHeight;
         if (headerView && (fittingHeight = headerView.systemFittingHeightForHeaderFooterView) > height) {
@@ -257,7 +275,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     CGFloat height = self.titleFooterHeight;
-    if (self.footerBlock) {
+    if (self.heightForFooterBlock) {
+        height = self.heightForFooterBlock(tableView, section, [self currentSectionModel:section]) ?: 0.001;
+    }
+    
+    if (self.footerBlock && ((self.heightForFooterBlock && height <= 0) || !self.heightForFooterBlock)) {
         UITableViewHeaderFooterView *footerView = self.footerBlock(tableView, section, [self currentSectionModel:section]);
         CGFloat fittingHeight;
         if (footerView && (fittingHeight = footerView.systemFittingHeightForHeaderFooterView) > height) {
@@ -384,11 +406,11 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    id curModel                 = [self currentModelAtIndexPath:indexPath];
-    NSString *curCellIdentifier = [self _kai_cellIdentifierForRowAtIndexPath:indexPath model:curModel];
-    UITableViewCell *cell       = [tableView dequeueReusableCellWithIdentifier:curCellIdentifier forIndexPath:indexPath];
+    id curModel           = [self currentModelAtIndexPath:indexPath];
+    NSString *identifier  = [self _kai_cellIdentifierForRowAtIndexPath:indexPath model:curModel];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
 
-    NSAssert(cell, @"cell is nil Identifier ⤭ %@ ⤪", curCellIdentifier);
+    NSAssert(cell, @"cell is nil Identifier ⤭ %@ ⤪", identifier);
 
     [self configureCell:cell forIndexPath:indexPath withObject:curModel];
 

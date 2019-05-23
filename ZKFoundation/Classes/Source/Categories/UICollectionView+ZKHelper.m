@@ -11,16 +11,15 @@
 @implementation UICollectionView (ZKHelper)
 
 - (ZKCollectionViewHelper *)collectionHelper {
-    ZKCollectionViewHelper *curTableHelper = objc_getAssociatedObject(self, _cmd);
-    if (curTableHelper) return curTableHelper;
+    ZKCollectionViewHelper *tableHelper = objc_getAssociatedObject(self, _cmd);
+    if (tableHelper) return tableHelper;
     
-    curTableHelper = ZKCollectionViewHelper.new;
-    self.delegate = curTableHelper;
-    self.dataSource = curTableHelper;
-    curTableHelper.kai_collectionView = self;
-    objc_setAssociatedObject(self, _cmd, curTableHelper, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    
-    return curTableHelper;
+    tableHelper = ZKCollectionViewHelper.new;
+    tableHelper.kai_collectionView = self;
+    self.delegate = tableHelper;
+    self.dataSource = tableHelper;
+    objc_setAssociatedObject(self, _cmd, tableHelper, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    return tableHelper;
 }
 
 @end

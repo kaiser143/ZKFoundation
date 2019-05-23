@@ -7,6 +7,7 @@
 
 #import "ZKCollectionViewHelper.h"
 #import "UITableViewHeaderFooterView+ZKHelper.h"
+#import "ZKCollectionViewHelperInjectionDelegate.h"
 
 @interface ZKCollectionViewHelper ()
 
@@ -18,7 +19,7 @@
 @property (nonatomic, copy) ZKCollectionHelperFooterView footerView;
 
 @property (nonatomic, copy) ZKCollectionHelperItemAutoHeightForRowBlock itemAutoHeightBlock;
-@property (nonatomic, copy) ZKCollectionHelperCellIdentifierBlock cellIdentifierBlock;
+@property (nonatomic, copy) ZKCollectionHelperCellIdentifierForItemBlock cellIdentifierBlock;
 @property (nonatomic, copy) ZKCollectionHelperHeaderIdentifierBlock headerIdentifierBlock;
 @property (nonatomic, copy) ZKCollectionHelperFooterIdentifierBlock footerIdentifierBlock;
 
@@ -215,15 +216,15 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *curCell           = nil;
-    id                    curModel          = [self currentModelAtIndexPath:indexPath];
-    NSString *            curCellIdentifier = [self cellIdentifierForRowAtIndexPath:indexPath model:curModel];
-    curCell                                 = [collectionView dequeueReusableCellWithReuseIdentifier:curCellIdentifier forIndexPath:indexPath];
-//    CCAssert(curCell, @"cell is nil Identifier ⤭ %@ ⤪", curCellIdentifier);
-//    if (self.cellDelegate)
-//        curCell.viewDelegate = self.cellDelegate;
+    UICollectionViewCell *cell = nil;
+    id curModel                = [self currentModelAtIndexPath:indexPath];
+    NSString *identifier       = [self cellIdentifierForRowAtIndexPath:indexPath model:curModel];
+    cell                       = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+    NSAssert(cell, @"cell is nil Identifier ⤭ %@ ⤪", identifier);
 
-    return curCell;
+    [self configureCell:cell forIndexPath:indexPath withObject:curModel];
+
+    return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -302,7 +303,7 @@
 - (void)kai_reloadGroupDataAry:(NSArray *)newDataAry {
     self.dataArray = nil;
     for (NSInteger i = 0; i < newDataAry.count; i++)
-        [self cc_makeUpDataAryForSection:i];
+        [self _kai_makeUpDataAryForSection:i];
 
     for (int idx = 0; idx < self.dataArray.count; idx++) {
         NSMutableArray *subAry = self.dataArray[ idx ];
@@ -365,7 +366,7 @@
 }
 
 - (void)kai_resetDataAry:(NSArray *)newDataAry forSection:(NSInteger)cSection {
-    [self cc_makeUpDataAryForSection:cSection];
+    [self _kai_makeUpDataAryForSection:cSection];
     NSMutableArray *subAry = self.dataArray[ cSection ];
     if (subAry.count) [subAry removeAllObjects];
     if (newDataAry.count) {
@@ -381,7 +382,7 @@
 - (void)kai_reloadDataAry:(NSArray *)newDataAry forSection:(NSInteger)cSection {
     if (newDataAry.count == 0) return;
 
-    NSIndexSet *    curIndexSet = [self cc_makeUpDataAryForSection:cSection];
+    NSIndexSet *    curIndexSet = [self _kai_makeUpDataAryForSection:cSection];
     NSMutableArray *subAry      = self.dataArray[ cSection ];
     if (subAry.count) [subAry removeAllObjects];
     [subAry addObjectsFromArray:newDataAry];
@@ -400,7 +401,7 @@
 - (void)kai_addDataAry:(NSArray *)newDataAry forSection:(NSInteger)cSection {
     if (newDataAry.count == 0) return;
 
-    NSIndexSet *    curIndexSet = [self cc_makeUpDataAryForSection:cSection];
+    NSIndexSet *    curIndexSet = [self _kai_makeUpDataAryForSection:cSection];
     NSMutableArray *subAry;
     if (cSection < 0) {
         subAry = self.dataArray[ 0 ];
@@ -422,7 +423,7 @@
 
 - (void)kai_insertData:(id)cModel atIndexPath:(NSIndexPath *)cIndexPath;
 {
-    NSIndexSet *    curIndexSet = [self cc_makeUpDataAryForSection:cIndexPath.section];
+    NSIndexSet *    curIndexSet = [self _kai_makeUpDataAryForSection:cIndexPath.section];
     NSMutableArray *subAry      = self.dataArray[ cIndexPath.section ];
     if (subAry.count < cIndexPath.row) return;
     [subAry insertObject:cModel atIndex:cIndexPath.row];
@@ -454,7 +455,7 @@
     }
 }
 
-- (NSIndexSet *)cc_makeUpDataAryForSection:(NSInteger)cSection {
+- (NSIndexSet *)_kai_makeUpDataAryForSection:(NSInteger)cSection {
     NSMutableIndexSet *curIndexSet = nil;
     if (self.dataArray.count <= cSection) {
         curIndexSet = [NSMutableIndexSet indexSet];
@@ -575,7 +576,7 @@
     return nil;
 }
 
-- (NSIndexSet *)cc_makeUpFooterArrForSection:(NSInteger)cSection {
+- (NSIndexSet *)_kai_makeUpFooterArrForSection:(NSInteger)cSection {
     NSMutableIndexSet *curIndexSet = nil;
     if (self.footerArray.count <= cSection) {
         curIndexSet = [NSMutableIndexSet indexSet];
@@ -637,19 +638,19 @@
     return _footerIdentifier;
 }
 
-- (void)itemAutoSizeCell:(ZKCollectionHelperItemAutoHeightForRowBlock)cb {
+- (void)autoHeightItem:(ZKCollectionHelperItemAutoHeightForRowBlock)cb {
     self.itemAutoHeightBlock = cb;
 }
 
-- (void)cellMultipleIdentifier:(ZKCollectionHelperCellIdentifierBlock)block {
+- (void)cellIdentifierForItemAtIndexPath:(ZKCollectionHelperCellIdentifierForItemBlock)block {
     self.cellIdentifierBlock = block;
 }
 
-- (void)headerMultipleIdentifier:(ZKCollectionHelperHeaderIdentifierBlock)block {
+- (void)headerIdentifier:(ZKCollectionHelperHeaderIdentifierBlock)block {
     self.headerIdentifierBlock = block;
 }
 
-- (void)footerMultipleIdentifier:(ZKCollectionHelperFooterIdentifierBlock)block {
+- (void)footerIdentifier:(ZKCollectionHelperFooterIdentifierBlock)block {
     self.footerIdentifierBlock = block;
 }
 
@@ -657,7 +658,7 @@
     self.currentModelAtIndexPath = block;
 }
 
-- (void)didNumberOfItemsInSection:(ZKCollectionHelperNumberOfItemsInSection)block {
+- (void)numberOfItemsInSection:(ZKCollectionHelperNumberOfItemsInSection)block {
     self.numberOfItemsInSection = block;
 }
 
@@ -701,7 +702,7 @@
     self.referenceFooterSize = block;
 }
 
-- (void)didSelectItemAtIndexPath:(ZKCollectionHelperDidSelectItemAtIndexPath)block {
+- (void)didSelectItem:(ZKCollectionHelperDidSelectItemAtIndexPath)block {
     self.didSelectItemAtIndexPath = block;
 }
 
@@ -723,6 +724,12 @@
 
 - (void)didEndDecelerating:(ZKScrollViewDidEndDecelerating)block {
     self.scrollViewDidEndDecelerating = block;
+}
+
+- (void)configureCell:(UICollectionViewCell<ZKCollectionViewHelperInjectionDelegate> *)cell forIndexPath:(NSIndexPath *)indexPath withObject:(id)obj {
+    if ([cell respondsToSelector:@selector(bindViewModel:forIndexPath:)]) {
+        [cell bindViewModel:obj forIndexPath:indexPath];
+    }
 }
 
 @end
@@ -834,8 +841,8 @@
 }
 
 //return YES;表示一旦滑动就实时调用上面这个layoutAttributesForElementsInRect:方法
-- (BOOL) shouldInvalidateLayoutForBoundsChange:(CGRect)newBound
-{
+- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBound {
     return YES;
 }
+
 @end

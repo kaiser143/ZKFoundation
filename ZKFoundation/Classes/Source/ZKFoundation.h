@@ -20,6 +20,7 @@
 #import <ZKFoundation/ZKCollectionViewHelper.h>
 #import <ZKFoundation/ZKTableViewHelper.h>
 #import <ZKFoundation/ZKTableViewHelperInjectionDelegate.h>
+#import <ZKFoundation/ZKCollectionViewHelperInjectionDelegate.h>
 #import <ZKFoundation/ZKHeadingRequest.h>
 #import <ZKFoundation/ZKLocationManager.h>
 #import <ZKFoundation/ZKLocationManager+Internal.h>
@@ -47,6 +48,7 @@
 #import "ZKCollectionViewHelper.h"
 #import "ZKTableViewHelper.h"
 #import "ZKTableViewHelperInjectionDelegate.h"
+#import "ZKCollectionViewHelperInjectionDelegate.h"
 #import "ZKHeadingRequest.h"
 #import "ZKLocationManager.h"
 #import "ZKLocationManaget+Internal.h"

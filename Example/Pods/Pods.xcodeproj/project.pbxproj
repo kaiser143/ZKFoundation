@@ -265,6 +265,7 @@
 		49295241C45D8769ED3E73AA01266AB0 /* NSTimer+ZKAdd.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSTimer+ZKAdd.h"; path = "ZKCategories/Classes/NSTimer/NSTimer+ZKAdd.h"; sourceTree = "<group>"; };
 		4B70C4FB22899A6100DA0D65 /* ZKURLResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ZKURLResponse.h; path = ZKFoundation/Classes/Source/ZKURLResponse.h; sourceTree = "<group>"; };
 		4B70C4FC22899A6100DA0D65 /* ZKURLResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ZKURLResponse.m; path = ZKFoundation/Classes/Source/ZKURLResponse.m; sourceTree = "<group>"; };
+		4B70C5032296903900DA0D65 /* ZKCollectionViewHelperInjectionDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKCollectionViewHelperInjectionDelegate.h; sourceTree = "<group>"; };
 		4EEDAD82A4E53CD0AF8105052C7EA7E7 /* UITableView+ZKHelper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UITableView+ZKHelper.m"; path = "ZKFoundation/Classes/Source/Categories/UITableView+ZKHelper.m"; sourceTree = "<group>"; };
 		5023F68EAC37FA550C00110C50060E7F /* MASConstraint+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "MASConstraint+Private.h"; path = "Masonry/MASConstraint+Private.h"; sourceTree = "<group>"; };
 		560AACA1C08B93C4492EA81228D84071 /* UIImageView+ZKAdd.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImageView+ZKAdd.h"; path = "ZKCategories/Classes/UIImageView/UIImageView+ZKAdd.h"; sourceTree = "<group>"; };
@@ -445,6 +446,7 @@
 				A5CF7B5FEE53C7B59958624C3C122B2A /* ZKTableViewHelper.h */,
 				B446C3A1DCB4A5A1C1F07FF7958FB884 /* ZKTableViewHelper.m */,
 				7153AFFADC4CBB8A0020B73FE7D4A708 /* ZKTableViewHelperInjectionDelegate.h */,
+				4B70C5032296903900DA0D65 /* ZKCollectionViewHelperInjectionDelegate.h */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
