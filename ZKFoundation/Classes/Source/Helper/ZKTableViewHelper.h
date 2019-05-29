@@ -18,7 +18,7 @@ typedef CGFloat (^ZKTableHelperCellAutoHeightForRowBlock)(UITableView *tableView
 
 typedef void (^ZKTableHelperDidMoveToRowBlock)(UITableView *tableView, NSIndexPath *sourceIndexPath, id sourceModel, NSIndexPath *destinationIndexPath, id destinationModel);
 
-typedef void (^ZKTableHelperDidWillDisplayBlock)(UITableViewCell *cell, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
+typedef void (^ZKTableHelperDidWillDisplayBlock)(__kindof UITableViewCell *cell, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
 
 typedef void (^ZKTableHelperDidEditingBlock)(UITableView *tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath *indexPath, id dataSource);
 typedef NSString *_Nullable (^ZKTableHelperDidEditTitleBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
@@ -338,7 +338,7 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
 - (nullable NSArray *)modelsForSelectedRows;
 - (id)currentModel;
 - (id)currentModelAtIndexPath:(NSIndexPath *)indexPath;
-- (void)configureCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath withObject:(id)obj;
+- (void)configureCell:(__kindof UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath withObject:(id)obj;
 
 @end
 
