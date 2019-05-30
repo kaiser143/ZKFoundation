@@ -34,6 +34,7 @@
 #import <ZKFoundation/ZKPopupController.h>
 #import <ZKFoundation/ZKLoadingSpinner.h>
 #import <ZKFoundation/ZKSegmentControl.h>
+#import <ZKFoundation/ZKActionSheetView.h>
 #import <ZKFoundation/ZKURLResponse.h>
 
 #else
@@ -62,6 +63,7 @@
 #import "ZKPopupController.h"
 #import "ZKLoadingSpinner.h"
 #import "ZKSegmentControl.h"
+#import "ZKActionSheetView.h"
 #import "ZKURLResponse.h"
 
 #endif /* __has_include*/
