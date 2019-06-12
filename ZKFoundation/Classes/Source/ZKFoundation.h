@@ -16,6 +16,7 @@
 #import <ZKFoundation/ZKAuthContext.h>
 #import <ZKFoundation/UICollectionView+ZKHelper.h>
 #import <ZKFoundation/UITableView+ZKHelper.h>
+#import <ZKFoundation/UIView+ZKHelper.h>
 #import <ZKFoundation/UITableViewHeaderFooterView+ZKHelper.h>
 #import <ZKFoundation/ZKCollectionViewHelper.h>
 #import <ZKFoundation/ZKTableViewHelper.h>
@@ -36,6 +37,7 @@
 #import <ZKFoundation/ZKSegmentControl.h>
 #import <ZKFoundation/ZKActionSheetView.h>
 #import <ZKFoundation/ZKURLResponse.h>
+#import <ZKFoundation/ZKStretchyHeaderView.h>
 
 #else
 
@@ -45,6 +47,7 @@
 #import "ZKAuthContext.h"
 #import "UICollectionView+ZKHelper.h"
 #import "UITableView+ZKHelper.h"
+#import "UIView+ZKHelper.h"
 #import "UITableViewHeaderFooterView+ZKHelper.h"
 #import "ZKCollectionViewHelper.h"
 #import "ZKTableViewHelper.h"
@@ -65,6 +68,7 @@
 #import "ZKSegmentControl.h"
 #import "ZKActionSheetView.h"
 #import "ZKURLResponse.h"
+#import "ZKStretchyHeaderView.h"
 
 #endif /* __has_include*/
 

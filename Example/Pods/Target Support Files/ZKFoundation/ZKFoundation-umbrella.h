@@ -17,8 +17,10 @@
 #import "ZKVersion.h"
 #import "ZKAuthContext.h"
 #import "UICollectionView+ZKHelper.h"
+#import "UIScrollView+ZKHelper.h"
 #import "UITableView+ZKHelper.h"
 #import "UITableViewHeaderFooterView+ZKHelper.h"
+#import "UIView+ZKHelper.h"
 #import "ZKCollectionViewHelper.h"
 #import "ZKCollectionViewHelperInjectionDelegate.h"
 #import "ZKTableViewHelper.h"
@@ -36,6 +38,7 @@
 #import "ZKPageControl.h"
 #import "ZKPopupController.h"
 #import "ZKSegmentControl.h"
+#import "ZKStretchyHeaderView.h"
 #import "ZKTintedActionButton.h"
 
 FOUNDATION_EXPORT double ZKFoundationVersionNumber;
