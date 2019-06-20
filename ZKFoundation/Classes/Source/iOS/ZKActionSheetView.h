@@ -32,17 +32,17 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param shareArray    分享item数组 (元素须为`ZKActionItem`)
  *  @param functionArray 功能item数组 (元素须为`ZKActionItem`)
  */
-+ (instancetype)actionSheetViewWithShareItems:(NSArray<ZKActionItem *> *)shareArray
-                                functionItems:(NSArray<ZKActionItem *> *)functionArray;
-- (instancetype)initWithShareItems:(NSArray<ZKActionItem *> *)shareArray
-                     functionItems:(NSArray<ZKActionItem *> *)functionArray;
++ (instancetype)actionSheetViewWithShareItems:(nonnull NSArray<ZKActionItem *> *)shareArray
+                                functionItems:(nullable NSArray<ZKActionItem *> *)functionArray;
+- (instancetype)initWithShareItems:(nonnull NSArray<ZKActionItem *> *)shareArray
+                     functionItems:(nullable NSArray<ZKActionItem *> *)functionArray;
 
 /**
  *  创建具有n行的shareView
  *
  *  @param array 二维数组 (eg: @[shareArray, functionArray, otherItemsArray, ...])
  */
-- (instancetype)initWithItemsArray:(NSArray *)array;
+- (instancetype)initWithItemsArray:(nonnull NSArray *)array;
 
 /**
  *  显示\隐藏
