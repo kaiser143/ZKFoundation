@@ -240,6 +240,7 @@
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *cancelButton;
+@property (nonatomic, strong) UIView *safeAreaView;
 
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) UITableView *tableView;
@@ -261,9 +262,12 @@
 }
 
 - (void)commonInit {
+    self.backgroundColor = [UIColor.whiteColor colorWithAlphaComponent:0.7];
+    
     [self addSubview:self.titleLabel];
     [self addSubview:self.tableView];
     [self addSubview:self.cancelButton];
+    [self addSubview:self.safeAreaView];
 }
 
 - (void)layoutSubviews {
@@ -276,23 +280,28 @@
     // 标题
     self.titleLabel.frame = CGRectMake(ZY_TitlePadding, 0, ZKScreenSize().width - 2 * ZY_TitlePadding, self.titleHeight);
 
-    // 取消按钮
-    self.cancelButton.frame = CGRectMake(0, self.frame.size.height - ZY_CancelButtonHeight, ZKScreenSize().width, ZY_CancelButtonHeight);
-
-    // TableView
-    self.tableView.frame = CGRectMake(0, self.titleHeight, ZKScreenSize().width, self.dataSource.count * ZY_ItemCellHeight);
-
+    CGFloat safeArea = 0;
+    
     //适配iOS11中UIToolbar无法点击问题
     if (@available(iOS 11.0, *)) {
+        safeArea = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bottom;
         NSArray *subViewArray = [self subviews];
-
+        
         for (id view in subViewArray) {
             if ([view isKindOfClass:(NSClassFromString(@"_UIToolbarContentView"))]) {
                 UIView *testView                = view;
                 testView.userInteractionEnabled = NO;
             }
         }
+        
+        self.safeAreaView.frame = CGRectMake(0, CGRectGetHeight(self.frame) - safeArea, ZKScreenSize().width, safeArea);
     }
+    
+    // 取消按钮
+    self.cancelButton.frame = CGRectMake(0, self.frame.size.height - ZY_CancelButtonHeight - safeArea, ZKScreenSize().width, ZY_CancelButtonHeight);
+
+    // TableView
+    self.tableView.frame = CGRectMake(0, self.titleHeight, ZKScreenSize().width, self.dataSource.count * ZY_ItemCellHeight);
 }
 
 #pragma mark - Action
@@ -355,6 +364,15 @@
     return _cancelButton;
 }
 
+- (UIView *)safeAreaView {
+    if (!_safeAreaView) {
+        _safeAreaView = UIView.new;
+        _safeAreaView.backgroundColor = UIColor.whiteColor;
+    }
+    
+    return _safeAreaView;
+}
+
 - (NSMutableArray *)dataSource {
     if (!_dataSource) {
         _dataSource = [NSMutableArray array];
@@ -367,7 +385,9 @@
 }
 
 - (CGFloat)initialHeight {
-    return ZY_CancelButtonHeight + self.titleHeight;
+    CGFloat safeArea = 0;
+    if (@available(iOS 11.0, *)) safeArea = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bottom;
+    return (ZY_CancelButtonHeight + safeArea) + self.titleHeight;
 }
 
 - (CGFloat)titleHeight {
