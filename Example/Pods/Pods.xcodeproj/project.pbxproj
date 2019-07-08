@@ -57,6 +57,8 @@
 		4978C2E2AB189FB3A3D97258B731ED78 /* NSNumber+ZKAdd.h in Headers */ = {isa = PBXBuildFile; fileRef = 57D2242D518D33DA8D7B5267BDF9B844 /* NSNumber+ZKAdd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		49D5BFCBD36021A8DBCBE855C447970F /* UITableView+ZKAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E9B4F4CFF76397A5041A047A5AED63 /* UITableView+ZKAdd.m */; };
 		4A265EAF76645BE7F23C6B1622E6D2A7 /* UIImage+ZKAdd.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ACB75680D2A0684A3B92B4BA625C504 /* UIImage+ZKAdd.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4B3B540C22D37B83000B7884 /* ZKPermission.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B3B540A22D37B83000B7884 /* ZKPermission.h */; };
+		4B3B540D22D37B83000B7884 /* ZKPermission.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B3B540B22D37B83000B7884 /* ZKPermission.m */; };
 		4EA84B7A7742C81A3D676DAE4B1C17CA /* ZKAuthContext.m in Sources */ = {isa = PBXBuildFile; fileRef = CE90D97736C31FFF1CB222C2FA47D61C /* ZKAuthContext.m */; };
 		4FDED973490EB6A8908D2671154FDB89 /* View+MASShorthandAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EE13A0636D522DD6B6E68184DB4FFA05 /* View+MASShorthandAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		513FADF15668C5F734F2F1A2E3B3D5FF /* ZKURLResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = A56AD0E11C45839097F079B6DE370DCD /* ZKURLResponse.m */; };
@@ -219,7 +221,7 @@
 		011E75E835785C1342D239C837203B89 /* NSDictionary+ZKAdd.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+ZKAdd.m"; path = "ZKCategories/Classes/NSDictionary/NSDictionary+ZKAdd.m"; sourceTree = "<group>"; };
 		03FD37F98526CBD0DC11A7057E518D70 /* NSUserDefaults+ZKAdd.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSUserDefaults+ZKAdd.h"; path = "ZKCategories/Classes/NSUserDefaults/NSUserDefaults+ZKAdd.h"; sourceTree = "<group>"; };
 		04032D255C85094C89F58389D26AA829 /* UILabel+ZKAdd.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UILabel+ZKAdd.h"; path = "ZKCategories/Classes/UILabel/UILabel+ZKAdd.h"; sourceTree = "<group>"; };
-		056A3746273AE071D8E15A42886FDBB5 /* Pods_ZKFoundation_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_ZKFoundation_Example.framework; path = "Pods-ZKFoundation_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		056A3746273AE071D8E15A42886FDBB5 /* Pods_ZKFoundation_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZKFoundation_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0587791B9B6BF4FF8F1A90475A602C44 /* NSTimer+ZKAdd.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSTimer+ZKAdd.m"; path = "ZKCategories/Classes/NSTimer/NSTimer+ZKAdd.m"; sourceTree = "<group>"; };
 		07F40845CB9AAA7CE0706B27952DC48D /* ZKPageControl.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ZKPageControl.h; path = ZKFoundation/Classes/Source/iOS/ZKPageControl.h; sourceTree = "<group>"; };
 		0A6E9A2460859F7B81387CD2DD4E13C7 /* ZKURLResponse.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ZKURLResponse.h; path = ZKFoundation/Classes/Source/ZKURLResponse.h; sourceTree = "<group>"; };
@@ -280,6 +282,8 @@
 		48D370981BFF214F9D34D28664E450CE /* ZKRequestIDGenerator.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ZKRequestIDGenerator.h; path = ZKFoundation/Classes/Source/LocationManager/ZKRequestIDGenerator.h; sourceTree = "<group>"; };
 		49181E4EA2B1DDD306D1C9940DC284F5 /* UIControl+ZKAdd.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIControl+ZKAdd.m"; path = "ZKCategories/Classes/UIControl/UIControl+ZKAdd.m"; sourceTree = "<group>"; };
 		49295241C45D8769ED3E73AA01266AB0 /* NSTimer+ZKAdd.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSTimer+ZKAdd.h"; path = "ZKCategories/Classes/NSTimer/NSTimer+ZKAdd.h"; sourceTree = "<group>"; };
+		4B3B540A22D37B83000B7884 /* ZKPermission.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ZKPermission.h; path = ZKFoundation/Classes/Source/ZKPermission/ZKPermission.h; sourceTree = "<group>"; };
+		4B3B540B22D37B83000B7884 /* ZKPermission.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ZKPermission.m; path = ZKFoundation/Classes/Source/ZKPermission/ZKPermission.m; sourceTree = "<group>"; };
 		4E9C12D3FC424F5D4E1AC101997BFB72 /* UITableViewHeaderFooterView+ZKHelper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UITableViewHeaderFooterView+ZKHelper.m"; path = "ZKFoundation/Classes/Source/Categories/UITableViewHeaderFooterView+ZKHelper.m"; sourceTree = "<group>"; };
 		4EDC038B5D79380562FEA8983A5E8170 /* UICollectionView+ZKHelper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UICollectionView+ZKHelper.h"; path = "ZKFoundation/Classes/Source/Categories/UICollectionView+ZKHelper.h"; sourceTree = "<group>"; };
 		5023F68EAC37FA550C00110C50060E7F /* MASConstraint+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "MASConstraint+Private.h"; path = "Masonry/MASConstraint+Private.h"; sourceTree = "<group>"; };
@@ -323,7 +327,7 @@
 		7D8C77AC4F5135D46B1367B03EFB3892 /* NSNotificationCenter+ZKAdd.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSNotificationCenter+ZKAdd.h"; path = "ZKCategories/Classes/NSNotificationCenter/NSNotificationCenter+ZKAdd.h"; sourceTree = "<group>"; };
 		7F395DA6CE0C9512245F514374F82CF4 /* UIViewController+ZKAdd.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIViewController+ZKAdd.h"; path = "ZKCategories/Classes/UIViewController/UIViewController+ZKAdd.h"; sourceTree = "<group>"; };
 		7F3D1F280D7996814488EFECAA416D7C /* Pods-ZKFoundation_Example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-ZKFoundation_Example-Info.plist"; sourceTree = "<group>"; };
-		80013CAF5BC80DFADFF39B7CD9CF8E69 /* Masonry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Masonry.framework; path = Masonry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		80013CAF5BC80DFADFF39B7CD9CF8E69 /* Masonry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Masonry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		811B40B209E4796A20796BCC7086F508 /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "ViewController+MASAdditions.h"; path = "Masonry/ViewController+MASAdditions.h"; sourceTree = "<group>"; };
 		86EE4B852B1851410EA42662295BD32F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		87525D94D2089C6792A30537BB678B41 /* UIBarButtonItem+ZKAdd.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIBarButtonItem+ZKAdd.m"; path = "ZKCategories/Classes/UIBarButtonItem/UIBarButtonItem+ZKAdd.m"; sourceTree = "<group>"; };
@@ -342,7 +346,7 @@
 		97E20D1D3185CDFF03D6BBE404BF89D8 /* NSError+ZKAdd.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSError+ZKAdd.m"; path = "ZKCategories/Classes/NSError/NSError+ZKAdd.m"; sourceTree = "<group>"; };
 		9ACB75680D2A0684A3B92B4BA625C504 /* UIImage+ZKAdd.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+ZKAdd.h"; path = "ZKCategories/Classes/UIImage/UIImage+ZKAdd.h"; sourceTree = "<group>"; };
 		9C7EDA710C9E5AB93310F64220BEA7A1 /* MASViewAttribute.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MASViewAttribute.m; path = Masonry/MASViewAttribute.m; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9DA165D8E86BC1B690AAA8018A9DCF6D /* UIDevice+ZKAdd.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIDevice+ZKAdd.m"; path = "ZKCategories/Classes/UIDevice/UIDevice+ZKAdd.m"; sourceTree = "<group>"; };
 		9EB5B1A4E878300E31A5B1E13DEFCC9D /* ZKApp.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ZKApp.h; path = ZKFoundation/Classes/Source/ZKApp.h; sourceTree = "<group>"; };
 		9F92D0EB9746C3EE9A4C7BB46053373A /* NSData+ZKAdd.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSData+ZKAdd.m"; path = "ZKCategories/Classes/NSData/NSData+ZKAdd.m"; sourceTree = "<group>"; };
@@ -364,7 +368,7 @@
 		AEEF8578E27D6A15EFA7067C2203EB92 /* ZKStretchyHeaderView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ZKStretchyHeaderView.h; path = ZKFoundation/Classes/Source/iOS/ZKStretchyHeaderView.h; sourceTree = "<group>"; };
 		B1BD3551D497E596B90BCBC839426E40 /* MASViewConstraint.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MASViewConstraint.m; path = Masonry/MASViewConstraint.m; sourceTree = "<group>"; };
 		B4749C0B9BC726D3BB4BC963231E2FC6 /* ZKInitialsPlaceholderView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ZKInitialsPlaceholderView.m; path = ZKFoundation/Classes/Source/iOS/ZKInitialsPlaceholderView.m; sourceTree = "<group>"; };
-		B4BA5AE18922518E2F02B0AC0DB778C4 /* ZKFoundation.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = ZKFoundation.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		B4BA5AE18922518E2F02B0AC0DB778C4 /* ZKFoundation.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = ZKFoundation.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		B62659C31711E6D9467A2994DC4E4B61 /* UIView+ZKHelper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIView+ZKHelper.h"; path = "ZKFoundation/Classes/Source/Categories/UIView+ZKHelper.h"; sourceTree = "<group>"; };
 		B923227B473C4FDED09E3DBFCEB25836 /* ZKFoundation-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ZKFoundation-prefix.pch"; sourceTree = "<group>"; };
 		BB6DBEB99EB1F9DDE0314CC61FDB5CCB /* ZKLocationRequest.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ZKLocationRequest.h; path = ZKFoundation/Classes/Source/LocationManager/ZKLocationRequest.h; sourceTree = "<group>"; };
@@ -385,14 +389,14 @@
 		C8D21D359B9B963278294D316731410E /* ZKFoundation.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ZKFoundation.xcconfig; sourceTree = "<group>"; };
 		CA53CC508D68238421B9E9B36117C6F4 /* ZKLocationManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ZKLocationManager.m; path = ZKFoundation/Classes/Source/LocationManager/ZKLocationManager.m; sourceTree = "<group>"; };
 		CA8E80533F2231123050D5129020BAF4 /* Pods-ZKFoundation_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ZKFoundation_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		CD87F679413B5DC83D9AD4A0A28194C4 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		CD87F679413B5DC83D9AD4A0A28194C4 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		CE90D97736C31FFF1CB222C2FA47D61C /* ZKAuthContext.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ZKAuthContext.m; path = ZKFoundation/Classes/Source/AuthContext/ZKAuthContext.m; sourceTree = "<group>"; };
 		CF4618E83037EA4AC4AD6385A570E852 /* ZKLocationManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ZKLocationManager.h; path = ZKFoundation/Classes/Source/LocationManager/ZKLocationManager.h; sourceTree = "<group>"; };
 		D0C49BA9F54885AD36A8DA981229C4B1 /* ZKFoundation-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ZKFoundation-dummy.m"; sourceTree = "<group>"; };
 		D1D5CD2189E6B5EE77A27D17CE2597DF /* ZKFoundation-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ZKFoundation-umbrella.h"; sourceTree = "<group>"; };
 		D7A38C51FF8520B92729D37C53BC3AE7 /* NSNumber+ZKAdd.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSNumber+ZKAdd.m"; path = "ZKCategories/Classes/NSNumber/NSNumber+ZKAdd.m"; sourceTree = "<group>"; };
 		DAD3F1C29E3A934D888D0CA632C8D7A6 /* ZKUnicode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ZKUnicode.h; path = ZKCategories/Classes/ZKUnicode.h; sourceTree = "<group>"; };
-		DB01AD506E8E350E3089A461B53B6371 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		DB01AD506E8E350E3089A461B53B6371 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		DBE80DF2B19509D2F0BEB37B26DBBF67 /* UIResponder+ZKAdd.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIResponder+ZKAdd.m"; path = "ZKCategories/Classes/UIResponder/UIResponder+ZKAdd.m"; sourceTree = "<group>"; };
 		E0488718C9A289C1DE780EAD94987A4C /* Masonry.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Masonry.xcconfig; sourceTree = "<group>"; };
 		E3FB43353B02D5FDF27B345AE9556829 /* UIScrollView+ZKAdd.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIScrollView+ZKAdd.h"; path = "ZKCategories/Classes/UIScrollView/UIScrollView+ZKAdd.h"; sourceTree = "<group>"; };
@@ -404,7 +408,7 @@
 		EC4E1E552E40E3BBD5084223B9C7CC33 /* ZKCGUtilities.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ZKCGUtilities.m; path = ZKCategories/Classes/ZKCGUtilities.m; sourceTree = "<group>"; };
 		ED32E14E766CE9A11C3A4412E357CBD5 /* UIImage+ZKAdd.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ZKAdd.m"; path = "ZKCategories/Classes/UIImage/UIImage+ZKAdd.m"; sourceTree = "<group>"; };
 		EE13A0636D522DD6B6E68184DB4FFA05 /* View+MASShorthandAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "View+MASShorthandAdditions.h"; path = "Masonry/View+MASShorthandAdditions.h"; sourceTree = "<group>"; };
-		EFD32E1751CD83DF5026F05A04DC4A4E /* ZKFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ZKFoundation.framework; path = ZKFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFD32E1751CD83DF5026F05A04DC4A4E /* ZKFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZKFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5BEFA03E4C0AF973CCB00A29B4E4DCB /* UILabel+ZKAdd.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UILabel+ZKAdd.m"; path = "ZKCategories/Classes/UILabel/UILabel+ZKAdd.m"; sourceTree = "<group>"; };
 		F662B682D2C3BAE66349CB69F2247DAD /* ZKPopupController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ZKPopupController.h; path = ZKFoundation/Classes/Source/iOS/ZKPopupController.h; sourceTree = "<group>"; };
 		F6B176AA20D5DB0A2C7905D580DFA868 /* ZKFolderMonitor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ZKFolderMonitor.m; path = ZKFoundation/Classes/Source/ZKFolderMonitor.m; sourceTree = "<group>"; };
@@ -412,7 +416,7 @@
 		F80363E6E5D23D7ECABB177EFFE06716 /* ZKSegmentControl.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ZKSegmentControl.m; path = ZKFoundation/Classes/Source/iOS/ZKSegmentControl.m; sourceTree = "<group>"; };
 		F8D53319164FDC14598476620FBC65C9 /* ZKVersion.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ZKVersion.m; path = ZKFoundation/Classes/Source/ZKVersion.m; sourceTree = "<group>"; };
 		FCC2DCA31A8D14B54E09D4B1280AE63E /* MASCompositeConstraint.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASCompositeConstraint.h; path = Masonry/MASCompositeConstraint.h; sourceTree = "<group>"; };
-		FE319DD232BF60007F47D88D7504456C /* ZKCategories.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ZKCategories.framework; path = ZKCategories.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE319DD232BF60007F47D88D7504456C /* ZKCategories.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZKCategories.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF5B99EF59FB2472463EBC427EB19F90 /* ZKSegmentControl.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ZKSegmentControl.h; path = ZKFoundation/Classes/Source/iOS/ZKSegmentControl.h; sourceTree = "<group>"; };
 		FF71BFF21A003E374C44ABAD8A4FBEFD /* UIButton+ZKAdd.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIButton+ZKAdd.m"; path = "ZKCategories/Classes/UIButton/UIButton+ZKAdd.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -468,6 +472,7 @@
 		3433B60B0B9888EC88FB2FF4702FBA57 /* ZKFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				4BD3B55E22D37A3700D30936 /* Permission */,
 				9EB5B1A4E878300E31A5B1E13DEFCC9D /* ZKApp.h */,
 				3866596732B1A0648957AC3F53212821 /* ZKApp.m */,
 				C35C5C9524D07E650108BDC47ADD61CC /* ZKFolderMonitor.h */,
@@ -487,6 +492,15 @@
 			);
 			name = ZKFoundation;
 			path = ../..;
+			sourceTree = "<group>";
+		};
+		4BD3B55E22D37A3700D30936 /* Permission */ = {
+			isa = PBXGroup;
+			children = (
+				4B3B540A22D37B83000B7884 /* ZKPermission.h */,
+				4B3B540B22D37B83000B7884 /* ZKPermission.m */,
+			);
+			name = Permission;
 			sourceTree = "<group>";
 		};
 		5C3568AA615375CF4693CF5D73BBAFAB /* UIKit */ = {
@@ -575,7 +589,6 @@
 				67829A455B6F5604B2EEAA2FD2CB928A /* ViewController+MASAdditions.m */,
 				630D63E5D7F609010AEC127BB1E7E036 /* Support Files */,
 			);
-			name = Masonry;
 			path = Masonry;
 			sourceTree = "<group>";
 		};
@@ -742,7 +755,6 @@
 				412BE211C4CCE2F8FD8C9871157AE5D8 /* ZKUnicode.m */,
 				E887AEF5E46702F8EFED852F48EDA1E3 /* Support Files */,
 			);
-			name = ZKCategories;
 			path = ZKCategories;
 			sourceTree = "<group>";
 		};
@@ -836,6 +848,7 @@
 				67843D6939DCFB92F851C88AD853EB8B /* MASUtilities.h in Headers */,
 				9269E802D3E20C338BDDFF5DA07029E5 /* MASViewAttribute.h in Headers */,
 				626B143296611EBC98F20F738CFB4AA8 /* MASViewConstraint.h in Headers */,
+				4B3B540C22D37B83000B7884 /* ZKPermission.h in Headers */,
 				27F1DAFCBA43BFC893AAB8D70B811B04 /* NSArray+MASAdditions.h in Headers */,
 				1E4C2B7E07259DD5B60C4FE6A8A70C6F /* NSArray+MASShorthandAdditions.h in Headers */,
 				DADF5150B678D8FAB699D940DED2C71D /* NSLayoutConstraint+MASDebugAdditions.h in Headers */,
@@ -1034,6 +1047,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
@@ -1092,6 +1106,7 @@
 				DDA0C9910C0F791259FCB4E0E85F3DBD /* Masonry-dummy.m in Sources */,
 				07818F5781210B4DD5E5D0E0E77CE532 /* MASViewAttribute.m in Sources */,
 				73300003438DC542B9D0546D73877707 /* MASViewConstraint.m in Sources */,
+				4B3B540D22D37B83000B7884 /* ZKPermission.m in Sources */,
 				DDC5DE76CA3AC9073FB5C6BFBA026AFE /* NSArray+MASAdditions.m in Sources */,
 				D892D5CB8E1711B1FE8FCA30D5D1713F /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				75C5B6C21E0CC4898AE48E52DDA91375 /* View+MASAdditions.m in Sources */,
@@ -1300,8 +1315,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.2;
 				SYMROOT = "${SRCROOT}/../build";
 			};
