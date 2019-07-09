@@ -37,6 +37,11 @@ TODO: Add long description of the pod here.
       ss.source_files = 'ZKFoundation/Classes/Source/LocationManager/*.{h,m}'
   end
   
+  s.subspec 'Permission' do |ss|
+      ss.ios.deployment_target = '8.0'
+      ss.source_files = 'ZKFoundation/Classes/Source/Permission/*.{h,m}'
+  end
+  
   s.subspec 'UIKit' do |ss|
       ss.ios.deployment_target = '8.0'
       ss.source_files = 'ZKFoundation/Classes/Source/iOS/*.{h,m}'

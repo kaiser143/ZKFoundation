@@ -38,6 +38,7 @@
 #import <ZKFoundation/ZKActionSheetView.h>
 #import <ZKFoundation/ZKURLResponse.h>
 #import <ZKFoundation/ZKStretchyHeaderView.h>
+#import <ZKFoundation/ZKPermission.h>
 
 #else
 
@@ -69,6 +70,7 @@
 #import "ZKActionSheetView.h"
 #import "ZKURLResponse.h"
 #import "ZKStretchyHeaderView.h"
+#import "ZKPermission.h"
 
 #endif /* __has_include*/
 
