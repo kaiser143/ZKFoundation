@@ -22,6 +22,8 @@ static NSInteger const ZKPermissionTypeLocationDistanceFilter = 10; //`Positioni
 
 @interface ZKPermission ()
 
+@property (nonatomic, strong) CLLocationManager *locationManager;
+
 @end
 
 @implementation ZKPermission
@@ -110,6 +112,7 @@ static NSInteger const ZKPermissionTypeLocationDistanceFilter = 10; //`Positioni
                 locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
                 locationManager.distanceFilter = ZKPermissionTypeLocationDistanceFilter;
                 [locationManager startUpdatingLocation];
+                self.locationManager = locationManager;
             }
             CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
             if (status == kCLAuthorizationStatusAuthorizedAlways) {
