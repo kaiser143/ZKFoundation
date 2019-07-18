@@ -240,7 +240,7 @@
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *cancelButton;
-@property (nonatomic, strong) UIView *safeAreaView;
+@property (nonatomic, strong) UILabel *cancelLabel;
 
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) UITableView *tableView;
@@ -267,7 +267,7 @@
     [self addSubview:self.titleLabel];
     [self addSubview:self.tableView];
     [self addSubview:self.cancelButton];
-    [self addSubview:self.safeAreaView];
+    [self.cancelButton addSubview:self.cancelLabel];
 }
 
 - (void)layoutSubviews {
@@ -280,7 +280,7 @@
     // 标题
     self.titleLabel.frame = CGRectMake(ZY_TitlePadding, 0, ZKScreenSize().width - 2 * ZY_TitlePadding, self.titleHeight);
 
-    CGFloat safeArea = 0;
+    CGFloat safeArea = [self safeAreaBottom];
     
     //适配iOS11中UIToolbar无法点击问题
     if (@available(iOS 11.0, *)) {
@@ -293,12 +293,11 @@
                 testView.userInteractionEnabled = NO;
             }
         }
-        
-        self.safeAreaView.frame = CGRectMake(0, CGRectGetHeight(self.frame) - safeArea, ZKScreenSize().width, safeArea);
     }
     
     // 取消按钮
-    self.cancelButton.frame = CGRectMake(0, self.frame.size.height - ZY_CancelButtonHeight - safeArea, ZKScreenSize().width, ZY_CancelButtonHeight);
+    self.cancelButton.frame = CGRectMake(0, self.frame.size.height - ZY_CancelButtonHeight - safeArea, ZKScreenSize().width, ZY_CancelButtonHeight + safeArea);
+    self.cancelLabel.frame = CGRectMake(0, 0, ZKScreenSize().width, ZY_CancelButtonHeight);
 
     // TableView
     self.tableView.frame = CGRectMake(0, self.titleHeight, ZKScreenSize().width, self.dataSource.count * ZY_ItemCellHeight);
@@ -355,22 +354,30 @@
 
 - (UIButton *)cancelButton {
     if (!_cancelButton) {
-        _cancelButton                 = [[UIButton alloc] init];
-        _cancelButton.backgroundColor = [UIColor whiteColor];
-        [_cancelButton setTitle:@"取消" forState:UIControlStateNormal];
-        [_cancelButton setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
+        _cancelButton                 = [UIButton buttonWithType:UIButtonTypeCustom];
+        _cancelButton.backgroundColor = [UIColor clearColor];
+        [_cancelButton setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:1.f green:1.f blue:1.f alpha:0.6]] forState:UIControlStateNormal];
+        [_cancelButton setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:1.f green:1.f blue:1.f alpha:0.1]] forState:UIControlStateHighlighted];
         [_cancelButton addTarget:self action:@selector(cancelButtonClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _cancelButton;
 }
 
-- (UIView *)safeAreaView {
-    if (!_safeAreaView) {
-        _safeAreaView = UIView.new;
-        _safeAreaView.backgroundColor = UIColor.whiteColor;
+- (UILabel *)cancelLabel {
+    if (!_cancelLabel) {
+        _cancelLabel = UILabel.new;
+        _cancelLabel.text = @"取消";
+        _cancelLabel.textColor = [UIColor colorWithRed:51.f/255 green:51.f/255 blue:51.f/255 alpha:1.f];
+        _cancelLabel.font = [UIFont systemFontOfSize:18];
+        _cancelLabel.textAlignment = NSTextAlignmentCenter;
     }
-    
-    return _safeAreaView;
+    return _cancelLabel;
+}
+
+- (CGFloat)safeAreaBottom {
+    CGFloat safeArea = 0;
+    if (@available(iOS 11.0, *)) safeArea = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bottom;
+    return safeArea;
 }
 
 - (NSMutableArray *)dataSource {
@@ -385,8 +392,7 @@
 }
 
 - (CGFloat)initialHeight {
-    CGFloat safeArea = 0;
-    if (@available(iOS 11.0, *)) safeArea = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bottom;
+    CGFloat safeArea = [self safeAreaBottom];
     return (ZY_CancelButtonHeight + safeArea) + self.titleHeight;
 }
 

@@ -11,6 +11,7 @@
 #import <ZKButton.h>
 #import <ZKTintedActionButton.h>
 #import <ZKPermission.h>
+#import <ZKActionSheetView.h>
 
 @interface ZKViewController ()
 
@@ -79,21 +80,28 @@
 }
 
 - (void)buttonTapped:(UIButton *)sender {
-    [ZKPermission.manager requestWithType:ZKPermissionTypeContact
-                                 callback:^(BOOL response, ZKPermissionAuthorizationStatus status) {
-                                     if (response) {
-                                         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示"
-                                                                                                        message:@"获取权限成功"
-                                                                                                 preferredStyle:UIAlertControllerStyleAlert];
-                                         UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK"
-                                                                                          style:UIAlertActionStyleDefault
-                                                                                        handler:^(UIAlertAction * _Nonnull action) {
-                                                                                            
-                                                                                        }];
-                                         [alert addAction:action];
-                                         [self presentViewController:alert animated:YES completion:nil];
-                                     }
-                                 }];
+    ZKActionSheetView *sheet = [ZKActionSheetView actionSheetViewWithShareItems:@[
+                                                                                  [ZKActionItem actionWithTitle:@"刷新" icon:@"Action_Refresh" handler:nil],
+                                                                                  [ZKActionItem actionWithTitle:@"朋友圈" icon:@"Action_Moments" handler:nil],
+                                                                                  ]
+                                                                  functionItems:nil];
+    [sheet show];
+    
+//    [ZKPermission.manager requestWithType:ZKPermissionTypeContact
+//                                 callback:^(BOOL response, ZKPermissionAuthorizationStatus status) {
+//                                     if (response) {
+//                                         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示"
+//                                                                                                        message:@"获取权限成功"
+//                                                                                                 preferredStyle:UIAlertControllerStyleAlert];
+//                                         UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK"
+//                                                                                          style:UIAlertActionStyleDefault
+//                                                                                        handler:^(UIAlertAction * _Nonnull action) {
+//
+//                                                                                        }];
+//                                         [alert addAction:action];
+//                                         [self presentViewController:alert animated:YES completion:nil];
+//                                     }
+//                                 }];
 }
 
 - (void)didReceiveMemoryWarning
