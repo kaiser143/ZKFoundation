@@ -127,9 +127,9 @@ static CGFloat const kSpacing = 15;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self setContentOffset:CGPointMake(0, 0) animated:YES];
     });
-    if (self.isSlider) {
-        _titleFontSize = 12;
-    }
+//     if (self.isSlider) {
+//         _titleFontSize = 12;
+//     }
     _titleArr = arr;
     [self initialization];
     _isint = YES;
