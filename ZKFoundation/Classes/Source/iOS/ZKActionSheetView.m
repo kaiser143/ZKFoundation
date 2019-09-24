@@ -103,9 +103,10 @@
 - (UIButton *)avatar {
     if (!_avatar) {
         _avatar = [[UIButton alloc] init];
-        [_avatar addTarget:self
-                      action:@selector(iconClick)
-            forControlEvents:UIControlEventTouchUpInside];
+        _avatar.userInteractionEnabled = NO;
+//        [_avatar addTarget:self
+//                      action:@selector(iconClick)
+//            forControlEvents:UIControlEventTouchUpInside];
     }
     return _avatar;
 }
@@ -189,16 +190,24 @@
     return cell;
 }
 
-//#pragma mark - UICollectionViewDelegate
-//
-//- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    ZYShareItem *item = self.itemArray[indexPath.item];
-//
-//    if (item.selectionHandler) {
-//        item.selectionHandler();
-//    }
-//}
+#pragma mark - UICollectionViewDelegate
+
+- (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    ZKActionItemCell *cell = (ZKActionItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    cell.avatar.highlighted = YES;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    ZKActionItemCell *cell = (ZKActionItemCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    cell.avatar.highlighted = NO;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    ZKActionItem *item = self.dataSource[indexPath.item];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:ZY_HideNotification object:nil];
+    !item.handler ?: item.handler(item);
+}
 
 #pragma mark - setter
 
