@@ -225,6 +225,7 @@
         _collectionView.delegate                       = self;
         _collectionView.dataSource                     = self;
         _collectionView.backgroundColor                = nil;
+        _collectionView.delaysContentTouches           = NO;
 
         [_collectionView registerClass:ZKActionItemCell.class forCellWithReuseIdentifier:NSStringFromClass(ZKActionItemCell.class)];
     }
@@ -294,14 +295,8 @@
     //适配iOS11中UIToolbar无法点击问题
     if (@available(iOS 11.0, *)) {
         safeArea = [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bottom;
-        NSArray *subViewArray = [self subviews];
-        
-        for (id view in subViewArray) {
-            if ([view isKindOfClass:(NSClassFromString(@"_UIToolbarContentView"))]) {
-                UIView *testView                = view;
-                testView.userInteractionEnabled = NO;
-            }
-        }
+        UIView *view = [self descendantOrSelfWithClass:NSClassFromString(@"_UIToolbarContentView")];
+        view.userInteractionEnabled = NO;
     }
     
     // 取消按钮
@@ -357,6 +352,7 @@
         _tableView.backgroundColor = nil;
         _tableView.dataSource      = self;
         _tableView.delegate        = self;
+        _tableView.delaysContentTouches = NO;
     }
     return _tableView;
 }
@@ -379,6 +375,7 @@
         _cancelLabel.textColor = [UIColor colorWithRed:51.f/255 green:51.f/255 blue:51.f/255 alpha:1.f];
         _cancelLabel.font = [UIFont systemFontOfSize:18];
         _cancelLabel.textAlignment = NSTextAlignmentCenter;
+        _cancelLabel.userInteractionEnabled = NO;
     }
     return _cancelLabel;
 }
