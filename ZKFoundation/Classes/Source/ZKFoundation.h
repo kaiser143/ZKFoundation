@@ -39,6 +39,10 @@
 #import <ZKFoundation/ZKURLResponse.h>
 #import <ZKFoundation/ZKStretchyHeaderView.h>
 #import <ZKFoundation/ZKPermission.h>
+#import <ZKFoundation/ZKNavigationBarProtocol.h>
+#import <ZKFoundation/ZKNavigationController.h>
+#import <ZKFoundation/ZKNavigationBarTransitionCenter.h>
+#import <ZKFoundation/UIViewController+ZKNavigationBarTransition.h>
 
 #else
 
@@ -71,7 +75,10 @@
 #import "ZKURLResponse.h"
 #import "ZKStretchyHeaderView.h"
 #import "ZKPermission.h"
-
+#import "ZKNavigationBarProtocol.h"
+#import "ZKNavigationController.h"
+#import "ZKNavigationBarTransitionCenter.h"
+#import "UIViewController+ZKNavigationBarTransition.h"
 #endif /* __has_include*/
 
 #endif /* ZKFoundation_h */

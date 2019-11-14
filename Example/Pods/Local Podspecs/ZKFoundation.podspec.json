@@ -45,7 +45,11 @@
       "platforms": {
         "ios": "8.0"
       },
-      "source_files": "ZKFoundation/Classes/Source/iOS/*.{h,m}"
+      "source_files": [
+        "ZKFoundation/Classes/Source/iOS/*.{h,m}",
+        "ZKFoundation/Classes/Source/iOS/ZKNavigationBarTransition/*.{h,m}",
+        "ZKFoundation/Classes/Source/iOS/ZKNavigationBarTransition/internal/*.{h,m}"
+      ]
     },
     {
       "name": "Helper",

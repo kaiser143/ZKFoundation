@@ -1,6 +1,6 @@
 PODS:
   - Masonry (1.1.0)
-  - ZKCategories (0.2.1)
+  - ZKCategories (0.2.3)
   - ZKFoundation (0.1.0):
     - ZKCategories (~> 0.2.1)
     - ZKFoundation/AuthContext (= 0.1.0)
@@ -27,7 +27,7 @@ DEPENDENCIES:
   - ZKFoundation (from `../`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - Masonry
     - ZKCategories
 
@@ -37,9 +37,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  ZKCategories: c06fa15b5784f0d16399e83c640d5b90a27d61fb
-  ZKFoundation: ff4f3a5f675f192debb7b0332253ca41445bef56
+  ZKCategories: 96f580269e8759f039956ed519c62c69795e2da1
+  ZKFoundation: aae02c9b39485f4d1a0c0f193d4d07627e60f6c9
 
 PODFILE CHECKSUM: 5d7ab6c1c4a090cdde891c46984b4771c27bd33d
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.8.4

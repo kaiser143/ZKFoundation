@@ -8,12 +8,12 @@
 
 #import "ZKViewController.h"
 #import <Masonry/Masonry.h>
-#import <ZKButton.h>
-#import <ZKTintedActionButton.h>
-#import <ZKPermission.h>
-#import <ZKActionSheetView.h>
+#import <ZKCategories/ZKCategories.h>
+#import <ZKFoundation/ZKFoundation.h>
 
-@interface ZKViewController ()
+@interface ZKViewController () <ZKNavigationBarConfigureStyle>
+
+@property (nonatomic, strong) UIColor *barTintColor;
 
 @end
 
@@ -23,6 +23,17 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    self.view.backgroundColor = UIColor.whiteColor;
+    self.barTintColor = UIColor.randomColor;
+    self.title = @"ZKFoundation";
+    
+    
+    ZKInitialsPlaceholderView *placeholderView = [[ZKInitialsPlaceholderView alloc] initWithDiameter:50];
+    placeholderView.initials = @"张";
+    placeholderView.top = 100;
+    placeholderView.centerX = self.view.centerX;
+    placeholderView.circleColor = [UIColor randomColor];
+    [self.view addSubview:placeholderView];
     
     UIView *view = UIView.new;
     [self.view addSubview:view];
@@ -52,10 +63,7 @@
     [button setTitle:@"去开启" forState:UIControlStateNormal];
     [button setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont systemFontOfSize:12];
-    button.layer.cornerRadius = 3.f;
-    button.layer.masksToBounds = YES;
-    button.layer.borderColor = UIColor.redColor.CGColor;
-    button.layer.borderWidth = 1.f;
+    kai_view_border_radius(button, 3, 1.f, UIColor.redColor);
     [view addSubview:button];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(normal.mas_right).offset(20);
@@ -77,15 +85,63 @@
         make.centerX.equalTo(self.view);
         make.top.equalTo(view.mas_bottom).offset(30);
     }];
+    
+    
+    @weakify(self);
+    if (self.navigationController.viewControllers.count != 1) {
+        UIBarButtonItem *popToRoot = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop
+                                                                                   target:nil
+                                                                                   action:nil];
+        popToRoot.actionBlock = ^(id _Nonnull sender) {
+            @strongify(self);
+            [self kai_popToRootViewControllerAnimated];
+        };
+        self.navigationItem.rightBarButtonItem = popToRoot;
+    } else {
+        UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+                                                                                     target:self
+                                                                                     action:@selector(shareAction:)];
+        self.navigationItem.rightBarButtonItem = shareButton;
+    }
 }
 
+#pragma mark - :. ZKNavigationBarConfigureStyle
+
+- (ZKNavigationBarConfigurations)kai_navigtionBarConfiguration {
+    return ZKNavigationBarBackgroundStyleColor;
+}
+
+- (UIColor *)kai_barTintColor {
+    return self.barTintColor;
+}
+
+- (UIColor *)kai_tintColor {
+    return UIColor.whiteColor;
+}
+
+#pragma mark - :. event Handle
+
+- (void)shareAction:(id)sender {
+    NSString *const githubLink = @"https://github.com/kaiser143/ZKFoundation";
+    NSURL *shareURL = [NSURL URLWithString:githubLink];
+    UIActivityViewController *share = [[UIActivityViewController alloc] initWithActivityItems:@[shareURL]
+                                                                        applicationActivities:nil];
+    share.popoverPresentationController.barButtonItem = sender;
+    [self presentViewController:share animated:YES completion:nil];
+}
+
+
 - (void)buttonTapped:(UIButton *)sender {
-    ZKActionSheetView *sheet = [ZKActionSheetView actionSheetViewWithShareItems:@[
-                                                                                  [ZKActionItem actionWithTitle:@"刷新" icon:@"Action_Refresh" handler:nil],
-                                                                                  [ZKActionItem actionWithTitle:@"朋友圈" icon:@"Action_Moments" handler:nil],
-                                                                                  ]
-                                                                  functionItems:nil];
-    [sheet show];
+    ZKViewController *controller = [[ZKViewController alloc] init];
+    [self kai_pushViewController:controller animated:YES];
+    
+    
+//    ZKActionSheetView *sheet = [ZKActionSheetView actionSheetViewWithShareItems:@[
+//                                                                                  [ZKActionItem actionWithTitle:@"刷新" icon:@"Action_Refresh" handler:nil],
+//                                                                                  [ZKActionItem actionWithTitle:@"朋友圈" icon:@"Action_Moments" handler:nil],
+//                                                                                  ]
+//                                                                  functionItems:nil];
+//    [sheet show];
     
 //    [ZKPermission.manager requestWithType:ZKPermissionTypeContact
 //                                 callback:^(BOOL response, ZKPermissionAuthorizationStatus status) {
@@ -104,10 +160,8 @@
 //                                 }];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (CGFloat)kai_interactivePopMaxAllowedInitialDistanceToLeftEdge {
+    return 80;
 }
 
 @end

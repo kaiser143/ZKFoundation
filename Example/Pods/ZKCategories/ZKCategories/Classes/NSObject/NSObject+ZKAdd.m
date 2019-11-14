@@ -10,23 +10,135 @@
 #import "NSDate+ZKAdd.h"
 #import "NSArray+ZKAdd.h"
 #import <objc/runtime.h>
+#import <mach-o/dyld.h>
+#import <mach-o/getsect.h>
+#import <objc/message.h>
+#import "ZKCategoriesMacro.h"
+
+static void(*__kai_hook_orgin_function_removeObserver)(NSObject* self, SEL _cmd ,NSObject *observer ,NSString *keyPath) = ((void*)0);
+
+#define XXForOCString(_) @#_
+
+#define KVOADDIgnoreMarco()  \
+    autoreleasepool {} \
+    if (object_getClass(observer) == objc_getClass("RACKVOProxy") ) { \
+        KAIHookOrgin(observer, keyPath, options, context); \
+        return; \
+    }
+
+
+#define KVORemoveIgnoreMarco()  \
+    autoreleasepool {} \
+    if (object_getClass(observer) == objc_getClass("RACKVOProxy") ) {  \
+        KAIHookOrgin(observer, keyPath);\
+        return;  \
+    }
+
+#ifndef __LP64__
+
+#define mach_header_ mach_header
+
+#else
+
+#define mach_header_ mach_header_64
+
+#endif
 
 static inline dispatch_time_t dTimeDelay(NSTimeInterval time) {
     int64_t delta = (int64_t)(NSEC_PER_SEC * time);
     return dispatch_time(DISPATCH_TIME_NOW, delta);
 }
 
-@interface ZKObjectBlockExecutor : NSObject
+void kai_hook_load_group(NSString *groupName) {
+    uint32_t count = _dyld_image_count();
+    for (uint32_t i = 0 ; i < count ; i ++) {
+        const struct mach_header_* header = (void*)_dyld_get_image_header(i);
+        NSString *string = [NSString stringWithFormat:@"__sh%@",groupName];
+        unsigned long size = 0;
+        uint8_t *data = getsectiondata(header, "__DATA", [string UTF8String],&size);
+        if (data && size > 0) {
+            void **pointers = (void**)data;
+            uint32_t count = (uint32_t)(size / sizeof(void*));
+            for (uint32_t i = 0 ; i < count ; i ++) {
+                void(*pointer)(void) = pointers[i];
+                pointer();
+            }
+            break;
+        }
+    }
+}
+
+BOOL defaultSwizzlingOCMethod(Class self, SEL origSel_, SEL altSel_) {
+    Method origMethod = class_getInstanceMethod(self, origSel_);
+    if (!origMethod) {
+        return NO;
+    }
+    
+    Method altMethod = class_getInstanceMethod(self, altSel_);
+    if (!altMethod) {
+        return NO;
+    }
+    
+    class_addMethod(self,
+                    origSel_,
+                    class_getMethodImplementation(self, origSel_),
+                    method_getTypeEncoding(origMethod));
+    class_addMethod(self,
+                    altSel_,
+                    class_getMethodImplementation(self, altSel_),
+                    method_getTypeEncoding(altMethod));
+    
+    method_exchangeImplementations(class_getInstanceMethod(self, origSel_), class_getInstanceMethod(self, altSel_));
+    return YES;
+    
+}
+
+void* kai_hook_imp_function(Class clazz,
+                               SEL   sel,
+                               void  *newFunction) {
+    Method oldMethod = class_getInstanceMethod(clazz, sel);
+    BOOL succeed = class_addMethod(clazz,
+                                   sel,
+                                   (IMP)newFunction,
+                                   method_getTypeEncoding(oldMethod));
+    if (succeed) {
+        return nil;
+    } else {
+        return method_setImplementation(oldMethod, (IMP)newFunction);
+    }
+}
+
+BOOL kai_hook_check_block(Class objectClass, Class hookClass,void* associatedKey) {
+    while (objectClass && objectClass != hookClass) {
+        if (objc_getAssociatedObject(objectClass, associatedKey)) {
+            return NO;
+        }
+        objectClass = class_getSuperclass(objectClass);
+    }
+    return YES;
+}
+
+Class kai_hook_getClassFromObject(id object) {
+    // 如果不是class
+    if (!object_isClass(object)) {
+        return object_getClass(object);
+    } else {
+        return object;
+    }
+}
+
+
+@interface _KAIBlockExecutor : NSObject
 
 @property (nonatomic, copy) void (^deallocBlock)(void);
 
 @end
 
-@implementation ZKObjectBlockExecutor
+@implementation _KAIBlockExecutor
 
 + (id)blockExecutorWithDeallocBlock:(void (^)(void))block {
-    ZKObjectBlockExecutor *executor = [[ZKObjectBlockExecutor alloc] init];
-    executor.deallocBlock           = block; // copy
+    _KAIBlockExecutor *executor = [[_KAIBlockExecutor alloc] init];
+    executor.deallocBlock       = block; // copy
     return executor;
 }
 
@@ -168,7 +280,7 @@ static char DTRuntimeDeallocBlocks;
         objc_setAssociatedObject(self, &DTRuntimeDeallocBlocks, deallocBlocks, OBJC_ASSOCIATION_RETAIN);
     }
 
-    ZKObjectBlockExecutor *executor = [ZKObjectBlockExecutor blockExecutorWithDeallocBlock:block];
+    _KAIBlockExecutor *executor = [_KAIBlockExecutor blockExecutorWithDeallocBlock:block];
 
     [deallocBlocks addObject:executor];
 }
@@ -263,7 +375,7 @@ static char DTRuntimeDeallocBlocks;
     unsigned int outCount;
     objc_property_t *props = class_copyPropertyList([self class], &outCount);
     for (int i = 0; i < outCount; i++) {
-        objc_property_t prop = props[ i ];
+        objc_property_t prop = props[i];
         NSString *propName   = [[NSString alloc] initWithCString:property_getName(prop) encoding:NSUTF8StringEncoding];
         id propValue         = [self valueForKey:propName];
         [dict setObject:propValue ?: [NSNull null] forKey:propName];
@@ -281,7 +393,7 @@ static char DTRuntimeDeallocBlocks;
     objc_property_t *properties   = class_copyPropertyList(self, &propertyCount);
     NSMutableArray *propertyNames = [NSMutableArray array];
     for (unsigned int i = 0; i < propertyCount; ++i) {
-        objc_property_t property = properties[ i ];
+        objc_property_t property = properties[i];
         const char *name         = property_getName(property);
         [propertyNames addObject:[NSString stringWithUTF8String:name]];
     }
@@ -305,7 +417,7 @@ static char DTRuntimeDeallocBlocks;
     for (int i = 0; i < propertyCount; i++) {
         [propertieArray addObject:({
 
-                            NSDictionary *dictionary = [self dictionaryWithProperty:properties[ i ]];
+                            NSDictionary *dictionary = [self dictionaryWithProperty:properties[i]];
 
                             dictionary;
                         })];
@@ -365,7 +477,7 @@ static char DTRuntimeDeallocBlocks;
     NSMutableArray *methodList = [NSMutableArray array];
     Method *methods            = class_copyMethodList([self class], &count);
     for (int i = 0; i < count; i++) {
-        SEL name          = method_getName(methods[ i ]);
+        SEL name          = method_getName(methods[i]);
         NSString *strName = [NSString stringWithCString:sel_getName(name) encoding:NSUTF8StringEncoding];
         [methodList addObject:strName];
     }
@@ -380,7 +492,7 @@ static char DTRuntimeDeallocBlocks;
     for (int i = 0; i < count; i++) {
         NSMutableDictionary *info = [NSMutableDictionary dictionary];
 
-        Method method = methods[ i ];
+        Method method = methods[i];
         //        IMP imp = method_getImplementation(method);
         SEL name = method_getName(method);
         // 返回方法的参数的个数
@@ -419,7 +531,7 @@ static char DTRuntimeDeallocBlocks;
     NSMutableArray *methodList = [NSMutableArray array];
     Method *methods            = class_copyMethodList([self class], &count);
     for (int i = 0; i < count; i++) {
-        SEL name          = method_getName(methods[ i ]);
+        SEL name          = method_getName(methods[i]);
         NSString *strName = [NSString stringWithCString:sel_getName(name) encoding:NSUTF8StringEncoding];
         [methodList addObject:strName];
     }
@@ -466,8 +578,8 @@ static char DTRuntimeDeallocBlocks;
         objc_property_attribute_t *attrs = property_copyAttributeList(property, &attributeCount);
 
         for (int i = 0; i < attributeCount; i++) {
-            NSString *name  = [NSString stringWithCString:attrs[ i ].name encoding:NSUTF8StringEncoding];
-            NSString *value = [NSString stringWithCString:attrs[ i ].value encoding:NSUTF8StringEncoding];
+            NSString *name  = [NSString stringWithCString:attrs[i].name encoding:NSUTF8StringEncoding];
+            NSString *value = [NSString stringWithCString:attrs[i].value encoding:NSUTF8StringEncoding];
             [dictionary setObject:value forKey:name];
         }
 
@@ -665,7 +777,7 @@ static char DTRuntimeDeallocBlocks;
 
 @end
 
-@interface _ZKNSObjetKVOBlockTarget : NSObject
+@interface _KAIKVOBlockTarget : NSObject
 
 @property (nonatomic, copy) void (^block)(__weak id obj, id oldVal, id newVal);
 
@@ -673,7 +785,7 @@ static char DTRuntimeDeallocBlocks;
 
 @end
 
-@implementation _ZKNSObjetKVOBlockTarget
+@implementation _KAIKVOBlockTarget
 
 - (id)initWithBlock:(void (^)(__weak id obj, id oldVal, id newVal))block {
     self = [super init];
@@ -703,44 +815,20 @@ static char DTRuntimeDeallocBlocks;
 
 @end
 
-@interface _ZKKVOInfo : NSObject
-
-@property (nonatomic, copy) NSString *keyPath;
-@property (nonatomic, weak) NSObject *observer;
-
-- (instancetype)initWithObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath;
-
-@end
-
-@implementation _ZKKVOInfo
-
-- (instancetype)initWithObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath {
-    self = [super init];
-    if (self == nil) return nil;
-
-    self.observer = observer;
-    self.keyPath  = keyPath;
-
-    return self;
-}
-
-@end
-
-@implementation NSObject (ZKAddForKVO)
+@implementation NSObject (ZKKVOBlock)
 
 + (void)load {
-    [self swizzleMethod:@selector(addObserver:forKeyPath:options:context:) withMethod:@selector(_kai_addObserver:forKeyPath:options:context:)];
-    [self swizzleMethod:@selector(removeObserver:forKeyPath:context:) withMethod:@selector(_kai_removeObserver:forKeyPath:context:)];
+    kai_hook_load_group(XXForOCString(KVOSafe));
 }
 
 - (void)addObserverBlockForKeyPath:(NSString *)keyPath block:(void (^)(__weak id obj, id oldVal, id newVal))block {
     if (!keyPath || !block) return;
-    _ZKNSObjetKVOBlockTarget *target = [[_ZKNSObjetKVOBlockTarget alloc] initWithBlock:block];
-    NSMutableDictionary *dic         = [self _kai_allNSObjectObserverBlocks];
-    NSMutableArray *arr              = dic[ keyPath ];
+    _KAIKVOBlockTarget *target = [[_KAIKVOBlockTarget alloc] initWithBlock:block];
+    NSMutableDictionary *dic   = [self _kai_allNSObjectObserverBlocks];
+    NSMutableArray *arr        = dic[keyPath];
     if (!arr) {
-        arr            = [NSMutableArray new];
-        dic[ keyPath ] = arr;
+        arr          = [NSMutableArray new];
+        dic[keyPath] = arr;
     }
     [arr addObject:target];
     [self addObserver:target forKeyPath:keyPath options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
@@ -749,11 +837,11 @@ static char DTRuntimeDeallocBlocks;
 - (void)removeObserverBlocksForKeyPath:(NSString *)keyPath {
     if (!keyPath) return;
     NSMutableDictionary *dic = [self _kai_allNSObjectObserverBlocks];
-    NSMutableArray *arr      = dic[ keyPath ];
+    NSMutableArray *arr      = dic[keyPath];
     [arr enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [self removeObserver:obj forKeyPath:keyPath];
     }];
-
+    
     [dic removeObjectForKey:keyPath];
 }
 
@@ -764,11 +852,11 @@ static char DTRuntimeDeallocBlocks;
             [self removeObserver:obj forKeyPath:key];
         }];
     }];
-
+    
     [dic removeAllObjects];
 }
 
-- (NSMutableDictionary *)_kai_allNSObjectObserverBlocks {
+- (NSMutableDictionary<NSString *, NSMutableArray *> *)_kai_allNSObjectObserverBlocks {
     NSMutableDictionary *targets = [self associatedValueForKey:_cmd];
     if (!targets) {
         targets = [NSMutableDictionary new];
@@ -787,56 +875,127 @@ static char DTRuntimeDeallocBlocks;
     return infos;
 }
 
-- (void)_kai_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(void *)context {
-    if (!observer || !keyPath) return;
+@end
 
-    _ZKKVOInfo *info         = [[_ZKKVOInfo alloc] initWithObserver:observer forKeyPath:keyPath];
-    NSMutableDictionary *dic = [self _kai_allObserverInfos];
-    NSMutableArray *arr      = dic[ keyPath ];
-    if (!arr) {
-        arr            = [NSMutableArray new];
-        dic[ keyPath ] = arr;
-    }
-    [arr addObject:info];
-    [self _kai_addObserver:observer forKeyPath:keyPath options:options context:context];
+
+@interface _KAIKVOProxy : NSObject {
+    __unsafe_unretained NSObject *_observed;
 }
 
-- (void)_kai_removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath context:(void *)context {
-    if (![self _kai_observerKeyPath:keyPath observer:observer]) return;
-
-    [self _kai_removeObserver:observer forKeyPath:keyPath context:context];
-
-    NSMutableDictionary *dic = [self _kai_allObserverInfos];
-    NSMutableArray *array    = dic[ keyPath ];
-    _ZKKVOInfo *info         = [array objectPassingTest:^BOOL(_ZKKVOInfo *obj) {
-        return ([observer isEqual:obj.observer] && [keyPath isEqualToString:obj.keyPath]);
-    }];
-    if (info) [array removeObject:info];
-}
-
-- (BOOL)_kai_observerKeyPath:(NSString *)keyPath observer:(id)observer {
-    NSMutableDictionary *dic = [self _kai_allObserverInfos];
-    NSArray *array           = dic[ keyPath ];
-    _ZKKVOInfo *info         = [array objectPassingTest:^BOOL(_ZKKVOInfo *obj) {
-        return ([observer isEqual:obj.observer] && [keyPath isEqualToString:obj.keyPath]);
-    }];
-    return info ? YES : NO;
-}
-
-// AVPlayerLayer 类在调用 observationInfo 会引起闪退“*** -[AVPlayerLayer release]: message sent to deallocated instance 0x600002da1f20”
-//- (BOOL)_kai_observerKeyPath:(NSString *)key observer:(id)observer {
-//    id info = self.observationInfo;
-//    NSArray *array = [info valueForKey:@"_observances"];
-//    for (id objc in array) {
-//        id Properties = [objc valueForKeyPath:@"_property"];
-//        id newObserver = [objc valueForKeyPath:@"_observer"];
-//
-//        NSString *keyPath = [Properties valueForKeyPath:@"_keyPath"];
-//        if ([key isEqualToString:keyPath] && [newObserver isEqual:observer]) {
-//            return YES;
-//        }
-//    }
-//    return NO;
-//}
+/**
+ {keypath : [ob1,ob2](NSHashTable)}
+ */
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSHashTable<NSObject *> *> *KVOInfoMap;
 
 @end
+
+@implementation _KAIKVOProxy
+
+- (instancetype)initWithObserverd:(NSObject *)observed {
+    self = [super init];
+    if (self == nil) return nil;
+    
+    _observed = observed;
+    
+    return self;
+}
+
+- (void)dealloc {
+    @autoreleasepool {
+        NSDictionary<NSString *, NSHashTable<NSObject *> *> *KVOInfos = self.KVOInfoMap.copy;
+        for (NSString *keyPath in KVOInfos) {
+            __kai_hook_orgin_function_removeObserver(_observed, @selector(removeObserver:forKeyPath:), self, keyPath);
+        }
+    }
+}
+
+#pragma mark - :. getters and setters
+
+- (NSMutableDictionary<NSString *,NSHashTable<NSObject *> *> *)KVOInfoMap {
+    if (!_KVOInfoMap) {
+        _KVOInfoMap = @{}.mutableCopy;
+    }
+    return _KVOInfoMap;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    NSHashTable<NSObject *> *os = self.KVOInfoMap[keyPath];
+    for (NSObject *observer in os) {
+        @try {
+            [observer observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+        } @catch (NSException *exception) {
+        }
+    }
+}
+
+@end
+
+@interface NSObject (ZKKVOSafe)
+
+@property (nonatomic, strong) _KAIKVOProxy *KVOProxy;
+
+@end
+
+@implementation NSObject (ZKKVOSafe)
+
+- (void)setKVOProxy:(_KAIKVOProxy *)KVOProxy {
+    [self setAssociateValue:KVOProxy withKey:@selector(KVOProxy)];
+}
+
+- (_KAIKVOProxy *)KVOProxy {
+    return [self associatedValueForKey:_cmd];
+}
+
+@end
+
+
+#pragma mark - :. hook KVO
+
+KAIStaticHookClass(NSObject, KVOSafe, void, @selector(addObserver:forKeyPath:options:context:),
+                  (NSObject *)observer, (NSString *)keyPath,(NSKeyValueObservingOptions)options, (void *)context) {
+    @KVOADDIgnoreMarco()
+    
+    if (!self.KVOProxy) {
+        @autoreleasepool {
+            self.KVOProxy = [[_KAIKVOProxy alloc] initWithObserverd:self];
+        }
+    }
+
+    NSHashTable<NSObject *> *os = self.KVOProxy.KVOInfoMap[keyPath];
+    if (os.count == 0) {
+        os = [[NSHashTable alloc] initWithOptions:(NSPointerFunctionsWeakMemory) capacity:0];
+        [os addObject:observer];
+
+        KAIHookOrgin(self.KVOProxy, keyPath, options, context);
+        self.KVOProxy.KVOInfoMap[keyPath] = os;
+        return ;
+    }
+
+    if ([os containsObject:observer]) {
+//        NSString *reason = [NSString stringWithFormat:@"target is %@ method is %@, reason : KVO add Observer to many timers.",
+//                            [self class], XXSEL2Str(@selector(addObserver:forKeyPath:options:context:))];
+    } else {
+        [os addObject:observer];
+    }
+}
+KAIStaticHookEnd
+
+KAIStaticHookClass(NSObject, KVOSafe, void, @selector(removeObserver:forKeyPath:),
+                  (NSObject *)observer, (NSString *)keyPath) {
+    @KVORemoveIgnoreMarco()
+    NSHashTable<NSObject *> *os = self.KVOProxy.KVOInfoMap[keyPath];
+
+    if (os.count == 0) {
+//        NSString *reason = [NSString stringWithFormat:@"target is %@ method is %@, reason : KVO remove Observer to many times.",
+//                            [self class], XXSEL2Str(@selector(removeObserver:forKeyPath:))];
+        return;
+    }
+
+    [os removeObject:observer];
+
+    if (os.count == 0) {
+        KAIHookOrgin(self.KVOProxy, keyPath);
+        [self.KVOProxy.KVOInfoMap removeObjectForKey:keyPath];
+    }
+}
+KAIStaticHookEnd_SaveOri(__kai_hook_orgin_function_removeObserver)

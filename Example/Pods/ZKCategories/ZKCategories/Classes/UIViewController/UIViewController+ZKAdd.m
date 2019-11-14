@@ -309,8 +309,7 @@
         [self.parentViewController presentViewController:newViewController animated:animated completion:nil];
     else {
         UIViewController *rootViewController = [[UIApplication sharedApplication].windows firstObject].rootViewController;
-        while (rootViewController.presentedViewController)
-        {
+        while (rootViewController.presentedViewController) {
             rootViewController = rootViewController.presentedViewController;
         }
         [rootViewController presentViewController:newViewController animated:animated completion:nil];
@@ -322,19 +321,17 @@
 @implementation UINavigationController (ZKAddForNavigation)
 
 - (BOOL)navigationBar:(UINavigationBar *)navigationBar shouldPopItem:(UINavigationItem *)item {
-    if ([self.viewControllers count] < [navigationBar.items count])
+    if (self.topViewController.navigationItem != item) {
         return YES;
+    }
     
     UIView *barBackIndicatorView = navigationBar.subviews.lastObject;
     barBackIndicatorView.alpha = 1;
     
-    UIViewController *vc = [self topViewController];
-    void (^handler)(UIViewController *vc) = [vc backButtonHandler];
-    if (handler) {
-        handler(vc);
-    } else {
-        [self popViewControllerAnimated:YES];
-    }
+    UIViewController *topViewController = self.topViewController;
+    void (^callback)(UIViewController *vc) = [topViewController backButtonHandler];
+    !callback ?: callback(topViewController);
+    if (!callback) [self popViewControllerAnimated:YES];
     
     return NO;
 }
