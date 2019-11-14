@@ -23,11 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    // see YPNavigationController+Configure.{h,m} in Example Project
-//    NSAssert([self conformsToProtocol:@protocol(ZKNavigationBarConfigureStyle)],
-//             @"you must implement ZKNavigationBarConfigureStyle for ZKNavigationController in subclass or category");
-
+    
     _center = [[ZKNavigationBarTransitionCenter alloc] initWithDefaultBarConfiguration:(id<ZKNavigationBarConfigureStyle>)self];
     if (!self.delegate) {
         self.delegate = self;
