@@ -1,6 +1,6 @@
 //
 //  ZKCollectionViewHelper.m
-//  FBSnapshotTestCase
+//  ZKFoundation
 //
 //  Created by Kaiser on 2019/3/12.
 //

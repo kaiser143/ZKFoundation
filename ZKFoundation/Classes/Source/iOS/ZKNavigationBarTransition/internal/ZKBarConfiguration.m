@@ -1,6 +1,6 @@
 //
 //  ZKBarConfiguration.m
-//  Masonry
+//  ZKFoundation
 //
 //  Created by zhangkai on 2019/11/14.
 //

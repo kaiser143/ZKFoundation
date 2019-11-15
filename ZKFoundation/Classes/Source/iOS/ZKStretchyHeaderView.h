@@ -1,6 +1,6 @@
 //
 //  ZKStretchyHeaderView.h
-//  Masonry
+//  ZKFoundation
 //
 //  Created by Kaiser on 2019/6/12.
 //
