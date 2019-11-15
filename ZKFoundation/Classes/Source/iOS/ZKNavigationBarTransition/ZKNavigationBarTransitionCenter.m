@@ -57,7 +57,7 @@ static struct {
     NSParameterAssert(_default);
     self = [super init];
     if (self) {
-        _defaultBarConfigure = nil; //[[ZKBarConfiguration alloc] initWithBarConfigurationOwner:_default];
+        _defaultBarConfigure = [[ZKBarConfiguration alloc] initWithBarConfigurationOwner:_default];
     }
 
     return self;

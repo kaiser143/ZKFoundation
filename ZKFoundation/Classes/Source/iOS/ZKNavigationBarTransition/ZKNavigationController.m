@@ -24,7 +24,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _center = [[ZKNavigationBarTransitionCenter alloc] initWithDefaultBarConfiguration:(id<ZKNavigationBarConfigureStyle>)self];
+    id configuration;
+    if ([self conformsToProtocol:@protocol(ZKNavigationBarConfigureStyle)]) configuration = self;
+    else configuration = self.viewControllers.firstObject;
+    
+    _center = [[ZKNavigationBarTransitionCenter alloc] initWithDefaultBarConfiguration:(id<ZKNavigationBarConfigureStyle>)configuration];
     if (!self.delegate) {
         self.delegate = self;
     }

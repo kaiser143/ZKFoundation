@@ -24,7 +24,6 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     self.view.backgroundColor = UIColor.whiteColor;
-    self.barTintColor = UIColor.randomColor;
     self.title = @"ZKFoundation";
     
     
@@ -112,11 +111,11 @@
 }
 
 - (UIColor *)kai_barTintColor {
-    return self.barTintColor;
+    return self.navigationController.viewControllers.count == 2 ? UIColor.yellowColor : self.barTintColor;
 }
 
 - (UIColor *)kai_tintColor {
-    return UIColor.whiteColor;
+    return UIColor.redColor;
 }
 
 #pragma mark - :. event Handle
@@ -132,8 +131,13 @@
 
 
 - (void)buttonTapped:(UIButton *)sender {
-    ZKViewController *controller = [[ZKViewController alloc] init];
-    [self kai_pushViewController:controller animated:YES];
+//    ZKViewController *controller = [[ZKViewController alloc] init];
+//    [self kai_pushViewController:controller animated:YES];
+    
+    UIViewController *controller = UIViewController.new;
+    controller.view.backgroundColor = UIColor.randomColor;
+    controller.title = @"ViewController";
+    [self kai_pushViewController:controller];
     
     
 //    ZKActionSheetView *sheet = [ZKActionSheetView actionSheetViewWithShareItems:@[
@@ -162,6 +166,13 @@
 
 - (CGFloat)kai_interactivePopMaxAllowedInitialDistanceToLeftEdge {
     return 80;
+}
+
+- (UIColor *)barTintColor {
+    if (!_barTintColor) {
+        _barTintColor = UIColor.randomColor;
+    }
+    return _barTintColor;
 }
 
 @end
