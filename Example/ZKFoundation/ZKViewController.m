@@ -131,13 +131,13 @@
 
 
 - (void)buttonTapped:(UIButton *)sender {
-//    ZKViewController *controller = [[ZKViewController alloc] init];
-//    [self kai_pushViewController:controller animated:YES];
+    ZKViewController *controller = [[ZKViewController alloc] init];
+    [self kai_pushViewController:controller animated:YES];
     
-    UIViewController *controller = UIViewController.new;
-    controller.view.backgroundColor = UIColor.randomColor;
-    controller.title = @"ViewController";
-    [self kai_pushViewController:controller];
+//    UIViewController *controller = UIViewController.new;
+//    controller.view.backgroundColor = UIColor.randomColor;
+//    controller.title = @"ViewController";
+//    [self kai_pushViewController:controller];
     
     
 //    ZKActionSheetView *sheet = [ZKActionSheetView actionSheetViewWithShareItems:@[
@@ -164,9 +164,9 @@
 //                                 }];
 }
 
-- (CGFloat)kai_interactivePopMaxAllowedInitialDistanceToLeftEdge {
-    return 80;
-}
+//- (CGFloat)kai_interactivePopMaxAllowedInitialDistanceToLeftEdge {
+//    return 80;
+//}
 
 - (UIColor *)barTintColor {
     if (!_barTintColor) {

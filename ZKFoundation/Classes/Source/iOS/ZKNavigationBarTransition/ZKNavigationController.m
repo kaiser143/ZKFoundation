@@ -15,7 +15,7 @@
 @property (nonatomic, strong) ZKNavigationBarTransitionCenter *center;
 @property (nonatomic, weak, nullable) id<UINavigationControllerDelegate> navigationDelegate;
 @property (nonatomic, strong, nullable) ZKNavigationControllerDelegateProxy *delegateProxy;
-@property (assign) BOOL isAnimation;
+@property (assign, getter=isAnimation) BOOL animation;
 
 @end
 
@@ -23,26 +23,28 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     id configuration;
-    if ([self conformsToProtocol:@protocol(ZKNavigationBarConfigureStyle)]) configuration = self;
-    else configuration = self.viewControllers.firstObject;
-    
+    if ([self conformsToProtocol:@protocol(ZKNavigationBarConfigureStyle)])
+        configuration = self;
+    else
+        configuration = self.viewControllers.firstObject;
+
     _center = [[ZKNavigationBarTransitionCenter alloc] initWithDefaultBarConfiguration:(id<ZKNavigationBarConfigureStyle>)configuration];
     if (!self.delegate) {
         self.delegate = self;
     }
-    self.isAnimation                              = NO;
+    self.animation                                = NO;
     self.interactivePopGestureRecognizer.delegate = self;
 }
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    self.isAnimation = YES;
+    self.animation = YES;
     [super pushViewController:viewController animated:animated];
 }
 
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated {
-    self.isAnimation = YES;
+    self.animation = YES;
     return [super popViewControllerAnimated:animated];
 }
 
@@ -89,7 +91,7 @@
     [self.center navigationController:navigationController
                 didShowViewController:viewController
                              animated:animated];
-    self.isAnimation = NO;
+    self.animation = NO;
 }
 
 @end
