@@ -10,6 +10,7 @@
 #import <Masonry/Masonry.h>
 #import <ZKCategories/ZKCategories.h>
 #import <ZKFoundation/ZKFoundation.h>
+#import "ZKWebViewController.h"
 
 @interface ZKViewController () <ZKNavigationBarConfigureStyle>
 
@@ -131,8 +132,12 @@
 
 
 - (void)buttonTapped:(UIButton *)sender {
-    ZKViewController *controller = [[ZKViewController alloc] init];
-    [self kai_pushViewController:controller animated:YES];
+//    ZKViewController *controller = [[ZKViewController alloc] init];
+//    [self kai_pushViewController:controller animated:YES];
+    
+    NSString *const githubLink = @"https://github.com/kaiser143/ZKFoundation";
+    ZKWebViewController *controller = [[ZKWebViewController alloc] initWithURL:githubLink.URL];
+    [self kai_pushViewController:controller];
     
 //    UIViewController *controller = UIViewController.new;
 //    controller.view.backgroundColor = UIColor.randomColor;

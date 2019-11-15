@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZKBarConfiguration : NSObject
 
-@property (nonatomic, assign, readonly) BOOL hidden;
+@property (nonatomic, assign, readonly) BOOL navigationBarHidden;
 @property (nonatomic, assign, readonly) UIBarStyle barStyle;
 @property (nonatomic, assign, readonly) BOOL translucent;
 @property (nonatomic, assign, readonly) BOOL transparent;
@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithBarConfigurations:(ZKNavigationBarConfigurations)configurations
+                      navigationBarHidden:(BOOL)navigationBarHidden
                                 tintColor:(nullable UIColor *)tintColor
                           backgroundColor:(nullable UIColor *)backgroundColor
                           backgroundImage:(nullable UIImage *)backgroundImage

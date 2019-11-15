@@ -14,7 +14,7 @@
 BOOL KAITransitionNeedShowFakeBar(ZKBarConfiguration *from, ZKBarConfiguration *to) {
     BOOL showFakeBar = NO;
     do {
-        if (from.hidden || to.hidden) break;
+        if (from.navigationBarHidden || to.navigationBarHidden) break;
 
         if (from.transparent != to.transparent ||
             from.translucent != to.translucent) {
@@ -111,22 +111,23 @@ static struct {
 
     _isTransitionNavigationBar = YES;
 
-    if (showConfigure.hidden != navigationController.navigationBarHidden) {
-        [navigationController setNavigationBarHidden:showConfigure.hidden animated:animated];
-    }
+//    if (showConfigure.hidden != navigationController.navigationBarHidden) {
+//        [navigationController setNavigationBarHidden:showConfigure.hidden animated:animated];
+//    }
 
     ZKBarConfiguration *transparentConfigure = nil;
     if (showFakeBar) {
         ZKNavigationBarConfigurations transparentConf = ZKNavigationBarConfigurationsDefault | ZKNavigationBarBackgroundStyleTransparent;
         if (showConfigure.barStyle == UIBarStyleBlack) transparentConf |= ZKNavigationBarStyleBlack;
         transparentConfigure = [[ZKBarConfiguration alloc] initWithBarConfigurations:transparentConf
+                                                                 navigationBarHidden:showConfigure.navigationBarHidden
                                                                            tintColor:showConfigure.tintColor
                                                                      backgroundColor:nil
                                                                      backgroundImage:nil
                                                            backgroundImageIdentifier:nil];
     }
 
-    if (!showConfigure.hidden) {
+    if (!showConfigure.navigationBarHidden) {
         [navigationBar kai_commitBarConfiguration:transparentConfigure ?: showConfigure];
     } else {
         [navigationBar kai_adaptWithBarStyle:showConfigure.barStyle tintColor:currentConfigure.tintColor];
@@ -190,9 +191,9 @@ static struct {
                 [self removeFakeBars];
                 [navigationBar kai_commitBarConfiguration:currentConfigure];
 
-                if (currentConfigure.hidden != navigationController.navigationBarHidden) {
-                    [navigationController setNavigationBarHidden:showConfigure.hidden animated:animated];
-                }
+//                if (currentConfigure.hidden != navigationController.navigationBarHidden) {
+//                    [navigationController setNavigationBarHidden:showConfigure.hidden animated:animated];
+//                }
             }
 
             if (showFakeBar) {

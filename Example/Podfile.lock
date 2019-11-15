@@ -1,6 +1,21 @@
 PODS:
+  - Aspects (1.4.1)
+  - AXIndicatorView (0.1.1)
+  - AXNavigationBackItemInjection (0.0.2)
+  - AXPracticalHUD (2.1.4):
+    - AXIndicatorView
+  - AXWebViewController (0.7.2):
+    - Aspects
+    - AXNavigationBackItemInjection
+    - AXPracticalHUD
+    - NJKWebViewProgress
   - Masonry (1.1.0)
-  - ZKCategories (0.2.3)
+  - NJKWebViewProgress (0.2.3):
+    - NJKWebViewProgress/Core (= 0.2.3)
+    - NJKWebViewProgress/ProgressView (= 0.2.3)
+  - NJKWebViewProgress/Core (0.2.3)
+  - NJKWebViewProgress/ProgressView (0.2.3)
+  - ZKCategories (0.2.6)
   - ZKFoundation (0.1.0):
     - ZKCategories (~> 0.2.1)
     - ZKFoundation/AuthContext (= 0.1.0)
@@ -23,12 +38,19 @@ PODS:
     - ZKCategories (~> 0.2.1)
 
 DEPENDENCIES:
+  - AXWebViewController
   - Masonry
   - ZKFoundation (from `../`)
 
 SPEC REPOS:
   trunk:
+    - Aspects
+    - AXIndicatorView
+    - AXNavigationBackItemInjection
+    - AXPracticalHUD
+    - AXWebViewController
     - Masonry
+    - NJKWebViewProgress
     - ZKCategories
 
 EXTERNAL SOURCES:
@@ -36,10 +58,16 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
+  Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
+  AXIndicatorView: 566b490a2dd9781d4ffbcc9752be9b9cdc6e728e
+  AXNavigationBackItemInjection: efe0446967f3cbcc85a9118decd1e145138912dd
+  AXPracticalHUD: 821d170b31e050c426ef8754b07b4264a8b1d861
+  AXWebViewController: 96566c473fce2806f4da696132b31777f5404c9f
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  ZKCategories: 96f580269e8759f039956ed519c62c69795e2da1
+  NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
+  ZKCategories: 0e0052a40eccbf1bc58f330ba050ce2226254cb7
   ZKFoundation: aae02c9b39485f4d1a0c0f193d4d07627e60f6c9
 
-PODFILE CHECKSUM: 5d7ab6c1c4a090cdde891c46984b4771c27bd33d
+PODFILE CHECKSUM: 872d2cb011f251d218cf1097f9a06ca644cbacc9
 
 COCOAPODS: 1.8.4

@@ -9,9 +9,6 @@
 #define ZKNavigationBarProtocol_h
 
 typedef NS_OPTIONS(NSUInteger, ZKNavigationBarConfigurations) {
-    ZKNavigationBarShow   = 0,          // show navigationBar
-    ZKNavigationBarHidden = 1,          // hide navigationBar
-    
     // bar style
     ZKNavigationBarStyleLight = 0 << 4,  // UIbarStyleDefault
     ZKNavigationBarStyleBlack = 1 << 4,  // UIbarStyleBlack

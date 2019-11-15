@@ -161,12 +161,24 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/AXIndicatorView/AXIndicatorView.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/AXNavigationBackItemInjection/AXNavigationBackItemInjection.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/AXPracticalHUD/AXPracticalHUD.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/AXWebViewController/AXWebViewController.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Aspects/Aspects.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/NJKWebViewProgress/NJKWebViewProgress.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ZKCategories/ZKCategories.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ZKFoundation/ZKFoundation.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/AXIndicatorView/AXIndicatorView.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/AXNavigationBackItemInjection/AXNavigationBackItemInjection.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/AXPracticalHUD/AXPracticalHUD.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/AXWebViewController/AXWebViewController.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Aspects/Aspects.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/NJKWebViewProgress/NJKWebViewProgress.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ZKCategories/ZKCategories.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ZKFoundation/ZKFoundation.framework"
 fi

@@ -94,4 +94,10 @@
     self.animation = NO;
 }
 
+#pragma mark - :. getters and setters
+
+//- (BOOL)kai_viewControllerBasedNavigationBarAppearanceEnabled {
+//    return NO;
+//}
+
 @end

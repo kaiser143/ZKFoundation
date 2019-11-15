@@ -12,6 +12,7 @@
 
 - (instancetype)init {
     return [self initWithBarConfigurations:ZKNavigationBarConfigurationsDefault
+                       navigationBarHidden:NO
                                  tintColor:nil
                            backgroundColor:nil
                            backgroundImage:nil
@@ -19,15 +20,16 @@
 }
 
 - (instancetype)initWithBarConfigurations:(ZKNavigationBarConfigurations)configurations
-                                tintColor:(UIColor *)tintColor
-                          backgroundColor:(UIColor *)backgroundColor
-                          backgroundImage:(UIImage *)backgroundImage
-                backgroundImageIdentifier:(NSString *)backgroundImageIdentifier {
+                      navigationBarHidden:(BOOL)navigationBarHidden
+                                tintColor:(nullable UIColor *)tintColor
+                          backgroundColor:(nullable UIColor *)backgroundColor
+                          backgroundImage:(nullable UIImage *)backgroundImage
+                backgroundImageIdentifier:(nullable NSString *)backgroundImageIdentifier {
     self = [super init];
     if (!self) return nil;
 
     do {
-        _hidden = (configurations & ZKNavigationBarHidden) > 0;
+        _navigationBarHidden = navigationBarHidden;
 
         _barStyle = (configurations & ZKNavigationBarStyleBlack) > 0 ? UIBarStyleBlack : UIBarStyleDefault;
         if (!tintColor) {
@@ -35,7 +37,7 @@
         }
         _tintColor = tintColor;
 
-        if (_hidden) break;
+        if (_navigationBarHidden) break;
 
         _transparent = (configurations & ZKNavigationBarBackgroundStyleTransparent) > 0;
         if (_transparent) break;
@@ -76,6 +78,7 @@
     }
 
     return [self initWithBarConfigurations:configurations
+                       navigationBarHidden:[(UIViewController *)owner kai_prefersNavigationBarHidden]
                                  tintColor:tintColor
                            backgroundColor:backgroundColor
                            backgroundImage:backgroundImage
@@ -83,7 +86,7 @@
 }
 
 - (BOOL)isVisible {
-    return !self.hidden && !self.transparent;
+    return !self.navigationBarHidden && !self.transparent;
 }
 
 - (BOOL)useSystemBarBackground {

@@ -5,6 +5,7 @@ platform :ios, '8.0'
 target 'ZKFoundation_Example' do
   pod 'ZKFoundation', :path => '../'
   pod 'Masonry'
+  pod 'AXWebViewController'
 
  # target 'ZKFoundation_Tests' do
  #   inherit! :search_paths
