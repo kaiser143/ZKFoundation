@@ -100,7 +100,7 @@ static struct {
 
     ZKBarConfiguration *currentConfigure = [navigationController.navigationBar currentBarConfigure] ?: self.defaultBarConfigure;
     ZKBarConfiguration *showConfigure    = self.defaultBarConfigure;
-    if ([viewController kai_customNavigationBarStyleEnable]) {
+    if ([viewController kai_customNavigationBarStyleEnabled]) {
         id<ZKNavigationBarConfigureStyle> owner = (id<ZKNavigationBarConfigureStyle>)viewController;
         showConfigure                           = [[ZKBarConfiguration alloc] initWithBarConfigurationOwner:owner];
     }
@@ -234,7 +234,7 @@ static struct {
     [self removeFakeBars];
 
     ZKBarConfiguration *showConfigure = self.defaultBarConfigure;
-    if ([viewController kai_customNavigationBarStyleEnable]) {
+    if ([viewController kai_customNavigationBarStyleEnabled]) {
         id<ZKNavigationBarConfigureStyle> owner = (id<ZKNavigationBarConfigureStyle>)viewController;
         showConfigure                           = [[ZKBarConfiguration alloc] initWithBarConfigurationOwner:owner];
     }

@@ -10,7 +10,7 @@
 
 @implementation UIViewController (ZKNavigationBarTransition)
 
-- (BOOL)kai_customNavigationBarStyleEnable {
+- (BOOL)kai_customNavigationBarStyleEnabled {
     return [self conformsToProtocol:@protocol(ZKNavigationBarConfigureStyle)];
 }
 
@@ -23,7 +23,7 @@
 }
 
 - (void)kai_refreshNavigationBarStyle {
-    NSParameterAssert([self kai_customNavigationBarStyleEnable]);
+    NSParameterAssert([self kai_customNavigationBarStyleEnabled]);
 
     UINavigationBar *navigationBar = [self __kai_navigationBar];
     if (navigationBar.topItem == self.navigationItem) {

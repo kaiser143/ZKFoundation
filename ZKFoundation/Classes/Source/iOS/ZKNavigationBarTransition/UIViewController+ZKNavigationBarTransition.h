@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIViewController (ZKNavigationBarTransition)
 
-- (BOOL)kai_customNavigationBarStyleEnable;
+- (BOOL)kai_customNavigationBarStyleEnabled;
 
 - (void)kai_refreshNavigationBarStyle;
 
