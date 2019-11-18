@@ -112,11 +112,11 @@
 }
 
 - (UIColor *)kai_barTintColor {
-    return self.navigationController.viewControllers.count == 2 ? UIColor.yellowColor : self.barTintColor;
+    return self.navigationController.viewControllers.count == 2 ? UIColor.cyanColor : self.barTintColor;
 }
 
 - (UIColor *)kai_tintColor {
-    return UIColor.redColor;
+    return nil; //UIColor.redColor;
 }
 
 #pragma mark - :. event Handle

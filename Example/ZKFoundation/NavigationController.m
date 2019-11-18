@@ -27,7 +27,7 @@
 }
 
 - (UIColor *)kai_tintColor {
-    return UIColor.whiteColor;
+    return nil; //UIColor.whiteColor;
 }
 
 - (UIColor *)kai_barTintColor {
