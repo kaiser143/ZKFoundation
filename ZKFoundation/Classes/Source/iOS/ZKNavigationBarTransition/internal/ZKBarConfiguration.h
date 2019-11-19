@@ -42,12 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface UIToolbar (ZKPrivate)
-
-- (void)kai_commitBarConfiguration:(ZKBarConfiguration *)configure;
-
-@end
-
 @interface UINavigationBar (ZKPrivate)
 
 @property (nonatomic, strong, readonly) ZKBarConfiguration *currentBarConfigure;
