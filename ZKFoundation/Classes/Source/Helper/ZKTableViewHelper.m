@@ -107,8 +107,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
     }
 }
 
-#pragma mark -
-#pragma mark :. Block事件
+#pragma mark - :. Block事件
 
 - (void)autoHeightCell:(ZKTableHelperCellAutoHeightForRowBlock)block {
     self.cellAutoHeightForRowBlock = block;
@@ -206,10 +205,9 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
     self.scrollViewDidEndScrolling = block;
 }
 
-#pragma mark -
-#pragma mark :.TableView DataSource Delegate
+#pragma mark - :. TableView DataSource Delegate
 
-#pragma mark :. TableView Gourps Count
+#pragma mark - :. TableView Gourps Count
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     NSInteger curNumOfSections = self.dataArray.count;
     if (self.numberOfSections)

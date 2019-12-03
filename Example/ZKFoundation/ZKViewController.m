@@ -11,6 +11,7 @@
 #import <ZKCategories/ZKCategories.h>
 #import <ZKFoundation/ZKFoundation.h>
 #import "ZKWebViewController.h"
+#import "ZKCollectionViewController.h"
 
 @interface ZKViewController () <ZKNavigationBarConfigureStyle>
 
@@ -135,8 +136,11 @@
 //    ZKViewController *controller = [[ZKViewController alloc] init];
 //    [self kai_pushViewController:controller animated:YES];
     
-    NSString *const githubLink = @"https://github.com/kaiser143/ZKFoundation";
-    ZKWebViewController *controller = [[ZKWebViewController alloc] initWithURL:githubLink.URL];
+//    NSString *const githubLink = @"https://xlz1.cfzq.com:8186/stockLiveClient/newsDetails.html?changesize=1&id=764912&footer=true"; //@"https://github.com/kaiser143/ZKFoundation";
+//    ZKWebViewController *controller = [[ZKWebViewController alloc] initWithURL:githubLink.URL];
+//    [self kai_pushViewController:controller];
+    
+    ZKAuto controller = ZKCollectionViewController.new;
     [self kai_pushViewController:controller];
     
 //    UIViewController *controller = UIViewController.new;

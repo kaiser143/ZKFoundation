@@ -103,7 +103,7 @@
     return array;
 }
 
-#pragma mark--UICollectionViewDelegateFlowLayout
+#pragma mark - :. UICollectionViewDelegateFlowLayout
 #define SCREEN_WIDTH [[UIScreen mainScreen] bounds].size.width
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
@@ -166,7 +166,7 @@
     return minimum;
 }
 
-#pragma mark--UICollectionViewDelegate && UICollectionViewDataSourse
+#pragma mark - :. UICollectionViewDelegate && UICollectionViewDataSourse
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     NSInteger curNumOfSections = self.dataArray.count;
@@ -260,8 +260,7 @@
     }
 }
 
-#pragma mark -
-#pragma mark :. Handler
+#pragma mark - :. Handler
 
 - (NSString *)cellIdentifierForRowAtIndexPath:(NSIndexPath *)cIndexPath model:(id)cModel {
     NSString *curCellIdentifier = nil;
@@ -299,7 +298,8 @@
     return nil;
 }
 
-#pragma mark :. Group
+#pragma mark - :. Group
+
 - (void)kai_reloadGroupDataAry:(NSArray *)newDataAry {
     self.dataArray = nil;
     for (NSInteger i = 0; i < newDataAry.count; i++)
@@ -481,8 +481,7 @@
     return _dataArray;
 }
 
-#pragma mark -
-#pragma mark :. Header
+#pragma mark - :. Header
 
 - (void)kai_reloadHeaderArr:(NSArray *)newDataAry {
     self.headerArray = [NSMutableArray arrayWithArray:newDataAry];
@@ -532,8 +531,7 @@
     return _headerArray;
 }
 
-#pragma mark -
-#pragma mark :. Footer
+#pragma mark - :. Footer
 
 - (void)kai_reloadFooterArr:(NSArray *)newDataAry {
     self.footerArray = [NSMutableArray arrayWithArray:newDataAry];
@@ -602,8 +600,7 @@
     return _footerArray;
 }
 
-#pragma mark -
-#pragma mark :. getset
+#pragma mark - :. getters and setters
 
 - (NSString *)cellIdentifier {
     if (_cellIdentifier == nil) {

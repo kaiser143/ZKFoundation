@@ -154,8 +154,17 @@ typedef void (^ZKScrollViewDidEndDecelerating)(UIScrollView *srollView);
 #pragma mark -
 #pragma mark :. Block事件
 
+/*!
+*  @brief    动态计算高度cell的高度并返回
+*/
 - (void)autoHeightItem:(ZKCollectionHelperItemAutoHeightForRowBlock)block;
 
+- (void)cellItemMargin:(ZKCollectionHelperCellItemMargin)block;
+- (void)minimumInteritemSpacingForSection:(ZKCollectionHelperMinimumInteritemSpacingForSection)blcok;
+
+/**
+*  When there are multiple cell, returned identifier in block
+*/
 - (void)cellIdentifierForItemAtIndexPath:(ZKCollectionHelperCellIdentifierForItemBlock)block;
 - (void)headerIdentifier:(ZKCollectionHelperHeaderIdentifierBlock)block;
 - (void)footerIdentifier:(ZKCollectionHelperFooterIdentifierBlock)block;
@@ -177,11 +186,10 @@ typedef void (^ZKScrollViewDidEndDecelerating)(UIScrollView *srollView);
 - (void)didReferenceHeaderSize:(ZKCollectionHelperReferenceHeaderSize)block;
 - (void)didReferenceFooterSize:(ZKCollectionHelperReferenceFooterSize)block;
 
+/**
+*  If you override tableView:didSelectRowAtIndexPath: method, it will be invalid
+*/
 - (void)didSelectItem:(ZKCollectionHelperDidSelectItemAtIndexPath)block;
-
-- (void)didCellItemMargin:(ZKCollectionHelperCellItemMargin)block;
-
-- (void)didMinimumInteritemSpacingForSection:(ZKCollectionHelperMinimumInteritemSpacingForSection)blcok;
 
 - (void)didScrollViewDidScroll:(ZKScrollViewDidScroll)block;
 - (void)didEndDragging:(ZKScrollViewDidEndDragging)block;

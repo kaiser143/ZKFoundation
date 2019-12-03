@@ -120,7 +120,7 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
 #pragma mark :. Block事件
 
 /*!
- *  @brief    计算高度cell的高度并返回
+ *  @brief    动态计算高度cell的高度并返回
  */
 - (void)autoHeightCell:(ZKTableHelperCellAutoHeightForRowBlock)block;
 
