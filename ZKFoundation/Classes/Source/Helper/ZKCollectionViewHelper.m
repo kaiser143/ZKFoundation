@@ -39,8 +39,8 @@
 @property (nonatomic, copy) ZKCollectionHelperCurrentHeaderModelAtIndexPath currentHeaderModelAtIndexPath;
 @property (nonatomic, copy) ZKCollectionHelperCurrentFooterModelAtIndexPath currentFooterModelAtIndexPath;
 
-@property (nonatomic, copy) ZKCollectionHelperCellItemMargin cellItemMargin;
-@property (nonatomic, copy) ZKCollectionHelperMinimumInteritemSpacingForSection minimumInteritemSpacingForSection;
+@property (nonatomic, copy) ZKCollectionHelperCellItemMargin cellItemMarginBlock;
+@property (nonatomic, copy) ZKCollectionHelperMinimumInteritemSpacingForSection minimumInteritemSpacingForSectionBlock;
 
 @property (nonatomic, copy) ZKScrollViewDidScroll scrollViewDidScroll;
 @property (nonatomic, copy) ZKScrollViewDidEndDragging scrollViewDidEndDragging;
@@ -149,9 +149,9 @@
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-    if (self.cellItemMargin) {
+    if (self.cellItemMarginBlock) {
         id curModel = [self currentSectionModel:section];
-        edgeInsets  = self.cellItemMargin(collectionView, collectionViewLayout, section, curModel);
+        edgeInsets  = self.cellItemMarginBlock(collectionView, collectionViewLayout, section, curModel);
     }
 
     return edgeInsets;
@@ -159,9 +159,9 @@
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
     CGFloat minimum = 0;
-    if (self.minimumInteritemSpacingForSection) {
+    if (self.minimumInteritemSpacingForSectionBlock) {
         id curModel = [self currentSectionModel:section];
-        minimum     = self.minimumInteritemSpacingForSection(collectionView, collectionViewLayout, section, curModel);
+        minimum     = self.minimumInteritemSpacingForSectionBlock(collectionView, collectionViewLayout, section, curModel);
     }
     return minimum;
 }
@@ -703,12 +703,12 @@
     self.didSelectItemAtIndexPath = block;
 }
 
-- (void)didCellItemMargin:(ZKCollectionHelperCellItemMargin)block {
-    self.cellItemMargin = block;
+- (void)cellItemMargin:(ZKCollectionHelperCellItemMargin)block {
+    self.cellItemMarginBlock = block;
 }
 
-- (void)didMinimumInteritemSpacingForSection:(ZKCollectionHelperMinimumInteritemSpacingForSection)blcok {
-    self.minimumInteritemSpacingForSection = blcok;
+- (void)minimumInteritemSpacingForSection:(ZKCollectionHelperMinimumInteritemSpacingForSection)blcok {
+    self.minimumInteritemSpacingForSectionBlock = blcok;
 }
 
 - (void)didScrollViewDidScroll:(ZKScrollViewDidScroll)block {
