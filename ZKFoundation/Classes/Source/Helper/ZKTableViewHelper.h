@@ -23,7 +23,7 @@ typedef void (^ZKTableHelperDidWillDisplayBlock)(__kindof UITableViewCell *cell,
 typedef void (^ZKTableHelperDidEditingBlock)(UITableView *tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath *indexPath, id dataSource);
 typedef NSString *_Nullable (^ZKTableHelperDidEditTitleBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
 
-typedef BOOL(^ZKTableHelperCanEditRowAtIndexPathBlock)(id dataSource, NSIndexPath *indexPath);
+typedef BOOL (^ZKTableHelperCanEditRowAtIndexPathBlock)(id dataSource, NSIndexPath *indexPath);
 typedef UITableViewCellEditingStyle (^ZKTableHelperEditingStyleBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
 typedef NSArray<UITableViewRowAction *> *_Nullable (^ZKTableHelperDidEditActionsBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
 
@@ -42,7 +42,7 @@ typedef NSString *_Nullable (^ZKTableHelperTitleFooterBlock)(UITableView *tableV
 
 typedef NSInteger (^ZKTableHelperNumberOfSectionsBlock)(UITableView *tableView, NSInteger count);
 typedef NSInteger (^ZKTableHelperNumberRowsBlock)(UITableView *tableView, NSInteger section, NSArray *dataSource);
-typedef id _Nullable (^ZKTableHelperCurrentModelAtIndexPathBlock)(id dataSource, NSIndexPath *indexPath);
+typedef id _Nullable (^ZKTableHelperFlattenMapBlock)(id dataSource, NSIndexPath *indexPath);
 
 typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scrollView);
 
@@ -85,8 +85,6 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
  是否防快速点击 (默认：NO 不防止)
  */
 @property (nonatomic, assign) BOOL isAntiHurry;
-
-/**  **/
 
 /**
  * @brief section HeaderView 是否悬停 (默认悬停) YES: 不悬停
@@ -198,9 +196,9 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
 - (void)numberOfRowsInSection:(ZKTableHelperNumberRowsBlock)block;
 
 /**
- *  @brief  处理获取当前模型
+ *  @brief  根据业务需求，返回一个自定义数据
  */
-- (void)currentModelIndexPath:(ZKTableHelperCurrentModelAtIndexPathBlock)block;
+- (void)flattenMap:(ZKTableHelperFlattenMapBlock)block;
 
 /**
  滚动结束回调
@@ -335,8 +333,8 @@ typedef void (^ZKTableHelperScrollViewDidEndScrollingBlock)(UIScrollView *scroll
 - (void)kai_deleteDataAtIndex:(NSIndexPath *)indexPath;
 - (void)kai_deleteDataAtIndexs:(NSArray<NSIndexPath *> *)indexPaths;
 
-- (nullable NSArray *)modelsForSelectedRows;
-- (id)currentModel;
+- (nullable NSArray *)modelsForSelectedRows;    // 通过 allowsMultipleSelectionDuringEditing 选中的对象
+- (id)currentModel;                             // [self currentModelAtIndexPath:self.kai_indexPath];
 - (id)currentModelAtIndexPath:(NSIndexPath *)indexPath;
 - (void)configureCell:(__kindof UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath withObject:(id)obj;
 

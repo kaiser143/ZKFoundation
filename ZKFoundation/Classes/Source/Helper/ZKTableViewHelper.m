@@ -41,7 +41,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 @property (nonatomic, copy) ZKTableHelperDidEditingBlock didEditingBlock;
 @property (nonatomic, copy) ZKTableHelperDidEditTitleBlock didEditTileBlock;
 
-@property (nonatomic, copy) ZKTableHelperEditingStyleBlock didEditingStyle;
+@property (nonatomic, copy) ZKTableHelperEditingStyleBlock didEditingStyleBlock;
 @property (nonatomic, copy) ZKTableHelperDidEditActionsBlock didEditActionsBlock;
 
 @property (nonatomic, copy) ZKScrollViewWillBeginDraggingBlock scrollViewBdBlock;
@@ -56,13 +56,13 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 @property (nonatomic, copy) ZKTableHelperTitleFooterBlock footerTitleBlock;
 @property (nonatomic, copy) ZKTableHelperHeightForFooterBlock heightForFooterBlock;
 
-@property (nonatomic, copy) ZKTableHelperNumberOfSectionsBlock numberOfSections;
-@property (nonatomic, copy) ZKTableHelperNumberRowsBlock numberRow;
+@property (nonatomic, copy) ZKTableHelperNumberOfSectionsBlock numberOfSectionsBlock;
+@property (nonatomic, copy) ZKTableHelperNumberRowsBlock numberRowBlock;
 
-@property (nonatomic, copy) ZKTableHelperCanEditRowAtIndexPathBlock canEditRow;
+@property (nonatomic, copy) ZKTableHelperCanEditRowAtIndexPathBlock canEditRowBlock;
 
-@property (nonatomic, copy) ZKTableHelperCurrentModelAtIndexPathBlock currentModelAtIndexPath;
-@property (nonatomic, copy) ZKTableHelperScrollViewDidEndScrollingBlock scrollViewDidEndScrolling;
+@property (nonatomic, copy) ZKTableHelperFlattenMapBlock flattenMapBlock;
+@property (nonatomic, copy) ZKTableHelperScrollViewDidEndScrollingBlock scrollViewDidEndScrollingBlock;
 
 @property (nullable, nonatomic, copy) NSString *cellIdentifier;
 @property (nullable, nonatomic, copy) NSString *headerFooterIdentifier;
@@ -134,11 +134,11 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 }
 
 - (void)canEditRow:(ZKTableHelperCanEditRowAtIndexPathBlock)block {
-    self.canEditRow = block;
+    self.canEditRowBlock = block;
 }
 
 - (void)didEditingStyle:(ZKTableHelperEditingStyleBlock)block {
-    self.didEditingStyle = block;
+    self.didEditingStyleBlock = block;
 }
 
 - (void)didEditActions:(ZKTableHelperDidEditActionsBlock)block {
@@ -186,23 +186,23 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 }
 
 - (void)numberOfSections:(ZKTableHelperNumberOfSectionsBlock)block {
-    self.numberOfSections = block;
+    self.numberOfSectionsBlock = block;
 }
 
 - (void)numberOfRowsInSection:(ZKTableHelperNumberRowsBlock)block {
-    self.numberRow = block;
+    self.numberRowBlock = block;
 }
 
 - (void)didScrollViewDidScroll:(ZKScrollViewDidScrollBlock)block {
     self.scrollViewddBlock = block;
 }
 
-- (void)currentModelIndexPath:(ZKTableHelperCurrentModelAtIndexPathBlock)block {
-    self.currentModelAtIndexPath = block;
+- (void)flattenMap:(ZKTableHelperFlattenMapBlock)block {
+    self.flattenMapBlock = block;
 }
 
 - (void)didScrollViewDidEndScrolling:(ZKTableHelperScrollViewDidEndScrollingBlock)block {
-    self.scrollViewDidEndScrolling = block;
+    self.scrollViewDidEndScrollingBlock = block;
 }
 
 #pragma mark - :. TableView DataSource Delegate
@@ -210,8 +210,8 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 #pragma mark - :. TableView Gourps Count
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     NSInteger curNumOfSections = self.dataArray.count;
-    if (self.numberOfSections)
-        curNumOfSections = self.numberOfSections(tableView, curNumOfSections);
+    if (self.numberOfSectionsBlock)
+        curNumOfSections = self.numberOfSectionsBlock(tableView, curNumOfSections);
 
     return curNumOfSections;
 }
@@ -219,9 +219,9 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSInteger curNumOfRows = 0;
     if (self.dataArray.count > section) {
-        NSMutableArray *subDataAry = self.dataArray[ section ];
-        if (self.numberRow)
-            curNumOfRows = self.numberRow(tableView, section, subDataAry);
+        NSMutableArray *subDataAry = self.dataArray[section];
+        if (self.numberRowBlock)
+            curNumOfRows = self.numberRowBlock(tableView, section, subDataAry);
         else {
             curNumOfRows = subDataAry.count;
         }
@@ -236,7 +236,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
     if (self.heightForHeaderBlock) {
         height = self.heightForHeaderBlock(tableView, section, [self currentSectionModel:section]) ?: 0.001;
     }
-    
+
     if (self.headerBlock && ((self.heightForHeaderBlock && height <= 0) || !self.heightForHeaderBlock)) {
         UITableViewHeaderFooterView *headerView = self.headerBlock(tableView, section, [self currentSectionModel:section]);
         CGFloat fittingHeight;
@@ -276,7 +276,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
     if (self.heightForFooterBlock) {
         height = self.heightForFooterBlock(tableView, section, [self currentSectionModel:section]) ?: 0.001;
     }
-    
+
     if (self.footerBlock && ((self.heightForFooterBlock && height <= 0) || !self.heightForFooterBlock)) {
         UITableViewHeaderFooterView *footerView = self.footerBlock(tableView, section, [self currentSectionModel:section]);
         CGFloat fittingHeight;
@@ -341,17 +341,17 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     BOOL edit = tableView.editing;
-    if (self.canEditRow) {
-        edit = self.canEditRow([self currentModelAtIndexPath:indexPath], indexPath);
+    if (self.canEditRowBlock) {
+        edit = self.canEditRowBlock([self currentModelAtIndexPath:indexPath], indexPath);
     }
-    
+
     return edit;
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCellEditingStyle style = UITableViewCellEditingStyleNone;
-    if (self.didEditingStyle)
-        style = self.didEditingStyle(tableView, indexPath, [self currentModelAtIndexPath:indexPath]);
+    if (self.didEditingStyleBlock)
+        style = self.didEditingStyleBlock(tableView, indexPath, [self currentModelAtIndexPath:indexPath]);
     else if (self.didEditActionsBlock && !tableView.allowsMultipleSelectionDuringEditing)
         style = UITableViewCellEditingStyleDelete;
 
@@ -490,8 +490,8 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(scrollViewDidEndScrollingAnimation:) object:scrollView];
-    if (self.scrollViewDidEndScrolling && scrollView)
-        self.scrollViewDidEndScrolling(scrollView);
+    if (self.scrollViewDidEndScrollingBlock && scrollView)
+        self.scrollViewDidEndScrollingBlock(scrollView);
 }
 
 #pragma mark - :. public methods
@@ -577,13 +577,13 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 - (NSArray *)modelsForSelectedRows {
     NSArray<NSIndexPath *> *indexPaths = [self.kai_tableView indexPathsForSelectedRows];
     if (indexPaths.count == 0) return nil;
-    
+
     NSMutableArray *result = NSMutableArray.new;
     for (NSIndexPath *each in indexPaths) {
         id obj = [self currentModelAtIndexPath:each];
         [result addObject:obj];
     }
-    
+
     return result;
 }
 
@@ -592,12 +592,12 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 }
 
 - (id)currentModelAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.currentModelAtIndexPath) {
-        return self.currentModelAtIndexPath(self.dataArray, indexPath);
+    if (self.flattenMapBlock) {
+        return self.flattenMapBlock(self.dataArray, indexPath);
     } else if (self.dataArray.count > indexPath.section) {
-        NSMutableArray *subDataAry = self.dataArray[ indexPath.section ];
+        NSMutableArray *subDataAry = self.dataArray[indexPath.section];
         if (subDataAry.count > indexPath.row) {
-            id curModel = subDataAry[ indexPath.row ];
+            id curModel = subDataAry[indexPath.row];
             return curModel;
         }
     }
@@ -616,7 +616,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
         [self kai_makeUpDataAryForSection:i];
 
     for (int idx = 0; idx < self.dataArray.count; idx++) {
-        NSMutableArray *subAry = self.dataArray[ idx ];
+        NSMutableArray *subAry = self.dataArray[idx];
         if (subAry.count)
             [subAry removeAllObjects];
         id data = [newDataAry objectAtIndex:idx];
@@ -634,7 +634,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
     if (newDataAry.count == 0)
         return;
 
-    NSMutableArray *subAry = self.dataArray[ section ];
+    NSMutableArray *subAry = self.dataArray[section];
     if (subAry.count)
         [subAry removeAllObjects];
     [subAry addObjectsFromArray:newDataAry];
@@ -672,7 +672,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 
     for (NSInteger i = 0; i < idxArray.count; i++) {
         NSInteger idx          = [[idxArray objectAtIndex:i] integerValue];
-        NSMutableArray *subAry = self.dataArray[ idx ];
+        NSMutableArray *subAry = self.dataArray[idx];
         if (subAry.count)
             [subAry removeAllObjects];
         id data = [newDataAry objectAtIndex:i];
@@ -686,7 +686,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 }
 
 - (void)kai_deleteGroupData:(NSInteger)section {
-    NSMutableArray *subAry = self.dataArray[ section ];
+    NSMutableArray *subAry = self.dataArray[section];
     if (subAry.count)
         [subAry removeAllObjects];
 
@@ -702,7 +702,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 
 - (void)kai_resetDataAry:(NSArray *)newDataAry forSection:(NSInteger)section {
     [self kai_makeUpDataAryForSection:section];
-    NSMutableArray *subAry = self.dataArray[ section ];
+    NSMutableArray *subAry = self.dataArray[section];
     if (subAry.count)
         [subAry removeAllObjects];
     if (newDataAry.count) {
@@ -721,7 +721,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
         return;
 
     NSIndexSet *curIndexSet = [self kai_makeUpDataAryForSection:section];
-    NSMutableArray *subAry  = self.dataArray[ section ];
+    NSMutableArray *subAry  = self.dataArray[section];
     if (subAry.count)
         [subAry removeAllObjects];
     [subAry addObjectsFromArray:newDataAry];
@@ -746,9 +746,9 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
     NSIndexSet *curIndexSet = [self kai_makeUpDataAryForSection:section];
     NSMutableArray *subAry;
     if (section < 0) {
-        subAry = self.dataArray[ 0 ];
+        subAry = self.dataArray[0];
     } else
-        subAry = self.dataArray[ section ];
+        subAry = self.dataArray[section];
 
     if (curIndexSet) {
         [subAry addObjectsFromArray:newDataAry];
@@ -770,7 +770,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 - (void)kai_insertData:(id)model atIndex:(NSIndexPath *)indexPath;
 {
     NSIndexSet *curIndexSet = [self kai_makeUpDataAryForSection:indexPath.section];
-    NSMutableArray *subAry  = self.dataArray[ indexPath.section ];
+    NSMutableArray *subAry  = self.dataArray[indexPath.section];
     if (subAry.count < indexPath.row)
         return;
     [subAry insertObject:model atIndex:indexPath.row];
@@ -799,7 +799,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
     for (NSIndexPath *indexPath in indexPaths) {
         if (self.dataArray.count <= indexPath.section)
             continue;
-        NSMutableArray *subAry = self.dataArray[ indexPath.section ];
+        NSMutableArray *subAry = self.dataArray[indexPath.section];
         if (subAry.count <= indexPath.row)
             continue;
 
@@ -821,7 +821,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
                   forIndexPath:(NSIndexPath *)indexPath
               withRowAnimation:(UITableViewRowAnimation)animated {
     if (self.dataArray.count > indexPath.section) {
-        NSMutableArray *subDataAry = self.dataArray[ indexPath.section ];
+        NSMutableArray *subDataAry = self.dataArray[indexPath.section];
         if (subDataAry.count > indexPath.row) {
             [subDataAry replaceObjectAtIndex:indexPath.row withObject:model];
             [self.kai_tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:animated];
@@ -863,7 +863,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
         array = self.dataArray;
     else
         array = self.dataArray.firstObject;
-    
+
     return array;
 }
 
@@ -874,7 +874,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
             self.searchBar = (UISearchBar *)self.kai_tableView.tableHeaderView;
             [sectionIndex addObject:UITableViewIndexSearch];
         }
-        
+
         if (self.sectionIndexTitle)
             [sectionIndex addObjectsFromArray:self.sectionIndexTitle];
         else
@@ -885,8 +885,8 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 }
 
 - (void)setSectionIndexTitle:(NSArray *)sectionIndexTitle {
-    _sectionIndexTitle = sectionIndexTitle;
-    _sectionIndexTitles = nil;
+    _sectionIndexTitle                                                               = sectionIndexTitle;
+    _sectionIndexTitles                                                              = nil;
     if (sectionIndexTitle.count != 0 && _titleHeaderHeight < 0.2) _titleHeaderHeight = 30.f;
 }
 
@@ -902,7 +902,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 }
 
 - (void)setAllowsMultipleSelectionDuringEditing:(BOOL)allowsMultipleSelectionDuringEditing {
-    self.kai_tableView.editing = allowsMultipleSelectionDuringEditing;
+    self.kai_tableView.editing                              = allowsMultipleSelectionDuringEditing;
     self.kai_tableView.allowsMultipleSelectionDuringEditing = allowsMultipleSelectionDuringEditing;
 }
 

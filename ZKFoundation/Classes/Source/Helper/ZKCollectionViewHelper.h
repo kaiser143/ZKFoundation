@@ -16,30 +16,30 @@ typedef NSString *_Nullable (^ZKCollectionHelperHeaderIdentifierBlock)(NSIndexPa
 typedef NSString *_Nullable (^ZKCollectionHelperFooterIdentifierBlock)(NSIndexPath *indexPath, id dataSource);
 typedef CGFloat (^ZKCollectionHelperItemAutoHeightForRowBlock)(UICollectionView *collectionView, NSIndexPath *indexPath, NSString *identifier, id dataSource);
 
-typedef NSInteger (^ZKCollectionHelperNumberOfItemsInSection)(UICollectionView *collectionView, NSInteger section, id dataSource);
+typedef NSInteger (^ZKCollectionHelperNumberOfItemsInSectionBlock)(UICollectionView *collectionView, NSInteger section, id dataSource);
 
-typedef UICollectionReusableView *_Nullable (^ZKCollectionHelperHeaderView)(UICollectionView *collectionView, NSString *kind, NSString *cellIdentifier, NSIndexPath *indexPath, id dataSource);
-typedef UICollectionReusableView *_Nullable (^ZKCollectionHelperFooterView)(UICollectionView *collectionView, NSString *kind, NSString *cellIdentifier, NSIndexPath *indexPath, id dataSource);
+typedef UICollectionReusableView *_Nullable (^ZKCollectionHelperHeaderViewBlock)(UICollectionView *collectionView, NSString *kind, NSString *cellIdentifier, NSIndexPath *indexPath, id dataSource);
+typedef UICollectionReusableView *_Nullable (^ZKCollectionHelperFooterViewBlock)(UICollectionView *collectionView, NSString *kind, NSString *cellIdentifier, NSIndexPath *indexPath, id dataSource);
 
-typedef void (^ZKCollectionHelperDidSelectItemAtIndexPath)(UICollectionView *collectionView, NSIndexPath *indexPath, id dataSource);
-typedef void (^ZKCollectionHelperCellForItemAtIndexPath)(UICollectionViewCell *cell, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
-typedef void (^ZKCollectionHelperHeaderForItemAtIndexPath)(UICollectionReusableView *header, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
-typedef void (^ZKCollectionHelperFooterForItemAtIndexPath)(UICollectionReusableView *footer, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
+typedef void (^ZKCollectionHelperDidSelectItemAtIndexPathBlock)(UICollectionView *collectionView, NSIndexPath *indexPath, id dataSource);
+typedef void (^ZKCollectionHelperCellForItemAtIndexPathBlock)(UICollectionViewCell *cell, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
+typedef void (^ZKCollectionHelperHeaderForItemAtIndexPathBlock)(UICollectionReusableView *header, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
+typedef void (^ZKCollectionHelperFooterForItemAtIndexPathBlock)(UICollectionReusableView *footer, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
 
-typedef CGSize (^ZKCollectionHelperCellForItemSize)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSIndexPath *indexPath, id dataSource);
-typedef CGSize (^ZKCollectionHelperReferenceHeaderSize)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
-typedef CGSize (^ZKCollectionHelperReferenceFooterSize)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
+typedef CGSize (^ZKCollectionHelperCellForItemSizeBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSIndexPath *indexPath, id dataSource);
+typedef CGSize (^ZKCollectionHelperReferenceHeaderSizeBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
+typedef CGSize (^ZKCollectionHelperReferenceFooterSizeBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
 
-typedef UIEdgeInsets (^ZKCollectionHelperCellItemMargin)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
-typedef CGFloat (^ZKCollectionHelperMinimumInteritemSpacingForSection)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
+typedef UIEdgeInsets (^ZKCollectionHelperCellItemMarginBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
+typedef CGFloat (^ZKCollectionHelperMinimumInteritemSpacingForSectionBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
 
-typedef id _Nullable (^ZKCollectionHelperCurrentModelAtIndexPath)(id dataAry, NSIndexPath *indexPath);
-typedef id _Nullable (^ZKCollectionHelperCurrentHeaderModelAtIndexPath)(id dataAry, NSIndexPath *indexPath);
-typedef id _Nullable (^ZKCollectionHelperCurrentFooterModelAtIndexPath)(id dataAry, NSIndexPath *indexPath);
+typedef id _Nullable (^ZKCollectionHelperFlattenMapBlock)(id dataAry, NSIndexPath *indexPath);
+typedef id _Nullable (^ZKCollectionHelperCurrentHeaderModelAtIndexPathBlock)(id dataAry, NSIndexPath *indexPath);
+typedef id _Nullable (^ZKCollectionHelperCurrentFooterModelAtIndexPathBlock)(id dataAry, NSIndexPath *indexPath);
 
-typedef void (^ZKScrollViewDidScroll)(UIScrollView *scrollView);
-typedef void (^ZKScrollViewDidEndDragging)(UIScrollView *scrollView);
-typedef void (^ZKScrollViewDidEndDecelerating)(UIScrollView *srollView);
+typedef void (^ZKScrollViewDidScrollBlock)(UIScrollView *scrollView);
+typedef void (^ZKScrollViewDidEndDraggingBlock)(UIScrollView *scrollView);
+typedef void (^ZKScrollViewDidEndDeceleratingBlock)(UIScrollView *srollView);
 
 @interface ZKCollectionViewHelper : NSObject <UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -159,8 +159,8 @@ typedef void (^ZKScrollViewDidEndDecelerating)(UIScrollView *srollView);
 */
 - (void)autoHeightItem:(ZKCollectionHelperItemAutoHeightForRowBlock)block;
 
-- (void)cellItemMargin:(ZKCollectionHelperCellItemMargin)block;
-- (void)minimumInteritemSpacingForSection:(ZKCollectionHelperMinimumInteritemSpacingForSection)blcok;
+- (void)cellItemMargin:(ZKCollectionHelperCellItemMarginBlock)block;
+- (void)minimumInteritemSpacingForSection:(ZKCollectionHelperMinimumInteritemSpacingForSectionBlock)blcok;
 
 /**
 *  When there are multiple cell, returned identifier in block
@@ -169,31 +169,31 @@ typedef void (^ZKScrollViewDidEndDecelerating)(UIScrollView *srollView);
 - (void)headerIdentifier:(ZKCollectionHelperHeaderIdentifierBlock)block;
 - (void)footerIdentifier:(ZKCollectionHelperFooterIdentifierBlock)block;
 
-- (void)currentModelIndexPath:(ZKCollectionHelperCurrentModelAtIndexPath)block;
+- (void)flattenMap:(ZKCollectionHelperFlattenMapBlock)block;
 
-- (void)numberOfItemsInSection:(ZKCollectionHelperNumberOfItemsInSection)block;
+- (void)numberOfItemsInSection:(ZKCollectionHelperNumberOfItemsInSectionBlock)block;
 
-- (void)didHeaderView:(ZKCollectionHelperHeaderView)block;
-- (void)didCurrentHeaderModel:(ZKCollectionHelperCurrentHeaderModelAtIndexPath)block;
-- (void)didFooterView:(ZKCollectionHelperFooterView)block;
-- (void)didCurrentFooterModel:(ZKCollectionHelperCurrentFooterModelAtIndexPath)block;
+- (void)didHeaderView:(ZKCollectionHelperHeaderViewBlock)block;
+- (void)didCurrentHeaderModel:(ZKCollectionHelperCurrentHeaderModelAtIndexPathBlock)block;
+- (void)didFooterView:(ZKCollectionHelperFooterViewBlock)block;
+- (void)didCurrentFooterModel:(ZKCollectionHelperCurrentFooterModelAtIndexPathBlock)block;
 
-- (void)didCellForItemAtIndexPath:(ZKCollectionHelperCellForItemAtIndexPath)block;
-- (void)didHeaderForItemAtIndexPah:(ZKCollectionHelperHeaderForItemAtIndexPath)block;
-- (void)didFooterForItemAtIndexPah:(ZKCollectionHelperFooterForItemAtIndexPath)block;
+- (void)didCellForItemAtIndexPath:(ZKCollectionHelperCellForItemAtIndexPathBlock)block;
+- (void)didHeaderForItemAtIndexPah:(ZKCollectionHelperHeaderForItemAtIndexPathBlock)block;
+- (void)didFooterForItemAtIndexPah:(ZKCollectionHelperFooterForItemAtIndexPathBlock)block;
 
-- (void)didSizeForItemAtIndexPath:(ZKCollectionHelperCellForItemSize)block;
-- (void)didReferenceHeaderSize:(ZKCollectionHelperReferenceHeaderSize)block;
-- (void)didReferenceFooterSize:(ZKCollectionHelperReferenceFooterSize)block;
+- (void)didSizeForItemAtIndexPath:(ZKCollectionHelperCellForItemSizeBlock)block;
+- (void)didReferenceHeaderSize:(ZKCollectionHelperReferenceHeaderSizeBlock)block;
+- (void)didReferenceFooterSize:(ZKCollectionHelperReferenceFooterSizeBlock)block;
 
 /**
 *  If you override tableView:didSelectRowAtIndexPath: method, it will be invalid
 */
-- (void)didSelectItem:(ZKCollectionHelperDidSelectItemAtIndexPath)block;
+- (void)didSelectItem:(ZKCollectionHelperDidSelectItemAtIndexPathBlock)block;
 
-- (void)didScrollViewDidScroll:(ZKScrollViewDidScroll)block;
-- (void)didEndDragging:(ZKScrollViewDidEndDragging)block;
-- (void)didEndDecelerating:(ZKScrollViewDidEndDecelerating)block;
+- (void)didScrollViewDidScroll:(ZKScrollViewDidScrollBlock)block;
+- (void)didEndDragging:(ZKScrollViewDidEndDraggingBlock)block;
+- (void)didEndDecelerating:(ZKScrollViewDidEndDeceleratingBlock)block;
 
 @end
 

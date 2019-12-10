@@ -15,36 +15,36 @@
 @property (nonatomic, strong) NSMutableArray<NSMutableArray *> *headerArray;
 @property (nonatomic, strong) NSMutableArray<NSMutableArray *> *footerArray;
 
-@property (nonatomic, copy) ZKCollectionHelperHeaderView headerView;
-@property (nonatomic, copy) ZKCollectionHelperFooterView footerView;
+@property (nonatomic, copy) ZKCollectionHelperHeaderViewBlock headerViewBlock;
+@property (nonatomic, copy) ZKCollectionHelperFooterViewBlock footerViewBlock;
 
 @property (nonatomic, copy) ZKCollectionHelperItemAutoHeightForRowBlock itemAutoHeightBlock;
 @property (nonatomic, copy) ZKCollectionHelperCellIdentifierForItemBlock cellIdentifierBlock;
 @property (nonatomic, copy) ZKCollectionHelperHeaderIdentifierBlock headerIdentifierBlock;
 @property (nonatomic, copy) ZKCollectionHelperFooterIdentifierBlock footerIdentifierBlock;
 
-@property (nonatomic, copy) ZKCollectionHelperNumberOfItemsInSection numberOfItemsInSection;
+@property (nonatomic, copy) ZKCollectionHelperNumberOfItemsInSectionBlock numberOfItemsInSectionBlock;
 
-@property (nonatomic, copy) ZKCollectionHelperCellForItemAtIndexPath cellForItemAtIndexPath;
-@property (nonatomic, copy) ZKCollectionHelperHeaderForItemAtIndexPath headerForItemAtIndexPath;
-@property (nonatomic, copy) ZKCollectionHelperFooterForItemAtIndexPath footerForItemAtIndexPath;
+@property (nonatomic, copy) ZKCollectionHelperCellForItemAtIndexPathBlock cellForItemAtIndexPathBlock;
+@property (nonatomic, copy) ZKCollectionHelperHeaderForItemAtIndexPathBlock headerForItemAtIndexPathBlock;
+@property (nonatomic, copy) ZKCollectionHelperFooterForItemAtIndexPathBlock footerForItemAtIndexPathBlock;
 
-@property (nonatomic, copy) ZKCollectionHelperCellForItemSize sizeForItemAtIndexPath;
-@property (nonatomic, copy) ZKCollectionHelperReferenceHeaderSize referenceHeaderSize;
-@property (nonatomic, copy) ZKCollectionHelperReferenceFooterSize referenceFooterSize;
+@property (nonatomic, copy) ZKCollectionHelperCellForItemSizeBlock sizeForItemAtIndexPathBlock;
+@property (nonatomic, copy) ZKCollectionHelperReferenceHeaderSizeBlock referenceHeaderSizeBlock;
+@property (nonatomic, copy) ZKCollectionHelperReferenceFooterSizeBlock referenceFooterSizeBlock;
 
-@property (nonatomic, copy) ZKCollectionHelperDidSelectItemAtIndexPath didSelectItemAtIndexPath;
+@property (nonatomic, copy) ZKCollectionHelperDidSelectItemAtIndexPathBlock didSelectItemAtIndexPathBlock;
 
-@property (nonatomic, copy) ZKCollectionHelperCurrentModelAtIndexPath currentModelAtIndexPath;
-@property (nonatomic, copy) ZKCollectionHelperCurrentHeaderModelAtIndexPath currentHeaderModelAtIndexPath;
-@property (nonatomic, copy) ZKCollectionHelperCurrentFooterModelAtIndexPath currentFooterModelAtIndexPath;
+@property (nonatomic, copy) ZKCollectionHelperFlattenMapBlock flattenMapBlock;
+@property (nonatomic, copy) ZKCollectionHelperCurrentHeaderModelAtIndexPathBlock currentHeaderModelAtIndexPathBlock;
+@property (nonatomic, copy) ZKCollectionHelperCurrentFooterModelAtIndexPathBlock currentFooterModelAtIndexPathBlock;
 
-@property (nonatomic, copy) ZKCollectionHelperCellItemMargin cellItemMarginBlock;
-@property (nonatomic, copy) ZKCollectionHelperMinimumInteritemSpacingForSection minimumInteritemSpacingForSectionBlock;
+@property (nonatomic, copy) ZKCollectionHelperCellItemMarginBlock cellItemMarginBlock;
+@property (nonatomic, copy) ZKCollectionHelperMinimumInteritemSpacingForSectionBlock minimumInteritemSpacingForSectionBlock;
 
-@property (nonatomic, copy) ZKScrollViewDidScroll scrollViewDidScroll;
-@property (nonatomic, copy) ZKScrollViewDidEndDragging scrollViewDidEndDragging;
-@property (nonatomic, copy) ZKScrollViewDidEndDecelerating scrollViewDidEndDecelerating;
+@property (nonatomic, copy) ZKScrollViewDidScrollBlock scrollViewDidScrollBlock;
+@property (nonatomic, copy) ZKScrollViewDidEndDraggingBlock scrollViewDidEndDraggingBlock;
+@property (nonatomic, copy) ZKScrollViewDidEndDeceleratingBlock scrollViewDidEndDeceleratingBlock;
 
 @end
 
@@ -60,7 +60,7 @@
         }];
 
         if (cellNibNames.count == 1)
-            self.cellIdentifier = cellNibNames[ 0 ];
+            self.cellIdentifier = cellNibNames[0];
     }
 }
 
@@ -74,7 +74,7 @@
         }];
 
         if (cellNibNames.count == 1) {
-            self.headerIdentifier = cellNibNames[ 0 ];
+            self.headerIdentifier = cellNibNames[0];
         }
     }
 }
@@ -89,7 +89,7 @@
         }];
 
         if (cellNibNames.count == 1)
-            self.footerIdentifier = cellNibNames[ 0 ];
+            self.footerIdentifier = cellNibNames[0];
     }
 }
 
@@ -107,11 +107,11 @@
 #define SCREEN_WIDTH [[UIScreen mainScreen] bounds].size.width
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    NSIndexPath *indexPath   = [NSIndexPath indexPathForRow:0 inSection:section];
-    CGSize       contentSize = self.titleHeaderSize;
-    if (self.referenceHeaderSize) {
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:section];
+    CGSize contentSize     = self.titleHeaderSize;
+    if (self.referenceHeaderSizeBlock) {
         id curModel = [self currentHeaderModelAtIndexPath:indexPath];
-        contentSize = self.referenceHeaderSize(collectionView, collectionViewLayout, section, curModel);
+        contentSize = self.referenceHeaderSizeBlock(collectionView, collectionViewLayout, section, curModel);
     } else if (CGSizeEqualToSize(contentSize, CGSizeMake(0, 0))) {
         if (@available(iOS 9.0, *)) {
             contentSize = [[collectionView supplementaryViewForElementKind:UICollectionElementKindSectionHeader atIndexPath:indexPath] systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
@@ -121,11 +121,11 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
-    NSIndexPath *indexPath   = [NSIndexPath indexPathForRow:0 inSection:section];
-    CGSize       contentSize = self.titleFooterSize;
-    if (self.referenceFooterSize) {
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:section];
+    CGSize contentSize     = self.titleFooterSize;
+    if (self.referenceFooterSizeBlock) {
         id curModel = [self currentFooterModelAtIndexPath:indexPath];
-        contentSize = self.referenceFooterSize(collectionView, collectionViewLayout, section, curModel);
+        contentSize = self.referenceFooterSizeBlock(collectionView, collectionViewLayout, section, curModel);
     } else if (CGSizeEqualToSize(contentSize, CGSizeMake(0, 0))) {
         if (@available(iOS 9.0, *)) {
             contentSize = [[collectionView supplementaryViewForElementKind:UICollectionElementKindSectionFooter atIndexPath:indexPath] systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
@@ -137,12 +137,12 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGSize curSize = CGSizeMake(SCREEN_WIDTH, 0);
     if (self.itemAutoHeightBlock) {
-        id        curModel          = [self currentModelAtIndexPath:indexPath];
+        id curModel                 = [self currentModelAtIndexPath:indexPath];
         NSString *curCellIdentifier = [self cellIdentifierForRowAtIndexPath:indexPath model:curModel];
         self.itemAutoHeightBlock(collectionView, indexPath, curCellIdentifier, curModel);
-    } else if (self.sizeForItemAtIndexPath) {
+    } else if (self.sizeForItemAtIndexPathBlock) {
         id curModel = [self currentModelAtIndexPath:indexPath];
-        curSize     = self.sizeForItemAtIndexPath(collectionView, collectionViewLayout, indexPath, curModel);
+        curSize     = self.sizeForItemAtIndexPathBlock(collectionView, collectionViewLayout, indexPath, curModel);
     }
     return curSize;
 }
@@ -176,9 +176,9 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     NSInteger curNumOfRows = 0;
     if (self.dataArray.count > section) {
-        NSMutableArray *subDataAry = self.dataArray[ section ];
-        if (self.numberOfItemsInSection)
-            curNumOfRows = self.numberOfItemsInSection(collectionView, section, subDataAry);
+        NSMutableArray *subDataAry = self.dataArray[section];
+        if (self.numberOfItemsInSectionBlock)
+            curNumOfRows = self.numberOfItemsInSectionBlock(collectionView, section, subDataAry);
         else
             curNumOfRows = subDataAry.count;
     }
@@ -188,28 +188,28 @@
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     UICollectionReusableView *reusableView;
     if (kind == UICollectionElementKindSectionHeader) {
-        id        curModel          = [self currentHeaderModelAtIndexPath:indexPath];
+        id curModel                 = [self currentHeaderModelAtIndexPath:indexPath];
         NSString *curCellIdentifier = [self headerIdentifierForRowAtIndexPath:indexPath model:curModel];
-        if (self.headerView)
-            reusableView = self.headerView(collectionView, kind, curCellIdentifier, indexPath, curModel);
+        if (self.headerViewBlock)
+            reusableView = self.headerViewBlock(collectionView, kind, curCellIdentifier, indexPath, curModel);
 
-        if (!reusableView && !self.headerView)
+        if (!reusableView && !self.headerViewBlock)
             reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:curCellIdentifier forIndexPath:indexPath];
 
-        if (self.headerForItemAtIndexPath) {
-            self.headerForItemAtIndexPath(reusableView, indexPath, curModel, YES);
+        if (self.headerForItemAtIndexPathBlock) {
+            self.headerForItemAtIndexPathBlock(reusableView, indexPath, curModel, YES);
         }
     } else if (kind == UICollectionElementKindSectionFooter) {
-        id        curModel          = [self currentFooterModelAtIndexPath:indexPath];
+        id curModel                 = [self currentFooterModelAtIndexPath:indexPath];
         NSString *curCellIdentifier = [self footerIdentifierForRowAtIndexPath:indexPath model:curModel];
-        if (self.footerView)
-            reusableView = self.footerView(collectionView, kind, curCellIdentifier, indexPath, curModel);
+        if (self.footerViewBlock)
+            reusableView = self.footerViewBlock(collectionView, kind, curCellIdentifier, indexPath, curModel);
 
-        if (!reusableView && !self.footerView)
+        if (!reusableView && !self.footerViewBlock)
             reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:curCellIdentifier forIndexPath:indexPath];
 
-        if (self.footerForItemAtIndexPath) {
-            self.footerForItemAtIndexPath(reusableView, indexPath, curModel, YES);
+        if (self.footerForItemAtIndexPathBlock) {
+            self.footerForItemAtIndexPathBlock(reusableView, indexPath, curModel, YES);
         }
     }
     return reusableView;
@@ -229,34 +229,34 @@
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     id curModel = [self currentModelAtIndexPath:indexPath];
-    if (self.cellForItemAtIndexPath) {
-        self.cellForItemAtIndexPath(cell, indexPath, curModel, YES);
+    if (self.cellForItemAtIndexPathBlock) {
+        self.cellForItemAtIndexPathBlock(cell, indexPath, curModel, YES);
     }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     self.kai_indexPath = indexPath;
-    if (self.didSelectItemAtIndexPath) {
+    if (self.didSelectItemAtIndexPathBlock) {
         id curModel = [self currentModelAtIndexPath:indexPath];
-        self.didSelectItemAtIndexPath(collectionView, indexPath, curModel);
+        self.didSelectItemAtIndexPathBlock(collectionView, indexPath, curModel);
     }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (self.scrollViewDidScroll) {
-        self.scrollViewDidScroll(scrollView);
+    if (self.scrollViewDidScrollBlock) {
+        self.scrollViewDidScrollBlock(scrollView);
     }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (self.scrollViewDidEndDragging) {
-        self.scrollViewDidEndDragging(scrollView);
+    if (self.scrollViewDidEndDraggingBlock) {
+        self.scrollViewDidEndDraggingBlock(scrollView);
     }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    if (self.scrollViewDidEndDecelerating) {
-        self.scrollViewDidEndDecelerating(scrollView);
+    if (self.scrollViewDidEndDeceleratingBlock) {
+        self.scrollViewDidEndDeceleratingBlock(scrollView);
     }
 }
 
@@ -273,8 +273,8 @@
 }
 
 - (id)currentSectionModel:(NSInteger)section {
-    id       currentModel = nil;
-    NSArray *arr          = [self.dataArray objectAtIndex:section];
+    id currentModel = nil;
+    NSArray *arr    = [self.dataArray objectAtIndex:section];
     if (arr.count)
         currentModel = [arr objectAtIndex:0];
 
@@ -286,12 +286,12 @@
 }
 
 - (id)currentModelAtIndexPath:(NSIndexPath *)cIndexPath {
-    if (self.currentModelAtIndexPath) {
-        return self.currentModelAtIndexPath(self.dataArray, cIndexPath);
+    if (self.flattenMapBlock) {
+        return self.flattenMapBlock(self.dataArray, cIndexPath);
     } else if (self.dataArray.count > cIndexPath.section) {
-        NSMutableArray *subDataAry = self.dataArray[ cIndexPath.section ];
+        NSMutableArray *subDataAry = self.dataArray[cIndexPath.section];
         if (subDataAry.count > cIndexPath.row) {
-            id curModel = subDataAry[ cIndexPath.row ];
+            id curModel = subDataAry[cIndexPath.row];
             return curModel;
         }
     }
@@ -306,7 +306,7 @@
         [self _kai_makeUpDataAryForSection:i];
 
     for (int idx = 0; idx < self.dataArray.count; idx++) {
-        NSMutableArray *subAry = self.dataArray[ idx ];
+        NSMutableArray *subAry = self.dataArray[idx];
         if (subAry.count) [subAry removeAllObjects];
         id data = [newDataAry objectAtIndex:idx];
         if ([data isKindOfClass:[NSArray class]]) {
@@ -324,13 +324,13 @@
 }
 
 - (void)kai_insertGroupDataAry:(NSArray *)newDataAry
-                   forSection:(NSInteger)cSection {
+                    forSection:(NSInteger)cSection {
     [self.dataArray insertObject:[NSMutableArray arrayWithArray:newDataAry] atIndex:cSection == -1 ? 0 : cSection];
     [self.kai_collectionView reloadData];
 }
 
 - (void)kai_insertMultiplGroupDataAry:(NSArray *)newDataAry
-                          forSection:(NSInteger)cSection {
+                           forSection:(NSInteger)cSection {
     NSMutableArray *idxArray = [NSMutableArray array];
     if (cSection < 0) {
         for (NSInteger i = 0; i < newDataAry.count; i++) {
@@ -345,8 +345,8 @@
     }
 
     for (NSInteger i = 0; i < idxArray.count; i++) {
-        NSInteger       idx    = [[idxArray objectAtIndex:i] integerValue];
-        NSMutableArray *subAry = self.dataArray[ idx ];
+        NSInteger idx          = [[idxArray objectAtIndex:i] integerValue];
+        NSMutableArray *subAry = self.dataArray[idx];
         if (subAry.count) [subAry removeAllObjects];
         id data = [newDataAry objectAtIndex:i];
         if ([data isKindOfClass:[NSArray class]]) {
@@ -367,7 +367,7 @@
 
 - (void)kai_resetDataAry:(NSArray *)newDataAry forSection:(NSInteger)cSection {
     [self _kai_makeUpDataAryForSection:cSection];
-    NSMutableArray *subAry = self.dataArray[ cSection ];
+    NSMutableArray *subAry = self.dataArray[cSection];
     if (subAry.count) [subAry removeAllObjects];
     if (newDataAry.count) {
         [subAry addObjectsFromArray:newDataAry];
@@ -382,8 +382,8 @@
 - (void)kai_reloadDataAry:(NSArray *)newDataAry forSection:(NSInteger)cSection {
     if (newDataAry.count == 0) return;
 
-    NSIndexSet *    curIndexSet = [self _kai_makeUpDataAryForSection:cSection];
-    NSMutableArray *subAry      = self.dataArray[ cSection ];
+    NSIndexSet *curIndexSet = [self _kai_makeUpDataAryForSection:cSection];
+    NSMutableArray *subAry  = self.dataArray[cSection];
     if (subAry.count) [subAry removeAllObjects];
     [subAry addObjectsFromArray:newDataAry];
 
@@ -401,12 +401,12 @@
 - (void)kai_addDataAry:(NSArray *)newDataAry forSection:(NSInteger)cSection {
     if (newDataAry.count == 0) return;
 
-    NSIndexSet *    curIndexSet = [self _kai_makeUpDataAryForSection:cSection];
+    NSIndexSet *curIndexSet = [self _kai_makeUpDataAryForSection:cSection];
     NSMutableArray *subAry;
     if (cSection < 0) {
-        subAry = self.dataArray[ 0 ];
+        subAry = self.dataArray[0];
     } else
-        subAry = self.dataArray[ cSection ];
+        subAry = self.dataArray[cSection];
 
     if (curIndexSet) {
         [subAry addObjectsFromArray:newDataAry];
@@ -423,8 +423,8 @@
 
 - (void)kai_insertData:(id)cModel atIndexPath:(NSIndexPath *)cIndexPath;
 {
-    NSIndexSet *    curIndexSet = [self _kai_makeUpDataAryForSection:cIndexPath.section];
-    NSMutableArray *subAry      = self.dataArray[ cIndexPath.section ];
+    NSIndexSet *curIndexSet = [self _kai_makeUpDataAryForSection:cIndexPath.section];
+    NSMutableArray *subAry  = self.dataArray[cIndexPath.section];
     if (subAry.count < cIndexPath.row) return;
     [subAry insertObject:cModel atIndex:cIndexPath.row];
     if (curIndexSet) {
@@ -437,7 +437,7 @@
 
 - (void)kai_deleteDataAtIndexPath:(NSIndexPath *)cIndexPath {
     if (self.dataArray.count <= cIndexPath.section) return;
-    NSMutableArray *subAry = self.dataArray[ cIndexPath.section ];
+    NSMutableArray *subAry = self.dataArray[cIndexPath.section];
     if (subAry.count <= cIndexPath.row) return;
 
     [subAry removeObjectAtIndex:cIndexPath.row];
@@ -445,9 +445,9 @@
 }
 
 - (void)kai_replaceData:(id)model
-                    atIndexPath:(NSIndexPath *)cIndexPath {
+            atIndexPath:(NSIndexPath *)cIndexPath {
     if (self.dataArray.count > cIndexPath.section) {
-        NSMutableArray *subDataAry = self.dataArray[ cIndexPath.section ];
+        NSMutableArray *subDataAry = self.dataArray[cIndexPath.section];
         if (subDataAry.count > cIndexPath.row) {
             [subDataAry replaceObjectAtIndex:cIndexPath.row withObject:model];
             [self.kai_collectionView reloadData];
@@ -492,7 +492,7 @@
 }
 
 - (void)kai_insertHeaderArr:(NSArray *)newDataAry
-                forSection:(NSInteger)cSection {
+                 forSection:(NSInteger)cSection {
     NSMutableIndexSet *set = [NSMutableIndexSet indexSet];
     for (NSInteger i = 0; i < newDataAry.count; i++)
         [set addIndex:cSection + i];
@@ -515,10 +515,10 @@
 }
 
 - (id)currentHeaderModelAtIndexPath:(NSIndexPath *)cIndexPath {
-    if (self.currentHeaderModelAtIndexPath) {
-        return self.currentHeaderModelAtIndexPath(self.headerArray, cIndexPath);
+    if (self.currentHeaderModelAtIndexPathBlock) {
+        return self.currentHeaderModelAtIndexPathBlock(self.headerArray, cIndexPath);
     } else if (self.headerArray.count > cIndexPath.section) {
-        id curModel = self.headerArray[ cIndexPath.section ];
+        id curModel = self.headerArray[cIndexPath.section];
         return curModel;
     }
     return nil;
@@ -542,7 +542,7 @@
 }
 
 - (void)kai_insertFooterArr:(NSArray *)newDataAry
-                forSection:(NSInteger)cSection {
+                 forSection:(NSInteger)cSection {
     NSMutableIndexSet *set = [NSMutableIndexSet indexSet];
     for (NSInteger i = 0; i < newDataAry.count; i++)
         [set addIndex:cSection + i];
@@ -565,10 +565,10 @@
 }
 
 - (id)currentFooterModelAtIndexPath:(NSIndexPath *)cIndexPath {
-    if (self.currentFooterModelAtIndexPath) {
-        return self.currentFooterModelAtIndexPath(self.footerArray, cIndexPath);
+    if (self.currentFooterModelAtIndexPathBlock) {
+        return self.currentFooterModelAtIndexPathBlock(self.footerArray, cIndexPath);
     } else if (self.footerArray.count > cIndexPath.section) {
-        id curModel = self.footerArray[ cIndexPath.section ];
+        id curModel = self.footerArray[cIndexPath.section];
         return curModel;
     }
     return nil;
@@ -651,76 +651,76 @@
     self.footerIdentifierBlock = block;
 }
 
-- (void)currentModelIndexPath:(ZKCollectionHelperCurrentModelAtIndexPath)block {
-    self.currentModelAtIndexPath = block;
+- (void)flattenMap:(ZKCollectionHelperFlattenMapBlock)block {
+    self.flattenMapBlock = block;
 }
 
-- (void)numberOfItemsInSection:(ZKCollectionHelperNumberOfItemsInSection)block {
-    self.numberOfItemsInSection = block;
+- (void)numberOfItemsInSection:(ZKCollectionHelperNumberOfItemsInSectionBlock)block {
+    self.numberOfItemsInSectionBlock = block;
 }
 
-- (void)didHeaderView:(ZKCollectionHelperHeaderView)block {
-    self.headerView = block;
+- (void)didHeaderView:(ZKCollectionHelperHeaderViewBlock)block {
+    self.headerViewBlock = block;
 }
 
-- (void)didCurrentHeaderModel:(ZKCollectionHelperCurrentHeaderModelAtIndexPath)block {
-    self.currentHeaderModelAtIndexPath = block;
+- (void)didCurrentHeaderModel:(ZKCollectionHelperCurrentHeaderModelAtIndexPathBlock)block {
+    self.currentHeaderModelAtIndexPathBlock = block;
 }
 
-- (void)didFooterView:(ZKCollectionHelperFooterView)block {
-    self.footerView = block;
+- (void)didFooterView:(ZKCollectionHelperFooterViewBlock)block {
+    self.footerViewBlock = block;
 }
 
-- (void)didCurrentFooterModel:(ZKCollectionHelperCurrentFooterModelAtIndexPath)block {
-    self.currentFooterModelAtIndexPath = block;
+- (void)didCurrentFooterModel:(ZKCollectionHelperCurrentFooterModelAtIndexPathBlock)block {
+    self.currentFooterModelAtIndexPathBlock = block;
 }
 
-- (void)didCellForItemAtIndexPath:(ZKCollectionHelperCellForItemAtIndexPath)block {
-    self.cellForItemAtIndexPath = block;
+- (void)didCellForItemAtIndexPath:(ZKCollectionHelperCellForItemAtIndexPathBlock)block {
+    self.cellForItemAtIndexPathBlock = block;
 }
 
-- (void)didHeaderForItemAtIndexPah:(ZKCollectionHelperHeaderForItemAtIndexPath)block {
-    self.headerForItemAtIndexPath = block;
+- (void)didHeaderForItemAtIndexPah:(ZKCollectionHelperHeaderForItemAtIndexPathBlock)block {
+    self.headerForItemAtIndexPathBlock = block;
 }
 
-- (void)didFooterForItemAtIndexPah:(ZKCollectionHelperFooterForItemAtIndexPath)block {
-    self.footerForItemAtIndexPath = block;
+- (void)didFooterForItemAtIndexPah:(ZKCollectionHelperFooterForItemAtIndexPathBlock)block {
+    self.footerForItemAtIndexPathBlock = block;
 }
 
-- (void)didSizeForItemAtIndexPath:(ZKCollectionHelperCellForItemSize)block {
-    self.sizeForItemAtIndexPath = block;
+- (void)didSizeForItemAtIndexPath:(ZKCollectionHelperCellForItemSizeBlock)block {
+    self.sizeForItemAtIndexPathBlock = block;
 }
 
-- (void)didReferenceHeaderSize:(ZKCollectionHelperReferenceHeaderSize)block {
-    self.referenceHeaderSize = block;
+- (void)didReferenceHeaderSize:(ZKCollectionHelperReferenceHeaderSizeBlock)block {
+    self.referenceHeaderSizeBlock = block;
 }
 
-- (void)didReferenceFooterSize:(ZKCollectionHelperReferenceFooterSize)block {
-    self.referenceFooterSize = block;
+- (void)didReferenceFooterSize:(ZKCollectionHelperReferenceFooterSizeBlock)block {
+    self.referenceFooterSizeBlock = block;
 }
 
-- (void)didSelectItem:(ZKCollectionHelperDidSelectItemAtIndexPath)block {
-    self.didSelectItemAtIndexPath = block;
+- (void)didSelectItem:(ZKCollectionHelperDidSelectItemAtIndexPathBlock)block {
+    self.didSelectItemAtIndexPathBlock = block;
 }
 
-- (void)cellItemMargin:(ZKCollectionHelperCellItemMargin)block {
+- (void)cellItemMargin:(ZKCollectionHelperCellItemMarginBlock)block {
     self.cellItemMarginBlock = block;
 }
 
-- (void)minimumInteritemSpacingForSection:(ZKCollectionHelperMinimumInteritemSpacingForSection)blcok {
+- (void)minimumInteritemSpacingForSection:(ZKCollectionHelperMinimumInteritemSpacingForSectionBlock)blcok {
     self.minimumInteritemSpacingForSectionBlock = blcok;
 }
 
-- (void)didScrollViewDidScroll:(ZKScrollViewDidScroll)block {
-    self.scrollViewDidScroll = block;
+- (void)didScrollViewDidScroll:(ZKScrollViewDidScrollBlock)block {
+    self.scrollViewDidScrollBlock = block;
 }
 
-- (void)didEndDragging:(ZKScrollViewDidEndDragging)block {
-    self.scrollViewDidEndDragging = block;
+- (void)didEndDragging:(ZKScrollViewDidEndDraggingBlock)block {
+    self.scrollViewDidEndDraggingBlock = block;
 }
 
-- (void)didEndDecelerating:(ZKScrollViewDidEndDecelerating)block {
-    self.scrollViewDidEndDecelerating = block;
+- (void)didEndDecelerating:(ZKScrollViewDidEndDeceleratingBlock)block {
+    self.scrollViewDidEndDeceleratingBlock = block;
 }
 
 - (void)configureCell:(UICollectionViewCell<ZKCollectionViewHelperInjectionDelegate> *)cell forIndexPath:(NSIndexPath *)indexPath withObject:(id)obj {
