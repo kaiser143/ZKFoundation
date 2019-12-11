@@ -11,7 +11,7 @@
 @protocol ZKCollectionViewHelperInjectionDelegate<NSObject>
 
 @optional
-- (void)bindViewModel:(__kindof NSObject *)viewModel forIndexPath:(NSIndexPath *)indexPath;
+- (void)bindViewModel:(__kindof NSObject *)viewModel forItemAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
 

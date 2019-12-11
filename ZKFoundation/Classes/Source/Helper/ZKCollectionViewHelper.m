@@ -19,7 +19,7 @@
 @property (nonatomic, copy) ZKCollectionHelperFooterViewBlock footerViewBlock;
 
 @property (nonatomic, copy) ZKCollectionHelperItemAutoHeightForRowBlock itemAutoHeightBlock;
-@property (nonatomic, copy) ZKCollectionHelperCellIdentifierForItemBlock cellIdentifierBlock;
+@property (nonatomic, copy) ZKCollectionHelperCellIdentifierForItemAtIndexPathBlock cellIdentifierBlock;
 @property (nonatomic, copy) ZKCollectionHelperHeaderIdentifierBlock headerIdentifierBlock;
 @property (nonatomic, copy) ZKCollectionHelperFooterIdentifierBlock footerIdentifierBlock;
 
@@ -639,7 +639,7 @@
     self.itemAutoHeightBlock = cb;
 }
 
-- (void)cellIdentifierForItemAtIndexPath:(ZKCollectionHelperCellIdentifierForItemBlock)block {
+- (void)cellIdentifierForItemAtIndexPath:(ZKCollectionHelperCellIdentifierForItemAtIndexPathBlock)block {
     self.cellIdentifierBlock = block;
 }
 
@@ -724,8 +724,8 @@
 }
 
 - (void)configureCell:(UICollectionViewCell<ZKCollectionViewHelperInjectionDelegate> *)cell forIndexPath:(NSIndexPath *)indexPath withObject:(id)obj {
-    if ([cell respondsToSelector:@selector(bindViewModel:forIndexPath:)]) {
-        [cell bindViewModel:obj forIndexPath:indexPath];
+    if ([cell respondsToSelector:@selector(bindViewModel:forItemAtIndexPath:)]) {
+        [cell bindViewModel:obj forItemAtIndexPath:indexPath];
     }
 }
 

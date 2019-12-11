@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ZKCollectionViewHelperInjectionDelegate;
 
-typedef NSString *_Nullable (^ZKCollectionHelperCellIdentifierForItemBlock)(NSIndexPath *indexPath, id dataSource);
+typedef NSString *_Nullable (^ZKCollectionHelperCellIdentifierForItemAtIndexPathBlock)(NSIndexPath *indexPath, id dataSource);
 typedef NSString *_Nullable (^ZKCollectionHelperHeaderIdentifierBlock)(NSIndexPath *indexPath, id dataSource);
 typedef NSString *_Nullable (^ZKCollectionHelperFooterIdentifierBlock)(NSIndexPath *indexPath, id dataSource);
 typedef CGFloat (^ZKCollectionHelperItemAutoHeightForRowBlock)(UICollectionView *collectionView, NSIndexPath *indexPath, NSString *identifier, id dataSource);
@@ -165,7 +165,7 @@ typedef void (^ZKScrollViewDidEndDeceleratingBlock)(UIScrollView *srollView);
 /**
 *  When there are multiple cell, returned identifier in block
 */
-- (void)cellIdentifierForItemAtIndexPath:(ZKCollectionHelperCellIdentifierForItemBlock)block;
+- (void)cellIdentifierForItemAtIndexPath:(ZKCollectionHelperCellIdentifierForItemAtIndexPathBlock)block;
 - (void)headerIdentifier:(ZKCollectionHelperHeaderIdentifierBlock)block;
 - (void)footerIdentifier:(ZKCollectionHelperFooterIdentifierBlock)block;
 
