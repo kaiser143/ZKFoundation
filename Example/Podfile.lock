@@ -15,7 +15,7 @@ PODS:
     - NJKWebViewProgress/ProgressView (= 0.2.3)
   - NJKWebViewProgress/Core (0.2.3)
   - NJKWebViewProgress/ProgressView (0.2.3)
-  - ZKCategories (0.2.6)
+  - ZKCategories (0.2.8)
   - ZKFoundation (0.1.0):
     - ZKCategories (~> 0.2.1)
     - ZKFoundation/AuthContext (= 0.1.0)
@@ -43,7 +43,7 @@ DEPENDENCIES:
   - ZKFoundation (from `../`)
 
 SPEC REPOS:
-  trunk:
+  https://github.com/CocoaPods/Specs.git:
     - Aspects
     - AXIndicatorView
     - AXNavigationBackItemInjection
@@ -65,9 +65,9 @@ SPEC CHECKSUMS:
   AXWebViewController: 96566c473fce2806f4da696132b31777f5404c9f
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
-  ZKCategories: 0e0052a40eccbf1bc58f330ba050ce2226254cb7
+  ZKCategories: dc65371b037737781d15769fcec0a2c29e6c94c5
   ZKFoundation: aae02c9b39485f4d1a0c0f193d4d07627e60f6c9
 
-PODFILE CHECKSUM: 872d2cb011f251d218cf1097f9a06ca644cbacc9
+PODFILE CHECKSUM: 452e2e337e17b8800ea9953eefea25772f71e437
 
 COCOAPODS: 1.8.4

@@ -11,6 +11,7 @@
 		4B0DB860237EBD0A00F11E19 /* ZKWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B0DB85F237EBD0A00F11E19 /* ZKWebViewController.m */; };
 		4B6951F523963A5300A828D4 /* ZKCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6951F423963A5300A828D4 /* ZKCollectionViewController.m */; };
 		4B6951F823963C7000A828D4 /* ZKCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6951F723963C7000A828D4 /* ZKCollectionViewCell.m */; };
+		4BD3443B23A3D34F00F6C677 /* ZKMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BD3443923A3D34F00F6C677 /* ZKMapViewController.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -49,6 +50,8 @@
 		4B6951F423963A5300A828D4 /* ZKCollectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKCollectionViewController.m; sourceTree = "<group>"; };
 		4B6951F623963C7000A828D4 /* ZKCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKCollectionViewCell.h; sourceTree = "<group>"; };
 		4B6951F723963C7000A828D4 /* ZKCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKCollectionViewCell.m; sourceTree = "<group>"; };
+		4BD3443923A3D34F00F6C677 /* ZKMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKMapViewController.m; sourceTree = "<group>"; };
+		4BD3443A23A3D34F00F6C677 /* ZKMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKMapViewController.h; sourceTree = "<group>"; };
 		4C0150DDE719CFFB04D8E0EF /* Pods-ZKFoundation_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZKFoundation_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZKFoundation_Example/Pods-ZKFoundation_Example.release.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* ZKFoundation_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZKFoundation_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -151,6 +154,8 @@
 			children = (
 				6003F59C195388D20070C39A /* ZKAppDelegate.h */,
 				6003F59D195388D20070C39A /* ZKAppDelegate.m */,
+				4BD3443A23A3D34F00F6C677 /* ZKMapViewController.h */,
+				4BD3443923A3D34F00F6C677 /* ZKMapViewController.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* ZKViewController.h */,
 				6003F5A6195388D20070C39A /* ZKViewController.m */,
@@ -373,6 +378,7 @@
 			files = (
 				6003F59E195388D20070C39A /* ZKAppDelegate.m in Sources */,
 				4B034D6A237E9D6900073D23 /* NavigationController.m in Sources */,
+				4BD3443B23A3D34F00F6C677 /* ZKMapViewController.m in Sources */,
 				4B0DB860237EBD0A00F11E19 /* ZKWebViewController.m in Sources */,
 				6003F5A7195388D20070C39A /* ZKViewController.m in Sources */,
 				4B6951F823963C7000A828D4 /* ZKCollectionViewCell.m in Sources */,

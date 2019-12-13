@@ -12,8 +12,17 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-    UINavigationBar.appearance.barTintColor = UIColor.lightGrayColor;
+    // Override point for customization after application launch.    
+    [[UINavigationBar appearance] setShadowImage:[UIImage new]];
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"topbarbg_ios7"]
+                                       forBarMetrics:UIBarMetricsDefault];
+    
+    UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, 4, 0);
+    UIImage *backImage = [[UIImage imageNamed:@"barbuttonicon_back"] imageWithAlignmentRectInsets:edgeInsets];
+    [[UINavigationBar appearance] setBackIndicatorImage:backImage];
+    [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:backImage];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    
     return YES;
 }
 
