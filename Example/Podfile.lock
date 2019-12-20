@@ -1,20 +1,21 @@
 PODS:
-  - Aspects (1.4.1)
   - AXIndicatorView (0.1.1)
   - AXNavigationBackItemInjection (0.0.2)
   - AXPracticalHUD (2.1.4):
     - AXIndicatorView
   - AXWebViewController (0.7.2):
-    - Aspects
     - AXNavigationBackItemInjection
     - AXPracticalHUD
     - NJKWebViewProgress
+    - Stinger
+    - ZKCategories
   - Masonry (1.1.0)
   - NJKWebViewProgress (0.2.3):
     - NJKWebViewProgress/Core (= 0.2.3)
     - NJKWebViewProgress/ProgressView (= 0.2.3)
   - NJKWebViewProgress/Core (0.2.3)
   - NJKWebViewProgress/ProgressView (0.2.3)
+  - Stinger (0.2.8)
   - ZKCategories (0.2.8)
   - ZKFoundation (0.1.0):
     - ZKCategories (~> 0.2.1)
@@ -38,36 +39,43 @@ PODS:
     - ZKCategories (~> 0.2.1)
 
 DEPENDENCIES:
-  - AXWebViewController
+  - AXWebViewController (from `https://github.com/kaiser143/AXWebViewController.git`, commit `5fe707b7c5b67d85992f2b0ec4778748e012f7fd`)
   - Masonry
   - ZKFoundation (from `../`)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
-    - Aspects
     - AXIndicatorView
     - AXNavigationBackItemInjection
     - AXPracticalHUD
-    - AXWebViewController
     - Masonry
     - NJKWebViewProgress
+    - Stinger
     - ZKCategories
 
 EXTERNAL SOURCES:
+  AXWebViewController:
+    :commit: 5fe707b7c5b67d85992f2b0ec4778748e012f7fd
+    :git: https://github.com/kaiser143/AXWebViewController.git
   ZKFoundation:
     :path: "../"
 
+CHECKOUT OPTIONS:
+  AXWebViewController:
+    :commit: 5fe707b7c5b67d85992f2b0ec4778748e012f7fd
+    :git: https://github.com/kaiser143/AXWebViewController.git
+
 SPEC CHECKSUMS:
-  Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
   AXIndicatorView: 566b490a2dd9781d4ffbcc9752be9b9cdc6e728e
   AXNavigationBackItemInjection: efe0446967f3cbcc85a9118decd1e145138912dd
   AXPracticalHUD: 821d170b31e050c426ef8754b07b4264a8b1d861
-  AXWebViewController: 96566c473fce2806f4da696132b31777f5404c9f
+  AXWebViewController: a80d45610e4093f574544b5dfabe3f0a6b5facf6
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
+  Stinger: b32ad54b685dabf5a301b17e4b1f930b60204b62
   ZKCategories: dc65371b037737781d15769fcec0a2c29e6c94c5
   ZKFoundation: aae02c9b39485f4d1a0c0f193d4d07627e60f6c9
 
-PODFILE CHECKSUM: 452e2e337e17b8800ea9953eefea25772f71e437
+PODFILE CHECKSUM: cf46ef631a9fb8c8fd77c08eea069a250df46060
 
 COCOAPODS: 1.8.4

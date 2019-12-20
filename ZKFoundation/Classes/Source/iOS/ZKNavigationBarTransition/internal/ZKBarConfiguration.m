@@ -148,3 +148,28 @@
 }
 
 @end
+
+@implementation UIToolbar (_KAIConfigure)
+
+- (void)kai_commitBarConfiguration:(ZKBarConfiguration *)configure {
+    self.barStyle = configure.barStyle;
+
+    UIImage *const transpanrentImage = UIImage.new;
+    if (configure.transparent) {
+        self.translucent = YES;
+        [self setBackgroundImage:transpanrentImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    } else {
+        self.translucent         = configure.translucent;
+        UIImage *backgroundImage = configure.backgroundImage;
+        if (!backgroundImage && configure.backgroundColor) {
+            backgroundImage = [UIImage imageWithColor:configure.backgroundColor];
+        }
+
+        [self setBackgroundImage:backgroundImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    }
+
+    UIImage *shadowImage = configure.shadowImage ? nil : transpanrentImage;
+    [self setShadowImage:shadowImage forToolbarPosition:UIBarPositionAny];
+}
+
+@end

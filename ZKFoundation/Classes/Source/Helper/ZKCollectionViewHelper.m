@@ -216,7 +216,7 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = nil;
+    UICollectionViewCell<ZKCollectionViewHelperInjectionDelegate> *cell = nil;
     id curModel                = [self currentModelAtIndexPath:indexPath];
     NSString *identifier       = [self cellIdentifierForRowAtIndexPath:indexPath model:curModel];
     cell                       = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];

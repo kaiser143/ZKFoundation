@@ -6,7 +6,7 @@ source "https://github.com/CocoaPods/Specs.git"
 target 'ZKFoundation_Example' do
   pod 'ZKFoundation', :path => '../'
   pod 'Masonry'
-  pod 'AXWebViewController'
+  pod 'AXWebViewController', :git => 'https://github.com/kaiser143/AXWebViewController.git', :commit => '5fe707b7c5b67d85992f2b0ec4778748e012f7fd'
 
  # target 'ZKFoundation_Tests' do
  #   inherit! :search_paths
