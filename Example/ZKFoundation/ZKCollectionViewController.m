@@ -67,7 +67,7 @@
         ZKCollectionViewFlowLayout *layout = ZKCollectionViewFlowLayout.new;
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         _collectionView.alwaysBounceVertical = YES;
-        _collectionView.backgroundColor = UIColor.randomColor;
+        _collectionView.backgroundColor = UIColor.lightGrayColor;
         
         [self.view addSubview:_collectionView];
     }

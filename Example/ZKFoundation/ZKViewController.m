@@ -129,8 +129,7 @@
 }
 
 - (UIColor *)kai_barTintColor {
-//    return self.navigationController.viewControllers.count == 2 ? UIColor.cyanColor : self.barTintColor;
-    return UIColor.clearColor;
+    return self.navigationController.viewControllers.count == 2 ? UIColor.cyanColor : self.barTintColor;
 }
 
 - (UIColor *)kai_tintColor {
