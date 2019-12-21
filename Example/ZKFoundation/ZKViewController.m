@@ -151,12 +151,12 @@
     //    ZKViewController *controller = [[ZKViewController alloc] init];
     //    [self kai_pushViewController:controller animated:YES];
 
-        NSString *const githubLink = @"http://www.baidu.com";
-        ZKWebViewController *controller = [[ZKWebViewController alloc] initWithURL:githubLink.URL];
-        [self kai_pushViewController:controller];
+//        NSString *const githubLink = @"http://www.baidu.com";
+//        ZKWebViewController *controller = [[ZKWebViewController alloc] initWithURL:githubLink.URL];
+//        [self kai_pushViewController:controller];
 
-//    ZKAuto controller = ZKCollectionViewController.new;
-//    [self kai_pushViewController:controller];
+    ZKAuto controller = ZKCollectionViewController.new;
+    [self kai_pushViewController:controller];
 
     //    UIViewController *controller = UIViewController.new;
     //    controller.view.backgroundColor = UIColor.randomColor;
