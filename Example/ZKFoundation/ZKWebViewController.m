@@ -26,6 +26,10 @@
         @strongify(self);
         [self.webView evaluateJavaScript:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '200%'"completionHandler:nil];
     };
+    self.challengeHandler = ^NSURLSessionAuthChallengeDisposition(WKWebView * _Nonnull webView, NSURLAuthenticationChallenge * _Nonnull challenge, NSURLCredential * _Nullable __autoreleasing * _Nullable credential) {
+        *credential = [[NSURLCredential alloc] initWithTrust:challenge.protectionSpace.serverTrust];
+        return NSURLSessionAuthChallengeUseCredential;
+    };
 }
 
 #pragma mark - :. ZKNavigationBarConfigureStyle

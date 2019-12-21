@@ -39,7 +39,7 @@ PODS:
     - ZKCategories (~> 0.2.1)
 
 DEPENDENCIES:
-  - AXWebViewController (from `https://github.com/kaiser143/AXWebViewController.git`, commit `5fe707b7c5b67d85992f2b0ec4778748e012f7fd`)
+  - AXWebViewController (from `https://github.com/kaiser143/AXWebViewController.git`, commit `1995d7957dcdfa5698dd1e031e037d163c98e461`)
   - Masonry
   - ZKFoundation (from `../`)
 
@@ -55,27 +55,27 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   AXWebViewController:
-    :commit: 5fe707b7c5b67d85992f2b0ec4778748e012f7fd
+    :commit: 1995d7957dcdfa5698dd1e031e037d163c98e461
     :git: https://github.com/kaiser143/AXWebViewController.git
   ZKFoundation:
     :path: "../"
 
 CHECKOUT OPTIONS:
   AXWebViewController:
-    :commit: 5fe707b7c5b67d85992f2b0ec4778748e012f7fd
+    :commit: 1995d7957dcdfa5698dd1e031e037d163c98e461
     :git: https://github.com/kaiser143/AXWebViewController.git
 
 SPEC CHECKSUMS:
   AXIndicatorView: 566b490a2dd9781d4ffbcc9752be9b9cdc6e728e
   AXNavigationBackItemInjection: efe0446967f3cbcc85a9118decd1e145138912dd
   AXPracticalHUD: 821d170b31e050c426ef8754b07b4264a8b1d861
-  AXWebViewController: a80d45610e4093f574544b5dfabe3f0a6b5facf6
+  AXWebViewController: d0bb5a8f515cd7c53902ea7698a49d129688b10e
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   Stinger: b32ad54b685dabf5a301b17e4b1f930b60204b62
   ZKCategories: dc65371b037737781d15769fcec0a2c29e6c94c5
   ZKFoundation: aae02c9b39485f4d1a0c0f193d4d07627e60f6c9
 
-PODFILE CHECKSUM: cf46ef631a9fb8c8fd77c08eea069a250df46060
+PODFILE CHECKSUM: 6d216848ee7798fe35b15800fbf3f64edd7745c2
 
 COCOAPODS: 1.8.4
