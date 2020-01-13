@@ -19,17 +19,17 @@ PODS:
   - ZKCategories (0.2.8)
   - ZKFoundation (0.1.0):
     - ZKCategories (~> 0.2.1)
+    - ZKFoundation/Adapter (= 0.1.0)
     - ZKFoundation/AuthContext (= 0.1.0)
     - ZKFoundation/Categories (= 0.1.0)
-    - ZKFoundation/Helper (= 0.1.0)
     - ZKFoundation/LocationManager (= 0.1.0)
     - ZKFoundation/Permission (= 0.1.0)
     - ZKFoundation/UIKit (= 0.1.0)
+  - ZKFoundation/Adapter (0.1.0):
+    - ZKCategories (~> 0.2.1)
   - ZKFoundation/AuthContext (0.1.0):
     - ZKCategories (~> 0.2.1)
   - ZKFoundation/Categories (0.1.0):
-    - ZKCategories (~> 0.2.1)
-  - ZKFoundation/Helper (0.1.0):
     - ZKCategories (~> 0.2.1)
   - ZKFoundation/LocationManager (0.1.0):
     - ZKCategories (~> 0.2.1)
@@ -74,7 +74,7 @@ SPEC CHECKSUMS:
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   Stinger: b32ad54b685dabf5a301b17e4b1f930b60204b62
   ZKCategories: dc65371b037737781d15769fcec0a2c29e6c94c5
-  ZKFoundation: aae02c9b39485f4d1a0c0f193d4d07627e60f6c9
+  ZKFoundation: a5735caef1211c5f30ac769e5768a3d777bf8f8e
 
 PODFILE CHECKSUM: 6d216848ee7798fe35b15800fbf3f64edd7745c2
 

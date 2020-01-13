@@ -43,7 +43,7 @@
     }];
     
     
-    [self.collectionView.collectionHelper kai_resetDataAry:@[@1, @2, @3, @4, @5, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6]];
+    [self.collectionView.collectionHelper stripAdapterData:@[@1, @2, @3, @4, @5, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6]];
 }
 
 /*
