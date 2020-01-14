@@ -1,12 +1,12 @@
 //
-//  ZKCollectionViewHelperInjectionDelegate.h
-//  Pods
+//  ZKCollectionViewAdapterInjectionDelegate.h
+//  ZKFoundation
 //
 //  Created by Kaiser on 2019/5/23.
 //
 
-#ifndef ZKCollectionViewHelperInjectionDelegate_h
-#define ZKCollectionViewHelperInjectionDelegate_h
+#ifndef ZKCollectionViewAdapterInjectionDelegate_h
+#define ZKCollectionViewAdapterInjectionDelegate_h
 
 @protocol ZKCollectionViewHelperInjectionDelegate<NSObject>
 
