@@ -84,6 +84,9 @@
                                                                             }];
             return @[delete];
     }];
+    [self.tableView.tableHelper canEditRow:^BOOL(id  _Nonnull dataSource, NSIndexPath * _Nonnull indexPath) {
+        return YES;
+    }];
     [self.tableView.tableHelper stripAdapterData:self.dataSource];
     
 }
@@ -95,7 +98,7 @@
 }
 
 - (UIColor *)kai_tintColor {
-    return nil; //UIColor.whiteColor;
+    return UIBarButtonItem.appearance.tintColor;
 }
 
 - (UIColor *)kai_barTintColor {
