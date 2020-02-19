@@ -13,6 +13,7 @@
 #import "ZKWebViewController.h"
 #import "ZKCollectionViewController.h"
 #import "ZKMapViewController.h"
+#import "ZKTableViewController.h"
 
 @interface ZKViewController () <ZKNavigationBarConfigureStyle>
 
@@ -91,11 +92,11 @@
     test.tintColor          = UIColor.redColor;
     test.layer.cornerRadius = 8;
     test.clipsToBounds      = YES;
-    [test setTitle:@"地图" forState:UIControlStateNormal];
+    [test setTitle:@"table" forState:UIControlStateNormal];
     [test addBlockForControlEvents:UIControlEventTouchUpInside
                              block:^(__kindof UIControl *_Nonnull sender) {
                                  @strongify(self);
-                                 [self kai_pushViewController:ZKMapViewController.new];
+                                 [self kai_pushViewController:ZKTableViewController.new];
                              }];
     [self.view addSubview:test];
     [test mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -103,6 +104,24 @@
         make.height.mas_equalTo(48);
         make.centerX.equalTo(self.view);
         make.top.equalTo(action.mas_bottom).offset(20);
+    }];
+    
+    action             = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
+    action.tintColor          = UIColor.redColor;
+    action.layer.cornerRadius = 8;
+    action.clipsToBounds      = YES;
+    [action setTitle:@"地图" forState:UIControlStateNormal];
+    [action addBlockForControlEvents:UIControlEventTouchUpInside
+                             block:^(__kindof UIControl *_Nonnull sender) {
+                                 @strongify(self);
+                                 [self kai_pushViewController:ZKMapViewController.new];
+                             }];
+    [self.view addSubview:action];
+    [action mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(220);
+        make.height.mas_equalTo(48);
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(test.mas_bottom).offset(20);
     }];
 
     if (self.navigationController.viewControllers.count != 1) {
