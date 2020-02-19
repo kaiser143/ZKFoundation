@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ZKCollectionViewHelperInjectionDelegate;
+@protocol ZKCollectionViewAdapterInjectionDelegate;
 
 typedef NSString *_Nullable (^ZKCollectionAdapterCellIdentifierForItemAtIndexPathBlock)(NSIndexPath *indexPath, id dataSource);
 typedef NSString *_Nullable (^ZKCollectionAdapterHeaderIdentifierBlock)(NSIndexPath *indexPath, id dataSource);
@@ -93,7 +93,7 @@ typedef void (^ZKScrollViewDidEndDeceleratingBlock)(UIScrollView *srollView);
 
 - (id)currentModelAtIndexPath:(NSIndexPath *)indexPath;
 - (id)currentFooterModelAtIndexPath:(NSIndexPath *)indexPath;
-- (void)configureCell:(UICollectionViewCell<ZKCollectionViewHelperInjectionDelegate> *)cell forIndexPath:(NSIndexPath *)indexPath withObject:(id)obj;
+- (void)configureCell:(UICollectionViewCell<ZKCollectionViewAdapterInjectionDelegate> *)cell forIndexPath:(NSIndexPath *)indexPath withObject:(id)obj;
 
 #pragma mark :. Group
 

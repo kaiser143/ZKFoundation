@@ -722,7 +722,7 @@
     self.scrollViewDidEndDeceleratingBlock = block;
 }
 
-- (void)configureCell:(UICollectionViewCell<ZKCollectionViewHelperInjectionDelegate> *)cell forIndexPath:(NSIndexPath *)indexPath withObject:(id)obj {
+- (void)configureCell:(UICollectionViewCell<ZKCollectionViewAdapterInjectionDelegate> *)cell forIndexPath:(NSIndexPath *)indexPath withObject:(id)obj {
     if ([cell respondsToSelector:@selector(bindViewModel:forItemAtIndexPath:)]) {
         [cell bindViewModel:obj forItemAtIndexPath:indexPath];
     }
