@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ZKCollectionViewCell : UICollectionViewCell <ZKCollectionViewHelperInjectionDelegate>
+@interface ZKCollectionViewCell : UICollectionViewCell <ZKCollectionViewAdapterInjectionDelegate>
 
 @end
 
