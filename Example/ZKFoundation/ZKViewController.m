@@ -77,7 +77,7 @@
     action.tintColor             = UIColor.redColor;
     action.layer.cornerRadius    = 8;
     action.clipsToBounds         = YES;
-    [action setTitle:@"Continue" forState:UIControlStateNormal];
+    [action setTitle:@"Collection" forState:UIControlStateNormal];
     [action addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:action];
     [action mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -91,7 +91,7 @@
     test.tintColor          = UIColor.redColor;
     test.layer.cornerRadius = 8;
     test.clipsToBounds      = YES;
-    [test setTitle:@"Test" forState:UIControlStateNormal];
+    [test setTitle:@"地图" forState:UIControlStateNormal];
     [test addBlockForControlEvents:UIControlEventTouchUpInside
                              block:^(__kindof UIControl *_Nonnull sender) {
                                  @strongify(self);
