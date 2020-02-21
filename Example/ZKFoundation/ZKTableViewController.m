@@ -70,6 +70,9 @@
                [tableView deselectRowAtIndexPath:indexPath animated:YES];
            }
     }];
+    [self.tableView.tableHelper accessoryButtonTappedForRow:^(NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
+        NSLog(@"accessoryButtonTapped %@", indexPath);
+    }];
     [self.tableView.tableHelper didDeSelect:^(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         
     }];

@@ -8,7 +8,6 @@ PODS:
     - AXPracticalHUD
     - NJKWebViewProgress
     - Stinger
-    - ZKCategories
   - Masonry (1.1.0)
   - NJKWebViewProgress (0.2.3):
     - NJKWebViewProgress/Core (= 0.2.3)
@@ -39,7 +38,7 @@ PODS:
     - ZKCategories (~> 0.2.1)
 
 DEPENDENCIES:
-  - AXWebViewController (from `https://github.com/kaiser143/AXWebViewController.git`, commit `1995d7957dcdfa5698dd1e031e037d163c98e461`)
+  - AXWebViewController (from `https://github.com/kaiser143/AXWebViewController.git`, commit `0833e48fea2b121ba3ecc5ad0eb3560e21cdadf8`)
   - Masonry
   - ZKFoundation (from `../`)
 
@@ -55,27 +54,27 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   AXWebViewController:
-    :commit: 1995d7957dcdfa5698dd1e031e037d163c98e461
+    :commit: 0833e48fea2b121ba3ecc5ad0eb3560e21cdadf8
     :git: https://github.com/kaiser143/AXWebViewController.git
   ZKFoundation:
     :path: "../"
 
 CHECKOUT OPTIONS:
   AXWebViewController:
-    :commit: 1995d7957dcdfa5698dd1e031e037d163c98e461
+    :commit: 0833e48fea2b121ba3ecc5ad0eb3560e21cdadf8
     :git: https://github.com/kaiser143/AXWebViewController.git
 
 SPEC CHECKSUMS:
   AXIndicatorView: 566b490a2dd9781d4ffbcc9752be9b9cdc6e728e
   AXNavigationBackItemInjection: efe0446967f3cbcc85a9118decd1e145138912dd
   AXPracticalHUD: 821d170b31e050c426ef8754b07b4264a8b1d861
-  AXWebViewController: d0bb5a8f515cd7c53902ea7698a49d129688b10e
+  AXWebViewController: 16751c3fb88aaf578810e3cc8a433e833e5eeed2
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   Stinger: b32ad54b685dabf5a301b17e4b1f930b60204b62
   ZKCategories: dc65371b037737781d15769fcec0a2c29e6c94c5
   ZKFoundation: a5735caef1211c5f30ac769e5768a3d777bf8f8e
 
-PODFILE CHECKSUM: 6d216848ee7798fe35b15800fbf3f64edd7745c2
+PODFILE CHECKSUM: b926333968fba30e584761d7737cb561ffe588dc
 
 COCOAPODS: 1.7.5

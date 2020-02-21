@@ -21,6 +21,7 @@
     // Do any additional setup after loading the view.
     
     @weakify(self);
+    self.progressTintColor = UIColor.orangeColor;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:nil action:nil];
     self.navigationItem.rightBarButtonItem.actionBlock = ^(id _Nonnull sender) {
         @strongify(self);

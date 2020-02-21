@@ -56,6 +56,9 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 @property (nonatomic, copy) ZKTableAdapterTitleFooterBlock footerTitleBlock;
 @property (nonatomic, copy) ZKTableAdapterHeightForFooterBlock heightForFooterBlock;
 
+@property (nonatomic, copy) ZKTableAdapterAccessoryTypeBlock accessoryTypeBlock;
+@property (nonatomic, copy) ZKTableAdapterAccessoryButtonTappedForRowAtIndexPathBlock accessoryButtonTappedForRowAtIndexPathBlock;
+
 @property (nonatomic, copy) ZKTableAdapterNumberOfSectionsBlock numberOfSectionsBlock;
 @property (nonatomic, copy) ZKTableAdapterNumberRowsBlock numberRowBlock;
 
@@ -171,6 +174,14 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 
 - (void)heightForHeaderView:(ZKTableAdapterHeightForHeaderBlock)block {
     self.heightForHeaderBlock = block;
+}
+
+- (void)accessoryType:(ZKTableAdapterAccessoryTypeBlock)block {
+    self.accessoryTypeBlock = block;
+}
+
+- (void)accessoryButtonTappedForRow:(ZKTableAdapterAccessoryButtonTappedForRowAtIndexPathBlock)block {
+    self.accessoryButtonTappedForRowAtIndexPathBlock = block;
 }
 
 - (void)footerView:(ZKTableAdapterFooterBlock)block {
@@ -307,6 +318,17 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
     return title;
 }
 
+- (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCellAccessoryType type = UITableViewCellAccessoryNone;
+    if (self.accessoryTypeBlock) type = self.accessoryTypeBlock(tableView, indexPath, [self currentModelAtIndexPath:indexPath]);
+    
+    return type;
+}
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+    !self.accessoryButtonTappedForRowAtIndexPathBlock ?: self.accessoryButtonTappedForRowAtIndexPathBlock(indexPath, [self currentModelAtIndexPath:indexPath]);
+}
+
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
     if (!self.footerBlock)
         view.tintColor = [UIColor clearColor];
@@ -342,7 +364,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     BOOL edit = tableView.editing;
     if (self.canEditRowBlock) {
-        edit = self.canEditRowBlock([self currentModelAtIndexPath:indexPath], indexPath);
+        edit = self.canEditRowBlock(indexPath, [self currentModelAtIndexPath:indexPath]);
     }
 
     return edit;

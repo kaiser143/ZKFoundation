@@ -124,6 +124,26 @@
         make.top.equalTo(test.mas_bottom).offset(20);
     }];
 
+    test             = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
+    test.tintColor          = UIColor.redColor;
+    test.layer.cornerRadius = 8;
+    test.clipsToBounds      = YES;
+    [test setTitle:@"webView" forState:UIControlStateNormal];
+    [test addBlockForControlEvents:UIControlEventTouchUpInside
+                             block:^(__kindof UIControl *_Nonnull sender) {
+                                 @strongify(self);
+                                 NSString *const githubLink = @"http://www.baidu.com";
+                                 ZKWebViewController *controller = [[ZKWebViewController alloc] initWithURL:githubLink.URL];
+                                 [self kai_pushViewController:controller];
+                             }];
+    [self.view addSubview:test];
+    [test mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(220);
+        make.height.mas_equalTo(48);
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(action.mas_bottom).offset(20);
+    }];
+    
     if (self.navigationController.viewControllers.count != 1) {
         UIBarButtonItem *popToRoot = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop
                                                                                    target:nil

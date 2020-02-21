@@ -23,7 +23,7 @@ typedef void (^ZKTableAdapterDidWillDisplayBlock)(__kindof UITableViewCell *cell
 typedef void (^ZKTableAdapterDidEditingBlock)(UITableView *tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath *indexPath, id dataSource);
 typedef NSString *_Nullable (^ZKTableAdapterDidEditTitleBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
 
-typedef BOOL (^ZKTableAdapterCanEditRowAtIndexPathBlock)(id dataSource, NSIndexPath *indexPath);
+typedef BOOL (^ZKTableAdapterCanEditRowAtIndexPathBlock)(NSIndexPath *indexPath, id dataSource);
 typedef UITableViewCellEditingStyle (^ZKTableAdapterEditingStyleBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
 typedef NSArray<UITableViewRowAction *> *_Nullable (^ZKTableAdapterDidEditActionsBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
 
@@ -33,6 +33,9 @@ typedef void (^ZKScrollViewDidEndDraggingBlock)(UIScrollView *scrollView);
 
 typedef __kindof UITableViewHeaderFooterView *_Nullable (^ZKTableAdapterHeaderBlock)(UITableView *tableView, NSInteger section, id dataSource);
 typedef __kindof UITableViewHeaderFooterView *_Nullable (^ZKTableAdapterFooterBlock)(UITableView *tableView, NSInteger section, id dataSource);
+
+typedef UITableViewCellAccessoryType(^ZKTableAdapterAccessoryTypeBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
+typedef void(^ZKTableAdapterAccessoryButtonTappedForRowAtIndexPathBlock)(NSIndexPath *indexPath, id dataSource);
 
 typedef CGFloat (^ZKTableAdapterHeightForHeaderBlock)(UITableView *tableView, NSInteger section, id dataSource);
 typedef CGFloat (^ZKTableAdapterHeightForFooterBlock)(UITableView *tableView, NSInteger section, id dataSource);
@@ -92,6 +95,7 @@ typedef void (^ZKTableAdapterScrollViewDidEndScrollingBlock)(UIScrollView *scrol
  */
 @property (nonatomic, assign) BOOL isHover;
 
+// default is NO. Controls whether multiple rows can be selected simultaneously in editing
 @property (nonatomic) BOOL allowsMultipleSelectionDuringEditing NS_AVAILABLE_IOS(5_0);
 
 /**
@@ -180,6 +184,12 @@ typedef void (^ZKTableAdapterScrollViewDidEndScrollingBlock)(UIScrollView *scrol
 - (void)headerView:(ZKTableAdapterHeaderBlock)block;
 - (void)headerTitle:(ZKTableAdapterTitleHeaderBlock)block;
 - (void)heightForHeaderView:(ZKTableAdapterHeightForHeaderBlock)block;
+
+/*!
+ *  @brief accessory
+ */
+- (void)accessoryType:(ZKTableAdapterAccessoryTypeBlock)block;
+- (void)accessoryButtonTappedForRow:(ZKTableAdapterAccessoryButtonTappedForRowAtIndexPathBlock)block;
 
 /**
  *  @brief  Footer视图
