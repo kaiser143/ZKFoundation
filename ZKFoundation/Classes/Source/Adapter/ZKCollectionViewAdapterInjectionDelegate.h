@@ -8,11 +8,11 @@
 #ifndef ZKCollectionViewAdapterInjectionDelegate_h
 #define ZKCollectionViewAdapterInjectionDelegate_h
 
-@protocol ZKCollectionViewAdapterInjectionDelegate<NSObject>
+@protocol ZKCollectionViewAdapterInjectionDelegate <NSObject>
 
 @optional
 - (void)bindViewModel:(__kindof NSObject *)viewModel forItemAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
-#endif /* ZKCollectionViewHelperInjectionDelegate_h */
+#endif /* ZKCollectionViewAdapterInjectionDelegate_h */
