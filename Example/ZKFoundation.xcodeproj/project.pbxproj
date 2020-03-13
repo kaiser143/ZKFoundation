@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4B034D6A237E9D6900073D23 /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B034D69237E9D6900073D23 /* NavigationController.m */; };
 		4B0DB860237EBD0A00F11E19 /* ZKWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B0DB85F237EBD0A00F11E19 /* ZKWebViewController.m */; };
+		4B61282C241B23CE00F3559D /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B61282A241B23CE00F3559D /* Launch Screen.storyboard */; };
 		4B6951F523963A5300A828D4 /* ZKCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6951F423963A5300A828D4 /* ZKCollectionViewController.m */; };
 		4B6951F823963C7000A828D4 /* ZKCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6951F723963C7000A828D4 /* ZKCollectionViewCell.m */; };
 		4BD3443B23A3D34F00F6C677 /* ZKMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BD3443923A3D34F00F6C677 /* ZKMapViewController.m */; };
@@ -27,7 +28,6 @@
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
-		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		DB4B120C8603567B7D0CDFFE /* Pods_ZKFoundation_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD05D24BCA266EB79AA0BB81 /* Pods_ZKFoundation_Example.framework */; };
 /* End PBXBuildFile section */
@@ -48,6 +48,7 @@
 		4B034D69237E9D6900073D23 /* NavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
 		4B0DB85E237EBD0A00F11E19 /* ZKWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKWebViewController.h; sourceTree = "<group>"; };
 		4B0DB85F237EBD0A00F11E19 /* ZKWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKWebViewController.m; sourceTree = "<group>"; };
+		4B61282B241B23CE00F3559D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
 		4B6951F323963A5300A828D4 /* ZKCollectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKCollectionViewController.h; sourceTree = "<group>"; };
 		4B6951F423963A5300A828D4 /* ZKCollectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKCollectionViewController.m; sourceTree = "<group>"; };
 		4B6951F623963C7000A828D4 /* ZKCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKCollectionViewCell.h; sourceTree = "<group>"; };
@@ -79,7 +80,6 @@
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		6732AB21D1D0451C52B698EA /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B67405079FE8E43EF80EA3BA /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		CD05D24BCA266EB79AA0BB81 /* Pods_ZKFoundation_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZKFoundation_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,7 +165,6 @@
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* ZKViewController.h */,
 				6003F5A6195388D20070C39A /* ZKViewController.m */,
-				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
 				4B034D68237E9D6900073D23 /* NavigationController.h */,
@@ -180,6 +179,7 @@
 				4BE6F1AF23FD8BB400017F28 /* ZKTableViewController.m */,
 				4BE6F1B123FD8FAD00017F28 /* ZKTableViewCell.h */,
 				4BE6F1B223FD8FAD00017F28 /* ZKTableViewCell.m */,
+				4B61282A241B23CE00F3559D /* Launch Screen.storyboard */,
 			);
 			name = "Example for ZKFoundation";
 			path = ZKFoundation;
@@ -275,6 +275,9 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = zhangkai;
 				TargetAttributes = {
+					6003F589195388D20070C39A = {
+						ProvisioningStyle = Manual;
+					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
 					};
@@ -306,8 +309,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
-				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
+				4B61282C241B23CE00F3559D /* Launch Screen.storyboard in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -418,6 +421,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		4B61282A241B23CE00F3559D /* Launch Screen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4B61282B241B23CE00F3559D /* Base */,
+			);
+			name = "Launch Screen.storyboard";
+			sourceTree = "<group>";
+		};
 		6003F596195388D20070C39A /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -432,14 +443,6 @@
 				6003F5B9195388D20070C39A /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				71719F9E1E33DC2100824A3D /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -523,12 +526,15 @@
 			baseConfigurationReference = EBC685A3BF45D1131B54A82E /* Pods-ZKFoundation_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ZKFoundation/ZKFoundation-Prefix.pch";
 				INFOPLIST_FILE = "ZKFoundation/ZKFoundation-Info.plist";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.ZKFoundation-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -538,12 +544,15 @@
 			baseConfigurationReference = 4C0150DDE719CFFB04D8E0EF /* Pods-ZKFoundation_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ZKFoundation/ZKFoundation-Prefix.pch";
 				INFOPLIST_FILE = "ZKFoundation/ZKFoundation-Info.plist";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.ZKFoundation-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
