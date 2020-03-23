@@ -37,6 +37,8 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 @property (nonatomic, copy) ZKTableAdapterDidDeSelectBlock didDeSelectBlock;
 @property (nonatomic, copy) ZKTableAdapterDidMoveToRowBlock didMoveToRowBlock;
 @property (nonatomic, copy) ZKTableAdapterDidWillDisplayBlock didWillDisplayBlock;
+@property (nonatomic, copy) ZKTableAdapterDidHeaderVeiwWillDisplayBlock didHeaderWillDisplayBlock;
+@property (nonatomic, copy) ZKTableAdapterDidFooterVeiwWillDisplayBlock didFooterWillDisplayBlock;
 
 @property (nonatomic, copy) ZKTableAdapterDidEditingBlock didEditingBlock;
 @property (nonatomic, copy) ZKTableAdapterDidEditTitleBlock didEditTileBlock;
@@ -154,6 +156,14 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 
 - (void)cellWillDisplay:(ZKTableAdapterDidWillDisplayBlock)block {
     self.didWillDisplayBlock = block;
+}
+
+- (void)headerWillDisplay:(ZKTableAdapterDidHeaderVeiwWillDisplayBlock)block {
+    self.didHeaderWillDisplayBlock = block;
+}
+
+- (void)footerWillDisplay:(ZKTableAdapterDidFooterVeiwWillDisplayBlock)block {
+    self.didFooterWillDisplayBlock = block;
 }
 
 - (void)didScrollViewWillBeginDragging:(ZKScrollViewWillBeginDraggingBlock)block {
@@ -280,6 +290,15 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(nonnull UIView *)view forSection:(NSInteger)section {
     if (!self.headerBlock)
         view.tintColor = tableView.backgroundColor;
+    
+    if (self.didHeaderWillDisplayBlock) self.didHeaderWillDisplayBlock(view, section, [self currentSectionModel:section]);
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
+    if (!self.footerBlock)
+        view.tintColor = [UIColor clearColor];
+    
+    if (self.didFooterWillDisplayBlock) self.didFooterWillDisplayBlock(view, section, [self currentSectionModel:section]);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -327,11 +346,6 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     !self.accessoryButtonTappedForRowAtIndexPathBlock ?: self.accessoryButtonTappedForRowAtIndexPathBlock(indexPath, [self currentModelAtIndexPath:indexPath]);
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    if (!self.footerBlock)
-        view.tintColor = [UIColor clearColor];
 }
 
 #pragma mark :. 侧边

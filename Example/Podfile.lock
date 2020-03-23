@@ -43,7 +43,7 @@ DEPENDENCIES:
   - ZKFoundation (from `../`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - AXIndicatorView
     - AXNavigationBackItemInjection
     - AXPracticalHUD
@@ -77,4 +77,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: b926333968fba30e584761d7737cb561ffe588dc
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.9.1

@@ -19,6 +19,8 @@ typedef CGFloat (^ZKTableAdapterCellAutoHeightForRowBlock)(UITableView *tableVie
 typedef void (^ZKTableAdapterDidMoveToRowBlock)(UITableView *tableView, NSIndexPath *sourceIndexPath, id sourceModel, NSIndexPath *destinationIndexPath, id destinationModel);
 
 typedef void (^ZKTableAdapterDidWillDisplayBlock)(__kindof UITableViewCell *cell, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
+typedef void(^ZKTableAdapterDidHeaderVeiwWillDisplayBlock)(__kindof UIView *view, NSInteger section, id dataSource);
+typedef void(^ZKTableAdapterDidFooterVeiwWillDisplayBlock)(__kindof UIView *view, NSInteger section, id dataSource);
 
 typedef void (^ZKTableAdapterDidEditingBlock)(UITableView *tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath *indexPath, id dataSource);
 typedef NSString *_Nullable (^ZKTableAdapterDidEditTitleBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
@@ -173,6 +175,8 @@ typedef void (^ZKTableAdapterScrollViewDidEndScrollingBlock)(UIScrollView *scrol
  *  @brief 设置Cell显示
  */
 - (void)cellWillDisplay:(ZKTableAdapterDidWillDisplayBlock)block;
+- (void)headerWillDisplay:(ZKTableAdapterDidHeaderVeiwWillDisplayBlock)block;
+- (void)footerWillDisplay:(ZKTableAdapterDidFooterVeiwWillDisplayBlock)block;
 
 - (void)didScrollViewWillBeginDragging:(ZKScrollViewWillBeginDraggingBlock)block;
 - (void)didScrollViewDidScroll:(ZKScrollViewDidScrollBlock)block;
