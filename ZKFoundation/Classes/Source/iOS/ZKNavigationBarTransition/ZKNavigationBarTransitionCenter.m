@@ -31,14 +31,8 @@ BOOL KAITransitionNeedShowFakeBar(ZKBarConfiguration *from, ZKBarConfiguration *
                 showFakeBar = ![fromImageName isEqualToString:toImageName];
                 break;
             }
-
-            NSData *const fromImageData = UIImagePNGRepresentation(from.backgroundImage);
-            NSData *const toImageData   = UIImagePNGRepresentation(to.backgroundImage);
-            if ([fromImageData isEqualToData:toImageData]) {
-                break;
-            }
-
-            showFakeBar = YES;
+            
+            showFakeBar = ![from.backgroundImage isEqual:to.backgroundImage];
         } else if (![from.backgroundColor isEqual:to.backgroundColor]) {
             showFakeBar = YES;
         }

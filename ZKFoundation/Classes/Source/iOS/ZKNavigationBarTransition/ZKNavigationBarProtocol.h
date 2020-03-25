@@ -42,7 +42,7 @@ typedef NS_OPTIONS(NSUInteger, ZKNavigationBarConfigurations) {
 @optional
 
 /*
- *  identifier 用来比较 image 是否是同
+ *  identifier 用来比较image的name是否是同，如果不传，会使用image的isEqual来比较
  */
 - (UIImage *)kai_navigationBackgroundImageWithIdentifier:(NSString **)identifier;
 
