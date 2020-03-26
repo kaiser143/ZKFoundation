@@ -23,7 +23,7 @@
 #pragma mark - :. ZKNavigationBarConfigureStyle
 
 - (ZKNavigationBarConfigurations)kai_navigtionBarConfiguration {
-    return ZKNavigationBarBackgroundStyleColor | ZKNavigationBarBackgroundStyleOpaque;
+    return ZKNavigationBarStyleLight | ZKNavigationBarBackgroundStyleColor | ZKNavigationBarBackgroundStyleOpaque;
 }
 
 - (UIColor *)kai_tintColor {

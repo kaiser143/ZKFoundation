@@ -1,20 +1,12 @@
 PODS:
   - AXIndicatorView (0.1.1)
-  - AXNavigationBackItemInjection (0.0.2)
   - AXPracticalHUD (2.1.4):
     - AXIndicatorView
   - AXWebViewController (0.7.2):
-    - AXNavigationBackItemInjection
     - AXPracticalHUD
-    - NJKWebViewProgress
     - Stinger
   - Masonry (1.1.0)
-  - NJKWebViewProgress (0.2.3):
-    - NJKWebViewProgress/Core (= 0.2.3)
-    - NJKWebViewProgress/ProgressView (= 0.2.3)
-  - NJKWebViewProgress/Core (0.2.3)
-  - NJKWebViewProgress/ProgressView (0.2.3)
-  - Stinger (0.2.8)
+  - Stinger (0.2.9)
   - ZKCategories (0.2.8)
   - ZKFoundation (0.1.0):
     - ZKCategories (~> 0.2.1)
@@ -38,43 +30,39 @@ PODS:
     - ZKCategories (~> 0.2.1)
 
 DEPENDENCIES:
-  - AXWebViewController (from `https://github.com/kaiser143/AXWebViewController.git`, commit `0833e48fea2b121ba3ecc5ad0eb3560e21cdadf8`)
+  - AXWebViewController (from `https://github.com/kaiser143/AXWebViewController.git`, commit `5cebcc4fcdb269cf96c80dc6893b653cc29be2bb`)
   - Masonry
   - ZKFoundation (from `../`)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - AXIndicatorView
-    - AXNavigationBackItemInjection
     - AXPracticalHUD
     - Masonry
-    - NJKWebViewProgress
     - Stinger
     - ZKCategories
 
 EXTERNAL SOURCES:
   AXWebViewController:
-    :commit: 0833e48fea2b121ba3ecc5ad0eb3560e21cdadf8
+    :commit: 5cebcc4fcdb269cf96c80dc6893b653cc29be2bb
     :git: https://github.com/kaiser143/AXWebViewController.git
   ZKFoundation:
     :path: "../"
 
 CHECKOUT OPTIONS:
   AXWebViewController:
-    :commit: 0833e48fea2b121ba3ecc5ad0eb3560e21cdadf8
+    :commit: 5cebcc4fcdb269cf96c80dc6893b653cc29be2bb
     :git: https://github.com/kaiser143/AXWebViewController.git
 
 SPEC CHECKSUMS:
   AXIndicatorView: 566b490a2dd9781d4ffbcc9752be9b9cdc6e728e
-  AXNavigationBackItemInjection: efe0446967f3cbcc85a9118decd1e145138912dd
   AXPracticalHUD: 821d170b31e050c426ef8754b07b4264a8b1d861
-  AXWebViewController: 16751c3fb88aaf578810e3cc8a433e833e5eeed2
+  AXWebViewController: 82f9ffe043edf360a299aaad27a132be018a9567
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
-  Stinger: b32ad54b685dabf5a301b17e4b1f930b60204b62
+  Stinger: 01dd8efff315743c2fee9fc41348728de3c30880
   ZKCategories: dc65371b037737781d15769fcec0a2c29e6c94c5
   ZKFoundation: a5735caef1211c5f30ac769e5768a3d777bf8f8e
 
-PODFILE CHECKSUM: b926333968fba30e584761d7737cb561ffe588dc
+PODFILE CHECKSUM: 070616c6f949e70cca4ad108e72c0b41da2e5976
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.1

@@ -44,7 +44,7 @@
 }
 
 - (UIColor *)kai_barTintColor {
-    return UIColor.yellowColor;
+    return UIColor.whiteColor;
 }
 
 - (BOOL)kai_prefersNavigationBarHidden {

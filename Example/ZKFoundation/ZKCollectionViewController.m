@@ -12,7 +12,7 @@
 #import "ZKCollectionViewCell.h"
 #import <ZKCategories/ZKCategories.h>
 
-@interface ZKCollectionViewController ()
+@interface ZKCollectionViewController () <ZKNavigationBarConfigureStyle>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 
@@ -58,6 +58,20 @@
 
 - (CGFloat)kai_interactivePopMaxAllowedInitialDistanceToLeftEdge {
     return 44;
+}
+
+#pragma mark - :. ZKNavigationBarConfigureStyle
+
+- (ZKNavigationBarConfigurations)kai_navigtionBarConfiguration {
+    return ZKNavigationBarStyleBlack | ZKNavigationBarBackgroundStyleColor | ZKNavigationBarBackgroundStyleOpaque;
+}
+
+- (UIColor *)kai_tintColor {
+    return UIColor.whiteColor;
+}
+
+- (UIColor *)kai_barTintColor {
+    return UIColor.lightTextColor;
 }
 
 #pragma mark - :. getters and setters
