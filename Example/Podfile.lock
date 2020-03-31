@@ -7,9 +7,11 @@ PODS:
     - Stinger
   - Masonry (1.1.0)
   - Stinger (0.2.9)
-  - ZKCategories (0.2.8)
+  - ZKCategories (0.3.1):
+    - ZKCategories/Core (= 0.3.1)
+  - ZKCategories/Core (0.3.1)
   - ZKFoundation (0.1.0):
-    - ZKCategories (~> 0.2.1)
+    - ZKCategories (~> 0.3.1)
     - ZKFoundation/Adapter (= 0.1.0)
     - ZKFoundation/AuthContext (= 0.1.0)
     - ZKFoundation/Categories (= 0.1.0)
@@ -17,17 +19,17 @@ PODS:
     - ZKFoundation/Permission (= 0.1.0)
     - ZKFoundation/UIKit (= 0.1.0)
   - ZKFoundation/Adapter (0.1.0):
-    - ZKCategories (~> 0.2.1)
+    - ZKCategories (~> 0.3.1)
   - ZKFoundation/AuthContext (0.1.0):
-    - ZKCategories (~> 0.2.1)
+    - ZKCategories (~> 0.3.1)
   - ZKFoundation/Categories (0.1.0):
-    - ZKCategories (~> 0.2.1)
+    - ZKCategories (~> 0.3.1)
   - ZKFoundation/LocationManager (0.1.0):
-    - ZKCategories (~> 0.2.1)
+    - ZKCategories (~> 0.3.1)
   - ZKFoundation/Permission (0.1.0):
-    - ZKCategories (~> 0.2.1)
+    - ZKCategories (~> 0.3.1)
   - ZKFoundation/UIKit (0.1.0):
-    - ZKCategories (~> 0.2.1)
+    - ZKCategories (~> 0.3.1)
 
 DEPENDENCIES:
   - AXWebViewController (from `https://github.com/kaiser143/AXWebViewController.git`, commit `5cebcc4fcdb269cf96c80dc6893b653cc29be2bb`)
@@ -35,7 +37,7 @@ DEPENDENCIES:
   - ZKFoundation (from `../`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - AXIndicatorView
     - AXPracticalHUD
     - Masonry
@@ -60,9 +62,9 @@ SPEC CHECKSUMS:
   AXWebViewController: 82f9ffe043edf360a299aaad27a132be018a9567
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   Stinger: 01dd8efff315743c2fee9fc41348728de3c30880
-  ZKCategories: dc65371b037737781d15769fcec0a2c29e6c94c5
-  ZKFoundation: a5735caef1211c5f30ac769e5768a3d777bf8f8e
+  ZKCategories: df2a2cb9eb1e3f64abd731cc0ee9cf87ea2c65a1
+  ZKFoundation: f73b83430ea33372365a9bb9b51d9f128d40216d
 
-PODFILE CHECKSUM: 070616c6f949e70cca4ad108e72c0b41da2e5976
+PODFILE CHECKSUM: e63e005941981b05a75e76b05c65369dc6b7e184
 
 COCOAPODS: 1.9.1

@@ -31,6 +31,11 @@
         *credential = [[NSURLCredential alloc] initWithTrust:challenge.protectionSpace.serverTrust];
         return NSURLSessionAuthChallengeUseCredential;
     };
+    
+    self.prefersPopViewControllerInjectBlock = ^(UIViewController * _Nonnull controller) {
+        @strongify(self);
+        [self kai_popViewControllerAnimated];
+    };
 }
 
 #pragma mark - :. ZKNavigationBarConfigureStyle
