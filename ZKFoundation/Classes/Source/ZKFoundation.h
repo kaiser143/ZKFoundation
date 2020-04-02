@@ -8,7 +8,7 @@
 #ifndef ZKFoundation_h
 #define ZKFoundation_h
 
-#if __has_include(<ZKCategories/ZKCategories.h>)
+#if __has_include(<ZKFoundation/ZKFoundation.h>)
 
 #import <ZKFoundation/ZKApp.h>
 #import <ZKFoundation/ZKFolderMonitor.h>
