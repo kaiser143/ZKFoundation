@@ -11,7 +11,7 @@
 
 @implementation UITableView (ZKAdapter)
 
-- (ZKTableViewAdapter *)tableHelper {
+- (ZKTableViewAdapter *)tableAdapter {
     ZKTableViewAdapter *tableHelper = objc_getAssociatedObject(self, _cmd);
     if (tableHelper) return tableHelper;
     

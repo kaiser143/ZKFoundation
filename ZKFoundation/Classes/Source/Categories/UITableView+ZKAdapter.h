@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UITableView (ZKAdapter)
 
-@property (nonatomic, strong, readonly) ZKTableViewAdapter *tableHelper;
+@property (nonatomic, strong, readonly) ZKTableViewAdapter *tableAdapter;
 
 @end
 

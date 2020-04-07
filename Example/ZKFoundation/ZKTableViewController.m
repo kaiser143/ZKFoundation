@@ -33,12 +33,12 @@
         @strongify(self);
         NSString *strings = sender.title;
         if ([strings isEqualToString:@"选择"]) {
-            self.tableView.tableHelper.allowsMultipleSelectionDuringEditing = YES;
+            self.tableView.tableAdapter.allowsMultipleSelectionDuringEditing = YES;
             sender.title = @"完成";
         } else {
-            self.tableView.tableHelper.allowsMultipleSelectionDuringEditing = NO;
+            self.tableView.tableAdapter.allowsMultipleSelectionDuringEditing = NO;
             sender.title = @"选择";
-            NSLog(@"%@", self.tableView.tableHelper.modelsForSelectedRows);
+            NSLog(@"%@", self.tableView.tableAdapter.modelsForSelectedRows);
         }
     };
     self.navigationItem.rightBarButtonItem = self.rightButton;
@@ -48,8 +48,8 @@
         make.edges.equalTo(self.view);
     }];
     
-    [self.tableView.tableHelper registerNibs:@[@"ZKTableViewCell"]];
-    [self.tableView.tableHelper cellWillDisplay:^(__kindof UITableViewCell * _Nonnull cell, NSIndexPath * _Nonnull indexPath, NSString *dataSource, BOOL IsCelldisplay) {
+    [self.tableView.tableAdapter registerNibs:@[@"ZKTableViewCell"]];
+    [self.tableView.tableAdapter cellWillDisplay:^(__kindof UITableViewCell * _Nonnull cell, NSIndexPath * _Nonnull indexPath, NSString *dataSource, BOOL IsCelldisplay) {
         @strongify(self);
         cell.textLabel.text = dataSource;
         if (indexPath.row == self.dataSource.count - 1) {
@@ -62,7 +62,7 @@
             cell.imageView.image = [UIImage imageNamed:@"file_folder"];
         }
     }];
-    [self.tableView.tableHelper didSelect:^(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
+    [self.tableView.tableAdapter didSelect:^(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         @strongify(self);
         if ([self.rightButton.title isEqualToString:@"完成"]) {
 //               [self.selectedArr addObject:self.dataArr[indexPath.row]];
@@ -70,16 +70,16 @@
                [tableView deselectRowAtIndexPath:indexPath animated:YES];
            }
     }];
-    [self.tableView.tableHelper accessoryButtonTappedForRow:^(NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
+    [self.tableView.tableAdapter accessoryButtonTappedForRow:^(NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         NSLog(@"accessoryButtonTapped %@", indexPath);
     }];
-    [self.tableView.tableHelper didDeSelect:^(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
+    [self.tableView.tableAdapter didDeSelect:^(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         
     }];
-    [self.tableView.tableHelper didEditingStyle:^UITableViewCellEditingStyle(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
+    [self.tableView.tableAdapter didEditingStyle:^UITableViewCellEditingStyle(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         return UITableViewCellEditingStyleDelete | UITableViewCellEditingStyleInsert;
     }];
-    [self.tableView.tableHelper didEditActions:^NSArray<UITableViewRowAction *> * _Nullable(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
+    [self.tableView.tableAdapter didEditActions:^NSArray<UITableViewRowAction *> * _Nullable(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal
                                                                               title:@"备注"
                                                                             handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
@@ -87,10 +87,10 @@
                                                                             }];
             return @[delete];
     }];
-    [self.tableView.tableHelper canEditRow:^BOOL(id  _Nonnull dataSource, NSIndexPath * _Nonnull indexPath) {
+    [self.tableView.tableAdapter canEditRow:^BOOL(id  _Nonnull dataSource, NSIndexPath * _Nonnull indexPath) {
         return YES;
     }];
-    [self.tableView.tableHelper stripAdapterData:self.dataSource];
+    [self.tableView.tableAdapter stripAdapterData:self.dataSource];
     
 }
 

@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UICollectionView (ZKAdapter)
 
-@property (nonatomic, strong, readonly) ZKCollectionViewAdapter *collectionHelper;
+@property (nonatomic, strong, readonly) ZKCollectionViewAdapter *collectionAdapter;
 
 @end
 

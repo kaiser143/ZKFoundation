@@ -25,17 +25,17 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = UIColor.whiteColor;
     
-    [self.collectionView.collectionHelper registerNibs:@[@"ZKCollectionViewCell"]];
-    [self.collectionView.collectionHelper didSizeForItemAtIndexPath:^CGSize(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
+    [self.collectionView.collectionAdapter registerNibs:@[@"ZKCollectionViewCell"]];
+    [self.collectionView.collectionAdapter didSizeForItemAtIndexPath:^CGSize(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         return CGSizeMake(80, 80);
     }];
-    [self.collectionView.collectionHelper cellItemMargin:^UIEdgeInsets(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSInteger section, id  _Nonnull dataSource) {
+    [self.collectionView.collectionAdapter cellItemMargin:^UIEdgeInsets(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSInteger section, id  _Nonnull dataSource) {
         return UIEdgeInsetsMake(5, 5, 5, 5);
     }];
-    [self.collectionView.collectionHelper minimumInteritemSpacingForSection:^CGFloat(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSInteger section, id  _Nonnull dataSource) {
+    [self.collectionView.collectionAdapter minimumInteritemSpacingForSection:^CGFloat(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSInteger section, id  _Nonnull dataSource) {
         return 0;
     }];
-    [self.collectionView.collectionHelper didSelectItem:^(UICollectionView * _Nonnull collectionView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
+    [self.collectionView.collectionAdapter didSelectItem:^(UICollectionView * _Nonnull collectionView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         
     }];
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -43,7 +43,7 @@
     }];
     
     
-    [self.collectionView.collectionHelper stripAdapterData:@[@1, @2, @3, @4, @5, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6]];
+    [self.collectionView.collectionAdapter stripAdapterData:@[@1, @2, @3, @4, @5, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6]];
 }
 
 /*
