@@ -44,6 +44,7 @@
 #import <ZKFoundation/ZKNavigationBarTransitionCenter.h>
 #import <ZKFoundation/UIViewController+ZKNavigationBarTransition.h>
 #import <ZKFoundation/ZKStorkInteractiveTransition.h>
+#import <ZKFoundation/ZKTagsControl.h>
 
 #else
 
@@ -81,6 +82,7 @@
 #import "ZKNavigationBarTransitionCenter.h"
 #import "UIViewController+ZKNavigationBarTransition.h"
 #import "ZKStorkInteractiveTransition.h"
+#import "ZKTagsControl.h"
 #endif /* __has_include*/
 
 #endif /* ZKFoundation_h */

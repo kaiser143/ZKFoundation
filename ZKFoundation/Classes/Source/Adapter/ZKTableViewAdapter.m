@@ -58,7 +58,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 @property (nonatomic, copy) ZKTableAdapterTitleFooterBlock footerTitleBlock;
 @property (nonatomic, copy) ZKTableAdapterHeightForFooterBlock heightForFooterBlock;
 
-@property (nonatomic, copy) ZKTableAdapterAccessoryTypeBlock accessoryTypeBlock;
+@property (nonatomic, copy) ZKTableAdapterAccessoryTypeBlock accessoryTypeBlock API_DEPRECATED("", ios(2.0, 3.0));
 @property (nonatomic, copy) ZKTableAdapterAccessoryButtonTappedForRowAtIndexPathBlock accessoryButtonTappedForRowAtIndexPathBlock;
 
 @property (nonatomic, copy) ZKTableAdapterNumberOfSectionsBlock numberOfSectionsBlock;
@@ -337,12 +337,15 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
     return title;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath {
     UITableViewCellAccessoryType type = UITableViewCellAccessoryNone;
     if (self.accessoryTypeBlock) type = self.accessoryTypeBlock(tableView, indexPath, [self currentModelAtIndexPath:indexPath]);
     
     return type;
 }
+#pragma clang diagnostic pop
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     !self.accessoryButtonTappedForRowAtIndexPathBlock ?: self.accessoryButtonTappedForRowAtIndexPathBlock(indexPath, [self currentModelAtIndexPath:indexPath]);

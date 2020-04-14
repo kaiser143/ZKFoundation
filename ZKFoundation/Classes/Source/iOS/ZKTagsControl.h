@@ -34,10 +34,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSMutableArray<ZKTagItem *> *tags;
 @property (nonatomic, assign) UIEdgeInsets safeArea;
-@property (nonatomic, assign) CGFloat preferredMinFieldWidth;       // default 100
+@property (nonatomic, assign) CGFloat preferredMinFieldWidth; // default 100
 @property (nonatomic, strong) NSString *placeholder;
 @property (nonatomic, assign, readonly) BOOL active;
-@property (nonatomic, assign) BOOL prefersHighlightBeforeDelete;    // default YES
+@property (nonatomic, assign) BOOL prefersHighlightBeforeDelete; // default YES
 @property (nonatomic, strong) UIImage *inputLeftImage;
 
 @property (nonatomic, weak) id<ZKTagsControllerDelegate> delegate;

@@ -7,9 +7,9 @@ PODS:
     - Stinger
   - Masonry (1.1.0)
   - Stinger (0.2.9)
-  - ZKCategories (0.3.1):
-    - ZKCategories/Core (= 0.3.1)
-  - ZKCategories/Core (0.3.1)
+  - ZKCategories (0.3.3):
+    - ZKCategories/Core (= 0.3.3)
+  - ZKCategories/Core (0.3.3)
   - ZKFoundation (0.1.0):
     - ZKCategories (~> 0.3.1)
     - ZKFoundation/Adapter (= 0.1.0)
@@ -62,9 +62,9 @@ SPEC CHECKSUMS:
   AXWebViewController: 82f9ffe043edf360a299aaad27a132be018a9567
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   Stinger: 01dd8efff315743c2fee9fc41348728de3c30880
-  ZKCategories: df2a2cb9eb1e3f64abd731cc0ee9cf87ea2c65a1
+  ZKCategories: a4aeb9445ba93ff1976b6e40e86d332d00e4b79b
   ZKFoundation: f73b83430ea33372365a9bb9b51d9f128d40216d
 
-PODFILE CHECKSUM: e63e005941981b05a75e76b05c65369dc6b7e184
+PODFILE CHECKSUM: 41ae26999b02f6bd65bb082c9bad0699dfe17575
 
 COCOAPODS: 1.9.1

@@ -8,9 +8,9 @@
 
 #import "ZKTagsControl.h"
 #import <ZKCategories/ZKCategories.h>
+#import "ZKCollectionViewAdapterInjectionDelegate.h"
 
 @class _KAITextField;
-#import "ZKCollectionViewAdapterInjectionDelegate.h"
 
 @protocol _KAITextFieldDelegate <NSObject>
 
@@ -28,10 +28,10 @@
 - (instancetype)initWithTitle:(NSString *)title value:(id)value {
     self = [super init];
     if (self == nil) return nil;
-    
+
     _title = title;
     _value = value;
-    
+
     return self;
 }
 
@@ -40,7 +40,6 @@
 }
 
 @end
-
 
 @interface _KAITextField : UITextField
 @property (nonatomic, weak) id<_KAITextFieldDelegate> _kai_delegate;
@@ -55,12 +54,11 @@
             [self._kai_delegate textFieldDidDeleteBackwardForBlank:self];
         }
     }
-    
+
     [super deleteBackward];
 }
 
 @end
-
 
 @interface ZKTagsControl () <UICollectionViewDelegate, UICollectionViewDataSource, UITextFieldDelegate, _KAITextFieldDelegate>
 
@@ -80,9 +78,9 @@
 - (instancetype)init {
     self = [super init];
     if (self == nil) return nil;
-    
+
     [self commonInit];
-    
+
     return self;
 }
 
@@ -94,20 +92,20 @@
 
 #pragma mark - :. UICollectionViewDelegate
 
--(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-//    return UIEdgeInsetsMake(0, CONTENT_LEFT_MARGIN, 0, 0);
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    //    return UIEdgeInsetsMake(0, CONTENT_LEFT_MARGIN, 0, 0);
     return UIEdgeInsetsZero;
 }
 
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return 10;
 }
 
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
     return 10;
 }
 
--(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat width = [self.delegate tagsControl:self widthForItemAtIndex:indexPath.item];
     return CGSizeMake(width, self.collectionView.height);
 }
@@ -127,7 +125,7 @@
     if ([cell respondsToSelector:@selector(bindViewModel:forItemAtIndexPath:)]) {
         [cell bindViewModel:[self.tags objectOrNilAtIndex:indexPath.item] forItemAtIndexPath:indexPath];
     }
-    
+
     return cell;
 }
 
@@ -140,34 +138,36 @@
 
 - (void)addTags:(NSArray<ZKTagItem *> *)tags {
     if (tags.count == 0) return;
-    
+
     [UIView performWithoutAnimation:^{
         [self.collectionView performBatchUpdates:^{
             NSMutableArray *array = NSMutableArray.new;
-            [tags enumerateObjectsUsingBlock:^(ZKTagItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [tags enumerateObjectsUsingBlock:^(ZKTagItem *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
                 [self.tags addObject:obj];
-                
+
                 NSIndexPath *indexPath = [NSIndexPath indexPathForItem:self.tags.count - 1 inSection:0];
                 [array addObject:indexPath];
             }];
-            
+
             [self.collectionView insertItemsAtIndexPaths:array];
-        } completion:^(BOOL finished) {
-            [self.collectionView scrollToRightAnimated:YES];
-        }];
+        }
+            completion:^(BOOL finished) {
+                [self.collectionView scrollToRightAnimated:YES];
+            }];
     }];
 }
 
 - (void)addTag:(ZKTagItem *)tag {
     [self.tags addObject:tag];
-    
+
     [UIView performWithoutAnimation:^{
         [self.collectionView performBatchUpdates:^{
             NSIndexPath *indexPath = [NSIndexPath indexPathForItem:self.tags.count - 1 inSection:0];
             [self.collectionView insertItemsAtIndexPaths:@[indexPath]];
-        } completion:^(BOOL finished) {
-            [self.collectionView scrollToRightAnimated:YES];
-        }];
+        }
+            completion:^(BOOL finished) {
+                [self.collectionView scrollToRightAnimated:YES];
+            }];
     }];
 }
 
@@ -175,14 +175,15 @@
     [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
     ZKTagItem *item = [self.tags objectOrNilAtIndex:indexPath.item];
     [self.tags removeObject:item];
-    
+
     [self.collectionView performBatchUpdates:^{
         [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
-    } completion:^(BOOL finished) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(tagsControl:didRemoveWithItem:)]) {
-            [self.delegate tagsControl:self didRemoveWithItem:item];
-        }
-    }];
+    }
+        completion:^(BOOL finished) {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(tagsControl:didRemoveWithItem:)]) {
+                [self.delegate tagsControl:self didRemoveWithItem:item];
+            }
+        }];
 }
 
 - (void)removeAll {
@@ -198,14 +199,14 @@
         } else {
             NSInteger item = self.tags.count - 1;
             if (item < 0) return;
-            
+
             NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:0];
             [self.collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionNone];
         }
     } else {
         NSInteger item = self.tags.count - 1;
         if (item < 0) return;
-        
+
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:0];
         [self removeTagAtIndexPath:indexPath];
     }
@@ -214,30 +215,30 @@
 #pragma mark - Private Methods
 
 - (void)commonInit {
-    self.preferredMinFieldWidth = 100;
+    self.preferredMinFieldWidth       = 100;
     self.prefersHighlightBeforeDelete = YES;
-    
+
     @weakify(self);
-    [self.field setShouldReturnBlock:^BOOL(UITextField * _Nonnull textField) {
+    [self.field setShouldReturnBlock:^BOOL(UITextField *_Nonnull textField) {
         @strongify(self);
         if (self.delegate && [self.delegate respondsToSelector:@selector(tagsControlShouldReturn:)]) {
             return [self.delegate tagsControlShouldReturn:self];
         }
         return NO;
     }];
-    [self.field setDidBeginEditingBlock:^(UITextField * _Nonnull textField) {
+    [self.field setDidBeginEditingBlock:^(UITextField *_Nonnull textField) {
         @strongify(self);
         self.placeholderViewWidthC.constant = 0;
         [self layoutIfNeeded];
     }];
-    [self.field setDidEndEditingBlock:^(UITextField * _Nonnull textField) {
+    [self.field setDidEndEditingBlock:^(UITextField *_Nonnull textField) {
         @strongify(self);
         if (self.tags.count == 0) {
             self.placeholderViewWidthC.constant = self.inputLeftImage.size.width;
             [self layoutIfNeeded];
         }
     }];
-    [self.field setShouldChangeCharactersInRangeBlock:^BOOL(UITextField * _Nonnull textField, NSRange range, NSString * _Nonnull string) {
+    [self.field setShouldChangeCharactersInRangeBlock:^BOOL(UITextField *_Nonnull textField, NSRange range, NSString *_Nonnull string) {
         @strongify(self);
         if (self.delegate && [self.delegate respondsToSelector:@selector(tagsControl:inputValueChanged:)]) {
             NSString *value = [textField.text stringByReplacingCharactersInRange:range withString:string];
@@ -248,9 +249,9 @@
     [self.collectionView addObserverBlockForKeyPath:@keypath(self.collectionView, contentSize)
                                               block:^(UICollectionView *obj, NSValue *oldVal, NSValue *newVal) {
                                                   @strongify(self);
-                                                  if (CGSizeEqualToSize(oldVal.CGSizeValue, newVal.CGSizeValue)) return ;
-                                                  
-                                                  CGSize size = newVal.CGSizeValue;
+                                                  if (CGSizeEqualToSize(oldVal.CGSizeValue, newVal.CGSizeValue)) return;
+
+                                                  CGSize size      = newVal.CGSizeValue;
                                                   CGFloat maxWidth = self.width - (self.safeArea.left + self.safeArea.right) - self.preferredMinFieldWidth - self.placeholderView.width - 8;
                                                   if (obj.width <= maxWidth && obj.width != size.width) {
                                                       self.collectionViewWidthC.constant = MIN(maxWidth, size.width);
@@ -262,14 +263,17 @@
 - (void)updateConstraints {
     if (!self.hasInstalledConstraints) {
         self.hasInstalledConstraints = YES;
-        
+
         [self collectionView];
         [self placeholderView];
         [self field];
-        NSDictionary *views = NSDictionaryOfVariableBindings(_collectionView, _placeholderView, _field);
-        NSDictionary *metrics = @{@"top": @(self.safeArea.top), @"left": @(self.safeArea.left), @"bottom": @(self.safeArea.bottom), @"right": @(self.safeArea.right),
-                                  @"width": @(self.preferredMinFieldWidth)
-                                  };
+        NSDictionary *views   = NSDictionaryOfVariableBindings(_collectionView, _placeholderView, _field);
+        NSDictionary *metrics = @{ @"top": @(self.safeArea.top),
+                                   @"left": @(self.safeArea.left),
+                                   @"bottom": @(self.safeArea.bottom),
+                                   @"right": @(self.safeArea.right),
+                                   @"width": @(self.preferredMinFieldWidth)
+        };
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(top)-[_collectionView]-(bottom)-|"
                                                                      options:0
                                                                      metrics:metrics
@@ -282,9 +286,11 @@
                                                                      options:0
                                                                      metrics:metrics
                                                                        views:views]];
-        
+
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(left)-[_collectionView(==0)][_placeholderView(width@500)][_field(>=width@1000)]-(right)-|"
-                                                                     options:0 metrics:metrics views:views]];
+                                                                     options:0
+                                                                     metrics:metrics
+                                                                       views:views]];
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.field
                                                          attribute:NSLayoutAttributeLeft
                                                          relatedBy:NSLayoutRelationGreaterThanOrEqual
@@ -292,21 +298,21 @@
                                                          attribute:NSLayoutAttributeRight
                                                         multiplier:1
                                                           constant:10]];
-        self.collectionViewWidthC = [self constraintForAttribute:NSLayoutAttributeWidth firstItem:self.collectionView secondItem:nil];
+        self.collectionViewWidthC  = [self constraintForAttribute:NSLayoutAttributeWidth firstItem:self.collectionView secondItem:nil];
         self.placeholderViewWidthC = [self constraintForAttribute:NSLayoutAttributeWidth firstItem:self.placeholderView secondItem:nil];
     }
-    
+
     [super updateConstraints];
 }
 
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
-    
+
     UIColor *separatorColor = [UIColor colorWithWhite:0.8f alpha:1.0f];
     [separatorColor set];
-    
+
     CGRect lineRect = CGRectMake(0.0f, CGRectGetHeight(rect) - 1, rect.size.width, 1);
-    
+
     CGContextFillRect(UIGraphicsGetCurrentContext(), lineRect);
 }
 
@@ -329,46 +335,46 @@
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         UICollectionViewFlowLayout *flow = UICollectionViewFlowLayout.new;
-        flow.minimumInteritemSpacing = 10;
-        flow.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flow];
-        _collectionView.allowsSelection = YES;
-        _collectionView.showsHorizontalScrollIndicator = YES;
+        flow.minimumInteritemSpacing     = 10;
+        flow.scrollDirection             = UICollectionViewScrollDirectionHorizontal;
+
+        _collectionView                                           = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flow];
+        _collectionView.allowsSelection                           = YES;
+        _collectionView.showsHorizontalScrollIndicator            = YES;
         _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
-        _collectionView.delegate = self;
-        _collectionView.dataSource = self;
-        _collectionView.bounces = NO;
-        _collectionView.backgroundColor = UIColor.clearColor;
-        
+        _collectionView.delegate                                  = self;
+        _collectionView.dataSource                                = self;
+        _collectionView.bounces                                   = NO;
+        _collectionView.backgroundColor                           = UIColor.clearColor;
+
         [self addSubview:_collectionView];
     }
-    
+
     return _collectionView;
 }
 
 - (UIView *)placeholderView {
     if (!_placeholderView) {
-        _placeholderView = UIView.new;
-        _placeholderView.backgroundColor = UIColor.whiteColor;
+        _placeholderView                                           = UIView.new;
+        _placeholderView.backgroundColor                           = UIColor.whiteColor;
         _placeholderView.translatesAutoresizingMaskIntoConstraints = NO;
-        _placeholderView.clipsToBounds = YES;
-        
+        _placeholderView.clipsToBounds                             = YES;
+
         [self addSubview:_placeholderView];
     }
-    
+
     return _placeholderView;
 }
 
 - (_KAITextField *)field {
     if (!_field) {
-        _field = _KAITextField.new;
+        _field                                           = _KAITextField.new;
         _field.translatesAutoresizingMaskIntoConstraints = NO;
-        _field._kai_delegate = self;
-        
+        _field._kai_delegate                             = self;
+
         [self addSubview:_field];
     }
-    
+
     return _field;
 }
 
@@ -376,7 +382,7 @@
     if (!_tags) {
         _tags = @[].mutableCopy;
     }
-    
+
     return _tags;
 }
 
@@ -394,8 +400,8 @@
 
 - (void)setInputLeftImage:(UIImage *)inputLeftImage {
     _inputLeftImage = inputLeftImage;
-    
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:inputLeftImage];
+
+    UIImageView *imageView                              = [[UIImageView alloc] initWithImage:inputLeftImage];
     imageView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.placeholderView addSubview:imageView];
     [self.placeholderView addConstraint:[NSLayoutConstraint constraintWithItem:imageView

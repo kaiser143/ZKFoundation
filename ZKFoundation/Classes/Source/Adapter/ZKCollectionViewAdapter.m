@@ -216,10 +216,10 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = nil;
-    id curModel                = [self currentModelAtIndexPath:indexPath];
-    NSString *identifier       = [self cellIdentifierForRowAtIndexPath:indexPath model:curModel];
-    cell                       = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+    UICollectionViewCell<ZKCollectionViewAdapterInjectionDelegate> *cell = nil;
+    id curModel                                                          = [self currentModelAtIndexPath:indexPath];
+    NSString *identifier                                                 = [self cellIdentifierForRowAtIndexPath:indexPath model:curModel];
+    cell                                                                 = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     NSAssert(cell, @"cell is nil Identifier ⤭ %@ ⤪", identifier);
 
     [self configureCell:cell forIndexPath:indexPath withObject:curModel];
@@ -305,7 +305,7 @@
     for (NSInteger i = 0; i < data.count; i++)
         [self _kai_makeUpDataAryForSection:i];
 
-    for (int idx               = 0; idx < self.dataArray.count; idx++) {
+    for (int idx = 0; idx < self.dataArray.count; idx++) {
         NSMutableArray *subAry = self.dataArray[idx];
         if (subAry.count) [subAry removeAllObjects];
         id obj = [data objectAtIndex:idx];
@@ -324,13 +324,13 @@
 }
 
 - (void)insertSection:(NSArray *)data
-                    forSection:(NSInteger)cSection {
+           forSection:(NSInteger)cSection {
     [self.dataArray insertObject:[NSMutableArray arrayWithArray:data] atIndex:cSection == -1 ? 0 : cSection];
     [self.kai_collectionView reloadData];
 }
 
 - (void)insertSections:(NSArray *)data
-                           forSection:(NSInteger)cSection {
+            forSection:(NSInteger)cSection {
     NSMutableArray *idxArray = [NSMutableArray array];
     if (cSection < 0) {
         for (NSInteger i = 0; i < data.count; i++) {
@@ -344,7 +344,7 @@
         }
     }
 
-    for (NSInteger i           = 0; i < idxArray.count; i++) {
+    for (NSInteger i = 0; i < idxArray.count; i++) {
         NSInteger idx          = [[idxArray objectAtIndex:i] integerValue];
         NSMutableArray *subAry = self.dataArray[idx];
         if (subAry.count) [subAry removeAllObjects];
