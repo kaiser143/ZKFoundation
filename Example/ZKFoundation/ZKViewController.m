@@ -15,32 +15,53 @@
 #import "ZKMapViewController.h"
 #import "ZKTableViewController.h"
 
-@interface ZKViewController () <ZKNavigationBarConfigureStyle>
+@interface ZKViewController () <ZKNavigationBarConfigureStyle, UIScrollViewDelegate>
 
 @property (nonatomic, strong) UIColor *barTintColor;
 
 @end
 
-@implementation ZKViewController
+@implementation ZKViewController {
+    CGFloat _progress;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.view.backgroundColor = UIColor.whiteColor;
     self.title                = @"ZKFoundation";
+    
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.extendedLayoutIncludesOpaqueBars = YES;
+    
+//    self.barTintColor = [UIColor.redColor colorWithAlphaComponent:0.5];
+    self.barTintColor = UIColor.redColor;
+    self.navigationController.view.backgroundColor = UIColor.whiteColor;
+    
+    UIScrollView *scrollView = UIScrollView.new;
+//    scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
+    scrollView.delegate = self;
+    [self.view addSubview:scrollView];
+    [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
 
     @weakify(self);
     ZKInitialsPlaceholderView *placeholderView = [[ZKInitialsPlaceholderView alloc] initWithDiameter:50];
     placeholderView.initials                   = @"张";
-    placeholderView.top                        = 100;
-    placeholderView.centerX                    = self.view.centerX;
     placeholderView.circleColor                = [UIColor randomColor];
-    [self.view addSubview:placeholderView];
+    [scrollView addSubview:placeholderView];
+    [placeholderView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(scrollView);
+        make.top.equalTo(scrollView).offset(200);
+        make.size.mas_equalTo(CGSizeMake(50, 50));
+    }];
 
     UIView *view = UIView.new;
-    [self.view addSubview:view];
+    [scrollView addSubview:view];
     [view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.view);
+        make.top.equalTo(placeholderView.mas_bottom).offset(100);
+        make.centerX.equalTo(self.view);
     }];
 
     UIButton *normal = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -80,7 +101,7 @@
     action.clipsToBounds         = YES;
     [action setTitle:@"Collection" forState:UIControlStateNormal];
     [action addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:action];
+    [scrollView addSubview:action];
     [action mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(220);
         make.height.mas_equalTo(48);
@@ -98,7 +119,7 @@
                                  @strongify(self);
                                  [self kai_pushViewController:ZKTableViewController.new];
                              }];
-    [self.view addSubview:test];
+    [scrollView addSubview:test];
     [test mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(220);
         make.height.mas_equalTo(48);
@@ -116,7 +137,7 @@
                                  @strongify(self);
                                  [self kai_pushViewController:ZKMapViewController.new];
                              }];
-    [self.view addSubview:action];
+    [scrollView addSubview:action];
     [action mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(220);
         make.height.mas_equalTo(48);
@@ -136,12 +157,13 @@
                                  ZKWebViewController *controller = [[ZKWebViewController alloc] initWithURL:githubLink.URL];
                                  [self kai_pushViewController:controller];
                              }];
-    [self.view addSubview:test];
+    [scrollView addSubview:test];
     [test mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(220);
         make.height.mas_equalTo(48);
         make.centerX.equalTo(self.view);
         make.top.equalTo(action.mas_bottom).offset(20);
+        make.bottom.equalTo(scrollView).offset(-20);
     }];
     
     if (self.navigationController.viewControllers.count != 1) {
@@ -161,18 +183,45 @@
     }
 }
 
+#pragma mark - :. UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat headerHeight = 80;
+    if (@available(iOS 11,*)) {
+       headerHeight -= self.view.safeAreaInsets.top;
+    } else {
+       headerHeight -= [self.topLayoutGuide length];
+    }
+
+    CGFloat progress = scrollView.contentOffset.y;// + scrollView.contentInset.top;
+    CGFloat gradientProgress = MIN(1, MAX(0, progress  / headerHeight));
+    gradientProgress = gradientProgress * gradientProgress * gradientProgress * gradientProgress;
+    if (gradientProgress != _progress) {
+       _progress = gradientProgress;
+       [self kai_refreshNavigationBarStyle];
+    }
+}
+
 #pragma mark - :. ZKNavigationBarConfigureStyle
 
 - (ZKNavigationBarConfigurations)kai_navigtionBarConfiguration {
-    return ZKNavigationBarStyleLight | ZKNavigationBarBackgroundStyleColor;
+//    return ZKNavigationBarBackgroundStyleColor | ZKNavigationBarBackgroundStyleTranslucent | ZKNavigationBarConfigurationsDefault;
+    ZKNavigationBarConfigurations configurations = ZKNavigationBarConfigurationsDefault;
+    if (_progress < 0.5) configurations |= ZKNavigationBarStyleBlack;
+    else if (_progress == 1) configurations |= ZKNavigationBarBackgroundStyleOpaque;
+        
+    configurations |= ZKNavigationBarBackgroundStyleColor;
+    return configurations;;
 }
 
 - (UIColor *)kai_barTintColor {
-    return self.navigationController.viewControllers.count == 2 ? UIColor.cyanColor : self.barTintColor;
+//    return self.navigationController.viewControllers.count == 2 ? UIColor.cyanColor : self.barTintColor;
+    return [UIColor.redColor colorWithAlphaComponent:_progress];
 }
 
 - (UIColor *)kai_tintColor {
-    return nil; //UIColor.redColor;
+//    return nil; //UIColor.redColor;
+    return UIColor.whiteColor;
 }
 
 #pragma mark - :. event Handle

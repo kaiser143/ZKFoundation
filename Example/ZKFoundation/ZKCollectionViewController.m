@@ -63,7 +63,7 @@
 #pragma mark - :. ZKNavigationBarConfigureStyle
 
 - (ZKNavigationBarConfigurations)kai_navigtionBarConfiguration {
-    return ZKNavigationBarStyleBlack | ZKNavigationBarBackgroundStyleColor | ZKNavigationBarBackgroundStyleOpaque;
+    return ZKNavigationBarStyleBlack | ZKNavigationBarBackgroundStyleColor | ZKNavigationBarBackgroundStyleTranslucent;
 }
 
 - (UIColor *)kai_tintColor {
@@ -71,7 +71,7 @@
 }
 
 - (UIColor *)kai_barTintColor {
-    return UIColor.lightTextColor;
+    return UIColor.orangeColor;
 }
 
 #pragma mark - :. getters and setters

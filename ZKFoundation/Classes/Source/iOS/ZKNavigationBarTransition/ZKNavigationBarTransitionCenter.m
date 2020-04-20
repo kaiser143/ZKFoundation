@@ -157,10 +157,10 @@ static struct {
                 if (toVC && [showConfigure isVisible]) {
                     CGRect fakeBarFrame = [toVC kai_fakeBarFrameForNavigationBar:navigationBar];
                     if (!CGRectIsNull(fakeBarFrame)) {
-                        if (toVC.extendedLayoutIncludesOpaqueBars ||
-                            showConfigure.translucent) {
-                            fakeBarFrame.origin.y = toVC.view.bounds.origin.y;
-                        }
+//                        if (toVC.extendedLayoutIncludesOpaqueBars ||
+//                            showConfigure.translucent) {
+//                            fakeBarFrame.origin.y = toVC.view.bounds.origin.y;
+//                        }
 
                         UIToolbar *fakeBar = self.toViewControllerFakeBar;
                         [fakeBar kai_commitBarConfiguration:showConfigure];
