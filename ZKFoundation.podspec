@@ -62,6 +62,11 @@ TODO: Add long description of the pod here.
       ss.source_files = 'ZKFoundation/Classes/Source/AuthContext/*.{h,m}'
   end
   
+  s.subspec 'URLProtocol' do |ss|
+      ss.ios.deployment_target = '8.0'
+      ss.source_files = 'ZKFoundation/Classes/Source/URLProtocol/*.{h,m}'
+  end
+  
   # s.resource_bundles = {
   #   'ZKFoundation' => ['ZKFoundation/Assets/*.png']
   # }

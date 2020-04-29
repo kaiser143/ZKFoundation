@@ -18,6 +18,7 @@ PODS:
     - ZKFoundation/LocationManager (= 0.1.0)
     - ZKFoundation/Permission (= 0.1.0)
     - ZKFoundation/UIKit (= 0.1.0)
+    - ZKFoundation/URLProtocol (= 0.1.0)
   - ZKFoundation/Adapter (0.1.0):
     - ZKCategories (~> 0.3.1)
   - ZKFoundation/AuthContext (0.1.0):
@@ -29,6 +30,8 @@ PODS:
   - ZKFoundation/Permission (0.1.0):
     - ZKCategories (~> 0.3.1)
   - ZKFoundation/UIKit (0.1.0):
+    - ZKCategories (~> 0.3.1)
+  - ZKFoundation/URLProtocol (0.1.0):
     - ZKCategories (~> 0.3.1)
 
 DEPENDENCIES:
@@ -63,7 +66,7 @@ SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   Stinger: 01dd8efff315743c2fee9fc41348728de3c30880
   ZKCategories: a4aeb9445ba93ff1976b6e40e86d332d00e4b79b
-  ZKFoundation: f73b83430ea33372365a9bb9b51d9f128d40216d
+  ZKFoundation: 9791e8f4d5e47bf56d1ba7673ba84e2cbdbfa6bd
 
 PODFILE CHECKSUM: 41ae26999b02f6bd65bb082c9bad0699dfe17575
 
