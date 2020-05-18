@@ -412,10 +412,10 @@
                                                                     multiplier:1
                                                                       constant:0]];
     [self.placeholderView addConstraint:[NSLayoutConstraint constraintWithItem:imageView
-                                                                     attribute:NSLayoutAttributeCenterX
+                                                                     attribute:NSLayoutAttributeCenterY
                                                                      relatedBy:NSLayoutRelationEqual
                                                                         toItem:self.placeholderView
-                                                                     attribute:NSLayoutAttributeCenterX
+                                                                     attribute:NSLayoutAttributeCenterY
                                                                     multiplier:1
                                                                       constant:0]];
 }
