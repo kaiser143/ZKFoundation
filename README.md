@@ -17,14 +17,14 @@ ZKFoundation is available through [CocoaPods](https://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'ZKFoundation', :git => 'https://github.com/kaiser143/ZKFoundation.git', :tag => '0.1.0'
+pod 'ZKFoundation', :git => 'https://github.com/kaiser143/ZKFoundation.git', :tag => '0.1.1'
 
 pod 'ZKFoundation', :git => 'https://github.com/kaiser143/ZKFoundation.git', :commit => 'xxxx'
 ```
 
 ## Author
 
-zhangkai, deyang143@126.com
+Kaiser, deyang143@126.com
 
 ## License
 
