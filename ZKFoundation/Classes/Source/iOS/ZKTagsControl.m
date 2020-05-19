@@ -66,6 +66,7 @@
 @property (nonatomic, strong) _KAITextField *field;
 @property (nonatomic, strong) UIView *placeholderView;
 @property (nonatomic, strong) NSString *identifier;
+@property (nonatomic, assign) CGSize inputLeftImageSize;
 
 @property (nonatomic, strong) NSLayoutConstraint *placeholderViewWC;
 @property (nonatomic, strong) NSLayoutConstraint *collectionViewWC;
@@ -138,7 +139,8 @@
 
 - (void)addTags:(NSArray<ZKTagItem *> *)tags {
     if (tags.count == 0) return;
-
+    [self updateInputLeftImageStatus];
+    
     [UIView performWithoutAnimation:^{
         [self.collectionView performBatchUpdates:^{
             NSMutableArray *array = NSMutableArray.new;
@@ -150,24 +152,23 @@
             }];
 
             [self.collectionView insertItemsAtIndexPaths:array];
-        }
-            completion:^(BOOL finished) {
-                [self.collectionView scrollToRightAnimated:YES];
-            }];
+        } completion:^(BOOL finished) {
+            [self.collectionView scrollToRightAnimated:YES];
+        }];
     }];
 }
 
 - (void)addTag:(ZKTagItem *)tag {
     [self.tags addObject:tag];
-
+    [self updateInputLeftImageStatus];
+    
     [UIView performWithoutAnimation:^{
         [self.collectionView performBatchUpdates:^{
             NSIndexPath *indexPath = [NSIndexPath indexPathForItem:self.tags.count - 1 inSection:0];
             [self.collectionView insertItemsAtIndexPaths:@[indexPath]];
-        }
-            completion:^(BOOL finished) {
-                [self.collectionView scrollToRightAnimated:YES];
-            }];
+        } completion:^(BOOL finished) {
+            [self.collectionView scrollToRightAnimated:YES];
+        }];
     }];
 }
 
@@ -175,20 +176,21 @@
     [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
     ZKTagItem *item = [self.tags objectOrNilAtIndex:indexPath.item];
     [self.tags removeObject:item];
-
+    [self updateInputLeftImageStatus];
+    
     [self.collectionView performBatchUpdates:^{
         [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
-    }
-        completion:^(BOOL finished) {
-            if (self.delegate && [self.delegate respondsToSelector:@selector(tagsControl:didRemoveWithItem:)]) {
-                [self.delegate tagsControl:self didRemoveWithItem:item];
-            }
-        }];
+    } completion:^(BOOL finished) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(tagsControl:didRemoveWithItem:)]) {
+            [self.delegate tagsControl:self didRemoveWithItem:item];
+        }
+    }];
 }
 
 - (void)removeAll {
     [self.tags removeAllObjects];
     [self.collectionView reloadData];
+    [self updateInputLeftImageStatus];
 }
 
 - (void)deleteCharacters:(id)obj {
@@ -215,7 +217,7 @@
 #pragma mark - Private Methods
 
 - (void)commonInit {
-    self.preferredMinLayoutWidth       = 100;
+    self.preferredInputViewMinLayoutWidth       = 100;
     self.prefersHighlightBeforeDelete = YES;
 
     @weakify(self);
@@ -233,10 +235,7 @@
     }];
     [self.field setDidEndEditingBlock:^(UITextField *_Nonnull textField) {
         @strongify(self);
-        if (self.tags.count == 0) {
-            self.placeholderViewWC.constant = self.inputLeftImage.size.width;
-            [self layoutIfNeeded];
-        }
+        [self updateInputLeftImageStatus];
     }];
     [self.field setShouldChangeCharactersInRangeBlock:^BOOL(UITextField *_Nonnull textField, NSRange range, NSString *_Nonnull string) {
         @strongify(self);
@@ -252,12 +251,21 @@
                                                   if (CGSizeEqualToSize(oldVal.CGSizeValue, newVal.CGSizeValue)) return;
 
                                                   CGSize size      = newVal.CGSizeValue;
-                                                  CGFloat maxWidth = self.width - (self.safeArea.left + self.safeArea.right) - self.preferredMinLayoutWidth - self.placeholderView.width - 8;
+                                                  CGFloat maxWidth = self.width - (self.safeArea.left + self.safeArea.right) - self.preferredInputViewMinLayoutWidth - self.placeholderView.width - 8;
                                                   if (obj.width <= maxWidth && obj.width != size.width) {
                                                       self.collectionViewWC.constant = MIN(maxWidth, size.width);
                                                       [self layoutIfNeeded];
                                                   }
                                               }];
+}
+
+- (void)updateInputLeftImageStatus {
+    if (self.tags.count == 0 || !self.field.isFirstResponder)
+        self.placeholderViewWC.constant = self.inputLeftImageSize.width;
+    else
+        self.placeholderViewWC.constant = 0;
+
+    [self layoutIfNeeded];
 }
 
 - (void)updateConstraints {
@@ -272,7 +280,8 @@
                                    @"left": @(self.safeArea.left),
                                    @"bottom": @(self.safeArea.bottom),
                                    @"right": @(self.safeArea.right),
-                                   @"width": @(self.preferredMinLayoutWidth)
+                                   @"width": @(self.preferredInputViewMinLayoutWidth),
+                                   @"placeholderWidth": @(self.inputLeftImage.size.width)
         };
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(top)-[_collectionView]-(bottom)-|"
                                                                      options:0
@@ -287,7 +296,7 @@
                                                                      metrics:metrics
                                                                        views:views]];
 
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(left)-[_collectionView(==0)][_placeholderView(width@1000)]-(==0@250)-[_field(>=width@1000)]-(right)-|"
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(left)-[_collectionView(==0)][_placeholderView(placeholderWidth@1000)]-(==0@250)-[_field(>=width@1000)]-(right)-|"
                                                                      options:0
                                                                      metrics:metrics
                                                                        views:views]];
@@ -401,6 +410,7 @@
 
 - (void)setInputLeftImage:(UIImage *)inputLeftImage {
     _inputLeftImage = inputLeftImage;
+    _inputLeftImageSize = inputLeftImage.size;
     [self.placeholderView removeAllSubviews];
     
     UIImageView *imageView                              = [[UIImageView alloc] initWithImage:inputLeftImage];
