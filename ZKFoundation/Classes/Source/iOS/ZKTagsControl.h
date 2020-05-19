@@ -1,6 +1,6 @@
 //
 //  ZKTagsControl.h
-//  ZKTagsControl
+//  ZKFoundation
 //
 //  Created by zhangkai on 2019/5/24.
 //  Copyright © 2019 zhangkai. All rights reserved.
@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSMutableArray<ZKTagItem *> *tags;
 @property (nonatomic, assign) UIEdgeInsets safeArea;
-@property (nonatomic, assign) CGFloat preferredMinFieldWidth; // default 100
+@property (nonatomic, assign) CGFloat preferredMinLayoutWidth; // default 100
 @property (nonatomic, strong) NSString *placeholder;
 @property (nonatomic, assign, readonly) BOOL active;
 @property (nonatomic, assign) BOOL prefersHighlightBeforeDelete; // default YES
@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id<ZKTagsControllerDelegate> delegate;
 
-- (void)registerClass:(nullable Class)cellClass forCellWithReuseIdentifier:(NSString *)identifier;
+- (void)registerClass:(nullable Class)cellClass forCellReuseIdentifier:(NSString *)identifier;
 - (void)addTags:(NSArray<ZKTagItem *> *)tags;
 - (void)addTag:(ZKTagItem *)tag;
 - (void)removeTagAtIndexPath:(NSIndexPath *)indexPath;

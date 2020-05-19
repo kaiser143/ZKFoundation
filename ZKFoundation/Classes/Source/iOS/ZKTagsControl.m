@@ -1,6 +1,6 @@
 //
 //  ZKTagsControl.m
-//  ZKTagsControl
+//  ZKFoundation
 //
 //  Created by zhangkai on 2019/5/24.
 //  Copyright © 2019 zhangkai. All rights reserved.
@@ -67,16 +67,16 @@
 @property (nonatomic, strong) UIView *placeholderView;
 @property (nonatomic, strong) NSString *identifier;
 
-@property (nonatomic, strong) NSLayoutConstraint *placeholderViewWidthC;
-@property (nonatomic, strong) NSLayoutConstraint *collectionViewWidthC;
+@property (nonatomic, strong) NSLayoutConstraint *placeholderViewWC;
+@property (nonatomic, strong) NSLayoutConstraint *collectionViewWC;
 @property (nonatomic, assign) BOOL hasInstalledConstraints;
 
 @end
 
 @implementation ZKTagsControl
 
-- (instancetype)init {
-    self = [super init];
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
     if (self == nil) return nil;
 
     [self commonInit];
@@ -131,7 +131,7 @@
 
 #pragma mark - :. public methods
 
-- (void)registerClass:(nullable Class)cellClass forCellWithReuseIdentifier:(NSString *)identifier {
+- (void)registerClass:(nullable Class)cellClass forCellReuseIdentifier:(NSString *)identifier {
     self.identifier = identifier;
     [self.collectionView registerClass:cellClass forCellWithReuseIdentifier:identifier];
 }
@@ -215,7 +215,7 @@
 #pragma mark - Private Methods
 
 - (void)commonInit {
-    self.preferredMinFieldWidth       = 100;
+    self.preferredMinLayoutWidth       = 100;
     self.prefersHighlightBeforeDelete = YES;
 
     @weakify(self);
@@ -228,13 +228,13 @@
     }];
     [self.field setDidBeginEditingBlock:^(UITextField *_Nonnull textField) {
         @strongify(self);
-        self.placeholderViewWidthC.constant = 0;
+        self.placeholderViewWC.constant = 0;
         [self layoutIfNeeded];
     }];
     [self.field setDidEndEditingBlock:^(UITextField *_Nonnull textField) {
         @strongify(self);
         if (self.tags.count == 0) {
-            self.placeholderViewWidthC.constant = self.inputLeftImage.size.width;
+            self.placeholderViewWC.constant = self.inputLeftImage.size.width;
             [self layoutIfNeeded];
         }
     }];
@@ -252,9 +252,9 @@
                                                   if (CGSizeEqualToSize(oldVal.CGSizeValue, newVal.CGSizeValue)) return;
 
                                                   CGSize size      = newVal.CGSizeValue;
-                                                  CGFloat maxWidth = self.width - (self.safeArea.left + self.safeArea.right) - self.preferredMinFieldWidth - self.placeholderView.width - 8;
+                                                  CGFloat maxWidth = self.width - (self.safeArea.left + self.safeArea.right) - self.preferredMinLayoutWidth - self.placeholderView.width - 8;
                                                   if (obj.width <= maxWidth && obj.width != size.width) {
-                                                      self.collectionViewWidthC.constant = MIN(maxWidth, size.width);
+                                                      self.collectionViewWC.constant = MIN(maxWidth, size.width);
                                                       [self layoutIfNeeded];
                                                   }
                                               }];
@@ -272,7 +272,7 @@
                                    @"left": @(self.safeArea.left),
                                    @"bottom": @(self.safeArea.bottom),
                                    @"right": @(self.safeArea.right),
-                                   @"width": @(self.preferredMinFieldWidth)
+                                   @"width": @(self.preferredMinLayoutWidth)
         };
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(top)-[_collectionView]-(bottom)-|"
                                                                      options:0
@@ -287,7 +287,7 @@
                                                                      metrics:metrics
                                                                        views:views]];
 
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(left)-[_collectionView(==0)][_placeholderView(width@500)][_field(>=width@1000)]-(right)-|"
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(left)-[_collectionView(==0)][_placeholderView(width@1000)]-(==0@250)-[_field(>=width@1000)]-(right)-|"
                                                                      options:0
                                                                      metrics:metrics
                                                                        views:views]];
@@ -298,8 +298,8 @@
                                                          attribute:NSLayoutAttributeRight
                                                         multiplier:1
                                                           constant:10]];
-        self.collectionViewWidthC  = [self constraintForAttribute:NSLayoutAttributeWidth firstItem:self.collectionView secondItem:nil];
-        self.placeholderViewWidthC = [self constraintForAttribute:NSLayoutAttributeWidth firstItem:self.placeholderView secondItem:nil];
+        self.collectionViewWC  = [self constraintForAttribute:NSLayoutAttributeWidth firstItem:self.collectionView secondItem:nil];
+        self.placeholderViewWC = [self constraintForAttribute:NSLayoutAttributeWidth firstItem:self.placeholderView secondItem:nil];
     }
 
     [super updateConstraints];
@@ -371,6 +371,7 @@
         _field                                           = _KAITextField.new;
         _field.translatesAutoresizingMaskIntoConstraints = NO;
         _field._kai_delegate                             = self;
+        [_field setContentHuggingPriority:UILayoutPriorityFittingSizeLevel forAxis:UILayoutConstraintAxisHorizontal];
 
         [self addSubview:_field];
     }
@@ -400,7 +401,8 @@
 
 - (void)setInputLeftImage:(UIImage *)inputLeftImage {
     _inputLeftImage = inputLeftImage;
-
+    [self.placeholderView removeAllSubviews];
+    
     UIImageView *imageView                              = [[UIImageView alloc] initWithImage:inputLeftImage];
     imageView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.placeholderView addSubview:imageView];
