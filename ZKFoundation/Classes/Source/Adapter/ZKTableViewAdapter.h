@@ -18,7 +18,7 @@ typedef CGFloat (^ZKTableAdapterCellAutoHeightForRowBlock)(UITableView *tableVie
 
 typedef void (^ZKTableAdapterDidMoveToRowBlock)(UITableView *tableView, NSIndexPath *sourceIndexPath, id sourceModel, NSIndexPath *destinationIndexPath, id destinationModel);
 
-typedef void (^ZKTableAdapterDidWillDisplayBlock)(__kindof UITableViewCell *cell, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
+typedef void (^ZKTableAdapterDidWillDisplayBlock)(__kindof UITableViewCell *cell, NSIndexPath *indexPath, id dataSource, BOOL isCellDisplay);
 typedef void(^ZKTableAdapterDidHeaderVeiwWillDisplayBlock)(__kindof UIView *view, NSInteger section, id dataSource);
 typedef void(^ZKTableAdapterDidFooterVeiwWillDisplayBlock)(__kindof UIView *view, NSInteger section, id dataSource);
 
@@ -223,7 +223,7 @@ typedef void (^ZKTableAdapterScrollViewDidEndScrollingBlock)(UIScrollView *scrol
 /**
  *  @brief 显示分组数据
  *
- *  @param data 数据源
+ *  @param data 数据源(二维数组)
  */
 - (void)kai_reloadGroupDataAry:(NSArray *)data;
 
