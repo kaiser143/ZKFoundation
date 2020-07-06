@@ -7,6 +7,7 @@
 
 #import "ZKURLProtocol.h"
 #import "ZKSessionConfiguration.h"
+#import <ZKCategories/ZKCategories.h>
 
 @interface NSObject (__KAIURL)
 
@@ -34,7 +35,7 @@ static NSString *const kProtocolHandledKey = @"kProtocolHandledKey";
 #pragma mark - Public
 
 /// 开始监听
-+ (void)startMonitor {
++ (void)start {
     ZKSessionConfiguration *sessionConfiguration = [ZKSessionConfiguration defaultConfiguration];
     [NSURLProtocol registerClass:[ZKURLProtocol class]];
     if (![sessionConfiguration isSwizzle]) {
@@ -43,7 +44,7 @@ static NSString *const kProtocolHandledKey = @"kProtocolHandledKey";
 }
 
 /// 停止监听
-+ (void)stopMonitor {
++ (void)end {
     ZKSessionConfiguration *sessionConfiguration = [ZKSessionConfiguration defaultConfiguration];
     [NSURLProtocol unregisterClass:[ZKURLProtocol class]];
     if ([sessionConfiguration isSwizzle]) {
@@ -160,7 +161,9 @@ static NSString *const kProtocolHandledKey = @"kProtocolHandledKey";
     
     [strings appendFormat:@"Status:\t%ld\t(%@)\n\n", (long)response.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:response.statusCode]];
     [strings appendFormat:@"Request URL:\n\t%@\n\n", self.request.URL];
-    if (obj) {
+    if ([obj isKindOfClass:NSDictionary.class]) {
+        [strings appendFormat:@"Raw Response String:\n\t%@\n\n", [obj jsonPrettyStringEncoded]];
+    } else if (obj) {
         [strings appendFormat:@"Raw Response String:\n\t%@\n\n", obj];
     } else {
         [strings appendFormat:@"Raw Response String:\n\t%@\n\n", content];

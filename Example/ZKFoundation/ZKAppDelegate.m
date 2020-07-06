@@ -7,6 +7,7 @@
 //
 
 #import "ZKAppDelegate.h"
+#import <ZKFoundation/ZKFoundation.h>
 
 @implementation ZKAppDelegate
 
@@ -23,6 +24,10 @@
     [[UINavigationBar appearance] setBackIndicatorImage:backImage];
     [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:backImage];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    
+#if DEBUG
+    [ZKURLProtocol start];
+#endif
 
     return YES;
 }

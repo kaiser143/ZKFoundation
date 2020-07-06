@@ -10,9 +10,9 @@
 @interface ZKURLProtocol : NSURLProtocol
 
 /// 开始监听
-+ (void)startMonitor;
++ (void)start;
 
 /// 停止监听
-+ (void)stopMonitor;
++ (void)end;
 
 @end
