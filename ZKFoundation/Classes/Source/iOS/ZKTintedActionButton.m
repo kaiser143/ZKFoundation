@@ -79,7 +79,7 @@
 #pragma mark - Appearance
 
 - (void)configureAppearance {
-//    self.clipsToBounds      = YES;
+    self.clipsToBounds      = YES;
 //    self.layer.cornerRadius = kRadius;
 
     if (@available(iOS 9.0, *)) {

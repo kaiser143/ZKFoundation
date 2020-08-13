@@ -98,7 +98,6 @@
     ZKTintedActionButton *action = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
     action.tintColor             = UIColor.redColor;
     action.layer.cornerRadius    = 8;
-    action.clipsToBounds         = YES;
     [action setTitle:@"Collection" forState:UIControlStateNormal];
     [action addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [scrollView addSubview:action];
@@ -112,7 +111,6 @@
     ZKAuto test             = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
     test.tintColor          = UIColor.redColor;
     test.layer.cornerRadius = 8;
-    test.clipsToBounds      = YES;
     [test setTitle:@"table" forState:UIControlStateNormal];
     [test addBlockForControlEvents:UIControlEventTouchUpInside
                              block:^(__kindof UIControl *_Nonnull sender) {
@@ -130,7 +128,6 @@
     action             = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
     action.tintColor          = UIColor.redColor;
     action.layer.cornerRadius = 8;
-    action.clipsToBounds      = YES;
     [action setTitle:@"地图" forState:UIControlStateNormal];
     [action addBlockForControlEvents:UIControlEventTouchUpInside
                              block:^(__kindof UIControl *_Nonnull sender) {
@@ -148,7 +145,6 @@
     test             = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
     test.tintColor          = UIColor.redColor;
     test.layer.cornerRadius = 8;
-    test.clipsToBounds      = YES;
     [test setTitle:@"webView" forState:UIControlStateNormal];
     [test addBlockForControlEvents:UIControlEventTouchUpInside
                              block:^(__kindof UIControl *_Nonnull sender) {
