@@ -36,7 +36,7 @@
 #import <ZKFoundation/ZKLoadingSpinner.h>
 #import <ZKFoundation/ZKSegmentControl.h>
 #import <ZKFoundation/ZKActionSheetView.h>
-#import <ZKFoundation/ZKURLResponse.h>
+#import <ZKFoundation/ZKHTTPURLResponse.h>
 #import <ZKFoundation/ZKStretchyHeaderView.h>
 #import <ZKFoundation/ZKPermission.h>
 #import <ZKFoundation/ZKNavigationBarProtocol.h>
@@ -75,7 +75,7 @@
 #import "ZKLoadingSpinner.h"
 #import "ZKSegmentControl.h"
 #import "ZKActionSheetView.h"
-#import "ZKURLResponse.h"
+#import "ZKHTTPURLResponse.h"
 #import "ZKStretchyHeaderView.h"
 #import "ZKPermission.h"
 #import "ZKNavigationBarProtocol.h"
