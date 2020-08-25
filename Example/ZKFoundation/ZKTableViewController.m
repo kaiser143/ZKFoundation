@@ -73,7 +73,7 @@
     [self.tableView.tableAdapter accessoryButtonTappedForRow:^(NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         NSLog(@"accessoryButtonTapped %@", indexPath);
     }];
-    [self.tableView.tableAdapter didDeSelect:^(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
+    [self.tableView.tableAdapter didDeselect:^(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         
     }];
     [self.tableView.tableAdapter didEditingStyle:^UITableViewCellEditingStyle(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {

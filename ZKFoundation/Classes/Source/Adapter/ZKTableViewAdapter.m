@@ -34,7 +34,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 @property (nonatomic, copy) ZKTableAdapterCellAutoHeightForRowBlock cellAutoHeightForRowBlock;
 @property (nonatomic, copy) ZKTableAdapterCellIdentifierForRowBlock cellIdentifierForRowAtIndexPathBlock;
 @property (nonatomic, copy) ZKTableAdapterDidSelectBlock didSelectBlock;
-@property (nonatomic, copy) ZKTableAdapterDidDeSelectBlock didDeSelectBlock;
+@property (nonatomic, copy) ZKTableAdapterDidDeselectBlock didDeselectBlock;
 @property (nonatomic, copy) ZKTableAdapterDidMoveToRowBlock didMoveToRowBlock;
 @property (nonatomic, copy) ZKTableAdapterDidWillDisplayBlock didWillDisplayBlock;
 @property (nonatomic, copy) ZKTableAdapterDidHeaderVeiwWillDisplayBlock didHeaderWillDisplayBlock;
@@ -126,8 +126,8 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
     self.didSelectBlock = block;
 }
 
-- (void)didDeSelect:(ZKTableAdapterDidDeSelectBlock)block {
-    self.didDeSelectBlock = block;
+- (void)didDeselect:(ZKTableAdapterDidDeselectBlock)block {
+    self.didDeselectBlock = block;
 }
 
 - (void)didEditing:(ZKTableAdapterDidEditingBlock)block {
@@ -499,9 +499,9 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.kai_indexPath = indexPath;
-    if (self.didDeSelectBlock) {
+    if (self.didDeselectBlock) {
         id curModel = [self currentModelAtIndexPath:indexPath];
-        self.didDeSelectBlock(tableView, indexPath, curModel);
+        self.didDeselectBlock(tableView, indexPath, curModel);
     }
 }
 

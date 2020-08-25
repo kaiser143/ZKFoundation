@@ -13,7 +13,7 @@ extern CGFloat ZKAutoHeightForHeaderFooterView;
 
 typedef NSString *_Nullable (^ZKTableAdapterCellIdentifierForRowBlock)(NSIndexPath *indexPath, id dataSource);
 typedef void (^ZKTableAdapterDidSelectBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
-typedef void (^ZKTableAdapterDidDeSelectBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
+typedef void (^ZKTableAdapterDidDeselectBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
 typedef CGFloat (^ZKTableAdapterCellAutoHeightForRowBlock)(UITableView *tableView, NSIndexPath *indexPath, NSString *identifier, id dataSource);
 
 typedef void (^ZKTableAdapterDidMoveToRowBlock)(UITableView *tableView, NSIndexPath *sourceIndexPath, id sourceModel, NSIndexPath *destinationIndexPath, id destinationModel);
@@ -140,7 +140,7 @@ typedef void (^ZKTableAdapterScrollViewDidEndScrollingBlock)(UIScrollView *scrol
 /**
  *  If you override tableView:didDeselectRowAtIndexPath: method, it will be invalid
  */
-- (void)didDeSelect:(ZKTableAdapterDidDeSelectBlock)block;
+- (void)didDeselect:(ZKTableAdapterDidDeselectBlock)block;
 
 /*!
  *  @brief    是否可编辑
