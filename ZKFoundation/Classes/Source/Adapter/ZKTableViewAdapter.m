@@ -956,5 +956,27 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
     return _cellIdentifier;
 }
 
+#pragma mark - :. getters and setters
+
+- (void)setKai_tableView:(UITableView *)kai_tableView {
+    _kai_tableView = kai_tableView;
+    
+    kai_tableView.delaysContentTouches = NO;
+    kai_tableView.canCancelContentTouches = YES;
+    
+    // Remove touch delay (since iOS 8)
+    UIView *wrapView = kai_tableView.subviews.firstObject;
+    // UITableViewWrapperView
+    if (wrapView && [NSStringFromClass(wrapView.class) hasSuffix:@"WrapperView"]) {
+        for (UIGestureRecognizer *gesture in wrapView.gestureRecognizers) {
+            // UIScrollViewDelayedTouchesBeganGestureRecognizer
+            if ([NSStringFromClass(gesture.class) containsString:@"DelayedTouchesBegan"] ) {
+                gesture.enabled = NO;
+                break;
+            }
+        }
+    }
+}
+
 @end
 
