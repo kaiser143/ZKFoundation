@@ -9,6 +9,14 @@
 #import "ZKAppDelegate.h"
 #import <ZKFoundation/ZKFoundation.h>
 
+@interface ZKNetworkConsoleLogger : NSObject <ZKNetworkLoggerProtocol> @end
+
+@implementation ZKNetworkConsoleLogger
+
+@synthesize filter = _filter;
+
+@end
+
 @implementation ZKAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -26,7 +34,14 @@
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
 #if DEBUG
-    [ZKURLProtocol start];
+    ZKNetworkConsoleLogger<ZKNetworkLoggerProtocol> *testLogger = [ZKNetworkConsoleLogger new];
+    NSPredicate *filter = [NSPredicate predicateWithBlock:^BOOL(NSURLRequest *request, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return !([request.URL.baseURL.absoluteString isEqualToString:@"httpbin.org"]);
+    }];
+    testLogger.filter = filter;
+    
+    [ZKURLProtocolLogger addLogger:testLogger];
+    [ZKURLProtocolLogger startLogging];
 #endif
 
     return YES;

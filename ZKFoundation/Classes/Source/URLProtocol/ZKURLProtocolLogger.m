@@ -9,6 +9,34 @@
 #import "ZKSessionConfiguration.h"
 #import <ZKCategories/ZKCategories.h>
 
+@interface __KAILogger : NSObject
+@property (nonatomic, strong) NSMutableSet *mutableLoggers;
+@end
+
+@implementation __KAILogger
+
++ (void)load {
+    [self manager];
+}
+
++ (instancetype)manager {
+    static dispatch_once_t onceToken;
+    static __KAILogger *instance = nil;
+    dispatch_once(&onceToken, ^{
+        instance = [[self alloc] init];
+    });
+    return instance;
+}
+
+- (NSMutableSet *)mutableLoggers {
+    if (!_mutableLoggers) {
+        _mutableLoggers = NSMutableSet.new;
+    }
+    return _mutableLoggers;
+}
+
+@end
+
 @interface NSObject (__KAIURL)
 
 - (id)KAI_defaultValue:(id)defaultData;
@@ -21,8 +49,9 @@
 
 // 为了避免canInitWithRequest和canonicalRequestForRequest的死循环
 static NSString *const kProtocolHandledKey = @"kProtocolHandledKey";
+static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
 
-@interface ZKURLProtocol () <NSURLConnectionDelegate, NSURLConnectionDataDelegate, NSURLSessionDelegate>
+@interface ZKURLProtocolLogger () <NSURLConnectionDelegate, NSURLConnectionDataDelegate, NSURLSessionDelegate>
 
 @property (nonatomic, strong) NSURLSessionDataTask *dataTask;
 @property (nonatomic, strong) NSOperationQueue *sessionDelegateQueue;
@@ -30,25 +59,26 @@ static NSString *const kProtocolHandledKey = @"kProtocolHandledKey";
 
 @end
 
-@implementation ZKURLProtocol
+@implementation ZKURLProtocolLogger
 
 #pragma mark - Public
 
 /// 开始监听
-+ (void)start {
++ (void)startLogging {
     ZKSessionConfiguration *sessionConfiguration = [ZKSessionConfiguration defaultConfiguration];
-    [NSURLProtocol registerClass:[ZKURLProtocol class]];
+    [NSURLProtocol registerClass:[ZKURLProtocolLogger class]];
     if (![sessionConfiguration isSwizzle]) {
         [sessionConfiguration load];
     }
 }
 
 /// 停止监听
-+ (void)end {
++ (void)stopLogging {
     ZKSessionConfiguration *sessionConfiguration = [ZKSessionConfiguration defaultConfiguration];
-    [NSURLProtocol unregisterClass:[ZKURLProtocol class]];
+    [NSURLProtocol unregisterClass:[ZKURLProtocolLogger class]];
     if ([sessionConfiguration isSwizzle]) {
         [sessionConfiguration unload];
+        [[__KAILogger manager].mutableLoggers removeAllObjects];
     }
 }
 
@@ -72,15 +102,14 @@ static NSString *const kProtocolHandledKey = @"kProtocolHandledKey";
         return NO;
     }
 
-    // 指定拦截网络请求，如：www.baidu.com
-    //    if ([request.URL.absoluteString containsString:@"www.baidu.com"]) {
-    //        return YES;
-    //    } else {
-    //        return NO;
-    //    }
-
-    // 拦截所有
-    return YES;
+    // 指定拦截网络请求
+    for (id<ZKNetworkLoggerProtocol> logger in [__KAILogger manager].mutableLoggers) {
+        if (request && logger.filter && [logger.filter evaluateWithObject:request]) {
+            // 拦截
+            return YES;
+        }
+    }
+    return NO;
 }
 
 /**
@@ -97,6 +126,14 @@ static NSString *const kProtocolHandledKey = @"kProtocolHandledKey";
                         forKey:kProtocolHandledKey
                      inRequest:mutableReqeust];
     return [mutableReqeust copy];
+}
+
++ (void)addLogger:(id<ZKNetworkLoggerProtocol>)logger {
+    [[__KAILogger manager].mutableLoggers addObject:logger];
+}
+
++ (void)removeLogger:(id<ZKNetworkLoggerProtocol>)logger {
+    [[__KAILogger manager].mutableLoggers removeObject:logger];
 }
 
 // 重新父类的开始加载方法
@@ -122,6 +159,7 @@ static NSString *const kProtocolHandledKey = @"kProtocolHandledKey";
                                  delegateQueue:self.sessionDelegateQueue];
 
     self.dataTask = [session dataTaskWithRequest:self.request];
+    [self.dataTask setAssociateValue:NSDate.date withKey:kNetworkRequestStartDate];
     [self.dataTask resume];
 }
 
@@ -149,8 +187,9 @@ static NSString *const kProtocolHandledKey = @"kProtocolHandledKey";
     didReceiveData:(NSData *)data {
     // 返回给URL Loading System接收到的数据，这个很重要，不然光截取不返回，就瞎了。
     [self.client URLProtocol:self didLoadData:data];
-
+    
 #ifdef DEBUG
+    NSTimeInterval elapsedTime = [[NSDate date] timeIntervalSinceDate:[self.dataTask associatedValueForKey:kNetworkRequestStartDate]];
     NSMutableString *strings = [NSMutableString stringWithString:@"\n\n=========================================\nAPI Response\n=========================================\n\n"];
     NSHTTPURLResponse *response;
     NSString *content = nil;
@@ -159,7 +198,7 @@ static NSString *const kProtocolHandledKey = @"kProtocolHandledKey";
     if (data) content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     if (content) obj = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:NULL];
     
-    [strings appendFormat:@"Status:\t%ld\t(%@)\n\n", (long)response.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:response.statusCode]];
+    [strings appendFormat:@"Status:\t%ld\t(%@) [%.04f s]\n\n", (long)response.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:response.statusCode], elapsedTime];
     [strings appendFormat:@"Request URL:\n\t%@\n\n", self.request.URL];
     if ([obj isKindOfClass:NSDictionary.class]) {
         [strings appendFormat:@"Raw Response String:\n\t%@\n\n", [obj jsonPrettyStringEncoded]];

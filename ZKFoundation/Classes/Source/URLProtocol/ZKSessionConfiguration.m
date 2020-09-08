@@ -53,7 +53,7 @@
 
 - (NSArray *)protocolClasses {
     // 如果还有其他的监控protocol，也可以在这里加进去
-    return @[[ZKURLProtocol class]];
+    return @[[ZKURLProtocolLogger class]];
 }
 
 @end
