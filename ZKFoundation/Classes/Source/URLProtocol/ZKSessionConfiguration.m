@@ -8,7 +8,7 @@
 
 #import "ZKSessionConfiguration.h"
 #import <objc/runtime.h>
-#import "ZKURLProtocol.h"
+#import "ZKURLProtocolLogger.h"
 
 @implementation ZKSessionConfiguration
 
