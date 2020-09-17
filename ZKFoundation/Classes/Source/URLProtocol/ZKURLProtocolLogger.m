@@ -10,6 +10,7 @@
 #import <ZKCategories/ZKCategories.h>
 
 @interface __KAILogger : NSObject
+@property (nonatomic, assign) ZKHTTPRequestLoggerLevel level;
 @property (nonatomic, strong) NSMutableSet *mutableLoggers;
 @end
 
@@ -82,6 +83,18 @@ static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
     }
 }
 
++ (void)setLogLevel:(ZKHTTPRequestLoggerLevel)level {
+    [__KAILogger manager].level = level;
+}
+
++ (void)addLogger:(id<ZKNetworkLoggerProtocol>)logger {
+    [[__KAILogger manager].mutableLoggers addObject:logger];
+}
+
++ (void)removeLogger:(id<ZKNetworkLoggerProtocol>)logger {
+    [[__KAILogger manager].mutableLoggers removeObject:logger];
+}
+
 #pragma mark - Override
 
 /**
@@ -128,22 +141,18 @@ static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
     return [mutableReqeust copy];
 }
 
-+ (void)addLogger:(id<ZKNetworkLoggerProtocol>)logger {
-    [[__KAILogger manager].mutableLoggers addObject:logger];
-}
-
-+ (void)removeLogger:(id<ZKNetworkLoggerProtocol>)logger {
-    [[__KAILogger manager].mutableLoggers removeObject:logger];
-}
-
 // 重新父类的开始加载方法
 - (void)startLoading {
 #ifdef DEBUG
-    NSMutableString *strings = [NSMutableString stringWithString:@"\n\n********************************************************\nRequest Start\n********************************************************\n\n"];
-    [strings appendFormat:@"Method:\t\t\t%@\n", self.request.HTTPMethod];
-    [strings appendURLRequest:self.request];
-    [strings appendFormat:@"\n\n********************************************************\nRequest End\n********************************************************\n\n\n\n"];
-    NSLog(@"%@", strings);
+    if ([__KAILogger manager].level == ZKHTTPRequestLoggerLevelVerbose) {
+        NSMutableString *strings = [NSMutableString stringWithString:@"\n\n********************************************************\nRequest Start\n********************************************************\n\n"];
+        [strings appendFormat:@"Method:\t\t\t%@\n", self.request.HTTPMethod];
+        [strings appendURLRequest:self.request];
+        [strings appendFormat:@"\n\n********************************************************\nRequest End\n********************************************************\n\n\n\n"];
+        NSLog(@"%@", strings);
+    } else {
+        NSLog(@"%@ '%@': %@ %@", [self.request HTTPMethod], [self.request URL], [self.request allHTTPHeaderFields], [self.request.HTTPBody utf8String]);
+    }
 #endif
 
     NSURLSessionConfiguration *configuration =
@@ -190,7 +199,6 @@ static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
     
 #ifdef DEBUG
     NSTimeInterval elapsedTime = [[NSDate date] timeIntervalSinceDate:[self.dataTask associatedValueForKey:kNetworkRequestStartDate]];
-    NSMutableString *strings = [NSMutableString stringWithString:@"\n\n=========================================\nAPI Response\n=========================================\n\n"];
     NSHTTPURLResponse *response;
     NSString *content = nil;
     NSDictionary *obj = nil;
@@ -198,31 +206,36 @@ static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
     if (data) content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     if (content) obj = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:NULL];
     
-    [strings appendFormat:@"Status:\t%ld\t(%@) [%.04f s]\n\n", (long)response.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:response.statusCode], elapsedTime];
-    [strings appendFormat:@"Request URL:\n\t%@\n\n", self.request.URL];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        [strings appendFormat:@"Raw Response String:\n\t%@\n\n", [obj jsonPrettyStringEncoded]];
-    } else if (obj) {
-        [strings appendFormat:@"Raw Response String:\n\t%@\n\n", obj];
+    if ([__KAILogger manager].level == ZKHTTPRequestLoggerLevelVerbose) {
+        NSMutableString *strings = [NSMutableString stringWithString:@"\n\n=========================================\nAPI Response\n=========================================\n\n"];
+        [strings appendFormat:@"Status:\t%ld\t(%@) [%.04f s]\n\n", (long)response.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:response.statusCode], elapsedTime];
+        [strings appendFormat:@"Request URL:\n\t%@\n\n", self.request.URL];
+        if ([obj isKindOfClass:NSDictionary.class]) {
+            [strings appendFormat:@"Raw Response String:\n\t%@\n\n", [obj jsonPrettyStringEncoded]];
+        } else if (obj) {
+            [strings appendFormat:@"Raw Response String:\n\t%@\n\n", obj];
+        } else {
+            [strings appendFormat:@"Raw Response String:\n\t%@\n\n", content];
+        }
+
+        [strings appendFormat:@"Raw Response Header:\n\t%@\n\n", response.allHeaderFields];
+       
+        if (dataTask.error) {
+            NSError *error = dataTask.error;
+            [strings appendFormat:@"Error Domain:\t\t\t\t\t\t\t%@\n", error.domain];
+            [strings appendFormat:@"Error Domain Code:\t\t\t\t\t\t%ld\n", (long)error.code];
+            [strings appendFormat:@"Error Localized Description:\t\t\t%@\n", error.localizedDescription];
+            [strings appendFormat:@"Error Localized Failure Reason:\t\t\t%@\n", error.localizedFailureReason];
+            [strings appendFormat:@"Error Localized Recovery Suggestion:\t%@\n\n", error.localizedRecoverySuggestion];
+        }
+
+        [strings appendString:@"\n---------------  Related Request Content  --------------\n"];
+        [strings appendURLRequest:self.request];
+        [strings appendFormat:@"\n\n=========================================\nResponse End\n=========================================\n\n"];
+        NSLog(@"%@", strings);
     } else {
-        [strings appendFormat:@"Raw Response String:\n\t%@\n\n", content];
+        NSLog(@"%ld '%@' [%.04f s]", (long)response.statusCode, self.request.URL, elapsedTime);
     }
-
-    [strings appendFormat:@"Raw Response Header:\n\t%@\n\n", response.allHeaderFields];
-    
-    if (dataTask.error) {
-        NSError *error = dataTask.error;
-        [strings appendFormat:@"Error Domain:\t\t\t\t\t\t\t%@\n", error.domain];
-        [strings appendFormat:@"Error Domain Code:\t\t\t\t\t\t%ld\n", (long)error.code];
-        [strings appendFormat:@"Error Localized Description:\t\t\t%@\n", error.localizedDescription];
-        [strings appendFormat:@"Error Localized Failure Reason:\t\t\t%@\n", error.localizedFailureReason];
-        [strings appendFormat:@"Error Localized Recovery Suggestion:\t%@\n\n", error.localizedRecoverySuggestion];
-    }
-
-    [strings appendString:@"\n---------------  Related Request Content  --------------\n"];
-    [strings appendURLRequest:self.request];
-    [strings appendFormat:@"\n\n=========================================\nResponse End\n=========================================\n\n"];
-    NSLog(@"%@", strings);
 #endif
 }
 

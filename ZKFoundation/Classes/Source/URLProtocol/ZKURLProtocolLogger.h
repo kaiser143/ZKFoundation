@@ -7,6 +7,11 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSUInteger, ZKHTTPRequestLoggerLevel) {
+    ZKHTTPRequestLoggerLevelVerbose,           // 打印全部信息
+    ZKHTTPRequestLoggerLevelInfo,              // 打印简短信息
+};
+
 @protocol ZKNetworkLoggerProtocol <NSObject>
 @property (nonatomic, strong) NSPredicate *filter;
 @end
@@ -19,6 +24,7 @@
 /// 停止打印
 + (void)stopLogging;
 
++ (void)setLogLevel:(ZKHTTPRequestLoggerLevel)level;
 
 /*!
  *  @brief    <#Description#>
