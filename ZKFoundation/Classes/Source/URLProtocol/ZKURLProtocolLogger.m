@@ -151,7 +151,7 @@ static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
         [strings appendFormat:@"\n\n********************************************************\nRequest End\n********************************************************\n\n\n\n"];
         NSLog(@"%@", strings);
     } else {
-        NSLog(@"%@ '%@': %@ %@", [self.request HTTPMethod], [[self.request URL] absoluteString], [self.request allHTTPHeaderFields], [self.request.HTTPBody utf8String]);
+        NSLog(@"%@ '%@': %@", [self.request HTTPMethod], [[self.request URL] absoluteString], [self.request.HTTPBody utf8String]);
     }
 #endif
 
