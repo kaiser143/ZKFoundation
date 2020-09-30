@@ -10,6 +10,13 @@
 #import "ZKNavigationBarTransitionCenter.h"
 #import "ZKNavigationBarProtocol.h"
 
+#define ZKMethodNotImplemented() \
+    if (self.class == ZKNavigationController.class) {\
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException \
+                                       reason:[NSString stringWithFormat:@"You must override %@ in a subclass.", NSStringFromSelector(_cmd)] \
+                                     userInfo:nil];\
+    }
+
 @interface ZKNavigationController () <UIGestureRecognizerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, strong) ZKNavigationBarTransitionCenter *center;
@@ -20,6 +27,42 @@
 @end
 
 @implementation ZKNavigationController
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder:coder];
+    if (self == nil) return nil;
+    
+    ZKMethodNotImplemented();
+    
+    return self;
+}
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self == nil) return nil;
+    
+    ZKMethodNotImplemented();
+    
+    return self;
+}
+
+- (instancetype)initWithRootViewController:(UIViewController *)rootViewController {
+    self = [super initWithRootViewController:rootViewController];
+    if (self == nil) return nil;
+    
+    ZKMethodNotImplemented();
+    
+    return self;
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self == nil) return nil;
+    
+    ZKMethodNotImplemented();
+    
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

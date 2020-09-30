@@ -105,7 +105,7 @@ static struct {
 
     BOOL showFakeBar = currentConfigure && showConfigure && KAITransitionNeedShowFakeBar(currentConfigure, showConfigure);
 
-    _isTransitionNavigationBar = YES;
+    self.transitionNavigationBar = YES;
 
     //    if (showConfigure.hidden != navigationController.navigationBarHidden) {
     //        [navigationController setNavigationBarHidden:showConfigure.hidden animated:animated];
@@ -192,8 +192,8 @@ static struct {
                 //                }
             }
 
-            if (showFakeBar) {
-                UIViewController *const toVC = [context viewControllerForKey:UITransitionContextToViewControllerKey];
+            UIViewController *const toVC = [context viewControllerForKey:UITransitionContextToViewControllerKey];
+            if (showFakeBar && ctx.toVC == toVC) {
                 [toVC.view removeObserver:self
                                forKeyPath:NSStringFromSelector(@selector(bounds))
                                   context:&ctx];
@@ -202,7 +202,7 @@ static struct {
                                   context:&ctx];
             }
 
-            if (self) self->_isTransitionNavigationBar = NO;
+            if (self) self.transitionNavigationBar = NO;
         }];
 
     void (^popInteractionEndBlock)(id<UIViewControllerTransitionCoordinatorContext>) =
@@ -238,7 +238,7 @@ static struct {
     UINavigationBar *const navigationBar = navigationController.navigationBar;
     [navigationBar kai_commitBarConfiguration:showConfigure];
 
-    _isTransitionNavigationBar = NO;
+    self.transitionNavigationBar = NO;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
