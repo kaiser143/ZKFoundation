@@ -6,12 +6,12 @@ PODS:
     - AXPracticalHUD
     - Stinger
   - Masonry (1.1.0)
-  - Stinger (0.2.9)
-  - ZKCategories (0.3.3):
-    - ZKCategories/Core (= 0.3.3)
-  - ZKCategories/Core (0.3.3)
+  - Stinger (0.3.0)
+  - ZKCategories (0.3.9):
+    - ZKCategories/Core (= 0.3.9)
+  - ZKCategories/Core (0.3.9)
   - ZKFoundation (0.1.0):
-    - ZKCategories (~> 0.3.1)
+    - ZKCategories (~> 0.3.9)
     - ZKFoundation/Adapter (= 0.1.0)
     - ZKFoundation/AuthContext (= 0.1.0)
     - ZKFoundation/Categories (= 0.1.0)
@@ -20,19 +20,19 @@ PODS:
     - ZKFoundation/UIKit (= 0.1.0)
     - ZKFoundation/URLProtocol (= 0.1.0)
   - ZKFoundation/Adapter (0.1.0):
-    - ZKCategories (~> 0.3.1)
+    - ZKCategories (~> 0.3.9)
   - ZKFoundation/AuthContext (0.1.0):
-    - ZKCategories (~> 0.3.1)
+    - ZKCategories (~> 0.3.9)
   - ZKFoundation/Categories (0.1.0):
-    - ZKCategories (~> 0.3.1)
+    - ZKCategories (~> 0.3.9)
   - ZKFoundation/LocationManager (0.1.0):
-    - ZKCategories (~> 0.3.1)
+    - ZKCategories (~> 0.3.9)
   - ZKFoundation/Permission (0.1.0):
-    - ZKCategories (~> 0.3.1)
+    - ZKCategories (~> 0.3.9)
   - ZKFoundation/UIKit (0.1.0):
-    - ZKCategories (~> 0.3.1)
+    - ZKCategories (~> 0.3.9)
   - ZKFoundation/URLProtocol (0.1.0):
-    - ZKCategories (~> 0.3.1)
+    - ZKCategories (~> 0.3.9)
 
 DEPENDENCIES:
   - AXWebViewController (from `https://github.com/kaiser143/AXWebViewController.git`, commit `5cebcc4fcdb269cf96c80dc6893b653cc29be2bb`)
@@ -64,10 +64,10 @@ SPEC CHECKSUMS:
   AXPracticalHUD: 821d170b31e050c426ef8754b07b4264a8b1d861
   AXWebViewController: 82f9ffe043edf360a299aaad27a132be018a9567
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  Stinger: 01dd8efff315743c2fee9fc41348728de3c30880
-  ZKCategories: a4aeb9445ba93ff1976b6e40e86d332d00e4b79b
-  ZKFoundation: 9791e8f4d5e47bf56d1ba7673ba84e2cbdbfa6bd
+  Stinger: e3cda058ca9034eab26701d494fe24da41fd1d2a
+  ZKCategories: b551095f8d89f8139010b934fc45df2eb6beac53
+  ZKFoundation: 7ee10d2bd1cdb7260c6fa1ba0552a9b61d27cfc8
 
 PODFILE CHECKSUM: 41ae26999b02f6bd65bb082c9bad0699dfe17575
 
-COCOAPODS: 1.10.0.beta.2
+COCOAPODS: 1.10.0

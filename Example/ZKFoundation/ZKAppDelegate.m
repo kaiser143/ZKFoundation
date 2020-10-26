@@ -24,8 +24,8 @@
     self.window.backgroundColor = UIColor.whiteColor;
 
     [[UINavigationBar appearance] setShadowImage:[UIImage new]];
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"topbarbg_ios7"]
-                                       forBarMetrics:UIBarMetricsDefault];
+//    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"topbarbg_ios7"]
+//                                       forBarMetrics:UIBarMetricsDefault];
 
     UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, 4, 0);
     UIImage *backImage      = [[UIImage imageNamed:@"barbuttonicon_back"] imageWithAlignmentRectInsets:edgeInsets];

@@ -159,7 +159,7 @@
         make.height.mas_equalTo(48);
         make.centerX.equalTo(self.view);
         make.top.equalTo(action.mas_bottom).offset(20);
-        make.bottom.equalTo(scrollView).offset(-20);
+        make.bottom.lessThanOrEqualTo(scrollView).offset(-20);
     }];
     
     if (self.navigationController.viewControllers.count != 1) {
