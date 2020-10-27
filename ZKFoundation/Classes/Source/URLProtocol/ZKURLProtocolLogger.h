@@ -29,11 +29,20 @@ typedef NS_ENUM(NSUInteger, ZKHTTPRequestLoggerLevel) {
 /*!
  *  @brief    <#Description#>
  *  @code
- ZKNetworkConsoleLogger<ZKNetworkLoggerProtocol> *testLogger = [ZKNetworkConsoleLogger new];
- NSPredicate *filter = [NSPredicate predicateWithBlock:^BOOL(NSURLRequest *request, NSDictionary<NSString *,id> * _Nullable bindings) {
-     return !([request.URL.baseURL.absoluteString isEqualToString:@"httpbin.org"]);
- }];
- testLogger.filter = filter;
+    @interface ZKNetworkConsoleLogger : NSObject <ZKNetworkLoggerProtocol> @end
+
+    @implementation ZKNetworkConsoleLogger
+    @synthesize filter = _filter;
+    @end
+ 
+    ZKNetworkConsoleLogger<ZKNetworkLoggerProtocol> *testLogger = [ZKNetworkConsoleLogger new];
+    NSPredicate *filter = [NSPredicate predicateWithBlock:^BOOL(NSURLRequest *request, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return !([request.URL.baseURL.absoluteString isEqualToString:@"httpbin.org"]);
+    }];
+    testLogger.filter = filter;
+ 
+    [ZKURLProtocolLogger addLogger:testLogger];
+    [ZKURLProtocolLogger startLogging];
  *  @endcode
  */
 + (void)addLogger:(id<ZKNetworkLoggerProtocol>)logger;
