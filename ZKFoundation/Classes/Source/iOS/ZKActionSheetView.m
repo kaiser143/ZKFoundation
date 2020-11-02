@@ -60,8 +60,8 @@
 }
 
 - (void)commonInit {
-    [self addSubview:self.avatar];
-    [self addSubview:self.titleView];
+    [self.contentView addSubview:self.avatar];
+    [self.contentView addSubview:self.titleView];
 }
 
 #pragma mark - :. events Handler
@@ -166,13 +166,13 @@
 - (void)commonInit {
     self.backgroundColor = nil;
 
-    [self addSubview:self.collectionView];
+    [self.contentView addSubview:self.collectionView];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
 
-    self.collectionView.frame = self.bounds;
+    self.collectionView.frame = self.contentView.bounds;
 }
 
 #pragma mark - UICollectionViewDataSource
