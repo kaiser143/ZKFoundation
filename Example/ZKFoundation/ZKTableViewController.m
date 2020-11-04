@@ -76,9 +76,6 @@
     [self.tableView.tableAdapter didDeselect:^(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         
     }];
-    [self.tableView.tableAdapter didEditingStyle:^UITableViewCellEditingStyle(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
-        return UITableViewCellEditingStyleDelete | UITableViewCellEditingStyleInsert;
-    }];
     [self.tableView.tableAdapter didEditActions:^NSArray<UITableViewRowAction *> * _Nullable(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal
                                                                               title:@"备注"

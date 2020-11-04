@@ -38,7 +38,6 @@
                                               inBundle:nil
                          compatibleWithTraitCollection:nil]
             forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(didTappedBackButton) forControlEvents:UIControlEventTouchUpInside];
     [button addBlockForControlEvents:UIControlEventTouchUpInside
                                block:^(__kindof UIControl *_Nonnull sender) {
                                    @strongify(self);
@@ -112,10 +111,6 @@
  */
 - (UIColor *)kai_tintColor {
     return UIColor.whiteColor;
-}
-
-- (void)didTappedBackButton {
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {

@@ -27,7 +27,7 @@
     
     [self.collectionView.collectionAdapter registerNibs:@[@"ZKCollectionViewCell"]];
     [self.collectionView.collectionAdapter didSizeForItemAtIndexPath:^CGSize(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
-        return CGSizeMake(80, 80);
+        return CGSizeMake(ZKScreenSize().width/4 - 10, 80);
     }];
     [self.collectionView.collectionAdapter cellItemMargin:^UIEdgeInsets(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSInteger section, id  _Nonnull dataSource) {
         return UIEdgeInsetsMake(5, 5, 5, 5);

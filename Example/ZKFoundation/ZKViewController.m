@@ -14,6 +14,7 @@
 #import "ZKCollectionViewController.h"
 #import "ZKMapViewController.h"
 #import "ZKTableViewController.h"
+#import "ZKRouterViewController.h"
 
 @interface ZKViewController () <ZKNavigationBarConfigureStyle, UIScrollViewDelegate>
 
@@ -77,7 +78,7 @@
     [normal mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.lessThanOrEqualTo(view);
         make.left.centerY.equalTo(view);
-        make.size.mas_equalTo(CGSizeMake(100, 200));
+        make.size.mas_equalTo(CGSizeMake(100, 100));
     }];
 
     ZKButton *button = [ZKButton buttonWithType:UIButtonTypeCustom];
@@ -92,7 +93,7 @@
         make.left.equalTo(normal.mas_right).offset(20);
         make.right.centerY.equalTo(view);
         make.height.lessThanOrEqualTo(view);
-        make.size.mas_equalTo(CGSizeMake(100, 200));
+        make.size.mas_equalTo(CGSizeMake(100, 100));
     }];
 
     ZKTintedActionButton *action = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
@@ -111,7 +112,7 @@
     ZKAuto test             = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
     test.tintColor          = UIColor.redColor;
     test.layer.cornerRadius = 8;
-    [test setTitle:@"table" forState:UIControlStateNormal];
+    [test setTitle:@"Table" forState:UIControlStateNormal];
     [test addBlockForControlEvents:UIControlEventTouchUpInside
                              block:^(__kindof UIControl *_Nonnull sender) {
                                  @strongify(self);
@@ -159,6 +160,23 @@
         make.height.mas_equalTo(48);
         make.centerX.equalTo(self.view);
         make.top.equalTo(action.mas_bottom).offset(20);
+    }];
+    
+    action             = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
+    action.tintColor          = UIColor.redColor;
+    action.layer.cornerRadius = 8;
+    [action setTitle:@"地图&Table" forState:UIControlStateNormal];
+    [action addBlockForControlEvents:UIControlEventTouchUpInside
+                             block:^(__kindof UIControl *_Nonnull sender) {
+                                 @strongify(self);
+                                 [self kai_pushViewController:ZKRouterViewController.new];
+                             }];
+    [scrollView addSubview:action];
+    [action mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(220);
+        make.height.mas_equalTo(48);
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(test.mas_bottom).offset(20);
         make.bottom.lessThanOrEqualTo(scrollView).offset(-20);
     }];
     

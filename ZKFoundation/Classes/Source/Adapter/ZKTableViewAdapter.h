@@ -51,6 +51,9 @@ typedef id _Nullable (^ZKTableAdapterFlattenMapBlock)(id dataSource, NSIndexPath
 
 typedef void (^ZKTableAdapterScrollViewDidEndScrollingBlock)(UIScrollView *scrollView);
 
+typedef void (^ZKTableAdapterScrollViewWillEndDraggingBlock)(UIScrollView *scrollView, CGPoint velocity, CGPoint *targetContentOffset);
+typedef void (^ZKTableAdapterScrollViewDidEndDraggingBlock)(UIScrollView *scrollView, BOOL decelerate);
+
 @interface ZKTableViewAdapter : NSObject <UITableViewDataSource, UITableViewDelegate>
 
 /**
@@ -192,7 +195,7 @@ typedef void (^ZKTableAdapterScrollViewDidEndScrollingBlock)(UIScrollView *scrol
 /*!
  *  @brief accessory
  */
-- (void)accessoryType:(ZKTableAdapterAccessoryTypeBlock)block;
+- (void)accessoryType:(ZKTableAdapterAccessoryTypeBlock)block API_DEPRECATED("Please remove your implementation of this method and set the cell properties accessoryType and/or editingAccessoryType to move to the new cell layout behavior", ios(2.0, 3.0));
 - (void)accessoryButtonTappedForRow:(ZKTableAdapterAccessoryButtonTappedForRowAtIndexPathBlock)block;
 
 /**
@@ -217,6 +220,9 @@ typedef void (^ZKTableAdapterScrollViewDidEndScrollingBlock)(UIScrollView *scrol
  滚动结束回调
  */
 - (void)didScrollViewDidEndScrolling:(ZKTableAdapterScrollViewDidEndScrollingBlock)block;
+
+- (void)scrollViewWillEndDragging:(ZKTableAdapterScrollViewWillEndDraggingBlock)block;
+- (void)scrollViewDidEndDragging:(ZKTableAdapterScrollViewDidEndDraggingBlock)block;
 
 #pragma mark - :. Handler
 

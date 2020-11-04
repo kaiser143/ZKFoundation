@@ -69,6 +69,9 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 @property (nonatomic, copy) ZKTableAdapterFlattenMapBlock flattenMapBlock;
 @property (nonatomic, copy) ZKTableAdapterScrollViewDidEndScrollingBlock scrollViewDidEndScrollingBlock;
 
+@property (nonatomic, copy) ZKTableAdapterScrollViewWillEndDraggingBlock scrollViewWillEndDraggingBlock;
+@property (nonatomic, copy) ZKTableAdapterScrollViewDidEndDraggingBlock scrollViewDidEndDraggingBlock;
+
 @property (nullable, nonatomic, copy) NSString *cellIdentifier;
 @property (nullable, nonatomic, copy) NSString *headerFooterIdentifier;
 
@@ -224,6 +227,14 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 
 - (void)didScrollViewDidEndScrolling:(ZKTableAdapterScrollViewDidEndScrollingBlock)block {
     self.scrollViewDidEndScrollingBlock = block;
+}
+
+- (void)scrollViewWillEndDragging:(ZKTableAdapterScrollViewWillEndDraggingBlock)block {
+    self.scrollViewWillEndDraggingBlock = block;
+}
+
+- (void)scrollViewDidEndDragging:(ZKTableAdapterScrollViewDidEndDraggingBlock)block {
+    self.scrollViewDidEndDraggingBlock = block;
 }
 
 #pragma mark - :. TableView DataSource Delegate
@@ -525,6 +536,16 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(scrollViewDidEndScrollingAnimation:) object:scrollView];
     [self performSelector:@selector(scrollViewDidEndScrollingAnimation:) withObject:scrollView afterDelay:0.5];
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    if (self.scrollViewWillEndDraggingBlock)
+        self.scrollViewWillEndDraggingBlock(scrollView, velocity, targetContentOffset);
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (self.scrollViewDidEndDraggingBlock)
+        self.scrollViewDidEndDraggingBlock(scrollView, decelerate);
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
@@ -941,8 +962,8 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 }
 
 - (void)setAllowsMultipleSelectionDuringEditing:(BOOL)allowsMultipleSelectionDuringEditing {
-    self.kai_tableView.editing                              = allowsMultipleSelectionDuringEditing;
     self.kai_tableView.allowsMultipleSelectionDuringEditing = allowsMultipleSelectionDuringEditing;
+    self.kai_tableView.editing                              = allowsMultipleSelectionDuringEditing;
 }
 
 - (NSString *)cellIdentifier {
