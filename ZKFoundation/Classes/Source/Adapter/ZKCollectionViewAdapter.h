@@ -41,7 +41,7 @@ typedef void (^ZKScrollViewDidScrollBlock)(UIScrollView *scrollView);
 typedef void (^ZKScrollViewDidEndDraggingBlock)(UIScrollView *scrollView);
 typedef void (^ZKScrollViewDidEndDeceleratingBlock)(UIScrollView *srollView);
 
-@interface ZKCollectionViewAdapter : NSObject <UICollectionViewDelegate, UICollectionViewDataSource>
+@interface ZKCollectionViewAdapter : NSObject
 
 @property (nonatomic, weak, readonly) NSMutableArray *dataSource;
 @property (nonatomic, weak, readonly) NSMutableArray *headerSource;

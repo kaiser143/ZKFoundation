@@ -13,7 +13,7 @@
 #define defaultInterval .5 //默认时间间隔
 CGFloat ZKAutoHeightForHeaderFooterView = -1;
 
-@interface ZKTableViewAdapter ()
+@interface ZKTableViewAdapter () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray<NSMutableArray *> *data;
 

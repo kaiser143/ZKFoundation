@@ -25,17 +25,17 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = UIColor.whiteColor;
     
-    [self.collectionView.collectionAdapter registerNibs:@[@"ZKCollectionViewCell"]];
-    [self.collectionView.collectionAdapter didSizeForItemAtIndexPath:^CGSize(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
+    [self.collectionView.adapter registerNibs:@[@"ZKCollectionViewCell"]];
+    [self.collectionView.adapter didSizeForItemAtIndexPath:^CGSize(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         return CGSizeMake(ZKScreenSize().width/4 - 10, 80);
     }];
-    [self.collectionView.collectionAdapter cellItemMargin:^UIEdgeInsets(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSInteger section, id  _Nonnull dataSource) {
+    [self.collectionView.adapter cellItemMargin:^UIEdgeInsets(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSInteger section, id  _Nonnull dataSource) {
         return UIEdgeInsetsMake(5, 5, 5, 5);
     }];
-    [self.collectionView.collectionAdapter minimumInteritemSpacingForSection:^CGFloat(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSInteger section, id  _Nonnull dataSource) {
+    [self.collectionView.adapter minimumInteritemSpacingForSection:^CGFloat(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSInteger section, id  _Nonnull dataSource) {
         return 0;
     }];
-    [self.collectionView.collectionAdapter didSelectItem:^(UICollectionView * _Nonnull collectionView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
+    [self.collectionView.adapter didSelectItem:^(UICollectionView * _Nonnull collectionView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         
     }];
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -43,7 +43,34 @@
     }];
     
     
-    [self.collectionView.collectionAdapter stripAdapterData:@[@1, @2, @3, @4, @5, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6]];
+    [self.collectionView.adapter stripAdapterData:@[@1, @2, @3, @4, @5, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6]];
+    
+    [self setInterfaceOrientation:UIInterfaceOrientationLandscapeRight];
+}
+
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskLandscapeRight;
+}
+
+// 默认方向
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return UIInterfaceOrientationLandscapeRight;
+}
+
+- (void)setInterfaceOrientation:(UIInterfaceOrientation)orientation {
+    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
+        SEL selector = NSSelectorFromString(@"setOrientation:");
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+        [invocation setSelector:selector];
+        [invocation setTarget:[UIDevice currentDevice]];
+        UIInterfaceOrientation val = orientation;
+        [invocation setArgument:&val atIndex:2];
+        [invocation invoke];
+    }
 }
 
 /*

@@ -93,14 +93,14 @@
     self.tableView.tableHeaderView.backgroundColor = UIColor.clearColor;
     self.tableView.showsVerticalScrollIndicator    = NO;
 
-    [self.tableView.tableAdapter registerNibs:@[@"UITableViewCell"]];
-    [self.tableView.tableAdapter cellWillDisplay:^(__kindof UITableViewCell *_Nonnull cell, NSIndexPath *_Nonnull indexPath, id _Nonnull dataSource, BOOL isCellDisplay) {
+    [self.tableView.adapter registerNibs:@[@"UITableViewCell"]];
+    [self.tableView.adapter cellWillDisplay:^(__kindof UITableViewCell *_Nonnull cell, NSIndexPath *_Nonnull indexPath, id _Nonnull dataSource, BOOL isCellDisplay) {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }];
-    [self.tableView.tableAdapter scrollViewWillEndDragging:^(UIScrollView *_Nonnull scrollView, CGPoint velocity, CGPoint *_Nonnull targetContentOffset){
+    [self.tableView.adapter scrollViewWillEndDragging:^(UIScrollView *_Nonnull scrollView, CGPoint velocity, CGPoint *_Nonnull targetContentOffset){
 
     }];
-    [self.tableView.tableAdapter didScrollViewDidScroll:^(UIScrollView *_Nonnull scrollView) {
+    [self.tableView.adapter didScrollViewDidScroll:^(UIScrollView *_Nonnull scrollView) {
         @strongify(self);
         CGFloat headerHeight = 550;
         if (@available(iOS 11, *)) {
@@ -117,7 +117,7 @@
             [self kai_refreshNavigationBarStyle];
         }
     }];
-    [self.tableView.tableAdapter stripAdapterData:@[@1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1]];
+    [self.tableView.adapter stripAdapterData:@[@1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1, @1]];
 
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {

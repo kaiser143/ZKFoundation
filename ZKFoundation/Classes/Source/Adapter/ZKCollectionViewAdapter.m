@@ -9,7 +9,7 @@
 #import "UITableViewHeaderFooterView+ZKHelper.h"
 #import "ZKCollectionViewAdapterInjectionDelegate.h"
 
-@interface ZKCollectionViewAdapter ()
+@interface ZKCollectionViewAdapter () <UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) NSMutableArray<NSMutableArray *> *dataArray;
 @property (nonatomic, strong) NSMutableArray<NSMutableArray *> *headerArray;

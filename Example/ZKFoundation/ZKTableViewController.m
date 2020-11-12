@@ -33,12 +33,12 @@
         @strongify(self);
         NSString *strings = sender.title;
         if ([strings isEqualToString:@"选择"]) {
-            self.tableView.tableAdapter.allowsMultipleSelectionDuringEditing = YES;
+            self.tableView.adapter.allowsMultipleSelectionDuringEditing = YES;
             sender.title = @"完成";
         } else {
-            self.tableView.tableAdapter.allowsMultipleSelectionDuringEditing = NO;
+            self.tableView.adapter.allowsMultipleSelectionDuringEditing = NO;
             sender.title = @"选择";
-            NSLog(@"%@", self.tableView.tableAdapter.modelsForSelectedRows);
+            NSLog(@"%@", self.tableView.adapter.modelsForSelectedRows);
         }
     };
     self.navigationItem.rightBarButtonItem = self.rightButton;
@@ -48,8 +48,8 @@
         make.edges.equalTo(self.view);
     }];
     
-    [self.tableView.tableAdapter registerNibs:@[@"ZKTableViewCell"]];
-    [self.tableView.tableAdapter cellWillDisplay:^(__kindof UITableViewCell * _Nonnull cell, NSIndexPath * _Nonnull indexPath, NSString *dataSource, BOOL IsCelldisplay) {
+    [self.tableView.adapter registerNibs:@[@"ZKTableViewCell"]];
+    [self.tableView.adapter cellWillDisplay:^(__kindof UITableViewCell * _Nonnull cell, NSIndexPath * _Nonnull indexPath, NSString *dataSource, BOOL IsCelldisplay) {
         @strongify(self);
         cell.textLabel.text = dataSource;
         if (indexPath.row == self.dataSource.count - 1) {
@@ -62,7 +62,7 @@
             cell.imageView.image = [UIImage imageNamed:@"file_folder"];
         }
     }];
-    [self.tableView.tableAdapter didSelect:^(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
+    [self.tableView.adapter didSelect:^(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         @strongify(self);
         if ([self.rightButton.title isEqualToString:@"完成"]) {
 //               [self.selectedArr addObject:self.dataArr[indexPath.row]];
@@ -70,13 +70,13 @@
                [tableView deselectRowAtIndexPath:indexPath animated:YES];
            }
     }];
-    [self.tableView.tableAdapter accessoryButtonTappedForRow:^(NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
+    [self.tableView.adapter accessoryButtonTappedForRow:^(NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         NSLog(@"accessoryButtonTapped %@", indexPath);
     }];
-    [self.tableView.tableAdapter didDeselect:^(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
+    [self.tableView.adapter didDeselect:^(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         
     }];
-    [self.tableView.tableAdapter didEditActions:^NSArray<UITableViewRowAction *> * _Nullable(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
+    [self.tableView.adapter didEditActions:^NSArray<UITableViewRowAction *> * _Nullable(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal
                                                                               title:@"备注"
                                                                             handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
@@ -84,10 +84,10 @@
                                                                             }];
             return @[delete];
     }];
-    [self.tableView.tableAdapter canEditRow:^BOOL(id  _Nonnull dataSource, NSIndexPath * _Nonnull indexPath) {
+    [self.tableView.adapter canEditRow:^BOOL(id  _Nonnull dataSource, NSIndexPath * _Nonnull indexPath) {
         return YES;
     }];
-    [self.tableView.tableAdapter stripAdapterData:self.dataSource];
+    [self.tableView.adapter stripAdapterData:self.dataSource];
     
 }
 

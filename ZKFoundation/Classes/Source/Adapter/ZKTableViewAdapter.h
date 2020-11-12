@@ -54,7 +54,7 @@ typedef void (^ZKTableAdapterScrollViewDidEndScrollingBlock)(UIScrollView *scrol
 typedef void (^ZKTableAdapterScrollViewWillEndDraggingBlock)(UIScrollView *scrollView, CGPoint velocity, CGPoint *targetContentOffset);
 typedef void (^ZKTableAdapterScrollViewDidEndDraggingBlock)(UIScrollView *scrollView, BOOL decelerate);
 
-@interface ZKTableViewAdapter : NSObject <UITableViewDataSource, UITableViewDelegate>
+@interface ZKTableViewAdapter : NSObject
 
 /**
  *  @brief 获取当前数据源

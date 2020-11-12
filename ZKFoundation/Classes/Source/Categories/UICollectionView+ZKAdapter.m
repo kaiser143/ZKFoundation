@@ -10,8 +10,8 @@
 
 @implementation UICollectionView (ZKAdapter)
 
-- (ZKCollectionViewAdapter *)collectionAdapter {
-    ZKCollectionViewAdapter *tableHelper = objc_getAssociatedObject(self, _cmd);
+- (ZKCollectionViewAdapter *)adapter {
+    ZKCollectionViewAdapter<UICollectionViewDelegate, UICollectionViewDataSource> *tableHelper = objc_getAssociatedObject(self, _cmd);
     if (tableHelper) return tableHelper;
     
     tableHelper = ZKCollectionViewAdapter.new;
