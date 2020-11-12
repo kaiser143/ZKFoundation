@@ -33,22 +33,18 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 
 @property (nonatomic, copy) ZKTableAdapterCellAutoHeightForRowBlock cellAutoHeightForRowBlock;
 @property (nonatomic, copy) ZKTableAdapterCellIdentifierForRowBlock cellIdentifierForRowAtIndexPathBlock;
-@property (nonatomic, copy) ZKTableAdapterDidSelectBlock didSelectBlock;
-@property (nonatomic, copy) ZKTableAdapterDidDeselectBlock didDeselectBlock;
-@property (nonatomic, copy) ZKTableAdapterDidMoveToRowBlock didMoveToRowBlock;
-@property (nonatomic, copy) ZKTableAdapterDidWillDisplayBlock didWillDisplayBlock;
-@property (nonatomic, copy) ZKTableAdapterDidHeaderVeiwWillDisplayBlock didHeaderWillDisplayBlock;
-@property (nonatomic, copy) ZKTableAdapterDidFooterVeiwWillDisplayBlock didFooterWillDisplayBlock;
+@property (nonatomic, copy) ZKTableAdapterDidSelectRowBlock didSelectRowBlock;
+@property (nonatomic, copy) ZKTableAdapterDidDeselectRowBlock didDeselectRowBlock;
+@property (nonatomic, copy) ZKTableAdapterMoveRowBlock moveRowBlock;
+@property (nonatomic, copy) ZKTableAdapterCellWillDisplayBlock didWillDisplayBlock;
+@property (nonatomic, copy) ZKTableAdapterHeaderWillDisplayBlock didHeaderWillDisplayBlock;
+@property (nonatomic, copy) ZKTableAdapterFooterWillDisplayBlock didFooterWillDisplayBlock;
 
-@property (nonatomic, copy) ZKTableAdapterDidEditingBlock didEditingBlock;
-@property (nonatomic, copy) ZKTableAdapterDidEditTitleBlock didEditTileBlock;
+@property (nonatomic, copy) ZKTableAdapterCommitEditingStyleForRowBlock didEditingBlock;
+@property (nonatomic, copy) ZKTableAdapterTitleForDeleteConfirmationButtonForRowBlock didEditTileBlock;
 
-@property (nonatomic, copy) ZKTableAdapterEditingStyleBlock didEditingStyleBlock;
-@property (nonatomic, copy) ZKTableAdapterDidEditActionsBlock didEditActionsBlock;
-
-@property (nonatomic, copy) ZKScrollViewWillBeginDraggingBlock scrollViewBdBlock;
-@property (nonatomic, copy) ZKScrollViewDidScrollBlock scrollViewddBlock;
-@property (nonatomic, copy) ZKScrollViewDidEndDraggingBlock scrollViewDicEndBlock;
+@property (nonatomic, copy) ZKTableAdapterEditingStyleForRowBlock didEditingStyleBlock;
+@property (nonatomic, copy) ZKTableAdapterEditActionsForRowBlock didEditActionsBlock;
 
 @property (nonatomic, copy) ZKTableAdapterHeaderBlock headerBlock;
 @property (nonatomic, copy) ZKTableAdapterTitleHeaderBlock headerTitleBlock;
@@ -67,13 +63,11 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 @property (nonatomic, copy) ZKTableAdapterCanEditRowAtIndexPathBlock canEditRowBlock;
 
 @property (nonatomic, copy) ZKTableAdapterFlattenMapBlock flattenMapBlock;
-@property (nonatomic, copy) ZKTableAdapterScrollViewDidEndScrollingBlock scrollViewDidEndScrollingBlock;
-
-@property (nonatomic, copy) ZKTableAdapterScrollViewWillEndDraggingBlock scrollViewWillEndDraggingBlock;
-@property (nonatomic, copy) ZKTableAdapterScrollViewDidEndDraggingBlock scrollViewDidEndDraggingBlock;
 
 @property (nullable, nonatomic, copy) NSString *cellIdentifier;
 @property (nullable, nonatomic, copy) NSString *headerFooterIdentifier;
+
+@property (nonatomic, copy) ZKScrollAdapterDidScrollBlock scrollViewddBlock;
 
 @end
 
@@ -125,19 +119,19 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
     self.cellIdentifierForRowAtIndexPathBlock = block;
 }
 
-- (void)didSelect:(ZKTableAdapterDidSelectBlock)block {
-    self.didSelectBlock = block;
+- (void)didSelectRow:(ZKTableAdapterDidSelectRowBlock)block {
+    self.didSelectRowBlock = block;
 }
 
-- (void)didDeselect:(ZKTableAdapterDidDeselectBlock)block {
-    self.didDeselectBlock = block;
+- (void)didDeselect:(ZKTableAdapterDidDeselectRowBlock)block {
+    self.didDeselectRowBlock = block;
 }
 
-- (void)didEditing:(ZKTableAdapterDidEditingBlock)block {
+- (void)commitEditingStyleForRow:(ZKTableAdapterCommitEditingStyleForRowBlock)block {
     self.didEditingBlock = block;
 }
 
-- (void)didEditTitle:(ZKTableAdapterDidEditTitleBlock)block {
+- (void)titleForDeleteConfirmationButtonForRow:(ZKTableAdapterTitleForDeleteConfirmationButtonForRowBlock)block {
     self.didEditTileBlock = block;
 }
 
@@ -145,36 +139,28 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
     self.canEditRowBlock = block;
 }
 
-- (void)didEditingStyle:(ZKTableAdapterEditingStyleBlock)block {
+- (void)editingStyleForRow:(ZKTableAdapterEditingStyleForRowBlock)block {
     self.didEditingStyleBlock = block;
 }
 
-- (void)didEditActions:(ZKTableAdapterDidEditActionsBlock)block {
+- (void)editActionsForRow:(ZKTableAdapterEditActionsForRowBlock)block {
     self.didEditActionsBlock = block;
 }
 
-- (void)didMoveToRowBlock:(ZKTableAdapterDidMoveToRowBlock)block {
-    self.didMoveToRowBlock = block;
+- (void)moveRowBlock:(ZKTableAdapterMoveRowBlock)block {
+    self.moveRowBlock = block;
 }
 
-- (void)cellWillDisplay:(ZKTableAdapterDidWillDisplayBlock)block {
+- (void)cellWillDisplay:(ZKTableAdapterCellWillDisplayBlock)block {
     self.didWillDisplayBlock = block;
 }
 
-- (void)headerWillDisplay:(ZKTableAdapterDidHeaderVeiwWillDisplayBlock)block {
+- (void)headerWillDisplay:(ZKTableAdapterHeaderWillDisplayBlock)block {
     self.didHeaderWillDisplayBlock = block;
 }
 
-- (void)footerWillDisplay:(ZKTableAdapterDidFooterVeiwWillDisplayBlock)block {
+- (void)footerWillDisplay:(ZKTableAdapterFooterWillDisplayBlock)block {
     self.didFooterWillDisplayBlock = block;
-}
-
-- (void)didScrollViewWillBeginDragging:(ZKScrollViewWillBeginDraggingBlock)block {
-    self.scrollViewBdBlock = block;
-}
-
-- (void)didScrollViewEndDragging:(ZKScrollViewDidEndDraggingBlock)block {
-    self.scrollViewDicEndBlock = block;
 }
 
 - (void)headerView:(ZKTableAdapterHeaderBlock)block {
@@ -217,24 +203,8 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
     self.numberRowBlock = block;
 }
 
-- (void)didScrollViewDidScroll:(ZKScrollViewDidScrollBlock)block {
-    self.scrollViewddBlock = block;
-}
-
 - (void)flattenMap:(ZKTableAdapterFlattenMapBlock)block {
     self.flattenMapBlock = block;
-}
-
-- (void)didScrollViewDidEndScrolling:(ZKTableAdapterScrollViewDidEndScrollingBlock)block {
-    self.scrollViewDidEndScrollingBlock = block;
-}
-
-- (void)scrollViewWillEndDragging:(ZKTableAdapterScrollViewWillEndDraggingBlock)block {
-    self.scrollViewWillEndDraggingBlock = block;
-}
-
-- (void)scrollViewDidEndDragging:(ZKTableAdapterScrollViewDidEndDraggingBlock)block {
-    self.scrollViewDidEndDraggingBlock = block;
 }
 
 #pragma mark - :. TableView DataSource Delegate
@@ -446,10 +416,10 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
-    if (self.didMoveToRowBlock) {
+    if (self.moveRowBlock) {
         id sourceModel      = [self currentModelAtIndexPath:sourceIndexPath];
         id destinationModel = [self currentModelAtIndexPath:destinationIndexPath];
-        self.didMoveToRowBlock(tableView, sourceIndexPath, sourceModel, destinationIndexPath, destinationModel);
+        self.moveRowBlock(tableView, sourceIndexPath, sourceModel, destinationIndexPath, destinationModel);
     }
 }
 
@@ -498,9 +468,9 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 
         self.isIgnoreEvent = YES;
     }
-    if (self.didSelectBlock) {
+    if (self.didSelectRowBlock) {
         id curModel = [self currentModelAtIndexPath:indexPath];
-        self.didSelectBlock(tableView, indexPath, curModel);
+        self.didSelectRowBlock(tableView, indexPath, curModel);
     }
 }
 
@@ -510,15 +480,10 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.kai_indexPath = indexPath;
-    if (self.didDeselectBlock) {
+    if (self.didDeselectRowBlock) {
         id curModel = [self currentModelAtIndexPath:indexPath];
-        self.didDeselectBlock(tableView, indexPath, curModel);
+        self.didDeselectRowBlock(tableView, indexPath, curModel);
     }
-}
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    if (self.scrollViewBdBlock)
-        self.scrollViewBdBlock(scrollView);
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -536,22 +501,6 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(scrollViewDidEndScrollingAnimation:) object:scrollView];
     [self performSelector:@selector(scrollViewDidEndScrollingAnimation:) withObject:scrollView afterDelay:0.5];
-}
-
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-    if (self.scrollViewWillEndDraggingBlock)
-        self.scrollViewWillEndDraggingBlock(scrollView, velocity, targetContentOffset);
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (self.scrollViewDidEndDraggingBlock)
-        self.scrollViewDidEndDraggingBlock(scrollView, decelerate);
-}
-
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(scrollViewDidEndScrollingAnimation:) object:scrollView];
-    if (self.scrollViewDidEndScrollingBlock && scrollView)
-        self.scrollViewDidEndScrollingBlock(scrollView);
 }
 
 #pragma mark - :. public methods

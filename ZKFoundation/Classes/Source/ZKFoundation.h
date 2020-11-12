@@ -22,6 +22,7 @@
 #import <ZKFoundation/ZKTableViewAdapter.h>
 #import <ZKFoundation/ZKTableViewAdapterInjectionDelegate.h>
 #import <ZKFoundation/ZKCollectionViewAdapterInjectionDelegate.h>
+#import <ZKFoundation/ZKScrollViewAdapter.h>
 #import <ZKFoundation/ZKHeadingRequest.h>
 #import <ZKFoundation/ZKLocationManager.h>
 #import <ZKFoundation/ZKLocationManager+Internal.h>
@@ -59,6 +60,7 @@
 #import "UITableViewHeaderFooterView+ZKHelper.h"
 #import "ZKCollectionViewAdapter.h"
 #import "ZKTableViewAdapter.h"
+#import "ZKScrollViewAdapter.h"
 #import "ZKTableViewAdapterInjectionDelegate.h"
 #import "ZKCollectionViewAdapterInjectionDelegate.h"
 #import "ZKHeadingRequest.h"

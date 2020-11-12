@@ -7,6 +7,8 @@
 
 #import "UIScrollView+ZKHelper.h"
 #import "ZKStretchyHeaderView.h"
+#import "ZKScrollViewAdapter.h"
+#import <objc/runtime.h>
 
 @interface UIView (_KAIStretchyHeaderViewArrangement)
 - (BOOL)kai_shouldBeBelowStretchyHeaderView;
@@ -99,6 +101,21 @@
     return [self isKindOfClass:[UITableViewCell class]] ||
     [self isKindOfClass:[UITableViewHeaderFooterView class]] ||
     [self isKindOfClass:[UICollectionReusableView class]];
+}
+
+@end
+
+@implementation UIScrollView (ZKAdapter)
+
+- (ZKScrollViewAdapter *)adapter {
+    ZKScrollViewAdapter<UIScrollViewDelegate> *adapter = objc_getAssociatedObject(self, _cmd);
+    if (adapter) return adapter;
+    
+    adapter = ZKScrollViewAdapter.new;
+    adapter.kai_scrollView = self;
+    self.delegate = adapter;
+    objc_setAssociatedObject(self, _cmd, adapter, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    return adapter;
 }
 
 @end

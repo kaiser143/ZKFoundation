@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class ZKStretchyHeaderView;
+@class ZKScrollViewAdapter;
 
 @interface UIScrollView (ZKHelper)
 
@@ -19,6 +20,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)kai_layoutStretchyHeaderView:(ZKStretchyHeaderView *)headerView
                        contentOffset:(CGPoint)contentOffset
                previousContentOffset:(CGPoint)previousContentOffset;
+
+@end
+
+@interface UIScrollView (ZKAdapter)
+
+@property (nonatomic, strong, readonly) ZKScrollViewAdapter *adapter;
 
 @end
 

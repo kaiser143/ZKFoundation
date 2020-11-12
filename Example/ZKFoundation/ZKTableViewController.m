@@ -62,7 +62,7 @@
             cell.imageView.image = [UIImage imageNamed:@"file_folder"];
         }
     }];
-    [self.tableView.adapter didSelect:^(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
+    [self.tableView.adapter didSelectRow:^(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         @strongify(self);
         if ([self.rightButton.title isEqualToString:@"完成"]) {
 //               [self.selectedArr addObject:self.dataArr[indexPath.row]];
@@ -76,7 +76,7 @@
     [self.tableView.adapter didDeselect:^(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         
     }];
-    [self.tableView.adapter didEditActions:^NSArray<UITableViewRowAction *> * _Nullable(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
+    [self.tableView.adapter editActionsForRow:^NSArray<UITableViewRowAction *> * _Nullable(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal
                                                                               title:@"备注"
                                                                             handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {

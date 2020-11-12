@@ -42,10 +42,6 @@
 @property (nonatomic, copy) ZKCollectionAdapterCellItemMarginBlock cellItemMarginBlock;
 @property (nonatomic, copy) ZKCollectionAdapterMinimumInteritemSpacingForSectionBlock minimumInteritemSpacingForSectionBlock;
 
-@property (nonatomic, copy) ZKScrollViewDidScrollBlock scrollViewDidScrollBlock;
-@property (nonatomic, copy) ZKScrollViewDidEndDraggingBlock scrollViewDidEndDraggingBlock;
-@property (nonatomic, copy) ZKScrollViewDidEndDeceleratingBlock scrollViewDidEndDeceleratingBlock;
-
 @end
 
 @implementation ZKCollectionViewAdapter
@@ -239,24 +235,6 @@
     if (self.didSelectItemAtIndexPathBlock) {
         id curModel = [self currentModelAtIndexPath:indexPath];
         self.didSelectItemAtIndexPathBlock(collectionView, indexPath, curModel);
-    }
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (self.scrollViewDidScrollBlock) {
-        self.scrollViewDidScrollBlock(scrollView);
-    }
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (self.scrollViewDidEndDraggingBlock) {
-        self.scrollViewDidEndDraggingBlock(scrollView);
-    }
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    if (self.scrollViewDidEndDeceleratingBlock) {
-        self.scrollViewDidEndDeceleratingBlock(scrollView);
     }
 }
 
@@ -658,43 +636,43 @@
     self.numberOfItemsInSectionBlock = block;
 }
 
-- (void)didHeaderView:(ZKCollectionAdapterHeaderViewBlock)block {
+- (void)headerView:(ZKCollectionAdapterHeaderViewBlock)block {
     self.headerViewBlock = block;
 }
 
-- (void)didCurrentHeaderModel:(ZKCollectionAdapterCurrentHeaderModelAtIndexPathBlock)block {
+- (void)currentHeaderModel:(ZKCollectionAdapterCurrentHeaderModelAtIndexPathBlock)block {
     self.currentHeaderModelAtIndexPathBlock = block;
 }
 
-- (void)didFooterView:(ZKCollectionAdapterFooterViewBlock)block {
+- (void)footerView:(ZKCollectionAdapterFooterViewBlock)block {
     self.footerViewBlock = block;
 }
 
-- (void)didCurrentFooterModel:(ZKCollectionAdapterCurrentFooterModelAtIndexPathBlock)block {
+- (void)currentFooterModel:(ZKCollectionAdapterCurrentFooterModelAtIndexPathBlock)block {
     self.currentFooterModelAtIndexPathBlock = block;
 }
 
-- (void)didCellForItemAtIndexPath:(ZKCollectionAdapterCellForItemAtIndexPathBlock)block {
+- (void)cellForItemAtIndexPath:(ZKCollectionAdapterCellForItemAtIndexPathBlock)block {
     self.cellForItemAtIndexPathBlock = block;
 }
 
-- (void)didHeaderForItemAtIndexPah:(ZKCollectionAdapterHeaderForItemAtIndexPathBlock)block {
+- (void)headerForItemAtIndexPah:(ZKCollectionAdapterHeaderForItemAtIndexPathBlock)block {
     self.headerForItemAtIndexPathBlock = block;
 }
 
-- (void)didFooterForItemAtIndexPah:(ZKCollectionAdapterFooterForItemAtIndexPathBlock)block {
+- (void)footerForItemAtIndexPah:(ZKCollectionAdapterFooterForItemAtIndexPathBlock)block {
     self.footerForItemAtIndexPathBlock = block;
 }
 
-- (void)didSizeForItemAtIndexPath:(ZKCollectionAdapterCellForItemSizeBlock)block {
+- (void)sizeForItemAtIndexPath:(ZKCollectionAdapterCellForItemSizeBlock)block {
     self.sizeForItemAtIndexPathBlock = block;
 }
 
-- (void)didReferenceHeaderSize:(ZKCollectionAdapterReferenceHeaderSizeBlock)block {
+- (void)referenceHeaderSize:(ZKCollectionAdapterReferenceHeaderSizeBlock)block {
     self.referenceHeaderSizeBlock = block;
 }
 
-- (void)didReferenceFooterSize:(ZKCollectionAdapterReferenceFooterSizeBlock)block {
+- (void)referenceFooterSize:(ZKCollectionAdapterReferenceFooterSizeBlock)block {
     self.referenceFooterSizeBlock = block;
 }
 
@@ -708,18 +686,6 @@
 
 - (void)minimumInteritemSpacingForSection:(ZKCollectionAdapterMinimumInteritemSpacingForSectionBlock)blcok {
     self.minimumInteritemSpacingForSectionBlock = blcok;
-}
-
-- (void)didScrollViewDidScroll:(ZKScrollViewDidScrollBlock)block {
-    self.scrollViewDidScrollBlock = block;
-}
-
-- (void)didEndDragging:(ZKScrollViewDidEndDraggingBlock)block {
-    self.scrollViewDidEndDraggingBlock = block;
-}
-
-- (void)didEndDecelerating:(ZKScrollViewDidEndDeceleratingBlock)block {
-    self.scrollViewDidEndDeceleratingBlock = block;
 }
 
 - (void)configureCell:(UICollectionViewCell<ZKCollectionViewAdapterInjectionDelegate> *)cell forIndexPath:(NSIndexPath *)indexPath withObject:(id)obj {

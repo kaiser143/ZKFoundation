@@ -26,7 +26,7 @@
     self.view.backgroundColor = UIColor.whiteColor;
     
     [self.collectionView.adapter registerNibs:@[@"ZKCollectionViewCell"]];
-    [self.collectionView.adapter didSizeForItemAtIndexPath:^CGSize(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
+    [self.collectionView.adapter sizeForItemAtIndexPath:^CGSize(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         return CGSizeMake(ZKScreenSize().width/4 - 10, 80);
     }];
     [self.collectionView.adapter cellItemMargin:^UIEdgeInsets(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSInteger section, id  _Nonnull dataSource) {

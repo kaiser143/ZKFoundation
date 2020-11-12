@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ZKScrollViewAdapter.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -37,11 +38,7 @@ typedef id _Nullable (^ZKCollectionAdapterFlattenMapBlock)(id dataAry, NSIndexPa
 typedef id _Nullable (^ZKCollectionAdapterCurrentHeaderModelAtIndexPathBlock)(id dataAry, NSIndexPath *indexPath);
 typedef id _Nullable (^ZKCollectionAdapterCurrentFooterModelAtIndexPathBlock)(id dataAry, NSIndexPath *indexPath);
 
-typedef void (^ZKScrollViewDidScrollBlock)(UIScrollView *scrollView);
-typedef void (^ZKScrollViewDidEndDraggingBlock)(UIScrollView *scrollView);
-typedef void (^ZKScrollViewDidEndDeceleratingBlock)(UIScrollView *srollView);
-
-@interface ZKCollectionViewAdapter : NSObject
+@interface ZKCollectionViewAdapter : ZKScrollViewAdapter
 
 @property (nonatomic, weak, readonly) NSMutableArray *dataSource;
 @property (nonatomic, weak, readonly) NSMutableArray *headerSource;
@@ -167,27 +164,23 @@ typedef void (^ZKScrollViewDidEndDeceleratingBlock)(UIScrollView *srollView);
 
 - (void)numberOfItemsInSection:(ZKCollectionAdapterNumberOfItemsInSectionBlock)block;
 
-- (void)didHeaderView:(ZKCollectionAdapterHeaderViewBlock)block;
-- (void)didCurrentHeaderModel:(ZKCollectionAdapterCurrentHeaderModelAtIndexPathBlock)block;
-- (void)didFooterView:(ZKCollectionAdapterFooterViewBlock)block;
-- (void)didCurrentFooterModel:(ZKCollectionAdapterCurrentFooterModelAtIndexPathBlock)block;
+- (void)headerView:(ZKCollectionAdapterHeaderViewBlock)block;
+- (void)currentHeaderModel:(ZKCollectionAdapterCurrentHeaderModelAtIndexPathBlock)block;
+- (void)footerView:(ZKCollectionAdapterFooterViewBlock)block;
+- (void)currentFooterModel:(ZKCollectionAdapterCurrentFooterModelAtIndexPathBlock)block;
 
-- (void)didCellForItemAtIndexPath:(ZKCollectionAdapterCellForItemAtIndexPathBlock)block;
-- (void)didHeaderForItemAtIndexPah:(ZKCollectionAdapterHeaderForItemAtIndexPathBlock)block;
-- (void)didFooterForItemAtIndexPah:(ZKCollectionAdapterFooterForItemAtIndexPathBlock)block;
+- (void)cellForItemAtIndexPath:(ZKCollectionAdapterCellForItemAtIndexPathBlock)block;
+- (void)headerForItemAtIndexPah:(ZKCollectionAdapterHeaderForItemAtIndexPathBlock)block;
+- (void)footerForItemAtIndexPah:(ZKCollectionAdapterFooterForItemAtIndexPathBlock)block;
 
-- (void)didSizeForItemAtIndexPath:(ZKCollectionAdapterCellForItemSizeBlock)block;
-- (void)didReferenceHeaderSize:(ZKCollectionAdapterReferenceHeaderSizeBlock)block;
-- (void)didReferenceFooterSize:(ZKCollectionAdapterReferenceFooterSizeBlock)block;
+- (void)sizeForItemAtIndexPath:(ZKCollectionAdapterCellForItemSizeBlock)block;
+- (void)referenceHeaderSize:(ZKCollectionAdapterReferenceHeaderSizeBlock)block;
+- (void)referenceFooterSize:(ZKCollectionAdapterReferenceFooterSizeBlock)block;
 
 /**
 *  If you override tableView:didSelectRowAtIndexPath: method, it will be invalid
 */
 - (void)didSelectItem:(ZKCollectionAdapterDidSelectItemAtIndexPathBlock)block;
-
-- (void)didScrollViewDidScroll:(ZKScrollViewDidScrollBlock)block;
-- (void)didEndDragging:(ZKScrollViewDidEndDraggingBlock)block;
-- (void)didEndDecelerating:(ZKScrollViewDidEndDeceleratingBlock)block;
 
 @end
 
