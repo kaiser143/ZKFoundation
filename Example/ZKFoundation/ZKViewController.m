@@ -70,15 +70,13 @@
     [normal setTitle:@"去开启" forState:UIControlStateNormal];
     [normal setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
     normal.titleLabel.font     = [UIFont systemFontOfSize:12];
-    normal.layer.cornerRadius  = 3.f;
-    normal.layer.masksToBounds = YES;
-    normal.layer.borderColor   = UIColor.redColor.CGColor;
-    normal.layer.borderWidth   = 1.f;
+    normal.contentEdgeInsets = UIEdgeInsetsMake(4, 8, 4, 8);
+    kai_view_border_radius(normal, 3, 1.f, UIColor.redColor);
     [view addSubview:normal];
     [normal mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.lessThanOrEqualTo(view);
         make.left.centerY.equalTo(view);
-        make.size.mas_equalTo(CGSizeMake(100, 100));
+//        make.size.mas_equalTo(CGSizeMake(100, 100));
     }];
 
     ZKButton *button = [ZKButton buttonWithType:UIButtonTypeCustom];
@@ -87,13 +85,15 @@
     [button setTitle:@"去开启" forState:UIControlStateNormal];
     [button setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont systemFontOfSize:12];
+    button.space = 8.f;
+    button.contentEdgeInsets = UIEdgeInsetsMake(4, 8, 4, 8);
     kai_view_border_radius(button, 3, 1.f, UIColor.redColor);
     [view addSubview:button];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(normal.mas_right).offset(20);
         make.right.centerY.equalTo(view);
         make.height.lessThanOrEqualTo(view);
-        make.size.mas_equalTo(CGSizeMake(100, 100));
+//        make.size.mas_equalTo(CGSizeMake(100, 100));
     }];
 
     ZKTintedActionButton *action = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];

@@ -23,9 +23,6 @@ typedef NS_ENUM(NSUInteger, ZKButtonStyle) {
 /// 图片和文字的间距
 @property (nonatomic, assign) CGFloat space;
 
-/// 内边距 default: 8
-@property (nonatomic, assign) CGFloat delta;
-
 @end
 
 NS_ASSUME_NONNULL_END
