@@ -138,4 +138,19 @@
     return intrinsicContentSize;
 }
 
+- (void)setTitle:(NSString *)title forState:(UIControlState)state {
+    [super setTitle:title forState:state];
+    [self layoutIfNeeded];
+}
+
+- (void)setImage:(nullable UIImage *)image forState:(UIControlState)state {
+    [super setImage:image forState:state];
+    [self layoutIfNeeded];
+}
+
+- (void)setBackgroundImage:(nullable UIImage *)image forState:(UIControlState)state {
+    [super setBackgroundImage:image forState:state];
+    [self layoutIfNeeded];
+}
+
 @end
