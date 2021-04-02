@@ -1,12 +1,15 @@
-# ZKFoundation
-
-[![CI Status](https://img.shields.io/travis/zhangkai/ZKFoundation.svg?style=flat)](https://travis-ci.org/zhangkai/ZKFoundation)
-[![Version](https://img.shields.io/cocoapods/v/ZKFoundation.svg?style=flat)](https://cocoapods.org/pods/ZKFoundation)
-[![License](https://img.shields.io/cocoapods/l/ZKFoundation.svg?style=flat)](https://cocoapods.org/pods/ZKFoundation)
-[![Platform](https://img.shields.io/cocoapods/p/ZKFoundation.svg?style=flat)](https://cocoapods.org/pods/ZKFoundation)
-
-## Requirements
-
+<h1 align="center">
+ZKFoundation
+</h1>
+<p align="center">
+<img src="https://img.shields.io/cocoapods/v/ZKFoundation.svg?style=flat" />
+<img src="https://img.shields.io/badge/supporting-objectiveC-yellow.svg" />
+<img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" />
+<img src="https://img.shields.io/cocoapods/p/ZKFoundation.svg?style=flat" />
+<img src="https://img.shields.io/badge/support-iOS 8.0+ -blue.svg?style=flat" />
+</p>
+<br>
+<br>
 ## 如何安装
 __Requirements__
 * iOS 8.0+
