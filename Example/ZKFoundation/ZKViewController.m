@@ -277,13 +277,6 @@
     //    controller.title = @"ViewController";
     //    [self kai_pushViewController:controller];
 
-    //    ZKActionSheetView *sheet = [ZKActionSheetView actionSheetViewWithShareItems:@[
-    //                                                                                  [ZKActionItem actionWithTitle:@"刷新" icon:@"Action_Refresh" handler:nil],
-    //                                                                                  [ZKActionItem actionWithTitle:@"朋友圈" icon:@"Action_Moments" handler:nil],
-    //                                                                                  ]
-    //                                                                  functionItems:nil];
-    //    [sheet show];
-
     //    [ZKPermission.manager requestWithType:ZKPermissionTypeContact
     //                                 callback:^(BOOL response, ZKPermissionAuthorizationStatus status) {
     //                                     if (response) {

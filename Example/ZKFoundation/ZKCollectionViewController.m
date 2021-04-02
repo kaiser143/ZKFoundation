@@ -44,8 +44,18 @@
     
     
     [self.collectionView.adapter stripAdapterData:@[@1, @2, @3, @4, @5, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6, @6]];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
     [self setInterfaceOrientation:UIInterfaceOrientationLandscapeRight];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self setInterfaceOrientation:UIInterfaceOrientationPortrait];
 }
 
 - (BOOL)shouldAutorotate {
@@ -62,15 +72,15 @@
 }
 
 - (void)setInterfaceOrientation:(UIInterfaceOrientation)orientation {
-    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
-        SEL selector = NSSelectorFromString(@"setOrientation:");
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
-        [invocation setSelector:selector];
-        [invocation setTarget:[UIDevice currentDevice]];
-        UIInterfaceOrientation val = orientation;
-        [invocation setArgument:&val atIndex:2];
-        [invocation invoke];
-    }
+//    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
+//        SEL selector = NSSelectorFromString(@"setOrientation:");
+//        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+//        [invocation setSelector:selector];
+//        [invocation setTarget:[UIDevice currentDevice]];
+//        UIInterfaceOrientation val = orientation;
+//        [invocation setArgument:&val atIndex:2];
+//        [invocation invoke];
+//    }
 }
 
 /*
