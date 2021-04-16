@@ -27,8 +27,12 @@
     CGFloat imageX;
     CGFloat imageY;
     
-    CGFloat imageW = self.imageView.image.size.width;
-    CGFloat imageH = self.imageView.image.size.height;
+    // fix iOS 12.4.8 crash
+//    CGFloat imageW = self.imageView.image.size.width;
+//    CGFloat imageH = self.imageView.image.size.height;
+    
+    CGFloat imageW = [self imageForState:self.state].size.width;
+    CGFloat imageH = [self imageForState:self.state].size.height;
     
     switch (_style) {
         case ZKButtonStyleImageAtTop: {
