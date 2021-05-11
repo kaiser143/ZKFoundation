@@ -23,9 +23,9 @@ typedef UICollectionReusableView *_Nullable (^ZKCollectionAdapterHeaderViewBlock
 typedef UICollectionReusableView *_Nullable (^ZKCollectionAdapterFooterViewBlock)(UICollectionView *collectionView, NSString *kind, NSString *cellIdentifier, NSIndexPath *indexPath, id dataSource);
 
 typedef void (^ZKCollectionAdapterDidSelectItemAtIndexPathBlock)(UICollectionView *collectionView, NSIndexPath *indexPath, id dataSource);
-typedef void (^ZKCollectionAdapterCellForItemAtIndexPathBlock)(UICollectionViewCell *cell, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
-typedef void (^ZKCollectionAdapterHeaderForItemAtIndexPathBlock)(UICollectionReusableView *header, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
-typedef void (^ZKCollectionAdapterFooterForItemAtIndexPathBlock)(UICollectionReusableView *footer, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
+typedef void (^ZKCollectionAdapterCellForItemAtIndexPathBlock)(__kindof UICollectionViewCell *cell, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
+typedef void (^ZKCollectionAdapterHeaderForItemAtIndexPathBlock)(__kindof UICollectionReusableView *header, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
+typedef void (^ZKCollectionAdapterFooterForItemAtIndexPathBlock)(__kindof UICollectionReusableView *footer, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
 
 typedef CGSize (^ZKCollectionAdapterCellForItemSizeBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSIndexPath *indexPath, id dataSource);
 typedef CGSize (^ZKCollectionAdapterReferenceHeaderSizeBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
