@@ -19,6 +19,7 @@
 @interface ZKViewController () <ZKNavigationBarConfigureStyle, UIScrollViewDelegate>
 
 @property (nonatomic, strong) UIColor *barTintColor;
+@property (nonatomic, strong) ZKStorkInteractiveTransition *animator;
 
 @end
 
@@ -177,6 +178,33 @@
         make.height.mas_equalTo(48);
         make.centerX.equalTo(self.view);
         make.top.equalTo(test.mas_bottom).offset(20);
+    }];
+    
+    test             = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
+    test.tintColor          = UIColor.redColor;
+    test.layer.cornerRadius = 8;
+    [test setTitle:@"present" forState:UIControlStateNormal];
+    [test addBlockForControlEvents:UIControlEventTouchUpInside
+                             block:^(__kindof UIControl *_Nonnull sender) {
+                                 @strongify(self);
+                                 ZKAuto controller = ZKTableViewController.new;
+                                 UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+                                 nav.modalPresentationStyle = UIModalPresentationCustom;
+
+                                 self.animator = [[ZKStorkInteractiveTransition alloc] initWithModalViewController:nav];
+                                 self.animator.transitionDuration = 0.6f;
+                                 [self.animator setContentScrollView:controller.tableView];
+
+                                 nav.transitioningDelegate = self.animator;
+                                 [self presentViewController:nav animated:YES completion:nil];
+        
+                             }];
+    [scrollView addSubview:test];
+    [test mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(220);
+        make.height.mas_equalTo(48);
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(action.mas_bottom).offset(20);
         make.bottom.lessThanOrEqualTo(scrollView).offset(-20);
     }];
     

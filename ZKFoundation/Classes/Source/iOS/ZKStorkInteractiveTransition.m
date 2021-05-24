@@ -49,13 +49,11 @@
 
 - (void)setDragable:(BOOL)dragable {
     _dragable = dragable;
+    [self removeGestureRecognizerFromModalController];
     if (_dragable) {
-        [self removeGestureRecognizerFromModalController];
         self.gesture          = [[ZFDetectScrollViewEndGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
         self.gesture.delegate = self;
         [self.modalController.view addGestureRecognizer:self.gesture];
-    } else {
-        [self removeGestureRecognizerFromModalController];
     }
 }
 
@@ -441,6 +439,7 @@
     }
 
     CGFloat topVerticalOffset = -self.scrollview.contentInset.top;
+    if (self.scrollview.viewController.edgesForExtendedLayout & UIRectEdgeTop) topVerticalOffset = -44;
 
     if ((fabs(velocity.x) < fabs(velocity.y)) && (nowPoint.y > prevPoint.y) && (self.scrollview.contentOffset.y <= topVerticalOffset)) {
         self.isFail = @NO;

@@ -13,7 +13,6 @@
 
 @interface ZKTableViewController () <ZKNavigationBarConfigureStyle>
 
-@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) UIBarButtonItem *rightButton;
 
@@ -24,6 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.automaticallyAdjustsScrollViewInsets = YES;
     
     @weakify(self);
     self.title = @"文件管理";

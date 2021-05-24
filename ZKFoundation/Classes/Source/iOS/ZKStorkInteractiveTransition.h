@@ -15,14 +15,12 @@
         ModalViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"ModalViewController"];
         controller.modalPresentationStyle = UIModalPresentationCustom;
 
-        self.animator = [[ZKStorkInteractiveTransition alloc] initWithModalViewController:modalVC];
+        self.animator = [[ZKStorkInteractiveTransition alloc] initWithModalViewController:controller];
         self.animator.transitionDuration = 0.6f;
 
-        if (self.scrollViewSwitch.isOn) {
-            [self.animator setContentScrollView:controller.scrollView];
-        }
+        [self.animator setContentScrollView:controller.scrollView];
 
-        modalVC.transitioningDelegate = self.animator;
+        controller.transitioningDelegate = self.animator;
         [self presentViewController:controller animated:YES completion:nil];
  *  @endcode
  */
@@ -36,9 +34,9 @@
 @property (nonatomic, readonly) ZFDetectScrollViewEndGestureRecognizer *gesture;
 @property (nonatomic, assign) UIGestureRecognizer *gestureRecognizerToFailPan;
 @property BOOL bounces;
-@property CGFloat behindViewScale;
-@property CGFloat behindViewAlpha;
-@property CGFloat transitionDuration;
+@property CGFloat behindViewScale;      // default 0.9
+@property CGFloat behindViewAlpha;      // default 1.0
+@property CGFloat transitionDuration;   // default 0.8
 @property CGFloat cornerRadius;         // default 10
 @property CGFloat translateForDismiss;  // default 200
 
