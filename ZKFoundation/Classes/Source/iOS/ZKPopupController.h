@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol ZKPopupControllerDelegate;
-@class ZKPopupTheme, ZKPopupButton;
+@class ZKPopupTheme;
 
 @interface ZKPopupController : NSObject
 
@@ -32,14 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)popupControllerDidPresent:(nonnull ZKPopupController *)controller;
 - (void)popupControllerWillDismiss:(nonnull ZKPopupController *)controller;
 - (void)popupControllerDidDismiss:(nonnull ZKPopupController *)controller;
-
-@end
-
-typedef void(^ZKActionHandler) (ZKPopupButton *_Nonnull button);
-
-@interface ZKPopupButton : UIButton
-
-@property (nonatomic, copy) ZKActionHandler _Nullable selectionHandler;
 
 @end
 

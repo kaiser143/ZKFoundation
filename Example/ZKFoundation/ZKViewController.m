@@ -16,10 +16,11 @@
 #import "ZKTableViewController.h"
 #import "ZKRouterViewController.h"
 
-@interface ZKViewController () <ZKNavigationBarConfigureStyle, UIScrollViewDelegate>
+@interface ZKViewController () <ZKNavigationBarConfigureStyle, UIScrollViewDelegate, ZKPopupControllerDelegate>
 
 @property (nonatomic, strong) UIColor *barTintColor;
 @property (nonatomic, strong) ZKStorkInteractiveTransition *animator;
+@property (nonatomic, strong) ZKPopupController *popup;
 
 @end
 
@@ -205,6 +206,23 @@
         make.height.mas_equalTo(48);
         make.centerX.equalTo(self.view);
         make.top.equalTo(action.mas_bottom).offset(20);
+    }];
+    
+    action             = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
+    action.tintColor          = UIColor.redColor;
+    action.layer.cornerRadius = 8;
+    [action setTitle:@"Popup" forState:UIControlStateNormal];
+    [action addBlockForControlEvents:UIControlEventTouchUpInside
+                             block:^(__kindof UIControl *_Nonnull sender) {
+                                 @strongify(self);
+        [self showPopupWithStyle:ZKPopupStyleActionSheet];
+                             }];
+    [scrollView addSubview:action];
+    [action mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(220);
+        make.height.mas_equalTo(48);
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(test.mas_bottom).offset(20);
         make.bottom.lessThanOrEqualTo(scrollView).offset(-20);
     }];
     
@@ -278,6 +296,16 @@
     return UIColor.whiteColor;
 }
 
+#pragma mark - :. ZKPopupControllerDelegate
+
+- (void)popupControllerDidDismiss:(ZKPopupController *)controller {
+    
+}
+
+- (void)popupControllerDidPresent:(ZKPopupController *)controller {
+    
+}
+
 #pragma mark - :. event Handle
 
 - (void)shareAction:(id)sender {
@@ -331,6 +359,62 @@
         _barTintColor = UIColor.randomColor;
     }
     return _barTintColor;
+}
+
+#pragma mark - :. private methods
+
+- (void)showPopupWithStyle:(ZKPopupStyle)popupStyle {
+    @weakify(self);
+    NSMutableParagraphStyle *paragraphStyle = NSMutableParagraphStyle.new;
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSAttributedString *title = [[NSAttributedString alloc] initWithString:@"It's A Popup!" attributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:24], NSParagraphStyleAttributeName : paragraphStyle}];
+    NSAttributedString *lineOne = [[NSAttributedString alloc] initWithString:@"You can add text and images" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:18], NSParagraphStyleAttributeName : paragraphStyle}];
+    NSAttributedString *lineTwo = [[NSAttributedString alloc] initWithString:@"With style, using NSAttributedString" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:18], NSForegroundColorAttributeName : [UIColor colorWithRed:0.46 green:0.8 blue:1.0 alpha:1.0], NSParagraphStyleAttributeName : paragraphStyle}];
+    
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 200, 60)];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:18];
+    [button setTitle:@"Close Me" forState:UIControlStateNormal];
+    button.backgroundColor = [UIColor colorWithRed:0.46 green:0.8 blue:1.0 alpha:1.0];
+    button.layer.cornerRadius = 4;
+    [button addBlockForControlEvents:UIControlEventTouchUpInside block:^(__kindof UIButton * _Nonnull sender) {
+        @strongify(self);
+        [self.popup dismissPopupControllerAnimated:YES];
+        NSLog(@"Block for button: %@", sender.titleLabel.text);
+    }];
+    
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.numberOfLines = 0;
+    titleLabel.attributedText = title;
+    
+    UILabel *lineOneLabel = [[UILabel alloc] init];
+    lineOneLabel.numberOfLines = 0;
+    lineOneLabel.attributedText = lineOne;
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithColor:[UIColor randomColor]]];
+    imageView.size = CGSizeMake(150, 200);
+    
+    UILabel *lineTwoLabel = [[UILabel alloc] init];
+    lineTwoLabel.numberOfLines = 0;
+    lineTwoLabel.attributedText = lineTwo;
+    
+    
+    UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 250, 55)];
+    customView.backgroundColor = [UIColor lightGrayColor];
+    
+    UITextField *textFied = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 230, 35)];
+    textFied.borderStyle = UITextBorderStyleRoundedRect;
+    textFied.placeholder = @"Custom view!";
+    [customView addSubview:textFied];
+    
+    self.popup = [[ZKPopupController alloc] initWithContents:@[titleLabel, lineOneLabel, imageView, lineTwoLabel, customView, button]];
+    self.popup.theme = [ZKPopupTheme defaultTheme];
+    self.popup.theme.popupStyle = popupStyle;
+    self.popup.theme.maxPopupWidth = ZKScreenSize().width;
+    self.popup.delegate = self;
+    [self.popup presentPopupControllerAnimated:YES];
 }
 
 @end
