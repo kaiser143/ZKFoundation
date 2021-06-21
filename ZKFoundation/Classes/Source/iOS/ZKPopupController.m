@@ -231,14 +231,19 @@ CGFloat KAI_UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orie
 - (void)keyboardWithEndFrame:(CGRect)keyboardFrame willShowAfterDuration:(NSTimeInterval)duration withOptions:(UIViewAnimationOptions)options {
     CGRect popupViewIntersection = CGRectIntersection(self.popupView.frame, keyboardFrame);
 
-    if (popupViewIntersection.size.height > 0) {
+    if (popupViewIntersection.size.height > 0 || self.theme.popupStyle == ZKPopupStyleActionSheet) {
         CGRect maskViewIntersection = CGRectIntersection(self.maskView.frame, keyboardFrame);
 
         [UIView animateWithDuration:duration
                               delay:0.0f
                             options:options
                          animations:^{
-                             self.popupView.center = CGPointMake(self.popupView.center.x, (CGRectGetHeight(self.maskView.frame) - maskViewIntersection.size.height) / 2);
+                             if (self.theme.popupStyle == ZKPopupStyleActionSheet) {
+                                 CGFloat y            = CGRectGetHeight(self.maskView.frame) - CGRectGetHeight(keyboardFrame) - CGRectGetHeight(self.popupView.frame);
+                                 self.popupView.frame = CGRectMake(self.popupView.frame.origin.x, y, self.popupView.frame.size.width, self.popupView.frame.size.height);
+                             } else {
+                                 self.popupView.center = CGPointMake(self.popupView.center.x, (CGRectGetHeight(self.maskView.frame) - maskViewIntersection.size.height) / 2);
+                             }
                          }
                          completion:nil];
     }
