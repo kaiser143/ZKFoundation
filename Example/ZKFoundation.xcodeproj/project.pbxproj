@@ -16,6 +16,9 @@
 		4BD3443B23A3D34F00F6C677 /* ZKMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BD3443923A3D34F00F6C677 /* ZKMapViewController.m */; };
 		4BE6F1B023FD8BB400017F28 /* ZKTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BE6F1AF23FD8BB400017F28 /* ZKTableViewController.m */; };
 		4BE6F1B323FD8FAD00017F28 /* ZKTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BE6F1B223FD8FAD00017F28 /* ZKTableViewCell.m */; };
+		4BFF716826B128B200F960A5 /* ZKNavigationConfigureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BFF716726B128B100F960A5 /* ZKNavigationConfigureViewController.m */; };
+		4BFF716B26B12D0A00F960A5 /* ZKTableViewSwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BFF716A26B12D0A00F960A5 /* ZKTableViewSwitchCell.m */; };
+		4BFF716E26B1314500F960A5 /* ZKSwitchItemViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BFF716D26B1314500F960A5 /* ZKSwitchItemViewModel.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -62,6 +65,12 @@
 		4BE6F1AF23FD8BB400017F28 /* ZKTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKTableViewController.m; sourceTree = "<group>"; };
 		4BE6F1B123FD8FAD00017F28 /* ZKTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKTableViewCell.h; sourceTree = "<group>"; };
 		4BE6F1B223FD8FAD00017F28 /* ZKTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKTableViewCell.m; sourceTree = "<group>"; };
+		4BFF716626B128B100F960A5 /* ZKNavigationConfigureViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKNavigationConfigureViewController.h; sourceTree = "<group>"; };
+		4BFF716726B128B100F960A5 /* ZKNavigationConfigureViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKNavigationConfigureViewController.m; sourceTree = "<group>"; };
+		4BFF716926B12D0A00F960A5 /* ZKTableViewSwitchCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKTableViewSwitchCell.h; sourceTree = "<group>"; };
+		4BFF716A26B12D0A00F960A5 /* ZKTableViewSwitchCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKTableViewSwitchCell.m; sourceTree = "<group>"; };
+		4BFF716C26B1314500F960A5 /* ZKSwitchItemViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKSwitchItemViewModel.h; sourceTree = "<group>"; };
+		4BFF716D26B1314500F960A5 /* ZKSwitchItemViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKSwitchItemViewModel.m; sourceTree = "<group>"; };
 		4C0150DDE719CFFB04D8E0EF /* Pods-ZKFoundation_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZKFoundation_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZKFoundation_Example/Pods-ZKFoundation_Example.release.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* ZKFoundation_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZKFoundation_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -115,6 +124,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4BFF716F26B144AD00F960A5 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				4BFF716926B12D0A00F960A5 /* ZKTableViewSwitchCell.h */,
+				4BFF716A26B12D0A00F960A5 /* ZKTableViewSwitchCell.m */,
+				4BE6F1B123FD8FAD00017F28 /* ZKTableViewCell.h */,
+				4BE6F1B223FD8FAD00017F28 /* ZKTableViewCell.m */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		4F25C44CB5C59654E8F8A1BC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -161,6 +181,7 @@
 		6003F593195388D20070C39A /* Example for ZKFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				4BFF716F26B144AD00F960A5 /* Cells */,
 				6003F59C195388D20070C39A /* ZKAppDelegate.h */,
 				6003F59D195388D20070C39A /* ZKAppDelegate.m */,
 				4BD3443A23A3D34F00F6C677 /* ZKMapViewController.h */,
@@ -180,11 +201,13 @@
 				4B6951F723963C7000A828D4 /* ZKCollectionViewCell.m */,
 				4BE6F1AE23FD8BB400017F28 /* ZKTableViewController.h */,
 				4BE6F1AF23FD8BB400017F28 /* ZKTableViewController.m */,
-				4BE6F1B123FD8FAD00017F28 /* ZKTableViewCell.h */,
-				4BE6F1B223FD8FAD00017F28 /* ZKTableViewCell.m */,
 				4B61282A241B23CE00F3559D /* Launch Screen.storyboard */,
 				4B33E55E2552385300A26913 /* ZKRouterViewController.h */,
 				4B33E55F2552385300A26913 /* ZKRouterViewController.m */,
+				4BFF716626B128B100F960A5 /* ZKNavigationConfigureViewController.h */,
+				4BFF716726B128B100F960A5 /* ZKNavigationConfigureViewController.m */,
+				4BFF716C26B1314500F960A5 /* ZKSwitchItemViewModel.h */,
+				4BFF716D26B1314500F960A5 /* ZKSwitchItemViewModel.m */,
 			);
 			name = "Example for ZKFoundation";
 			path = ZKFoundation;
@@ -391,10 +414,13 @@
 			files = (
 				4BE6F1B323FD8FAD00017F28 /* ZKTableViewCell.m in Sources */,
 				4B33E5602552385300A26913 /* ZKRouterViewController.m in Sources */,
+				4BFF716826B128B200F960A5 /* ZKNavigationConfigureViewController.m in Sources */,
 				6003F59E195388D20070C39A /* ZKAppDelegate.m in Sources */,
 				4B034D6A237E9D6900073D23 /* NavigationController.m in Sources */,
 				4BD3443B23A3D34F00F6C677 /* ZKMapViewController.m in Sources */,
+				4BFF716B26B12D0A00F960A5 /* ZKTableViewSwitchCell.m in Sources */,
 				4B0DB860237EBD0A00F11E19 /* ZKWebViewController.m in Sources */,
+				4BFF716E26B1314500F960A5 /* ZKSwitchItemViewModel.m in Sources */,
 				6003F5A7195388D20070C39A /* ZKViewController.m in Sources */,
 				4B6951F823963C7000A828D4 /* ZKCollectionViewCell.m in Sources */,
 				4BE6F1B023FD8BB400017F28 /* ZKTableViewController.m in Sources */,

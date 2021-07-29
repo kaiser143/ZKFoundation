@@ -620,6 +620,10 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 }
 
 - (void)kai_reloadGroupDataAry:(NSArray *)data {
+    [self stripAdapterGroupData:data];
+}
+
+- (void)stripAdapterGroupData:(NSArray *)data {
     [self.data removeAllObjects];
     for (NSInteger i = 0; i < data.count; i++)
         [self kai_makeUpDataAryForSection:i];
@@ -640,6 +644,10 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 
 - (void)kai_reloadGroupDataAry:(NSArray *)data
                     forSection:(NSInteger)section {
+    [self stripAdapterGroupData:data forSection:section];
+}
+
+- (void)stripAdapterGroupData:(NSArray *)data forSection:(NSInteger)section {
     if (data.count == 0)
         return;
 

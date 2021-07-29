@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ZKScrollViewAdapter.h"
+#import <ZKCategories/ZKCategories.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -211,7 +212,8 @@ typedef id _Nullable (^ZKTableAdapterFlattenMapBlock)(id dataSource, NSIndexPath
  *
  *  @param data 数据源(二维数组)
  */
-- (void)kai_reloadGroupDataAry:(NSArray *)data;
+- (void)kai_reloadGroupDataAry:(NSArray *)data ZK_API_DEPRECATED(-stripAdapterGroupData:);
+- (void)stripAdapterGroupData:(NSArray *)data;
 
 /**
  重新加载该分组数据
@@ -220,7 +222,8 @@ typedef id _Nullable (^ZKTableAdapterFlattenMapBlock)(id dataSource, NSIndexPath
  @param section 分组下标
  */
 - (void)kai_reloadGroupDataAry:(NSArray *)data
-                    forSection:(NSInteger)section;
+                    forSection:(NSInteger)section ZK_API_DEPRECATED(-stripAdapterGroupData:forSection:);
+- (void)stripAdapterGroupData:(NSArray *)data forSection:(NSInteger)section;
 
 /**
  *  @brief  添加分组数据

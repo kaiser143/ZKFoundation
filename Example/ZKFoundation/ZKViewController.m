@@ -15,6 +15,7 @@
 #import "ZKMapViewController.h"
 #import "ZKTableViewController.h"
 #import "ZKRouterViewController.h"
+#import "ZKNavigationConfigureViewController.h"
 
 @interface ZKViewController () <ZKNavigationBarConfigureStyle, UIScrollViewDelegate, ZKPopupControllerDelegate>
 
@@ -223,6 +224,25 @@
         make.height.mas_equalTo(48);
         make.centerX.equalTo(self.view);
         make.top.equalTo(test.mas_bottom).offset(20);
+    }];
+    
+    test             = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
+    test.tintColor          = UIColor.redColor;
+    test.layer.cornerRadius = 8;
+    [test setTitle:@"NavigationBar" forState:UIControlStateNormal];
+    [test addBlockForControlEvents:UIControlEventTouchUpInside
+                             block:^(__kindof UIControl *_Nonnull sender) {
+                                 @strongify(self);
+                                 ZKAuto controller = ZKNavigationConfigureViewController.new;
+                                 [self kai_pushViewController:controller];
+                                 
+                             }];
+    [scrollView addSubview:test];
+    [test mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(220);
+        make.height.mas_equalTo(48);
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(action.mas_bottom).offset(20);
         make.bottom.lessThanOrEqualTo(scrollView).offset(-20);
     }];
     
