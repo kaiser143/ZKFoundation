@@ -279,6 +279,10 @@
 #pragma mark - :. Group
 
 - (void)kai_reloadGroupDataAry:(NSArray *)data {
+    [self stripAdapterGroupData:data];
+}
+
+- (void)stripAdapterGroupData:(NSArray *)data {
     self.dataArray = nil;
     for (NSInteger i = 0; i < data.count; i++)
         [self _kai_makeUpDataAryForSection:i];

@@ -14,8 +14,8 @@ typedef NS_OPTIONS(NSUInteger, ZKNavigationBarConfigurations) {
     ZKNavigationBarStyleBlack = 1 << 4,  // UIbarStyleBlack
     
     ZKNavigationBarBackgroundStyleTranslucent = 0 << 8,
-    ZKNavigationBarBackgroundStyleOpaque      = 1 << 8,
-    ZKNavigationBarBackgroundStyleTransparent = 2 << 8,
+    ZKNavigationBarBackgroundStyleOpaque      = 1 << 8,     // 不透明
+    ZKNavigationBarBackgroundStyleTransparent = 2 << 8,     // 透明、半透明
     
     // bar background
     ZKNavigationBarBackgroundStyleNone  = 0 << 16,

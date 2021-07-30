@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <ZKCategories/ZKCategories.h>
 #import "ZKScrollViewAdapter.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -94,7 +95,8 @@ typedef id _Nullable (^ZKCollectionAdapterCurrentFooterModelAtIndexPathBlock)(id
 
 #pragma mark :. Group
 
-- (void)kai_reloadGroupDataAry:(NSArray *)data;
+- (void)kai_reloadGroupDataAry:(NSArray *)data ZK_API_DEPRECATED(-stripAdapterGroupData:);
+- (void)stripAdapterGroupData:(NSArray *)data;
 
 - (void)appendSection:(NSArray *)data;
 
