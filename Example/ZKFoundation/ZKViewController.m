@@ -233,9 +233,9 @@
     [test addBlockForControlEvents:UIControlEventTouchUpInside
                              block:^(__kindof UIControl *_Nonnull sender) {
                                  @strongify(self);
-                                 ZKAuto controller = ZKNavigationConfigureViewController.new;
+                                 ZKAuto controller         = ZKNavigationConfigureViewController.new;
+                                 controller.configurations = ZKNavigationBarBackgroundStyleOpaque;
                                  [self kai_pushViewController:controller];
-                                 
                              }];
     [scrollView addSubview:test];
     [test mas_makeConstraints:^(MASConstraintMaker *make) {

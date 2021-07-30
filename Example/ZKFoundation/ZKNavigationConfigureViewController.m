@@ -42,6 +42,7 @@
     
     self.translucent = NO;
     self.barStyle = UIBarStyleBlack;
+    self.title = self.title.isNotBlank ? self.title : @"NavigationBarTransition";
         
     @weakify(self);
     [self.tableView.adapter registerNibs:@[ZKTableViewSwitchCell.className, UITableViewCell.className]];
@@ -98,6 +99,7 @@
     [self.tableView.adapter didSelectRow:^(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         
+        @strongify(self);
         if (indexPath.section == 1) {
             id color = self.colors[indexPath.row].allValues.firstObject;
             if (color == [NSNull null]) color = nil;
@@ -117,11 +119,11 @@
                 conf |= ZKNavigationBarBackgroundStyleOpaque;
             }
             
-            if (_barStyle == UIBarStyleBlack) {
+            if (self.barStyle == UIBarStyleBlack) {
                 conf |= ZKNavigationBarStyleBlack;
             }
             
-            if (_shadowImage) {
+            if (self.shadowImage) {
                 conf |= ZKNavigationBarShowShadowImage;
             }
             
@@ -145,11 +147,11 @@
                 conf |= ZKNavigationBarBackgroundStyleOpaque;
             }
             
-            if (_barStyle == UIBarStyleBlack) {
+            if (self.barStyle == UIBarStyleBlack) {
                 conf |= ZKNavigationBarStyleBlack;
             }
             
-            if (_shadowImage) {
+            if (self.shadowImage) {
                 conf |= ZKNavigationBarShowShadowImage;
             }
             
@@ -163,7 +165,7 @@
             [self.navigationController pushViewController:controller animated:YES];
         }
     }];
-    [self.tableView.adapter kai_reloadGroupDataAry:@[self.styles, self.colors, self.imageNames]];
+    [self.tableView.adapter stripAdapterGroupData:@[self.styles, self.colors, self.imageNames]];
 }
 
 /*
