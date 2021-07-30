@@ -14,11 +14,11 @@ ZKFoundation
 ## Example
 Here's how it looks like:
 
-<img src="https://github.com/kaiser143/ZKFoundation/raw/master/screenshot/screenshot1.png" width = "300" align=center />
-<img src="https://github.com/kaiser143/ZKFoundation/raw/master/screenshot/screenshot2.png" width = "300" align=center />
-<img src="https://github.com/kaiser143/ZKFoundation/raw/master/screenshot/screenshot3.png" width = "355" align=center />
-<img src="https://github.com/kaiser143/ZKFoundation/raw/master/screenshot/screenshot4.png" width = "355" align=center />
-<img src="https://github.com/kaiser143/ZKFoundation/raw/master/screenshot/screenshot5.png" width = "355" align=center />
+<img src="https://github.com/kaiser143/ZKFoundation/raw/master/screenshot/screenshot1.png" width = "375" align=center />
+<img src="https://github.com/kaiser143/ZKFoundation/raw/master/screenshot/screenshot2.png" width = "375" align=center />
+<img src="https://github.com/kaiser143/ZKFoundation/raw/master/screenshot/screenshot3.png" width = "375" align=center />
+<img src="https://github.com/kaiser143/ZKFoundation/raw/master/screenshot/screenshot4.png" width = "375" align=center />
+<img src="https://github.com/kaiser143/ZKFoundation/raw/master/screenshot/screenshot5.png" width = "375" align=center />
 
 ## 如何安装
 __Requirements__
