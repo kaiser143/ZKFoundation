@@ -76,6 +76,10 @@
 
 @implementation ZKTagsControl
 
+- (void)dealloc {
+    [self.collectionView removeObserverBlocks];
+}
+
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self == nil) return nil;
