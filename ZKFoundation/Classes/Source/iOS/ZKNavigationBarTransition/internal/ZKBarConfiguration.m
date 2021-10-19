@@ -122,7 +122,18 @@
         barBackgroundView.alpha = 0;
         self.translucent        = YES;
         self.barTintColor       = nil;
-        [self setBackgroundImage:transpanrentImage forBarMetrics:UIBarMetricsDefault];
+        
+        if (@available(iOS 13.0, *)) {
+            barBackgroundView.hidden = YES;
+            UINavigationBarAppearance *appearance = self.standardAppearance.copy;
+            [appearance configureWithTransparentBackground];
+            appearance.backgroundColor = configure.backgroundColor;
+            appearance.backgroundImage = transpanrentImage;
+            self.scrollEdgeAppearance = appearance;
+            self.standardAppearance = appearance;
+        } else{
+            [self setBackgroundImage:transpanrentImage forBarMetrics:UIBarMetricsDefault];
+        }
     } else {
         barBackgroundView.alpha  = 1;
         self.translucent         = configure.translucent;
@@ -130,8 +141,17 @@
         if (!backgroundImage && configure.backgroundColor) {
             backgroundImage = [UIImage imageWithColor:configure.backgroundColor];
         }
-
-        [self setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
+        
+        if (@available(iOS 13.0, *)) {
+            barBackgroundView.hidden = YES;
+            UINavigationBarAppearance *appearance = self.standardAppearance.copy;
+            appearance.backgroundColor = configure.backgroundColor;
+            appearance.backgroundImage = backgroundImage;
+            self.scrollEdgeAppearance = appearance;
+            self.standardAppearance = appearance;
+        } else {
+            [self setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
+        }
     }
 
     self.shadowImage = configure.shadowImage ? nil : transpanrentImage;
@@ -157,7 +177,17 @@
     UIImage *const transpanrentImage = UIImage.new;
     if (configure.transparent) {
         self.translucent = YES;
-        [self setBackgroundImage:transpanrentImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+        
+        if (@available(iOS 13.0, *)) {
+            UIToolbarAppearance *appearance = self.standardAppearance.copy;
+            appearance.backgroundColor = configure.backgroundColor;
+            appearance.backgroundImage = transpanrentImage;
+            [appearance configureWithTransparentBackground];
+            self.scrollEdgeAppearance = appearance;
+            self.standardAppearance = appearance;
+        } else {
+            [self setBackgroundImage:transpanrentImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+        }
     } else {
         self.translucent         = configure.translucent;
         UIImage *backgroundImage = configure.backgroundImage;
@@ -165,7 +195,15 @@
             backgroundImage = [UIImage imageWithColor:configure.backgroundColor];
         }
 
-        [self setBackgroundImage:backgroundImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+        if (@available(iOS 13.0, *)) {
+            UIToolbarAppearance *appearance = self.standardAppearance.copy;
+            appearance.backgroundColor = configure.backgroundColor;
+            appearance.backgroundImage = backgroundImage;
+            self.scrollEdgeAppearance = appearance;
+            self.standardAppearance = appearance;
+        } else {
+            [self setBackgroundImage:backgroundImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+        }
     }
 
     UIImage *shadowImage = configure.shadowImage ? nil : transpanrentImage;
