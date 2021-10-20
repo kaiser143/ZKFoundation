@@ -81,8 +81,14 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 }
 
 - (void)initialization {
-    self.titleHeaderHeight = 0.001;
-    self.titleFooterHeight = 0.001;
+    if (@available(iOS 15.0, *)) {
+        self.kai_tableView.sectionHeaderTopPadding = 0;
+        self.titleHeaderHeight = 0;
+        self.titleFooterHeight = 0;
+    } else {
+        self.titleHeaderHeight = 0.001;
+        self.titleFooterHeight = 0.001;
+    }
 }
 
 - (void)registerNibs:(NSArray<NSString *> *)nibs {
@@ -271,14 +277,14 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(nonnull UIView *)view forSection:(NSInteger)section {
     if (!self.headerBlock)
         view.tintColor = tableView.backgroundColor;
-    
+
     if (self.didHeaderWillDisplayBlock) self.didHeaderWillDisplayBlock(view, section, [self currentSectionModel:section]);
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
     if (!self.footerBlock)
         view.tintColor = [UIColor clearColor];
-    
+
     if (self.didFooterWillDisplayBlock) self.didFooterWillDisplayBlock(view, section, [self currentSectionModel:section]);
 }
 
@@ -323,7 +329,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 - (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath {
     UITableViewCellAccessoryType type = UITableViewCellAccessoryNone;
     if (self.accessoryTypeBlock) type = self.accessoryTypeBlock(tableView, indexPath, [self currentModelAtIndexPath:indexPath]);
-    
+
     return type;
 }
 #pragma clang diagnostic pop

@@ -181,25 +181,33 @@
         make.centerX.equalTo(self.view);
         make.top.equalTo(test.mas_bottom).offset(20);
     }];
-    
-    test             = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
+
+    test                    = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
     test.tintColor          = UIColor.redColor;
     test.layer.cornerRadius = 8;
     [test setTitle:@"present" forState:UIControlStateNormal];
     [test addBlockForControlEvents:UIControlEventTouchUpInside
                              block:^(__kindof UIControl *_Nonnull sender) {
                                  @strongify(self);
-                                 ZKAuto controller = ZKTableViewController.new;
+                                 ZKAuto controller           = ZKTableViewController.new;
                                  UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
-                                 nav.modalPresentationStyle = UIModalPresentationCustom;
+                                 nav.modalPresentationStyle  = UIModalPresentationCustom;
 
-                                 self.animator = [[ZKStorkInteractiveTransition alloc] initWithModalViewController:nav];
+                                 if (@available(iOS 15.0, *)) {
+                                     UINavigationBarAppearance *appearance = nav.navigationBar.standardAppearance.copy;
+                                     [appearance configureWithTransparentBackground];
+                                     appearance.backgroundColor = UIColor.whiteColor;
+                                     //        appearance.backgroundImage = transpanrentImage;
+                                     nav.navigationBar.scrollEdgeAppearance = appearance;
+                                     nav.navigationBar.standardAppearance   = appearance;
+                                 }
+
+                                 self.animator                    = [[ZKStorkInteractiveTransition alloc] initWithModalViewController:nav];
                                  self.animator.transitionDuration = 0.6f;
                                  [self.animator setContentScrollView:controller.tableView];
 
                                  nav.transitioningDelegate = self.animator;
                                  [self presentViewController:nav animated:YES completion:nil];
-        
                              }];
     [scrollView addSubview:test];
     [test mas_makeConstraints:^(MASConstraintMaker *make) {

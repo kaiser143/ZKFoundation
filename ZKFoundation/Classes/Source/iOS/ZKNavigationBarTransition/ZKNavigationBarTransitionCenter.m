@@ -78,8 +78,8 @@ static struct {
 }
 
 - (void)removeFakeBars {
-    [_fromViewControllerFakeBar removeFromSuperview];
-    [_toViewControllerFakeBar removeFromSuperview];
+//    [_fromViewControllerFakeBar removeFromSuperview];
+//    [_toViewControllerFakeBar removeFromSuperview];
 }
 
 #pragma mark - :. UIToolbarDelegate

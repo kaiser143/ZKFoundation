@@ -123,7 +123,7 @@
         self.translucent        = YES;
         self.barTintColor       = nil;
         
-        if (@available(iOS 13.0, *)) {
+        if (@available(iOS 15.0, *)) {
             barBackgroundView.hidden = YES;
             UINavigationBarAppearance *appearance = self.standardAppearance.copy;
             [appearance configureWithTransparentBackground];
@@ -142,7 +142,7 @@
             backgroundImage = [UIImage imageWithColor:configure.backgroundColor];
         }
         
-        if (@available(iOS 13.0, *)) {
+        if (@available(iOS 15.0, *)) {
             barBackgroundView.hidden = YES;
             UINavigationBarAppearance *appearance = self.standardAppearance.copy;
             appearance.backgroundColor = configure.backgroundColor;
@@ -173,16 +173,18 @@
 
 - (void)kai_commitBarConfiguration:(ZKBarConfiguration *)configure {
     self.barStyle = configure.barStyle;
+    self.tintColor = configure.tintColor;
 
     UIImage *const transpanrentImage = UIImage.new;
     if (configure.transparent) {
         self.translucent = YES;
+        self.barTintColor = nil;
         
-        if (@available(iOS 13.0, *)) {
+        if (@available(iOS 15.0, *)) {
             UIToolbarAppearance *appearance = self.standardAppearance.copy;
+            [appearance configureWithTransparentBackground];
             appearance.backgroundColor = configure.backgroundColor;
             appearance.backgroundImage = transpanrentImage;
-            [appearance configureWithTransparentBackground];
             self.scrollEdgeAppearance = appearance;
             self.standardAppearance = appearance;
         } else {
@@ -195,7 +197,7 @@
             backgroundImage = [UIImage imageWithColor:configure.backgroundColor];
         }
 
-        if (@available(iOS 13.0, *)) {
+        if (@available(iOS 15.0, *)) {
             UIToolbarAppearance *appearance = self.standardAppearance.copy;
             appearance.backgroundColor = configure.backgroundColor;
             appearance.backgroundImage = backgroundImage;
@@ -208,6 +210,7 @@
 
     UIImage *shadowImage = configure.shadowImage ? nil : transpanrentImage;
     [self setShadowImage:shadowImage forToolbarPosition:UIBarPositionAny];
+    self.clipsToBounds = !configure.shadowImage;
 }
 
 @end
