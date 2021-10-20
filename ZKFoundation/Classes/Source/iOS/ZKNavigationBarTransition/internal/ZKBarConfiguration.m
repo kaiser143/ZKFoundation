@@ -124,7 +124,6 @@
         self.barTintColor       = nil;
         
         if (@available(iOS 15.0, *)) {
-            barBackgroundView.hidden = YES;
             UINavigationBarAppearance *appearance = self.standardAppearance.copy;
             [appearance configureWithTransparentBackground];
             appearance.backgroundColor = configure.backgroundColor;
@@ -143,7 +142,6 @@
         }
         
         if (@available(iOS 15.0, *)) {
-            barBackgroundView.hidden = YES;
             UINavigationBarAppearance *appearance = self.standardAppearance.copy;
             appearance.backgroundColor = configure.backgroundColor;
             appearance.backgroundImage = backgroundImage;
