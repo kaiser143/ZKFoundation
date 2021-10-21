@@ -125,6 +125,7 @@
         self.barTintColor       = nil;
 
         if (@available(iOS 15.0, *)) {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_14_5
             UINavigationBarAppearance *appearance = self.standardAppearance.copy;
             [appearance configureWithTransparentBackground];
             appearance.backgroundColor = configure.backgroundColor;
@@ -132,6 +133,7 @@
             appearance.shadowColor = self.shadowImage ? nil : UIColor.clearColor;
             self.scrollEdgeAppearance  = appearance;
             self.standardAppearance    = appearance;
+#endif
         } else {
             [self setBackgroundImage:transpanrentImage forBarMetrics:UIBarMetricsDefault];
         }
@@ -148,12 +150,14 @@
         }
 
         if (@available(iOS 15.0, *)) {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_14_5
             UINavigationBarAppearance *appearance = self.standardAppearance.copy;
             appearance.backgroundColor            = configure.backgroundColor;
             appearance.backgroundImage            = backgroundImage;
             appearance.shadowColor = self.shadowImage ? nil : UIColor.clearColor;
             self.scrollEdgeAppearance             = appearance;
             self.standardAppearance               = appearance;
+#endif
         } else {
             [self setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
         }
@@ -205,6 +209,7 @@
         self.barTintColor = nil;
 
         if (@available(iOS 15.0, *)) {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_14_5
             UIToolbarAppearance *appearance = self.standardAppearance.copy;
             [appearance configureWithTransparentBackground];
             appearance.backgroundColor = configure.backgroundColor;
@@ -213,6 +218,7 @@
             appearance.shadowImage = configure.shadowImage ? nil : transpanrentImage;
             self.scrollEdgeAppearance  = appearance;
             self.standardAppearance    = appearance;
+#endif
         } else {
             [self setBackgroundImage:transpanrentImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
         }
@@ -224,6 +230,7 @@
         }
 
         if (@available(iOS 15.0, *)) {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_14_5
             UIToolbarAppearance *appearance = self.standardAppearance.copy;
             appearance.backgroundColor      = configure.backgroundColor;
             appearance.backgroundImage      = backgroundImage;
@@ -231,6 +238,7 @@
             appearance.shadowImage = configure.shadowImage ? nil : transpanrentImage;
             self.scrollEdgeAppearance       = appearance;
             self.standardAppearance         = appearance;
+#endif
         } else {
             [self setBackgroundImage:backgroundImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
         }

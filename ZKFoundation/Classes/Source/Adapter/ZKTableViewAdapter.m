@@ -82,7 +82,9 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 
 - (void)initialization {
     if (@available(iOS 15.0, *)) {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_14_5
         self.kai_tableView.sectionHeaderTopPadding = 0;
+#endif
         self.titleHeaderHeight = 0;
         self.titleFooterHeight = 0;
     } else {
