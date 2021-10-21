@@ -96,7 +96,7 @@
 #pragma mark - :. ZKNavigationBarConfigureStyle
 
 - (ZKNavigationBarConfigurations)kai_navigtionBarConfiguration {
-    return ZKNavigationBarBackgroundStyleNone | ZKNavigationBarBackgroundStyleOpaque | ZKNavigationBarShowShadowImage;
+    return  ZKNavigationBarBackgroundStyleColor | ZKNavigationBarBackgroundStyleOpaque | ZKNavigationBarShowShadowImage;
 }
 
 - (UIColor *)kai_tintColor {
@@ -104,7 +104,7 @@
 }
 
 - (UIColor *)kai_barTintColor {
-    return UIColor.yellowColor;
+    return UIColor.whiteColor;
 }
 
 - (BOOL)kai_prefersNavigationBarHidden {

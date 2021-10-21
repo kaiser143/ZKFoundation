@@ -32,7 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    self.view.backgroundColor = UIColor.whiteColor;
+    self.view.backgroundColor = UIColor.lightGrayColor;
     self.title                = @"ZKFoundation";
     
     self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -40,14 +40,19 @@
     
 //    self.barTintColor = [UIColor.redColor colorWithAlphaComponent:0.5];
     self.barTintColor = UIColor.redColor;
-    self.navigationController.view.backgroundColor = UIColor.whiteColor;
+//    self.navigationController.view.backgroundColor = UIColor.whiteColor;
     
     UIScrollView *scrollView = UIScrollView.new;
 //    scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
     scrollView.delegate = self;
     [self.view addSubview:scrollView];
     [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
+        make.edges.equalTo(self.view).priorityHigh();
+        
+        CGFloat top = 64;
+        if (@available(iOS 11, *)) top += (UIDevice.currentDevice.iPhoneX ? 28 : 0);
+
+        make.top.equalTo(self.view).offset(-top);
     }];
 
     @weakify(self);

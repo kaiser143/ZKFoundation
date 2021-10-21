@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface UIToolbar (_KAIConfigure)
+@interface KAIToolbar : UIToolbar
 
 - (void)kai_commitBarConfiguration:(ZKBarConfiguration *)configure;
 

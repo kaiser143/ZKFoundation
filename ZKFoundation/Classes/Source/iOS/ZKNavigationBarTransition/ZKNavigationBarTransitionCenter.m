@@ -59,18 +59,18 @@ static struct {
 
 #pragma mark - fakeBar
 
-- (UIToolbar *)fromViewControllerFakeBar {
+- (KAIToolbar *)fromViewControllerFakeBar {
     if (!_fromViewControllerFakeBar) {
-        _fromViewControllerFakeBar          = [[UIToolbar alloc] init];
+        _fromViewControllerFakeBar          = [[KAIToolbar alloc] init];
         _fromViewControllerFakeBar.delegate = self;
     }
 
     return _fromViewControllerFakeBar;
 }
 
-- (UIToolbar *)toViewControllerFakeBar {
+- (KAIToolbar *)toViewControllerFakeBar {
     if (!_toViewControllerFakeBar) {
-        _toViewControllerFakeBar          = [[UIToolbar alloc] init];
+        _toViewControllerFakeBar          = [[KAIToolbar alloc] init];
         _toViewControllerFakeBar.delegate = self;
     }
 
@@ -78,8 +78,8 @@ static struct {
 }
 
 - (void)removeFakeBars {
-//    [_fromViewControllerFakeBar removeFromSuperview];
-//    [_toViewControllerFakeBar removeFromSuperview];
+    [_fromViewControllerFakeBar removeFromSuperview];
+    [_toViewControllerFakeBar removeFromSuperview];
 }
 
 #pragma mark - :. UIToolbarDelegate
@@ -147,7 +147,7 @@ static struct {
                 if (fromVC && [currentConfigure isVisible]) {
                     CGRect fakeBarFrame = [fromVC kai_fakeBarFrameForNavigationBar:navigationBar];
                     if (!CGRectIsNull(fakeBarFrame)) {
-                        UIToolbar *fakeBar = self.fromViewControllerFakeBar;
+                        KAIToolbar *fakeBar = self.fromViewControllerFakeBar;
                         [fakeBar kai_commitBarConfiguration:currentConfigure];
                         fakeBar.frame = fakeBarFrame;
                         [fromVC.view addSubview:fakeBar];
@@ -162,7 +162,7 @@ static struct {
 //                            fakeBarFrame.origin.y = toVC.view.bounds.origin.y;
 //                        }
 
-                        UIToolbar *fakeBar = self.toViewControllerFakeBar;
+                        KAIToolbar *fakeBar = self.toViewControllerFakeBar;
                         [fakeBar kai_commitBarConfiguration:showConfigure];
                         fakeBar.frame = fakeBarFrame;
                         [toVC.view addSubview:fakeBar];
@@ -247,7 +247,7 @@ static struct {
                        context:(void *)context {
     if (context == &ctx) {
         UIViewController *tovc = ctx.toVC;
-        UIToolbar *fakeBar     = self.toViewControllerFakeBar;
+        KAIToolbar *fakeBar     = self.toViewControllerFakeBar;
         if (fakeBar.superview == tovc.view) {
             UINavigationBar *bar = tovc.navigationController.navigationBar;
             CGRect fakeBarFrame  = [tovc kai_fakeBarFrameForNavigationBar:bar];

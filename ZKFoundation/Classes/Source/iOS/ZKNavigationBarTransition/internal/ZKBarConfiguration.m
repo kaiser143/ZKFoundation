@@ -119,34 +119,41 @@
     UIView *barBackgroundView        = [self kai_backgroundView];
     UIImage *const transpanrentImage = UIImage.new;
     if (configure.transparent) {
-        barBackgroundView.alpha = 0;
+//        barBackgroundView.alpha = 0;
+        barBackgroundView.hidden = YES;
         self.translucent        = YES;
         self.barTintColor       = nil;
-        
+
         if (@available(iOS 15.0, *)) {
             UINavigationBarAppearance *appearance = self.standardAppearance.copy;
             [appearance configureWithTransparentBackground];
             appearance.backgroundColor = configure.backgroundColor;
             appearance.backgroundImage = transpanrentImage;
-            self.scrollEdgeAppearance = appearance;
-            self.standardAppearance = appearance;
-        } else{
+            appearance.shadowColor = self.shadowImage ? nil : UIColor.clearColor;
+            self.scrollEdgeAppearance  = appearance;
+            self.standardAppearance    = appearance;
+        } else {
             [self setBackgroundImage:transpanrentImage forBarMetrics:UIBarMetricsDefault];
         }
     } else {
-        barBackgroundView.alpha  = 1;
+        [UIView performWithoutAnimation:^{
+            barBackgroundView.alpha = 1;
+        }];
+//        barBackgroundView.alpha  = 1;
+        barBackgroundView.hidden = NO;
         self.translucent         = configure.translucent;
         UIImage *backgroundImage = configure.backgroundImage;
         if (!backgroundImage && configure.backgroundColor) {
             backgroundImage = [UIImage imageWithColor:configure.backgroundColor];
         }
-        
+
         if (@available(iOS 15.0, *)) {
             UINavigationBarAppearance *appearance = self.standardAppearance.copy;
-            appearance.backgroundColor = configure.backgroundColor;
-            appearance.backgroundImage = backgroundImage;
-            self.scrollEdgeAppearance = appearance;
-            self.standardAppearance = appearance;
+            appearance.backgroundColor            = configure.backgroundColor;
+            appearance.backgroundImage            = backgroundImage;
+            appearance.shadowColor = self.shadowImage ? nil : UIColor.clearColor;
+            self.scrollEdgeAppearance             = appearance;
+            self.standardAppearance               = appearance;
         } else {
             [self setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
         }
@@ -167,24 +174,45 @@
 
 @end
 
-@implementation UIToolbar (_KAIConfigure)
+@implementation KAIToolbar
+
++ (void)load {
+    [self swizzleMethod:@selector(layoutSubviews) withMethod:@selector(__kai_layoutSubviews)];
+}
+
+- (UIView *)kai_backgroundView {
+    return [self valueForKey:@"_backgroundView"];
+}
+
+- (void)__kai_layoutSubviews {
+    [self __kai_layoutSubviews];
+    
+    // iOS 15 在toolbar上加了一层毛玻璃，影响显示效果
+    if (self.class == KAIToolbar.class) {
+        UIView *barBackgroundView        = [self kai_backgroundView];
+        UIView *view = [barBackgroundView descendantOrSelfWithClass:UIVisualEffectView.class];
+        view.alpha = 0;
+    }
+}
 
 - (void)kai_commitBarConfiguration:(ZKBarConfiguration *)configure {
-    self.barStyle = configure.barStyle;
+    self.barStyle  = configure.barStyle;
     self.tintColor = configure.tintColor;
 
     UIImage *const transpanrentImage = UIImage.new;
     if (configure.transparent) {
-        self.translucent = YES;
+        self.translucent  = YES;
         self.barTintColor = nil;
-        
+
         if (@available(iOS 15.0, *)) {
             UIToolbarAppearance *appearance = self.standardAppearance.copy;
             [appearance configureWithTransparentBackground];
             appearance.backgroundColor = configure.backgroundColor;
             appearance.backgroundImage = transpanrentImage;
-            self.scrollEdgeAppearance = appearance;
-            self.standardAppearance = appearance;
+            appearance.shadowColor = configure.shadowImage ? nil : UIColor.clearColor;
+            appearance.shadowImage = configure.shadowImage ? nil : transpanrentImage;
+            self.scrollEdgeAppearance  = appearance;
+            self.standardAppearance    = appearance;
         } else {
             [self setBackgroundImage:transpanrentImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
         }
@@ -197,10 +225,12 @@
 
         if (@available(iOS 15.0, *)) {
             UIToolbarAppearance *appearance = self.standardAppearance.copy;
-            appearance.backgroundColor = configure.backgroundColor;
-            appearance.backgroundImage = backgroundImage;
-            self.scrollEdgeAppearance = appearance;
-            self.standardAppearance = appearance;
+            appearance.backgroundColor      = configure.backgroundColor;
+            appearance.backgroundImage      = backgroundImage;
+            appearance.shadowColor = configure.shadowImage ? nil : UIColor.clearColor;
+            appearance.shadowImage = configure.shadowImage ? nil : transpanrentImage;
+            self.scrollEdgeAppearance       = appearance;
+            self.standardAppearance         = appearance;
         } else {
             [self setBackgroundImage:backgroundImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
         }
