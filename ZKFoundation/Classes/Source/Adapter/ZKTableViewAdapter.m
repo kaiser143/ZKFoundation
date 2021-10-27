@@ -82,9 +82,6 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 
 - (void)initialization {
     if (@available(iOS 15.0, *)) {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_14_5
-        self.kai_tableView.sectionHeaderTopPadding = 0;
-#endif
         self.titleHeaderHeight = 0;
         self.titleFooterHeight = 0;
     } else {
@@ -261,11 +258,11 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *hederView = nil;
+    UIView *headerView = nil;
     if (self.headerBlock) {
-        hederView = self.headerBlock(tableView, section, [self currentSectionModel:section]);
+        headerView = self.headerBlock(tableView, section, [self currentSectionModel:section]);
     }
-    return hederView;
+    return headerView;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -949,6 +946,11 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
     
     kai_tableView.delaysContentTouches = NO;
     kai_tableView.canCancelContentTouches = YES;
+    if (@available(iOS 15.0, *)) {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_14_5
+        self.kai_tableView.sectionHeaderTopPadding = 0;
+#endif
+    }
     
     // Remove touch delay (since iOS 8)
     UIView *wrapView = kai_tableView.subviews.firstObject;
@@ -965,4 +967,3 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 }
 
 @end
-

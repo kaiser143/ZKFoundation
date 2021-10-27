@@ -29,7 +29,6 @@
     @weakify(self);
     self.title = @"文件管理";
     self.dataSource = @[@"图片", @"视频",@"文档",@"音频",@"压缩文件",@"其他",@"TableViewDemo.zip"].mutableCopy;
-    [self.dataSource addObjectsFromArray:self.dataSource];
     self.rightButton = [[UIBarButtonItem alloc] initWithTitle:@"选择" style:UIBarButtonItemStylePlain target:nil action:nil];
     self.rightButton.actionBlock = ^(UIBarButtonItem *sender) {
         @strongify(self);
