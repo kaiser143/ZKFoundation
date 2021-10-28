@@ -119,10 +119,10 @@
     UIView *barBackgroundView        = [self kai_backgroundView];
     UIImage *const transpanrentImage = UIImage.new;
     if (configure.transparent) {
-//        barBackgroundView.alpha = 0;
+        //        barBackgroundView.alpha = 0;
         barBackgroundView.hidden = YES;
-        self.translucent        = YES;
-        self.barTintColor       = nil;
+        self.translucent         = YES;
+        self.barTintColor        = nil;
 
         if (@available(iOS 15.0, *)) {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_14_5
@@ -130,7 +130,7 @@
             [appearance configureWithTransparentBackground];
             appearance.backgroundColor = configure.backgroundColor;
             appearance.backgroundImage = transpanrentImage;
-            appearance.shadowColor = self.shadowImage ? nil : UIColor.clearColor;
+            appearance.shadowColor     = self.shadowImage ? nil : UIColor.clearColor;
             self.scrollEdgeAppearance  = appearance;
             self.standardAppearance    = appearance;
 #endif
@@ -141,7 +141,7 @@
         [UIView performWithoutAnimation:^{
             barBackgroundView.alpha = 1;
         }];
-//        barBackgroundView.alpha  = 1;
+        //        barBackgroundView.alpha  = 1;
         barBackgroundView.hidden = NO;
         self.translucent         = configure.translucent;
         UIImage *backgroundImage = configure.backgroundImage;
@@ -154,7 +154,7 @@
             UINavigationBarAppearance *appearance = self.standardAppearance.copy;
             appearance.backgroundColor            = configure.backgroundColor;
             appearance.backgroundImage            = backgroundImage;
-            appearance.shadowColor = self.shadowImage ? nil : UIColor.clearColor;
+            appearance.shadowColor                = self.shadowImage ? nil : UIColor.clearColor;
             self.scrollEdgeAppearance             = appearance;
             self.standardAppearance               = appearance;
 #endif
@@ -178,26 +178,7 @@
 
 @end
 
-@implementation KAIToolbar
-
-+ (void)load {
-    [self swizzleMethod:@selector(layoutSubviews) withMethod:@selector(__kai_layoutSubviews)];
-}
-
-- (UIView *)kai_backgroundView {
-    return [self valueForKey:@"_backgroundView"];
-}
-
-- (void)__kai_layoutSubviews {
-    [self __kai_layoutSubviews];
-    
-    // iOS 15 在toolbar上加了一层毛玻璃，影响显示效果
-    if (self.class == KAIToolbar.class) {
-        UIView *barBackgroundView        = [self kai_backgroundView];
-        UIView *view = [barBackgroundView descendantOrSelfWithClass:UIVisualEffectView.class];
-        view.alpha = 0;
-    }
-}
+@implementation UIToolbar (ZKPrivate)
 
 - (void)kai_commitBarConfiguration:(ZKBarConfiguration *)configure {
     self.barStyle  = configure.barStyle;
@@ -212,12 +193,13 @@
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_14_5
             UIToolbarAppearance *appearance = self.standardAppearance.copy;
             [appearance configureWithTransparentBackground];
-            appearance.backgroundColor = configure.backgroundColor;
-            appearance.backgroundImage = transpanrentImage;
-            appearance.shadowColor = configure.shadowImage ? nil : UIColor.clearColor;
-            appearance.shadowImage = configure.shadowImage ? nil : transpanrentImage;
-            self.scrollEdgeAppearance  = appearance;
-            self.standardAppearance    = appearance;
+            appearance.backgroundColor  = configure.backgroundColor;
+            appearance.backgroundImage  = transpanrentImage;
+            appearance.backgroundEffect = nil;
+            appearance.shadowColor      = configure.shadowImage ? nil : UIColor.clearColor;
+            appearance.shadowImage      = configure.shadowImage ? nil : transpanrentImage;
+            self.scrollEdgeAppearance   = appearance;
+            self.standardAppearance     = appearance;
 #endif
         } else {
             [self setBackgroundImage:transpanrentImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
@@ -234,8 +216,9 @@
             UIToolbarAppearance *appearance = self.standardAppearance.copy;
             appearance.backgroundColor      = configure.backgroundColor;
             appearance.backgroundImage      = backgroundImage;
-            appearance.shadowColor = configure.shadowImage ? nil : UIColor.clearColor;
-            appearance.shadowImage = configure.shadowImage ? nil : transpanrentImage;
+            appearance.backgroundEffect     = nil;
+            appearance.shadowColor          = configure.shadowImage ? nil : UIColor.clearColor;
+            appearance.shadowImage          = configure.shadowImage ? nil : transpanrentImage;
             self.scrollEdgeAppearance       = appearance;
             self.standardAppearance         = appearance;
 #endif
@@ -246,7 +229,7 @@
 
     UIImage *shadowImage = configure.shadowImage ? nil : transpanrentImage;
     [self setShadowImage:shadowImage forToolbarPosition:UIBarPositionAny];
-    self.clipsToBounds = !configure.shadowImage;
+    self.clipsToBounds = configure.shadowImage != nil;
 }
 
 @end

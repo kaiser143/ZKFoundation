@@ -180,10 +180,8 @@
 - (ZKNavigationBarConfigurations)kai_navigtionBarConfiguration {
     //    return ZKNavigationBarBackgroundStyleColor | ZKNavigationBarBackgroundStyleTranslucent | ZKNavigationBarConfigurationsDefault;
     ZKNavigationBarConfigurations configurations = ZKNavigationBarConfigurationsDefault;
-    if (_progress < 0.5)
-        configurations |= ZKNavigationBarStyleBlack;
-    else if (_progress == 1)
-        configurations |= ZKNavigationBarBackgroundStyleOpaque;
+    if (_progress < 0.5) configurations |= ZKNavigationBarStyleBlack;
+    else if (_progress == 1) configurations |= ZKNavigationBarBackgroundStyleOpaque;
 
     configurations |= ZKNavigationBarBackgroundStyleColor;
     return configurations;
