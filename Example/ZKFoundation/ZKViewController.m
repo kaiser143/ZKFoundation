@@ -449,4 +449,12 @@
     [self.popup presentPopupControllerAnimated:YES];
 }
 
+//- (UIStatusBarStyle)preferredStatusBarStyle {
+////    return UIStatusBarStyleLightContent;
+////    return UIStatusBarStyleDefault;
+////    UIStatusBarStyle style = ([self kai_navigtionBarConfiguration] & ZKNavigationBarStyleLight) ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
+//    UIStatusBarStyle style = self.navigationController.navigationBar.barStyle == UIBarStyleBlack ? UIStatusBarStyleLightContent : UIStatusBarStyleDefault;
+//    return style;
+//}
+
 @end

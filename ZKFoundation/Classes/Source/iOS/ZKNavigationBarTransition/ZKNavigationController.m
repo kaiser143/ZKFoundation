@@ -91,19 +91,6 @@
     return [super popViewControllerAnimated:animated];
 }
 
-- (void)setDelegate:(id<UINavigationControllerDelegate>)delegate {
-    if (delegate == self || delegate == nil) {
-        _navigationDelegate = nil;
-        _delegateProxy      = nil;
-        super.delegate      = self;
-    } else {
-        _navigationDelegate = delegate;
-        _delegateProxy      = [[ZKNavigationControllerDelegateProxy alloc] initWithNavigationTarget:_navigationDelegate
-                                                                                   interceptor:self];
-        super.delegate = (id<UINavigationControllerDelegate>)_delegateProxy;
-    }
-}
-
 #pragma mark - UINavigationControllerDelegate
 
 - (void)navigationController:(UINavigationController *)navigationController
@@ -135,6 +122,40 @@
                 didShowViewController:viewController
                              animated:animated];
     self.animation = NO;
+}
+
+#pragma mark - :. private methods
+
+- (BOOL)shouldAutorotate {
+    return self.topViewController.shouldAutorotate;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return self.topViewController.supportedInterfaceOrientations;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return self.topViewController.preferredInterfaceOrientationForPresentation;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    UIStatusBarStyle style = self.navigationBar.barStyle == UIBarStyleBlack ? UIStatusBarStyleLightContent : UIStatusBarStyleDefault;
+    return style;
+}
+
+#pragma mark - :. getters and setters
+
+- (void)setDelegate:(id<UINavigationControllerDelegate>)delegate {
+    if (delegate == self || delegate == nil) {
+        _navigationDelegate = nil;
+        _delegateProxy      = nil;
+        super.delegate      = self;
+    } else {
+        _navigationDelegate = delegate;
+        _delegateProxy      = [[ZKNavigationControllerDelegateProxy alloc] initWithNavigationTarget:_navigationDelegate
+                                                                                   interceptor:self];
+        super.delegate = (id<UINavigationControllerDelegate>)_delegateProxy;
+    }
 }
 
 @end

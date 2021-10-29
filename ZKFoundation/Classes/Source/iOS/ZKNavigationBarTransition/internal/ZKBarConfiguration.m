@@ -138,10 +138,7 @@
             [self setBackgroundImage:transpanrentImage forBarMetrics:UIBarMetricsDefault];
         }
     } else {
-        [UIView performWithoutAnimation:^{
-            barBackgroundView.alpha = 1;
-        }];
-        //        barBackgroundView.alpha  = 1;
+        barBackgroundView.alpha  = 1;
         barBackgroundView.hidden = NO;
         self.translucent         = configure.translucent;
         UIImage *backgroundImage = configure.backgroundImage;
