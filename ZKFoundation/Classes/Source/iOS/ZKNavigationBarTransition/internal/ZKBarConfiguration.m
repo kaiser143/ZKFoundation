@@ -130,7 +130,8 @@
             [appearance configureWithTransparentBackground];
             appearance.backgroundColor = configure.backgroundColor;
             appearance.backgroundImage = transpanrentImage;
-            appearance.shadowColor     = self.shadowImage ? nil : UIColor.clearColor;
+            appearance.shadowImage     = configure.shadowImage ? nil : transpanrentImage;
+            appearance.shadowColor     = configure.shadowImage ? UIColor.lightGrayColor : UIColor.clearColor;
             self.scrollEdgeAppearance  = appearance;
             self.standardAppearance    = appearance;
 #endif
@@ -151,7 +152,8 @@
             UINavigationBarAppearance *appearance = self.standardAppearance.copy;
             appearance.backgroundColor            = configure.backgroundColor;
             appearance.backgroundImage            = backgroundImage;
-            appearance.shadowColor                = self.shadowImage ? nil : UIColor.clearColor;
+            appearance.shadowImage                = configure.shadowImage ? nil : transpanrentImage;
+            appearance.shadowColor                = configure.shadowImage ? UIColor.lightGrayColor : UIColor.clearColor;
             self.scrollEdgeAppearance             = appearance;
             self.standardAppearance               = appearance;
 #endif
@@ -193,7 +195,7 @@
             appearance.backgroundColor  = configure.backgroundColor;
             appearance.backgroundImage  = transpanrentImage;
             appearance.backgroundEffect = nil;
-            appearance.shadowColor      = configure.shadowImage ? nil : UIColor.clearColor;
+            appearance.shadowColor      = configure.shadowImage ? UIColor.lightGrayColor : UIColor.clearColor;
             appearance.shadowImage      = configure.shadowImage ? nil : transpanrentImage;
             self.scrollEdgeAppearance   = appearance;
             self.standardAppearance     = appearance;
@@ -214,7 +216,7 @@
             appearance.backgroundColor      = configure.backgroundColor;
             appearance.backgroundImage      = backgroundImage;
             appearance.backgroundEffect     = nil;
-            appearance.shadowColor          = configure.shadowImage ? nil : UIColor.clearColor;
+            appearance.shadowColor          = configure.shadowImage ? UIColor.lightGrayColor : UIColor.clearColor;
             appearance.shadowImage          = configure.shadowImage ? nil : transpanrentImage;
             self.scrollEdgeAppearance       = appearance;
             self.standardAppearance         = appearance;
@@ -226,7 +228,7 @@
 
     UIImage *shadowImage = configure.shadowImage ? nil : transpanrentImage;
     [self setShadowImage:shadowImage forToolbarPosition:UIBarPositionAny];
-    self.clipsToBounds = configure.shadowImage != nil;
+//    self.clipsToBounds = configure.shadowImage != nil;
 }
 
 @end

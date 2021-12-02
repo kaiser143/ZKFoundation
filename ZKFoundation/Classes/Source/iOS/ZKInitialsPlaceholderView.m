@@ -129,6 +129,7 @@
     _cachedVisualRepresentation = nil;
 
     NSString *fontNameToUse = self.font.fontName;
+    if ([fontNameToUse isEqualToString:@".SFUI-Semibold"]) fontNameToUse = @"TimesNewRomanPSMT";
 
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, [UIScreen mainScreen].scale);
 

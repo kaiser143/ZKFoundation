@@ -211,22 +211,22 @@
     item.on = value.boolValue;
     
     switch (indexPath.row) {
-        case 0:
-            break;
-        case 1: {
+        case 0: {
+            self.transparent = value.boolValue;
             if (value.boolValue && _barStyle != UIBarStyleDefault) {
                 // 为了更好的 demo 展示效果
                 // bar 全透明之后把 barStyle 设置成 UIBarStyleDefault
                 self.barStyle = UIBarStyleDefault;
-                item = [self.styles objectAtIndex:3];
+                item = [self.styles objectAtIndex:2];
                 item.on = NO;
                 [self.tableView reloadData];
             }
         }
             break;
-        case 2:
+        case 1:
+            self.translucent = value.boolValue;
             break;
-        case 3:
+        case 2:
             self.barStyle = value.boolValue ? UIBarStyleBlack : UIBarStyleDefault;
             break;
         default:
@@ -264,7 +264,6 @@
 - (NSArray<ZKSwitchItemViewModel *> *)styles {
     if (!_styles) {
         _styles = @[
-            [ZKSwitchItemViewModel itemWithTitle:@"Hidden" on:NO],
             [ZKSwitchItemViewModel itemWithTitle:@"Transparent" on:NO],
             [ZKSwitchItemViewModel itemWithTitle:@"Translucent" on:NO],
             [ZKSwitchItemViewModel itemWithTitle:@"Black Bar Style" on:_barStyle == UIBarStyleBlack],

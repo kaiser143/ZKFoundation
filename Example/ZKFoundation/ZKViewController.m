@@ -16,6 +16,7 @@
 #import "ZKTableViewController.h"
 #import "ZKRouterViewController.h"
 #import "ZKNavigationConfigureViewController.h"
+#import "NavigationController.h"
 
 @interface ZKViewController () <ZKNavigationBarConfigureStyle, UIScrollViewDelegate, ZKPopupControllerDelegate>
 
@@ -195,7 +196,7 @@
                              block:^(__kindof UIControl *_Nonnull sender) {
                                  @strongify(self);
                                  ZKAuto controller           = ZKTableViewController.new;
-                                 UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+                                 NavigationController *nav = [[NavigationController alloc] initWithRootViewController:controller];
                                  nav.modalPresentationStyle  = UIModalPresentationCustom;
 
                                  if (@available(iOS 15.0, *)) {
@@ -247,7 +248,7 @@
                              block:^(__kindof UIControl *_Nonnull sender) {
                                  @strongify(self);
                                  ZKAuto controller         = ZKNavigationConfigureViewController.new;
-                                 controller.configurations = ZKNavigationBarBackgroundStyleOpaque;
+                                 controller.configurations = ZKNavigationBarBackgroundStyleTranslucent | ZKNavigationBarStyleLight | ZKNavigationBarBackgroundStyleNone;
                                  [self kai_pushViewController:controller];
                              }];
     [scrollView addSubview:test];
