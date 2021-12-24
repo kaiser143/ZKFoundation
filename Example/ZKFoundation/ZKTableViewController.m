@@ -39,7 +39,7 @@
         } else {
             self.tableView.adapter.allowsMultipleSelectionDuringEditing = NO;
             sender.title = @"选择";
-            NSLog(@"%@", self.tableView.adapter.modelsForSelectedRows);
+            ZKLog(@"%@", self.tableView.adapter.modelsForSelectedRows);
         }
     };
     self.navigationItem.rightBarButtonItem = self.rightButton;
@@ -72,7 +72,7 @@
            }
     }];
     [self.tableView.adapter accessoryButtonTappedForRow:^(NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
-        NSLog(@"accessoryButtonTapped %@", indexPath);
+        ZKLog(@"accessoryButtonTapped %@", indexPath);
     }];
     [self.tableView.adapter didDeselect:^(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         
@@ -81,7 +81,7 @@
         UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal
                                                                               title:@"备注"
                                                                             handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-                                                                                NSLog(@"点击了备注按钮");
+                                                                                ZKLog(@"点击了备注按钮");
                                                                             }];
             return @[delete];
     }];

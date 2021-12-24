@@ -415,7 +415,7 @@
     [button addBlockForControlEvents:UIControlEventTouchUpInside block:^(__kindof UIButton * _Nonnull sender) {
         @strongify(self);
         [self.popup dismissPopupControllerAnimated:YES];
-        NSLog(@"Block for button: %@", sender.titleLabel.text);
+        ZKLog(@"Block for button: %@", sender.titleLabel.text);
     }];
     
     UILabel *titleLabel = [[UILabel alloc] init];
