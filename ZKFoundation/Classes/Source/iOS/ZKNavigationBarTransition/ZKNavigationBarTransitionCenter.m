@@ -10,6 +10,7 @@
 #import "ZKNavigationController.h"
 #import "ZKNavigationBarTransitionCenterInternal.h"
 #import "UIViewController+ZKNavigationBarTransition.h"
+#import <ZKCategories/ZKCategories.h>
 
 BOOL KAITransitionNeedShowFakeBar(ZKBarConfiguration *from, ZKBarConfiguration *to) {
     BOOL showFakeBar = NO;
@@ -107,9 +108,9 @@ static struct {
 
     self.transitionNavigationBar = YES;
 
-    //    if (showConfigure.hidden != navigationController.navigationBarHidden) {
-    //        [navigationController setNavigationBarHidden:showConfigure.hidden animated:animated];
-    //    }
+    if (navigationController.kai_viewControllerBasedNavigationBarAppearanceEnabled && showConfigure.navigationBarHidden != navigationController.navigationBarHidden) {
+        [navigationController setNavigationBarHidden:showConfigure.navigationBarHidden animated:animated];
+    }
 
     ZKBarConfiguration *transparentConfigure = nil;
     if (showFakeBar) {
@@ -187,9 +188,9 @@ static struct {
                 [self removeFakeBars];
                 [navigationBar kai_commitBarConfiguration:currentConfigure];
 
-                //                if (currentConfigure.hidden != navigationController.navigationBarHidden) {
-                //                    [navigationController setNavigationBarHidden:showConfigure.hidden animated:animated];
-                //                }
+                if (navigationController.kai_viewControllerBasedNavigationBarAppearanceEnabled && currentConfigure.navigationBarHidden != navigationController.navigationBarHidden) {
+                    [navigationController setNavigationBarHidden:showConfigure.navigationBarHidden animated:animated];
+                }
             }
 
             UIViewController *const toVC = [context viewControllerForKey:UITransitionContextToViewControllerKey];

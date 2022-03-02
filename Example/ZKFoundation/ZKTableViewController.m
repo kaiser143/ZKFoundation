@@ -106,10 +106,6 @@
     return UIColor.whiteColor;
 }
 
-- (BOOL)kai_prefersNavigationBarHidden {
-    return NO;
-}
-
 #pragma mark - :. getters and setters
 
 - (UITableView *)tableView {
