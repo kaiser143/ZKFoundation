@@ -111,6 +111,10 @@
             controller.barHidden = item.on;
             
             ZKNavigationBarConfigurations conf = ZKNavigationBarConfigurationsDefault;
+            if (_barHidden) {
+                conf |= ZKNavigationBarHidden;
+            }
+            
             BOOL transparent = [[self.styles objectOrNilAtIndex:1] on];
             BOOL translucent = [[self.styles objectOrNilAtIndex:2] on];
             if (transparent) {
@@ -197,10 +201,6 @@
     return self.backgroundColor;
 }
 
-- (BOOL)kai_prefersNavigationBarHidden {
-    return self.barHidden;
-}
-
 #pragma mark - :. private methods
 
 - (void)valueChanged:(NSDictionary *)info {
@@ -212,6 +212,10 @@
     
     switch (indexPath.row) {
         case 0: {
+            self.barHidden = value.boolValue;
+        }
+            break;
+        case 1: {
             self.transparent = value.boolValue;
             if (value.boolValue && _barStyle != UIBarStyleDefault) {
                 // 为了更好的 demo 展示效果
@@ -223,10 +227,10 @@
             }
         }
             break;
-        case 1:
+        case 2:
             self.translucent = value.boolValue;
             break;
-        case 2:
+        case 3:
             self.barStyle = value.boolValue ? UIBarStyleBlack : UIBarStyleDefault;
             break;
         default:
@@ -264,6 +268,7 @@
 - (NSArray<ZKSwitchItemViewModel *> *)styles {
     if (!_styles) {
         _styles = @[
+            [ZKSwitchItemViewModel itemWithTitle:@"Hidden" on:_barHidden],
             [ZKSwitchItemViewModel itemWithTitle:@"Transparent" on:NO],
             [ZKSwitchItemViewModel itemWithTitle:@"Translucent" on:NO],
             [ZKSwitchItemViewModel itemWithTitle:@"Black Bar Style" on:_barStyle == UIBarStyleBlack],

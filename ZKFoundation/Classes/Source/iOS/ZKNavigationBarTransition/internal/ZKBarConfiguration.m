@@ -12,7 +12,6 @@
 
 - (instancetype)init {
     return [self initWithBarConfigurations:ZKNavigationBarConfigurationsDefault
-                       navigationBarHidden:NO
                                  tintColor:nil
                            backgroundColor:nil
                            backgroundImage:nil
@@ -20,7 +19,6 @@
 }
 
 - (instancetype)initWithBarConfigurations:(ZKNavigationBarConfigurations)configurations
-                      navigationBarHidden:(BOOL)navigationBarHidden
                                 tintColor:(nullable UIColor *)tintColor
                           backgroundColor:(nullable UIColor *)backgroundColor
                           backgroundImage:(nullable UIImage *)backgroundImage
@@ -29,7 +27,7 @@
     if (!self) return nil;
 
     do {
-        _navigationBarHidden = navigationBarHidden;
+        _navigationBarHidden = (configurations & ZKNavigationBarHidden) > 0;
 
         _barStyle = (configurations & ZKNavigationBarStyleBlack) > 0 ? UIBarStyleBlack : UIBarStyleDefault;
         if (!tintColor) {
@@ -78,7 +76,6 @@
     }
 
     return [self initWithBarConfigurations:configurations
-                       navigationBarHidden:[(UIViewController *)owner kai_prefersNavigationBarHidden]
                                  tintColor:tintColor
                            backgroundColor:backgroundColor
                            backgroundImage:backgroundImage

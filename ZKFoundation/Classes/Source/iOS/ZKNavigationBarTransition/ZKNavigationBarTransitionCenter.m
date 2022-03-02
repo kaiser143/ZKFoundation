@@ -108,7 +108,7 @@ static struct {
 
     self.transitionNavigationBar = YES;
 
-    if (navigationController.kai_viewControllerBasedNavigationBarAppearanceEnabled && showConfigure.navigationBarHidden != navigationController.navigationBarHidden) {
+    if (showConfigure.navigationBarHidden != navigationController.navigationBarHidden) {
         [navigationController setNavigationBarHidden:showConfigure.navigationBarHidden animated:animated];
     }
 
@@ -117,7 +117,6 @@ static struct {
         ZKNavigationBarConfigurations transparentConf = ZKNavigationBarConfigurationsDefault | ZKNavigationBarBackgroundStyleTransparent;
         if (showConfigure.barStyle == UIBarStyleBlack) transparentConf |= ZKNavigationBarStyleBlack;
         transparentConfigure = [[ZKBarConfiguration alloc] initWithBarConfigurations:transparentConf
-                                                                 navigationBarHidden:showConfigure.navigationBarHidden
                                                                            tintColor:showConfigure.tintColor
                                                                      backgroundColor:nil
                                                                      backgroundImage:nil
@@ -188,7 +187,7 @@ static struct {
                 [self removeFakeBars];
                 [navigationBar kai_commitBarConfiguration:currentConfigure];
 
-                if (navigationController.kai_viewControllerBasedNavigationBarAppearanceEnabled && currentConfigure.navigationBarHidden != navigationController.navigationBarHidden) {
+                if (currentConfigure.navigationBarHidden != navigationController.navigationBarHidden) {
                     [navigationController setNavigationBarHidden:showConfigure.navigationBarHidden animated:animated];
                 }
             }

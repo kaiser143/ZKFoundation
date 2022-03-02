@@ -24,7 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithBarConfigurations:(ZKNavigationBarConfigurations)configurations
-                      navigationBarHidden:(BOOL)navigationBarHidden
                                 tintColor:(nullable UIColor *)tintColor
                           backgroundColor:(nullable UIColor *)backgroundColor
                           backgroundImage:(nullable UIImage *)backgroundImage
