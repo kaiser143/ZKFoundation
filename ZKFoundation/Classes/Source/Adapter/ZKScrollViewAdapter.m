@@ -15,6 +15,7 @@
 @property (nonatomic, copy) ZKScrollAdapterWillEndDraggingBlock scrollViewWillEndDraggingBlock;
 @property (nonatomic, copy) ZKScrollAdapterDidEndDraggingBlock scrollViewDidEndDraggingBlock;
 @property (nonatomic, copy) ZKScrollAdapterScrollViewDidEndScrollingAnimationBlock scrollViewDidEndScrollingAnimationBlock;
+@property (nonatomic, copy) ZKScrollAdapterDidEndDeceleratingBlock scrollViewDidEndDeceleratingBlock;
 
 @end
 
@@ -50,6 +51,12 @@
         self.scrollViewDidEndScrollingAnimationBlock(scrollView);
 }
 
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if (self.scrollViewDidEndDeceleratingBlock && scrollView) {
+        self.scrollViewDidEndDeceleratingBlock(scrollView);
+    }
+}
+
 #pragma mark - :. public methods
 
 - (void)didScrollViewWillBeginDragging:(ZKScrollAdapterWillBeginDraggingBlock)block {
@@ -66,6 +73,10 @@
 
 - (void)scrollViewDidEndDragging:(ZKScrollAdapterDidEndDraggingBlock)block {
     self.scrollViewDidEndDraggingBlock = block;
+}
+
+- (void)didScrollViewDidEndDecelerating:(ZKScrollAdapterDidEndDeceleratingBlock)block {
+    self.scrollViewDidEndDeceleratingBlock = block;
 }
 
 @end

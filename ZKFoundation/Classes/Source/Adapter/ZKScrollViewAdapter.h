@@ -13,8 +13,8 @@ typedef void (^ZKScrollAdapterWillBeginDraggingBlock)(UIScrollView *scrollView);
 typedef void (^ZKScrollAdapterDidScrollBlock)(UIScrollView *scrollView);
 typedef void (^ZKScrollAdapterScrollViewDidEndScrollingAnimationBlock)(UIScrollView *scrollView);
 typedef void (^ZKScrollAdapterDidEndDraggingBlock)(UIScrollView *scrollView, BOOL decelerate);
-
 typedef void (^ZKScrollAdapterWillEndDraggingBlock)(UIScrollView *scrollView, CGPoint velocity, CGPoint *targetContentOffset);
+typedef void (^ZKScrollAdapterDidEndDeceleratingBlock)(UIScrollView *scrollView);
 
 @interface ZKScrollViewAdapter : NSObject
 
@@ -25,6 +25,8 @@ typedef void (^ZKScrollAdapterWillEndDraggingBlock)(UIScrollView *scrollView, CG
 
 - (void)scrollViewWillEndDragging:(ZKScrollAdapterWillEndDraggingBlock)block;
 - (void)scrollViewDidEndDragging:(ZKScrollAdapterDidEndDraggingBlock)block;
+
+- (void)didScrollViewDidEndDecelerating:(ZKScrollAdapterDidEndDeceleratingBlock)block;
 
 @end
 
