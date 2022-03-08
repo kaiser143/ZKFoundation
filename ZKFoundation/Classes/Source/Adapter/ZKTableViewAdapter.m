@@ -581,9 +581,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 - (id)currentSectionModel:(NSInteger)section {
     id currentModel = nil;
     if (section < self.data.count) {
-        NSArray *arr = [self.data objectAtIndex:section];
-        if (arr.count)
-            currentModel = [arr objectAtIndex:0];
+        currentModel = [self.data objectAtIndex:section];
     }
     return currentModel;
 }
