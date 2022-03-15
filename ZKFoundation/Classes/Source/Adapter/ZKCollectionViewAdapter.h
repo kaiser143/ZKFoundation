@@ -34,6 +34,7 @@ typedef CGSize (^ZKCollectionAdapterReferenceFooterSizeBlock)(UICollectionView *
 
 typedef UIEdgeInsets (^ZKCollectionAdapterCellItemMarginBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
 typedef CGFloat (^ZKCollectionAdapterMinimumInteritemSpacingForSectionBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
+typedef CGFloat (^ZKCollectionAdapterMinimumLineSpacingForSectionBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
 
 typedef id _Nullable (^ZKCollectionAdapterFlattenMapBlock)(id dataAry, NSIndexPath *indexPath);
 typedef id _Nullable (^ZKCollectionAdapterCurrentHeaderModelAtIndexPathBlock)(id dataAry, NSIndexPath *indexPath);
@@ -154,6 +155,7 @@ typedef id _Nullable (^ZKCollectionAdapterCurrentFooterModelAtIndexPathBlock)(id
 
 - (void)cellItemMargin:(ZKCollectionAdapterCellItemMarginBlock)block;
 - (void)minimumInteritemSpacingForSection:(ZKCollectionAdapterMinimumInteritemSpacingForSectionBlock)blcok;
+- (void)minimumLineSpacingForSection:(ZKCollectionAdapterMinimumLineSpacingForSectionBlock)block;
 
 /**
 *  When there are multiple cell, returned identifier in block

@@ -41,6 +41,7 @@
 
 @property (nonatomic, copy) ZKCollectionAdapterCellItemMarginBlock cellItemMarginBlock;
 @property (nonatomic, copy) ZKCollectionAdapterMinimumInteritemSpacingForSectionBlock minimumInteritemSpacingForSectionBlock;
+@property (nonatomic, copy) ZKCollectionAdapterMinimumLineSpacingForSectionBlock minimumLineSpacingForSectionBlock;
 
 @end
 
@@ -100,7 +101,6 @@
 }
 
 #pragma mark - :. UICollectionViewDelegateFlowLayout
-#define SCREEN_WIDTH [[UIScreen mainScreen] bounds].size.width
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:section];
@@ -131,7 +131,7 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGSize curSize = CGSizeMake(SCREEN_WIDTH, 0);
+    CGSize curSize = CGSizeMake(ZKScreenSize().width, 0);
     if (self.itemAutoHeightBlock) {
         id curModel                 = [self currentModelAtIndexPath:indexPath];
         NSString *curCellIdentifier = [self cellIdentifierForRowAtIndexPath:indexPath model:curModel];
@@ -158,6 +158,15 @@
     if (self.minimumInteritemSpacingForSectionBlock) {
         id curModel = [self currentSectionModel:section];
         minimum     = self.minimumInteritemSpacingForSectionBlock(collectionView, collectionViewLayout, section, curModel);
+    }
+    return minimum;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    CGFloat minimum = 0;
+    if (self.minimumLineSpacingForSectionBlock) {
+        id curModel = [self currentSectionModel:section];
+        minimum     = self.minimumLineSpacingForSectionBlock(collectionView, collectionViewLayout, section, curModel);
     }
     return minimum;
 }
@@ -690,6 +699,10 @@
 
 - (void)minimumInteritemSpacingForSection:(ZKCollectionAdapterMinimumInteritemSpacingForSectionBlock)blcok {
     self.minimumInteritemSpacingForSectionBlock = blcok;
+}
+
+- (void)minimumLineSpacingForSection:(ZKCollectionAdapterMinimumLineSpacingForSectionBlock)block {
+    self.minimumLineSpacingForSectionBlock = block;
 }
 
 - (void)configureCell:(UICollectionViewCell<ZKCollectionViewAdapterInjectionDelegate> *)cell forIndexPath:(NSIndexPath *)indexPath withObject:(id)obj {
