@@ -63,13 +63,13 @@
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskLandscapeRight;
+    return UIInterfaceOrientationMaskAll;
 }
 
 // 默认方向
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    return UIInterfaceOrientationLandscapeRight;
-}
+//- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+//    return UIInterfaceOrientationLandscapeRight;
+//}
 
 - (void)setInterfaceOrientation:(UIInterfaceOrientation)orientation {
 //    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {

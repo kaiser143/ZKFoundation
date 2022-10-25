@@ -29,9 +29,14 @@
 
     UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, 4, 0);
     UIImage *backImage      = [[UIImage imageNamed:@"barbuttonicon_back"] imageWithAlignmentRectInsets:edgeInsets];
-    [[UINavigationBar appearance] setBackIndicatorImage:backImage];
-    [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:backImage];
-    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    if (@available(iOS 13.0, *)) {
+        UINavigationBarAppearance *appearance = UINavigationBarAppearance.new;
+        [appearance setBackIndicatorImage:backImage transitionMaskImage:backImage];
+    } else {
+        [[UINavigationBar appearance] setBackIndicatorImage:backImage];
+        [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:backImage];
+        [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    }
     
 #if DEBUG
     ZKNetworkConsoleLogger<ZKNetworkLoggerProtocol> *testLogger = [ZKNetworkConsoleLogger new];

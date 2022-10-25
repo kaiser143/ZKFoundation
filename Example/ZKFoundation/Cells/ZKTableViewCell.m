@@ -39,6 +39,7 @@
     self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
     if (self == nil) return nil;
     
+    self.textLabel.font = [UIFont systemFontOfSize:14];
     [self setNeedsUpdateConstraints];
     [self updateConstraintsIfNeeded];
     
@@ -49,6 +50,7 @@
 
 - (void)bindViewModel:(id)viewModel forIndexPath:(NSIndexPath *)indexPath {
     // 禁用 sizeThatFits 来计算高度
+    self.backgroundColor = indexPath.row % 2 == 0 ? [[UIColor colorWithRed:1 green:1 blue:1 alpha:0.7] colorWithAlphaComponent:0.6] : [UIColor colorWithRed:0.953 green:0.953 blue:0.967 alpha:1];
 }
 
 #pragma mark - Private Methods
