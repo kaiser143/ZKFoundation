@@ -5,7 +5,7 @@ ZKFoundation
 <img src="https://img.shields.io/cocoapods/v/ZKFoundation.svg?style=flat" />
 <img src="https://img.shields.io/badge/supporting-objectiveC-yellow.svg" />
 <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" />
-<img src="https://img.shields.io/cocoapods/p/ZKFoundation.svg?style=flat" />
+<img src="https://img.shields.io/badge/platform- iOS -lightgrey.svg" />
 <img src="https://img.shields.io/badge/support-iOS 8.0+ -blue.svg?style=flat" />
 </p>
 <br>
