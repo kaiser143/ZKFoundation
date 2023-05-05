@@ -323,6 +323,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
     return title;
 }
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_9_0
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath {
@@ -332,6 +333,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
     return type;
 }
 #pragma clang diagnostic pop
+#endif
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     !self.accessoryButtonTappedForRowAtIndexPathBlock ?: self.accessoryButtonTappedForRowAtIndexPathBlock(indexPath, [self currentModelAtIndexPath:indexPath]);
