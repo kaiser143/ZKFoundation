@@ -68,13 +68,15 @@ TODO: Add long description of the pod here.
   end
   
   s.subspec 'All' do |ss|
-    ss.dependency 'ZKFoundation/LocationManager'
-    ss.dependency 'ZKFoundation/Permission'
-    ss.dependency 'ZKFoundation/UIKit'
-    ss.dependency 'ZKFoundation/Adapter'
-    ss.dependency 'ZKFoundation/Categories'
-    ss.dependency 'ZKFoundation/AuthContext'
-    ss.dependency 'ZKFoundation/URLProtocol'
+      ss.source_files = 'ZKFoundation/Classes/Source/*.{h,m}'
+      
+      ss.dependency 'ZKFoundation/LocationManager'
+      ss.dependency 'ZKFoundation/Permission'
+      ss.dependency 'ZKFoundation/UIKit'
+      ss.dependency 'ZKFoundation/Adapter'
+      ss.dependency 'ZKFoundation/Categories'
+      ss.dependency 'ZKFoundation/AuthContext'
+      ss.dependency 'ZKFoundation/URLProtocol'
   end
   # s.resource_bundles = {
   #   'ZKFoundation' => ['ZKFoundation/Assets/*.png']

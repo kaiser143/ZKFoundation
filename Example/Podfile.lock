@@ -12,32 +12,35 @@ PODS:
   - Stinger/Core (1.0.0):
     - Stinger/libffi
   - Stinger/libffi (1.0.0)
-  - ZKCategories (0.3.15):
-    - ZKCategories/Core (= 0.3.15)
-  - ZKCategories/Core (0.3.15)
-  - ZKFoundation (0.1.8):
-    - ZKCategories (~> 0.3.15)
-    - ZKFoundation/Adapter (= 0.1.8)
-    - ZKFoundation/AuthContext (= 0.1.8)
-    - ZKFoundation/Categories (= 0.1.8)
-    - ZKFoundation/LocationManager (= 0.1.8)
-    - ZKFoundation/Permission (= 0.1.8)
-    - ZKFoundation/UIKit (= 0.1.8)
-    - ZKFoundation/URLProtocol (= 0.1.8)
-  - ZKFoundation/Adapter (0.1.8):
-    - ZKCategories (~> 0.3.15)
-  - ZKFoundation/AuthContext (0.1.8):
-    - ZKCategories (~> 0.3.15)
-  - ZKFoundation/Categories (0.1.8):
-    - ZKCategories (~> 0.3.15)
-  - ZKFoundation/LocationManager (0.1.8):
-    - ZKCategories (~> 0.3.15)
-  - ZKFoundation/Permission (0.1.8):
-    - ZKCategories (~> 0.3.15)
-  - ZKFoundation/UIKit (0.1.8):
-    - ZKCategories (~> 0.3.15)
-  - ZKFoundation/URLProtocol (0.1.8):
-    - ZKCategories (~> 0.3.15)
+  - ZKCategories (0.3.19):
+    - ZKCategories/Core (= 0.3.19)
+  - ZKCategories/Core (0.3.19)
+  - ZKFoundation (0.1.13):
+    - ZKCategories (~> 0.3.17)
+    - ZKFoundation/All (= 0.1.13)
+  - ZKFoundation/Adapter (0.1.13):
+    - ZKCategories (~> 0.3.17)
+  - ZKFoundation/All (0.1.13):
+    - ZKCategories (~> 0.3.17)
+    - ZKFoundation/Adapter
+    - ZKFoundation/AuthContext
+    - ZKFoundation/Categories
+    - ZKFoundation/LocationManager
+    - ZKFoundation/Permission
+    - ZKFoundation/UIKit
+    - ZKFoundation/URLProtocol
+  - ZKFoundation/AuthContext (0.1.13):
+    - ZKCategories (~> 0.3.17)
+  - ZKFoundation/Categories (0.1.13):
+    - ZKCategories (~> 0.3.17)
+  - ZKFoundation/LocationManager (0.1.13):
+    - ZKCategories (~> 0.3.17)
+  - ZKFoundation/Permission (0.1.13):
+    - ZKCategories (~> 0.3.17)
+  - ZKFoundation/UIKit (0.1.13):
+    - ZKCategories (~> 0.3.17)
+  - ZKFoundation/URLProtocol (0.1.13):
+    - ZKCategories (~> 0.3.17)
 
 DEPENDENCIES:
   - AXWebViewController (from `https://github.com/kaiser143/AXWebViewController.git`, commit `5cebcc4fcdb269cf96c80dc6893b653cc29be2bb`)
@@ -70,9 +73,9 @@ SPEC CHECKSUMS:
   AXWebViewController: 82f9ffe043edf360a299aaad27a132be018a9567
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   Stinger: 65d5a5749cb487d35676a2e8bba63a4239b6ccc3
-  ZKCategories: c02e56b28a6387d3618e9fb8098ad761463fc96c
-  ZKFoundation: 6fb40c13dbbd2da55e247cd74607ec2f837744be
+  ZKCategories: 1c6fe13aef98e8c33252aea0ad8aa651fcb43fd7
+  ZKFoundation: 620bc287d50660440b1452b02dd4344cc7109425
 
-PODFILE CHECKSUM: 604dd626a8f4aca9d487d142efc36a0f4c2cd957
+PODFILE CHECKSUM: 616a3241e38aff59e3928dd9a7831f4da1122cc6
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.13.0
