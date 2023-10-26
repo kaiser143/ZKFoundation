@@ -17,18 +17,15 @@ PODS:
   - ZKCategories/Core (0.3.19)
   - ZKFoundation (0.1.13):
     - ZKCategories (~> 0.3.17)
-    - ZKFoundation/All (= 0.1.13)
+    - ZKFoundation/Adapter (= 0.1.13)
+    - ZKFoundation/AuthContext (= 0.1.13)
+    - ZKFoundation/Categories (= 0.1.13)
+    - ZKFoundation/LocationManager (= 0.1.13)
+    - ZKFoundation/Permission (= 0.1.13)
+    - ZKFoundation/UIKit (= 0.1.13)
+    - ZKFoundation/URLProtocol (= 0.1.13)
   - ZKFoundation/Adapter (0.1.13):
     - ZKCategories (~> 0.3.17)
-  - ZKFoundation/All (0.1.13):
-    - ZKCategories (~> 0.3.17)
-    - ZKFoundation/Adapter
-    - ZKFoundation/AuthContext
-    - ZKFoundation/Categories
-    - ZKFoundation/LocationManager
-    - ZKFoundation/Permission
-    - ZKFoundation/UIKit
-    - ZKFoundation/URLProtocol
   - ZKFoundation/AuthContext (0.1.13):
     - ZKCategories (~> 0.3.17)
   - ZKFoundation/Categories (0.1.13):
@@ -74,7 +71,7 @@ SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   Stinger: 65d5a5749cb487d35676a2e8bba63a4239b6ccc3
   ZKCategories: 1c6fe13aef98e8c33252aea0ad8aa651fcb43fd7
-  ZKFoundation: 620bc287d50660440b1452b02dd4344cc7109425
+  ZKFoundation: b0ab539b4807a265a585f7a37693d1ad14ce4c53
 
 PODFILE CHECKSUM: 616a3241e38aff59e3928dd9a7831f4da1122cc6
 

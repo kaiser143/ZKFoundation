@@ -30,7 +30,8 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '8.0'
   s.requires_arc    = true
-  s.default_subspec = 'All'
+  
+  s.source_files = 'ZKFoundation/Classes/Source/*.{h,m}'
   
   s.subspec 'LocationManager' do |ss|
       ss.ios.deployment_target = '8.0'
@@ -67,17 +68,6 @@ TODO: Add long description of the pod here.
       ss.source_files = 'ZKFoundation/Classes/Source/URLProtocol/*.{h,m}'
   end
   
-  s.subspec 'All' do |ss|
-      ss.source_files = 'ZKFoundation/Classes/Source/*.{h,m}'
-      
-      ss.dependency 'ZKFoundation/LocationManager'
-      ss.dependency 'ZKFoundation/Permission'
-      ss.dependency 'ZKFoundation/UIKit'
-      ss.dependency 'ZKFoundation/Adapter'
-      ss.dependency 'ZKFoundation/Categories'
-      ss.dependency 'ZKFoundation/AuthContext'
-      ss.dependency 'ZKFoundation/URLProtocol'
-  end
   # s.resource_bundles = {
   #   'ZKFoundation' => ['ZKFoundation/Assets/*.png']
   # }
