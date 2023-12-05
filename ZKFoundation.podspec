@@ -30,6 +30,7 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '8.0'
   s.requires_arc    = true
+  s.default_subspecs = 'LocationManager', 'Permission', 'UIKit', 'Adapter', 'Categories', 'AuthContext', 'URLProtocol'
   
   s.source_files = 'ZKFoundation/Classes/Source/*.{h,m}'
   
