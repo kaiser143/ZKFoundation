@@ -105,10 +105,9 @@
 //        make.size.mas_equalTo(CGSizeMake(100, 100));
     }];
 
-    ZKTintedActionButton *action = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
+    ZKTintedActionButton *action = [[ZKTintedActionButton alloc] initWithText:@"Collection"];
+    action.tappedButtonScale = 1;
     action.tintColor             = UIColor.redColor;
-    action.layer.cornerRadius    = 8;
-    [action setTitle:@"Collection" forState:UIControlStateNormal];
     [action addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [scrollView addSubview:action];
     [action mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -118,10 +117,8 @@
         make.top.equalTo(view.mas_bottom).offset(30);
     }];
 
-    ZKAuto test             = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
+    ZKAuto test             = [[ZKTintedActionButton alloc] initWithText:@"Table"];
     test.tintColor          = UIColor.redColor;
-    test.layer.cornerRadius = 8;
-    [test setTitle:@"Table" forState:UIControlStateNormal];
     [test addBlockForControlEvents:UIControlEventTouchUpInside
                              block:^(__kindof UIControl *_Nonnull sender) {
                                  @strongify(self);
@@ -135,10 +132,8 @@
         make.top.equalTo(action.mas_bottom).offset(20);
     }];
     
-    action             = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
+    action             = [[ZKTintedActionButton alloc] initWithText:@"地图"];
     action.tintColor          = UIColor.redColor;
-    action.layer.cornerRadius = 8;
-    [action setTitle:@"地图" forState:UIControlStateNormal];
     [action addBlockForControlEvents:UIControlEventTouchUpInside
                              block:^(__kindof UIControl *_Nonnull sender) {
                                  @strongify(self);
@@ -152,10 +147,8 @@
         make.top.equalTo(test.mas_bottom).offset(20);
     }];
 
-    test             = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
+    test             = [[ZKTintedActionButton alloc] initWithText:@"webView"];
     test.tintColor          = UIColor.redColor;
-    test.layer.cornerRadius = 8;
-    [test setTitle:@"webView" forState:UIControlStateNormal];
     [test addBlockForControlEvents:UIControlEventTouchUpInside
                              block:^(__kindof UIControl *_Nonnull sender) {
                                  @strongify(self);
@@ -171,10 +164,8 @@
         make.top.equalTo(action.mas_bottom).offset(20);
     }];
     
-    action             = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
+    action             = [[ZKTintedActionButton alloc] initWithText:@"地图&Table"];
     action.tintColor          = UIColor.redColor;
-    action.layer.cornerRadius = 8;
-    [action setTitle:@"地图&Table" forState:UIControlStateNormal];
     [action addBlockForControlEvents:UIControlEventTouchUpInside
                              block:^(__kindof UIControl *_Nonnull sender) {
                                  @strongify(self);
@@ -188,10 +179,8 @@
         make.top.equalTo(test.mas_bottom).offset(20);
     }];
 
-    test                    = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
+    test                    = [[ZKTintedActionButton alloc] initWithText:@"present"];
     test.tintColor          = UIColor.redColor;
-    test.layer.cornerRadius = 8;
-    [test setTitle:@"present" forState:UIControlStateNormal];
     [test addBlockForControlEvents:UIControlEventTouchUpInside
                              block:^(__kindof UIControl *_Nonnull sender) {
                                  @strongify(self);
@@ -223,10 +212,9 @@
         make.top.equalTo(action.mas_bottom).offset(20);
     }];
     
-    action             = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
+    action             = [[ZKTintedActionButton alloc] initWithText:@"Popup"];
     action.tintColor          = UIColor.redColor;
     action.layer.cornerRadius = 8;
-    [action setTitle:@"Popup" forState:UIControlStateNormal];
     [action addBlockForControlEvents:UIControlEventTouchUpInside
                              block:^(__kindof UIControl *_Nonnull sender) {
                                  @strongify(self);
@@ -240,10 +228,8 @@
         make.top.equalTo(test.mas_bottom).offset(20);
     }];
     
-    test             = [ZKTintedActionButton buttonWithType:UIButtonTypeCustom];
+    test             = [[ZKTintedActionButton alloc] initWithText:@"NavigationBar"];
     test.tintColor          = UIColor.redColor;
-    test.layer.cornerRadius = 8;
-    [test setTitle:@"NavigationBar" forState:UIControlStateNormal];
     [test addBlockForControlEvents:UIControlEventTouchUpInside
                              block:^(__kindof UIControl *_Nonnull sender) {
                                  @strongify(self);
