@@ -104,7 +104,7 @@ static struct {
 
     UINavigationBar *const navigationBar = navigationController.navigationBar;
 
-    BOOL showFakeBar = currentConfigure && showConfigure && KAITransitionNeedShowFakeBar(currentConfigure, showConfigure);
+    BOOL showFakeBar = KAITransitionNeedShowFakeBar(currentConfigure, showConfigure);
 
     self.transitionNavigationBar = YES;
 
