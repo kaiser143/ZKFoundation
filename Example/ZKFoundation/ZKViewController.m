@@ -39,12 +39,12 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.extendedLayoutIncludesOpaqueBars = YES;
     
-//    self.barTintColor = [UIColor.redColor colorWithAlphaComponent:0.5];
+    //    self.barTintColor = [UIColor.redColor colorWithAlphaComponent:0.5];
     self.barTintColor = UIColor.redColor;
-//    self.navigationController.view.backgroundColor = UIColor.whiteColor;
+    //    self.navigationController.view.backgroundColor = UIColor.whiteColor;
     
     UIScrollView *scrollView = UIScrollView.new;
-//    scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
+    //    scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
     scrollView.delegate = self;
     [self.view addSubview:scrollView];
     [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -52,10 +52,10 @@
         
         CGFloat top = 64;
         if (@available(iOS 11, *)) top += (UIDevice.currentDevice.iPhoneX ? 28 : 0);
-
+        
         make.top.equalTo(self.view).offset(-top);
     }];
-
+    
     @weakify(self);
     ZKInitialsPlaceholderView *placeholderView = [[ZKInitialsPlaceholderView alloc] initWithDiameter:50];
     placeholderView.initials                   = @"张";
@@ -66,14 +66,14 @@
         make.top.equalTo(scrollView).offset(200);
         make.size.mas_equalTo(CGSizeMake(50, 50));
     }];
-
+    
     UIView *view = UIView.new;
     [scrollView addSubview:view];
     [view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(placeholderView.mas_bottom).offset(100);
         make.centerX.equalTo(self.view);
     }];
-
+    
     UIButton *normal = [UIButton buttonWithType:UIButtonTypeCustom];
     [normal setImage:[UIImage imageNamed:@"arrow_l"] forState:UIControlStateNormal];
     [normal setTitle:@"去开启" forState:UIControlStateNormal];
@@ -85,9 +85,9 @@
     [normal mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.lessThanOrEqualTo(view);
         make.left.centerY.equalTo(view);
-//        make.size.mas_equalTo(CGSizeMake(100, 100));
+        //        make.size.mas_equalTo(CGSizeMake(100, 100));
     }];
-
+    
     ZKButton *button = [ZKButton buttonWithType:UIButtonTypeCustom];
     button.style     = ZKButtonStyleImageAtLeft;
     [button setImage:[UIImage imageNamed:@"arrow_l"] forState:UIControlStateNormal];
@@ -102,9 +102,9 @@
         make.left.equalTo(normal.mas_right).offset(20);
         make.right.centerY.equalTo(view);
         make.height.lessThanOrEqualTo(view);
-//        make.size.mas_equalTo(CGSizeMake(100, 100));
+        //        make.size.mas_equalTo(CGSizeMake(100, 100));
     }];
-
+    
     ZKTintedActionButton *action = [[ZKTintedActionButton alloc] initWithText:@"Collection"];
     action.tappedButtonScale = 1;
     action.tintColor             = UIColor.redColor;
@@ -116,14 +116,14 @@
         make.centerX.equalTo(self.view);
         make.top.equalTo(view.mas_bottom).offset(30);
     }];
-
+    
     ZKAuto test             = [[ZKTintedActionButton alloc] initWithText:@"Table"];
     test.tintColor          = UIColor.redColor;
     [test addBlockForControlEvents:UIControlEventTouchUpInside
                              block:^(__kindof UIControl *_Nonnull sender) {
-                                 @strongify(self);
-                                 [self kai_pushViewController:ZKTableViewController.new];
-                             }];
+        @strongify(self);
+        [self kai_pushViewController:ZKTableViewController.new];
+    }];
     [scrollView addSubview:test];
     [test mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(220);
@@ -135,10 +135,10 @@
     action             = [[ZKTintedActionButton alloc] initWithText:@"地图"];
     action.tintColor          = UIColor.redColor;
     [action addBlockForControlEvents:UIControlEventTouchUpInside
-                             block:^(__kindof UIControl *_Nonnull sender) {
-                                 @strongify(self);
-                                 [self kai_pushViewController:ZKMapViewController.new];
-                             }];
+                               block:^(__kindof UIControl *_Nonnull sender) {
+        @strongify(self);
+        [self kai_pushViewController:ZKMapViewController.new];
+    }];
     [scrollView addSubview:action];
     [action mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(220);
@@ -146,16 +146,16 @@
         make.centerX.equalTo(self.view);
         make.top.equalTo(test.mas_bottom).offset(20);
     }];
-
+    
     test             = [[ZKTintedActionButton alloc] initWithText:@"webView"];
     test.tintColor          = UIColor.redColor;
     [test addBlockForControlEvents:UIControlEventTouchUpInside
                              block:^(__kindof UIControl *_Nonnull sender) {
-                                 @strongify(self);
-                                 NSString *const githubLink = @"http://www.baidu.com";
-                                 ZKWebViewController *controller = [[ZKWebViewController alloc] initWithURL:githubLink.URL];
-                                 [self kai_pushViewController:controller];
-                             }];
+        @strongify(self);
+        NSString *const githubLink = @"http://www.baidu.com";
+        ZKWebViewController *controller = [[ZKWebViewController alloc] initWithURL:githubLink.URL];
+        [self kai_pushViewController:controller];
+    }];
     [scrollView addSubview:test];
     [test mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(220);
@@ -167,10 +167,10 @@
     action             = [[ZKTintedActionButton alloc] initWithText:@"地图&Table"];
     action.tintColor          = UIColor.redColor;
     [action addBlockForControlEvents:UIControlEventTouchUpInside
-                             block:^(__kindof UIControl *_Nonnull sender) {
-                                 @strongify(self);
-                                 [self kai_pushViewController:ZKRouterViewController.new];
-                             }];
+                               block:^(__kindof UIControl *_Nonnull sender) {
+        @strongify(self);
+        [self kai_pushViewController:ZKRouterViewController.new];
+    }];
     [scrollView addSubview:action];
     [action mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(220);
@@ -178,32 +178,32 @@
         make.centerX.equalTo(self.view);
         make.top.equalTo(test.mas_bottom).offset(20);
     }];
-
+    
     test                    = [[ZKTintedActionButton alloc] initWithText:@"present"];
     test.tintColor          = UIColor.redColor;
     [test addBlockForControlEvents:UIControlEventTouchUpInside
                              block:^(__kindof UIControl *_Nonnull sender) {
-                                 @strongify(self);
-                                 ZKAuto controller           = ZKTableViewController.new;
-                                 NavigationController *nav = [[NavigationController alloc] initWithRootViewController:controller];
-                                 nav.modalPresentationStyle  = UIModalPresentationCustom;
-
-                                 if (@available(iOS 15.0, *)) {
-                                     UINavigationBarAppearance *appearance = nav.navigationBar.standardAppearance.copy;
-                                     [appearance configureWithTransparentBackground];
-                                     appearance.backgroundColor = UIColor.whiteColor;
-                                     //        appearance.backgroundImage = transpanrentImage;
-                                     nav.navigationBar.scrollEdgeAppearance = appearance;
-                                     nav.navigationBar.standardAppearance   = appearance;
-                                 }
-
-                                 self.animator                    = [[ZKStorkInteractiveTransition alloc] initWithModalViewController:nav];
-                                 self.animator.transitionDuration = 0.6f;
-                                 [self.animator setContentScrollView:controller.tableView];
-
-                                 nav.transitioningDelegate = self.animator;
-                                 [self presentViewController:nav animated:YES completion:nil];
-                             }];
+        @strongify(self);
+        ZKAuto controller           = ZKTableViewController.new;
+        NavigationController *nav = [[NavigationController alloc] initWithRootViewController:controller];
+        nav.modalPresentationStyle  = UIModalPresentationCustom;
+        
+        if (@available(iOS 15.0, *)) {
+            UINavigationBarAppearance *appearance = nav.navigationBar.standardAppearance.copy;
+            [appearance configureWithTransparentBackground];
+            appearance.backgroundColor = UIColor.whiteColor;
+            //        appearance.backgroundImage = transpanrentImage;
+            nav.navigationBar.scrollEdgeAppearance = appearance;
+            nav.navigationBar.standardAppearance   = appearance;
+        }
+        
+        self.animator                    = [[ZKStorkInteractiveTransition alloc] initWithModalViewController:nav];
+        self.animator.transitionDuration = 0.6f;
+        [self.animator setContentScrollView:controller.tableView];
+        
+        nav.transitioningDelegate = self.animator;
+        [self presentViewController:nav animated:YES completion:nil];
+    }];
     [scrollView addSubview:test];
     [test mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(220);
@@ -216,10 +216,10 @@
     action.tintColor          = UIColor.redColor;
     action.layer.cornerRadius = 8;
     [action addBlockForControlEvents:UIControlEventTouchUpInside
-                             block:^(__kindof UIControl *_Nonnull sender) {
-                                 @strongify(self);
+                               block:^(__kindof UIControl *_Nonnull sender) {
+        @strongify(self);
         [self showPopupWithStyle:ZKPopupStyleActionSheet];
-                             }];
+    }];
     [scrollView addSubview:action];
     [action mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(220);
@@ -232,11 +232,11 @@
     test.tintColor          = UIColor.redColor;
     [test addBlockForControlEvents:UIControlEventTouchUpInside
                              block:^(__kindof UIControl *_Nonnull sender) {
-                                 @strongify(self);
-                                 ZKAuto controller         = ZKNavigationConfigureViewController.new;
-                                 controller.configurations = ZKNavigationBarBackgroundStyleTranslucent | ZKNavigationBarStyleLight | ZKNavigationBarBackgroundStyleNone;
-                                 [self kai_pushViewController:controller];
-                             }];
+        @strongify(self);
+        ZKAuto controller         = ZKNavigationConfigureViewController.new;
+        controller.configurations = ZKNavigationBarBackgroundStyleTranslucent | ZKNavigationBarStyleLight | ZKNavigationBarBackgroundStyleNone;
+        [self kai_pushViewController:controller];
+    }];
     [scrollView addSubview:test];
     [test mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(220);
@@ -280,17 +280,17 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     CGFloat headerHeight = 80;
     if (@available(iOS 11,*)) {
-       headerHeight -= self.view.safeAreaInsets.top;
+        headerHeight -= self.view.safeAreaInsets.top;
     } else {
-       headerHeight -= [self.topLayoutGuide length];
+        headerHeight -= [self.topLayoutGuide length];
     }
-
-    CGFloat progress = scrollView.contentOffset.y;// + scrollView.contentInset.top;
+    
+    CGFloat progress = scrollView.contentOffset.y + scrollView.contentInset.top;
     CGFloat gradientProgress = MIN(1, MAX(0, progress  / headerHeight));
     gradientProgress = gradientProgress * gradientProgress * gradientProgress * gradientProgress;
     if (gradientProgress != _progress) {
-       _progress = gradientProgress;
-       [self kai_refreshNavigationBarStyle];
+        _progress = gradientProgress;
+        [self kai_refreshNavigationBarStyle];
     }
 }
 
@@ -298,20 +298,36 @@
 
 - (ZKNavigationBarConfigurations)kai_navigtionBarConfiguration {
     ZKNavigationBarConfigurations configurations = ZKNavigationBarConfigurationsDefault;
-    if (_progress < 0.5) configurations |= ZKNavigationBarStyleLight | ZKNavigationBarBackgroundStyleTransparent;
-    else if (_progress == 1) configurations |= ZKNavigationBarStyleBlack | ZKNavigationBarBackgroundStyleOpaque;
+    
+    if (@available(iOS 13.0, *)) {
+        if (_progress <= 0) {
+            configurations |= ZKNavigationBarBackgroundStyleTransparent;
+        } else {
+            configurations |= ZKNavigationBarBackgroundStyleOpaque;
+            configurations |= ZKNavigationBarBackgroundStyleColor;
+        }
+    } else {
+        if (_progress < 0.5) {
+            configurations |= ZKNavigationBarStyleBlack;
+        }
         
-    configurations |= ZKNavigationBarBackgroundStyleColor;
+        if (_progress == 1) {
+            configurations |= ZKNavigationBarBackgroundStyleOpaque;
+        }
+        
+        configurations |= ZKNavigationBarBackgroundStyleColor;
+    }
+    
     return configurations;;
 }
 
 - (UIColor *)kai_barTintColor {
-//    return self.navigationController.viewControllers.count == 2 ? UIColor.cyanColor : self.barTintColor;
+    //    return self.navigationController.viewControllers.count == 2 ? UIColor.cyanColor : self.barTintColor;
     return [UIColor.redColor colorWithAlphaComponent:_progress];
 }
 
 - (UIColor *)kai_tintColor {
-//    return nil; //UIColor.redColor;
+    //    return nil; //UIColor.redColor;
     return UIColor.whiteColor;
 }
 
@@ -339,19 +355,19 @@
 - (void)buttonTapped:(UIButton *)sender {
     //    ZKViewController *controller = [[ZKViewController alloc] init];
     //    [self kai_pushViewController:controller animated:YES];
-
-//        NSString *const githubLink = @"http://www.baidu.com";
-//        ZKWebViewController *controller = [[ZKWebViewController alloc] initWithURL:githubLink.URL];
-//        [self kai_pushViewController:controller];
-
+    
+    //        NSString *const githubLink = @"http://www.baidu.com";
+    //        ZKWebViewController *controller = [[ZKWebViewController alloc] initWithURL:githubLink.URL];
+    //        [self kai_pushViewController:controller];
+    
     ZKAuto controller = ZKCollectionViewController.new;
     [self kai_pushViewController:controller];
-
+    
     //    UIViewController *controller = UIViewController.new;
     //    controller.view.backgroundColor = UIColor.randomColor;
     //    controller.title = @"ViewController";
     //    [self kai_pushViewController:controller];
-
+    
     //    [ZKPermission.manager requestWithType:ZKPermissionTypeContact
     //                                 callback:^(BOOL response, ZKPermissionAuthorizationStatus status) {
     //                                     if (response) {
