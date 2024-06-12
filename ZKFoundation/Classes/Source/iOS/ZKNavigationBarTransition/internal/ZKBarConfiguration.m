@@ -61,7 +61,7 @@
 
 - (instancetype)initWithBarConfigurationOwner:(id<ZKNavigationBarConfigureStyle>)owner {
     ZKNavigationBarConfigurations configurations = [owner kai_navigtionBarConfiguration];
-    UIColor *tintColor                           = [owner kai_tintColor];
+    UIColor *tintColor                           = [owner kai_navigationItemTintColor];
     
     UIImage *backgroundImage  = nil;
     NSString *imageIdentifier = nil;
@@ -71,7 +71,7 @@
         if (configurations & ZKNavigationBarBackgroundStyleImage) {
             backgroundImage = [owner kai_navigationBackgroundImageWithIdentifier:&imageIdentifier];
         } else if (configurations & ZKNavigationBarBackgroundStyleColor) {
-            backgroundColor = [owner kai_barTintColor];
+            backgroundColor = [owner kai_navigationBarTintColor];
         }
     }
     

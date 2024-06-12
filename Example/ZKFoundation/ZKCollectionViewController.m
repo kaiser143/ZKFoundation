@@ -103,11 +103,11 @@
     return ZKNavigationBarStyleBlack | ZKNavigationBarBackgroundStyleColor | ZKNavigationBarBackgroundStyleTranslucent;
 }
 
-- (UIColor *)kai_tintColor {
+- (UIColor *)kai_navigationItemTintColor {
     return UIColor.whiteColor;
 }
 
-- (UIColor *)kai_barTintColor {
+- (UIColor *)kai_navigationBarTintColor {
     return UIColor.orangeColor;
 }
 

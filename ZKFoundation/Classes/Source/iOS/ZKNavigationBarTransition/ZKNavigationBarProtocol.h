@@ -39,7 +39,7 @@ typedef NS_OPTIONS(NSUInteger, ZKNavigationBarConfigurations) {
 /*!
  *  @brief    navigationBar上面的按钮颜色
  */
-- (UIColor *)kai_tintColor;
+- (UIColor *)kai_navigationItemTintColor;
 
 
 @optional
@@ -50,9 +50,9 @@ typedef NS_OPTIONS(NSUInteger, ZKNavigationBarConfigurations) {
 - (UIImage *)kai_navigationBackgroundImageWithIdentifier:(NSString **)identifier;
 
 /*!
- *  @brief    navigationBar背景颜色
+ *  @brief    navigationBar 背景颜色
  */
-- (UIColor *)kai_barTintColor;
+- (UIColor *)kai_navigationBarTintColor;
 
 
 @end

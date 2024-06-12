@@ -44,11 +44,11 @@
     return ZKNavigationBarBackgroundStyleColor | ZKNavigationBarBackgroundStyleOpaque;
 }
 
-- (UIColor *)kai_tintColor {
+- (UIColor *)kai_navigationItemTintColor {
     return nil; //UIColor.whiteColor;
 }
 
-- (UIColor *)kai_barTintColor {
+- (UIColor *)kai_navigationBarTintColor {
     return UIColor.whiteColor;
 }
 

@@ -188,12 +188,12 @@
     ;
 }
 
-- (UIColor *)kai_barTintColor {
+- (UIColor *)kai_navigationBarTintColor {
     //    return self.navigationController.viewControllers.count == 2 ? UIColor.cyanColor : self.barTintColor;
     return [UIColor.whiteColor colorWithAlphaComponent:self.progress];
 }
 
-- (UIColor *)kai_tintColor {
+- (UIColor *)kai_navigationItemTintColor {
     return UIColor.blackColor;
 }
 

@@ -21,7 +21,7 @@ typedef NS_ENUM(NSUInteger, ZKButtonStyle) {
 @property (nonatomic, assign) ZKButtonStyle style;
 
 /// 图片和文字的间距
-@property (nonatomic, assign) CGFloat space;
+@property (nonatomic, assign) CGFloat spacingBetweenImageAndTitle;
 
 @end
 

@@ -14,7 +14,7 @@
     self = [super initWithFrame:frame];
     if (self == nil) return nil;
     
-    _space = 0.f;
+    _spacingBetweenImageAndTitle = 0.f;
     
     [self.titleLabel setTextAlignment:NSTextAlignmentCenter];
     
@@ -56,7 +56,7 @@
              图片在右，文字在左
              */
             CGRect frame = [self titleRectForContentRect:contentRect];
-            imageX = CGRectGetMaxX(frame) + self.space;
+            imageX = CGRectGetMaxX(frame) + self.spacingBetweenImageAndTitle;
             imageY = (CGRectGetHeight(contentRect) - imageH)/2.f + self.contentEdgeInsets.top;
         }
             break;
@@ -66,7 +66,7 @@
              */
             CGRect frame = [self titleRectForContentRect:contentRect];
             imageX = (CGRectGetWidth(contentRect) - imageW) / 2 + self.contentEdgeInsets.left;
-            imageY = CGRectGetMaxY(frame) + self.space;
+            imageY = CGRectGetMaxY(frame) + self.spacingBetweenImageAndTitle;
         }
             break;
         default:
@@ -89,13 +89,13 @@
     switch (_style) {
         case ZKButtonStyleImageAtTop: {
             CGRect frame = [self imageRectForContentRect:contentRect];
-            titleY = CGRectGetMaxY(frame) + self.space;
+            titleY = CGRectGetMaxY(frame) + self.spacingBetweenImageAndTitle;
             titleX = (CGRectGetWidth(contentRect) - titleW)/2.f + self.contentEdgeInsets.left;
         }
             break;
         case ZKButtonStyleImageAtLeft: {
             CGRect frame = [self imageRectForContentRect:contentRect];
-            titleX = CGRectGetMaxX(frame) + self.space;
+            titleX = CGRectGetMaxX(frame) + self.spacingBetweenImageAndTitle;
             titleY = (CGRectGetHeight(contentRect) - titleH)/2.f + self.contentEdgeInsets.top;
         }
             break;
@@ -125,14 +125,14 @@
     switch (self.style) {
         case ZKButtonStyleImageAtTop:
         case ZKButtonStyleImageAtBottom: {
-            intrinsicContentSize.height = self.contentEdgeInsets.top + self.contentEdgeInsets.bottom + CGRectGetHeight(imageRect) + self.space + CGRectGetHeight(titleRect);
+            intrinsicContentSize.height = self.contentEdgeInsets.top + self.contentEdgeInsets.bottom + CGRectGetHeight(imageRect) + self.spacingBetweenImageAndTitle + CGRectGetHeight(titleRect);
             intrinsicContentSize.width = MAX(CGRectGetWidth(titleRect), CGRectGetWidth(imageRect)) + self.contentEdgeInsets.left + self.contentEdgeInsets.right;
         }
             break;
         case ZKButtonStyleImageAtLeft:
         case ZKButtonStyleImageAtRight: {
             intrinsicContentSize.height = MAX(CGRectGetHeight(titleRect), CGRectGetHeight(imageRect)) + self.contentEdgeInsets.top + self.contentEdgeInsets.bottom;
-            intrinsicContentSize.width = self.contentEdgeInsets.left + self.contentEdgeInsets.right + CGRectGetWidth(imageRect) + self.space + CGRectGetWidth(titleRect);
+            intrinsicContentSize.width = self.contentEdgeInsets.left + self.contentEdgeInsets.right + CGRectGetWidth(imageRect) + self.spacingBetweenImageAndTitle + CGRectGetWidth(titleRect);
         }
             break;
         default:
@@ -155,6 +155,18 @@
 - (void)setBackgroundImage:(nullable UIImage *)image forState:(UIControlState)state {
     [super setBackgroundImage:image forState:state];
     [self layoutIfNeeded];
+}
+
+- (void)setSpacingBetweenImageAndTitle:(CGFloat)spacingBetweenImageAndTitle {
+    _spacingBetweenImageAndTitle = spacingBetweenImageAndTitle;
+    
+    [self setNeedsLayout];
+}
+
+- (void)setStyle:(ZKButtonStyle)style {
+    _style = style;
+    
+    [self setNeedsLayout];
 }
 
 @end

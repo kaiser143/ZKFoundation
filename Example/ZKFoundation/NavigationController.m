@@ -40,11 +40,11 @@
     return ZKNavigationBarStyleLight | ZKNavigationBarBackgroundStyleColor | ZKNavigationBarBackgroundStyleTransparent;
 }
 
-- (UIColor *)kai_tintColor {
+- (UIColor *)kai_navigationItemTintColor {
     return nil; //UIColor.whiteColor;
 }
 
-- (UIColor *)kai_barTintColor {
+- (UIColor *)kai_navigationBarTintColor {
     return UIColor.lightGrayColor;
 }
 

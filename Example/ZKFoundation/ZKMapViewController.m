@@ -109,7 +109,7 @@
 /*!
  *  @brief    navigationBar上面的按钮颜色
  */
-- (UIColor *)kai_tintColor {
+- (UIColor *)kai_navigationItemTintColor {
     return UIColor.whiteColor;
 }
 

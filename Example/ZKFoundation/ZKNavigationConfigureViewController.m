@@ -188,7 +188,7 @@
     return self.configurations;
 }
 
-- (UIColor *)kai_tintColor {
+- (UIColor *)kai_navigationItemTintColor {
     return self.tintColor;
 }
 
@@ -197,7 +197,7 @@
     return _backgroundImage;
 }
 
-- (UIColor *)kai_barTintColor {
+- (UIColor *)kai_navigationBarTintColor {
     return self.backgroundColor;
 }
 
