@@ -14,7 +14,7 @@ ZKFoundation
 ## Example
 Here's how it looks like:
 
-<p align="center">
+<p align="left">
 <img src="https://github.com/kaiser143/ZKFoundation/raw/master/screenshot/screenshot1.png" width = "120">
 <img src="https://github.com/kaiser143/ZKFoundation/raw/master/screenshot/screenshot2.png" width = "120">
 <img src="https://github.com/kaiser143/ZKFoundation/raw/master/screenshot/screenshot3.png" width = "120">
