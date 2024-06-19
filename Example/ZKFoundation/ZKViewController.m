@@ -94,7 +94,7 @@
     [button setTitle:@"去开启" forState:UIControlStateNormal];
     [button setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont systemFontOfSize:12];
-    button.space = 8.f;
+    button.spacingBetweenImageAndTitle = 8.f;
     button.contentEdgeInsets = UIEdgeInsetsMake(4, 8, 4, 8);
     kai_view_border_radius(button, 3, 1.f, UIColor.redColor);
     [view addSubview:button];
@@ -321,12 +321,12 @@
     return configurations;;
 }
 
-- (UIColor *)kai_barTintColor {
+- (UIColor *)kai_navigationBarTintColor {
     //    return self.navigationController.viewControllers.count == 2 ? UIColor.cyanColor : self.barTintColor;
     return [UIColor.redColor colorWithAlphaComponent:_progress];
 }
 
-- (UIColor *)kai_tintColor {
+- (UIColor *)kai_navigationItemTintColor {
     //    return nil; //UIColor.redColor;
     return UIColor.whiteColor;
 }
