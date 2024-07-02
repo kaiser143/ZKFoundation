@@ -32,7 +32,7 @@ typedef CGSize (^ZKCollectionAdapterCellForItemSizeBlock)(UICollectionView *coll
 typedef CGSize (^ZKCollectionAdapterReferenceHeaderSizeBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
 typedef CGSize (^ZKCollectionAdapterReferenceFooterSizeBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
 
-typedef UIEdgeInsets (^ZKCollectionAdapterCellItemMarginBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
+typedef UIEdgeInsets (^ZKCollectionAdapterInsetForSectionAtIndexBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
 typedef CGFloat (^ZKCollectionAdapterMinimumInteritemSpacingForSectionBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
 typedef CGFloat (^ZKCollectionAdapterMinimumLineSpacingForSectionBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
 
@@ -153,8 +153,11 @@ typedef id _Nullable (^ZKCollectionAdapterCurrentFooterModelAtIndexPathBlock)(id
 */
 - (void)autoHeightItem:(ZKCollectionAdapterItemAutoHeightForRowBlock)block;
 
-- (void)cellItemMargin:(ZKCollectionAdapterCellItemMarginBlock)block;
+/// 设置section的边距
+- (void)insetForSectionAtIndex:(ZKCollectionAdapterInsetForSectionAtIndexBlock)block;
+/// 这是左右两个cell之间的间距
 - (void)minimumInteritemSpacingForSection:(ZKCollectionAdapterMinimumInteritemSpacingForSectionBlock)blcok;
+/// 设置上下两个cell之间的间距
 - (void)minimumLineSpacingForSection:(ZKCollectionAdapterMinimumLineSpacingForSectionBlock)block;
 
 /**

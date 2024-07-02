@@ -29,7 +29,7 @@
     [self.collectionView.adapter sizeForItemAtIndexPath:^CGSize(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSIndexPath * _Nonnull indexPath, id  _Nonnull dataSource) {
         return CGSizeMake(ZKScreenSize().width/4 - 10, 80);
     }];
-    [self.collectionView.adapter cellItemMargin:^UIEdgeInsets(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSInteger section, id  _Nonnull dataSource) {
+    [self.collectionView.adapter insetForSectionAtIndex:^UIEdgeInsets(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSInteger section, id  _Nonnull dataSource) {
         return UIEdgeInsetsMake(5, 5, 5, 5);
     }];
     [self.collectionView.adapter minimumInteritemSpacingForSection:^CGFloat(UICollectionView * _Nonnull collectionView, UICollectionViewLayout * _Nonnull layout, NSInteger section, id  _Nonnull dataSource) {

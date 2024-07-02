@@ -39,7 +39,7 @@
 @property (nonatomic, copy) ZKCollectionAdapterCurrentHeaderModelAtIndexPathBlock currentHeaderModelAtIndexPathBlock;
 @property (nonatomic, copy) ZKCollectionAdapterCurrentFooterModelAtIndexPathBlock currentFooterModelAtIndexPathBlock;
 
-@property (nonatomic, copy) ZKCollectionAdapterCellItemMarginBlock cellItemMarginBlock;
+@property (nonatomic, copy) ZKCollectionAdapterInsetForSectionAtIndexBlock cellItemMarginBlock;
 @property (nonatomic, copy) ZKCollectionAdapterMinimumInteritemSpacingForSectionBlock minimumInteritemSpacingForSectionBlock;
 @property (nonatomic, copy) ZKCollectionAdapterMinimumLineSpacingForSectionBlock minimumLineSpacingForSectionBlock;
 
@@ -693,7 +693,7 @@
     self.didSelectItemAtIndexPathBlock = block;
 }
 
-- (void)cellItemMargin:(ZKCollectionAdapterCellItemMarginBlock)block {
+- (void)insetForSectionAtIndex:(ZKCollectionAdapterInsetForSectionAtIndexBlock)block {
     self.cellItemMarginBlock = block;
 }
 
