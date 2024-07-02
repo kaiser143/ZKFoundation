@@ -25,12 +25,12 @@ typedef UICollectionReusableView *_Nullable (^ZKCollectionAdapterFooterViewBlock
 
 typedef void (^ZKCollectionAdapterDidSelectItemAtIndexPathBlock)(UICollectionView *collectionView, NSIndexPath *indexPath, id dataSource);
 typedef void (^ZKCollectionAdapterCellForItemAtIndexPathBlock)(__kindof UICollectionViewCell *cell, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
-typedef void (^ZKCollectionAdapterHeaderForItemAtIndexPathBlock)(__kindof UICollectionReusableView *header, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
-typedef void (^ZKCollectionAdapterFooterForItemAtIndexPathBlock)(__kindof UICollectionReusableView *footer, NSIndexPath *indexPath, id dataSource, BOOL IsCelldisplay);
+typedef void (^ZKCollectionAdapterHeaderForItemAtIndexPathBlock)(__kindof UICollectionReusableView *header, NSIndexPath *indexPath, id _Nullable dataSource, BOOL IsCelldisplay);
+typedef void (^ZKCollectionAdapterFooterForItemAtIndexPathBlock)(__kindof UICollectionReusableView *footer, NSIndexPath *indexPath, id _Nullable dataSource, BOOL IsCelldisplay);
 
 typedef CGSize (^ZKCollectionAdapterCellForItemSizeBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSIndexPath *indexPath, id dataSource);
-typedef CGSize (^ZKCollectionAdapterReferenceHeaderSizeBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
-typedef CGSize (^ZKCollectionAdapterReferenceFooterSizeBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
+typedef CGSize (^ZKCollectionAdapterReferenceHeaderSizeBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id _Nullable dataSource);
+typedef CGSize (^ZKCollectionAdapterReferenceFooterSizeBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id _Nullable dataSource);
 
 typedef UIEdgeInsets (^ZKCollectionAdapterInsetForSectionAtIndexBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
 typedef CGFloat (^ZKCollectionAdapterMinimumInteritemSpacingForSectionBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
