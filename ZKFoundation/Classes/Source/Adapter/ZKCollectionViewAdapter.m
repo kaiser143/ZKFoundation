@@ -39,7 +39,7 @@
 @property (nonatomic, copy) ZKCollectionAdapterCurrentHeaderModelAtIndexPathBlock currentHeaderModelAtIndexPathBlock;
 @property (nonatomic, copy) ZKCollectionAdapterCurrentFooterModelAtIndexPathBlock currentFooterModelAtIndexPathBlock;
 
-@property (nonatomic, copy) ZKCollectionAdapterInsetForSectionAtIndexBlock cellItemMarginBlock;
+@property (nonatomic, copy) ZKCollectionAdapterInsetForSectionAtIndexBlock insetForSectionAtIndexBlock;
 @property (nonatomic, copy) ZKCollectionAdapterMinimumInteritemSpacingForSectionBlock minimumInteritemSpacingForSectionBlock;
 @property (nonatomic, copy) ZKCollectionAdapterMinimumLineSpacingForSectionBlock minimumLineSpacingForSectionBlock;
 
@@ -145,9 +145,9 @@
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-    if (self.cellItemMarginBlock) {
+    if (self.insetForSectionAtIndexBlock) {
         id curModel = [self currentSectionModel:section];
-        edgeInsets  = self.cellItemMarginBlock(collectionView, collectionViewLayout, section, curModel);
+        edgeInsets  = self.insetForSectionAtIndexBlock(collectionView, collectionViewLayout, section, curModel);
     }
 
     return edgeInsets;
@@ -694,7 +694,7 @@
 }
 
 - (void)insetForSectionAtIndex:(ZKCollectionAdapterInsetForSectionAtIndexBlock)block {
-    self.cellItemMarginBlock = block;
+    self.insetForSectionAtIndexBlock = block;
 }
 
 - (void)minimumInteritemSpacingForSection:(ZKCollectionAdapterMinimumInteritemSpacingForSectionBlock)blcok {
