@@ -32,9 +32,9 @@ typedef CGSize (^ZKCollectionAdapterCellForItemSizeBlock)(UICollectionView *coll
 typedef CGSize (^ZKCollectionAdapterReferenceHeaderSizeBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id _Nullable dataSource);
 typedef CGSize (^ZKCollectionAdapterReferenceFooterSizeBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id _Nullable dataSource);
 
-typedef UIEdgeInsets (^ZKCollectionAdapterInsetForSectionAtIndexBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
-typedef CGFloat (^ZKCollectionAdapterMinimumInteritemSpacingForSectionBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
-typedef CGFloat (^ZKCollectionAdapterMinimumLineSpacingForSectionBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id dataSource);
+typedef UIEdgeInsets (^ZKCollectionAdapterInsetForSectionAtIndexBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id _Nullable dataSource);
+typedef CGFloat (^ZKCollectionAdapterMinimumInteritemSpacingForSectionBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id _Nullable dataSource);
+typedef CGFloat (^ZKCollectionAdapterMinimumLineSpacingForSectionBlock)(UICollectionView *collectionView, UICollectionViewLayout *layout, NSInteger section, id _Nullable dataSource);
 
 typedef id _Nullable (^ZKCollectionAdapterFlattenMapBlock)(id dataAry, NSIndexPath *indexPath);
 typedef id _Nullable (^ZKCollectionAdapterCurrentHeaderModelAtIndexPathBlock)(id dataAry, NSIndexPath *indexPath);
