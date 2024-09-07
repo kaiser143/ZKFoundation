@@ -76,7 +76,7 @@
 @property(nonatomic, assign) IBInspectable NSUInteger maximumTextLength;
 
 /**
- *  在使用 maximumTextLength 功能的时候，是否应该把文字长度按照 [NSString (QMUI) qmui_lengthWhenCountingNonASCIICharacterAsTwo] 的方法来计算。
+ *  在使用 maximumTextLength 功能的时候，是否应该把文字长度按照 [NSString (ZKAdd) lengthWhenCountingNonASCIICharacterAsTwo] 的方法来计算。
  *  默认为 NO。
  */
 @property(nonatomic, assign) IBInspectable BOOL shouldCountingNonASCIICharacterAsTwo;
