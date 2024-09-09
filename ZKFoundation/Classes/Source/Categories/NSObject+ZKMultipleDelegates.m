@@ -67,6 +67,14 @@ CG_INLINE SEL setterWithGetter(SEL getter) {
     }
 }
 
+- (void)setKai_delegates:(NSMutableDictionary<NSString *,ZKMultipleDelegates *> *)kai_delegates {
+    [self setAssociateValue:kai_delegates withKey:@selector(kai_delegates)];
+}
+
+- (NSMutableDictionary<NSString *,ZKMultipleDelegates *> *)kai_delegates {
+    return [self associatedValueForKey:_cmd];
+}
+
 - (BOOL)kai_multipleDelegatesEnabled {
     return [self associatedValueForKey:_cmd];
 }
