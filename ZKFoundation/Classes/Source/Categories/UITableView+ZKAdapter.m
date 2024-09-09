@@ -7,19 +7,19 @@
 
 #import "UITableView+ZKAdapter.h"
 #import "ZKTableViewAdapter.h"
-#import <objc/runtime.h>
+#import <ZKCategories/ZKCategories.h>
 
 @implementation UITableView (ZKAdapter)
 
 - (ZKTableViewAdapter *)adapter {
-    ZKTableViewAdapter<UITableViewDataSource, UITableViewDelegate> *tableHelper = objc_getAssociatedObject(self, _cmd);
+    ZKTableViewAdapter<UITableViewDataSource, UITableViewDelegate> *tableHelper = [self associatedValueForKey:_cmd];
     if (tableHelper) return tableHelper;
     
     tableHelper = ZKTableViewAdapter.new;
     tableHelper.kai_tableView = self;
     self.dataSource = tableHelper;
     self.delegate = tableHelper;
-    objc_setAssociatedObject(self, _cmd, tableHelper, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociateValue:tableHelper withKey:_cmd];
     return tableHelper;
 }
 

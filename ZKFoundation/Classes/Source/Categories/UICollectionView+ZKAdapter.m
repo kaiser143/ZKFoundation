@@ -6,19 +6,19 @@
 //
 
 #import "UICollectionView+ZKAdapter.h"
-#import <objc/runtime.h>
+#import <ZKCategories/ZKCategories.h>
 
 @implementation UICollectionView (ZKAdapter)
 
 - (ZKCollectionViewAdapter *)adapter {
-    ZKCollectionViewAdapter<UICollectionViewDelegate, UICollectionViewDataSource> *tableHelper = objc_getAssociatedObject(self, _cmd);
+    ZKCollectionViewAdapter<UICollectionViewDelegate, UICollectionViewDataSource> *tableHelper = [self associatedValueForKey:_cmd];
     if (tableHelper) return tableHelper;
     
     tableHelper = ZKCollectionViewAdapter.new;
     tableHelper.kai_collectionView = self;
     self.delegate = tableHelper;
     self.dataSource = tableHelper;
-    objc_setAssociatedObject(self, _cmd, tableHelper, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociateValue:tableHelper withKey:_cmd];
     return tableHelper;
 }
 
