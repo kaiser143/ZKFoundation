@@ -12,11 +12,11 @@ PODS:
   - Stinger/Core (1.0.0):
     - Stinger/libffi
   - Stinger/libffi (1.0.0)
-  - ZKCategories (0.4.5):
-    - ZKCategories/Core (= 0.4.5)
-  - ZKCategories/Core (0.4.5)
+  - ZKCategories (0.4.6):
+    - ZKCategories/Core (= 0.4.6)
+  - ZKCategories/Core (0.4.6)
   - ZKFoundation (0.1.15):
-    - ZKCategories (~> 0.4.5)
+    - ZKCategories (~> 0.4.6)
     - ZKFoundation/Adapter (= 0.1.15)
     - ZKFoundation/AuthContext (= 0.1.15)
     - ZKFoundation/Categories (= 0.1.15)
@@ -25,19 +25,19 @@ PODS:
     - ZKFoundation/UIKit (= 0.1.15)
     - ZKFoundation/URLProtocol (= 0.1.15)
   - ZKFoundation/Adapter (0.1.15):
-    - ZKCategories (~> 0.4.5)
+    - ZKCategories (~> 0.4.6)
   - ZKFoundation/AuthContext (0.1.15):
-    - ZKCategories (~> 0.4.5)
+    - ZKCategories (~> 0.4.6)
   - ZKFoundation/Categories (0.1.15):
-    - ZKCategories (~> 0.4.5)
+    - ZKCategories (~> 0.4.6)
   - ZKFoundation/LocationManager (0.1.15):
-    - ZKCategories (~> 0.4.5)
+    - ZKCategories (~> 0.4.6)
   - ZKFoundation/Permission (0.1.15):
-    - ZKCategories (~> 0.4.5)
+    - ZKCategories (~> 0.4.6)
   - ZKFoundation/UIKit (0.1.15):
-    - ZKCategories (~> 0.4.5)
+    - ZKCategories (~> 0.4.6)
   - ZKFoundation/URLProtocol (0.1.15):
-    - ZKCategories (~> 0.4.5)
+    - ZKCategories (~> 0.4.6)
 
 DEPENDENCIES:
   - AXWebViewController (from `https://github.com/kaiser143/AXWebViewController.git`, commit `5cebcc4fcdb269cf96c80dc6893b653cc29be2bb`)
@@ -50,7 +50,6 @@ SPEC REPOS:
     - AXPracticalHUD
     - Masonry
     - Stinger
-  trunk:
     - ZKCategories
 
 EXTERNAL SOURCES:
@@ -71,9 +70,9 @@ SPEC CHECKSUMS:
   AXWebViewController: 82f9ffe043edf360a299aaad27a132be018a9567
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   Stinger: 65d5a5749cb487d35676a2e8bba63a4239b6ccc3
-  ZKCategories: 2a66e3852c48c500d5cb053a56567d4027626ad0
-  ZKFoundation: e239019ab21c25146e23edeccb5cf5890dc2a20c
+  ZKCategories: bb9a5bc8875398862684f4a608c6c05c4a0414d1
+  ZKFoundation: 8411d56eb24c8114e9ced7ba63c0e774aaae5cc3
 
-PODFILE CHECKSUM: 8327bd210bd00a7b50f25f3211842ce747d4f534
+PODFILE CHECKSUM: 820a1722787af9ca37d63564b69f8999031f1195
 
 COCOAPODS: 1.15.2

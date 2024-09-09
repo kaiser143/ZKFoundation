@@ -98,11 +98,11 @@
     return  ZKNavigationBarBackgroundStyleColor | ZKNavigationBarBackgroundStyleOpaque | ZKNavigationBarShowShadowImage;
 }
 
-- (UIColor *)kai_tintColor {
+- (UIColor *)kai_navigationItemTintColor {
     return UIBarButtonItem.appearance.tintColor;
 }
 
-- (UIColor *)kai_barTintColor {
+- (UIColor *)kai_navigationBarTintColor {
     return UIColor.whiteColor;
 }
 

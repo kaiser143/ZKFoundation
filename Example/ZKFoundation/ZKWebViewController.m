@@ -52,8 +52,4 @@
     return UIColor.whiteColor;
 }
 
-- (BOOL)kai_prefersNavigationBarHidden {
-    return NO;
-}
-
 @end

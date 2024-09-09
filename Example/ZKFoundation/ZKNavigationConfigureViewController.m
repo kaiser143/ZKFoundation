@@ -111,7 +111,7 @@
             controller.barHidden = item.on;
             
             ZKNavigationBarConfigurations conf = ZKNavigationBarConfigurationsDefault;
-            if (_barHidden) {
+            if (self.barHidden) {
                 conf |= ZKNavigationBarHidden;
             }
             

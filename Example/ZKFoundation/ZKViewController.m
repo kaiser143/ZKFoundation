@@ -44,6 +44,7 @@
     //    self.navigationController.view.backgroundColor = UIColor.whiteColor;
     
     UIScrollView *scrollView = UIScrollView.new;
+    scrollView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDragWithAccessory;
     //    scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
     scrollView.delegate = self;
     [self.view addSubview:scrollView];
@@ -65,6 +66,15 @@
         make.centerX.equalTo(scrollView);
         make.top.equalTo(scrollView).offset(200);
         make.size.mas_equalTo(CGSizeMake(50, 50));
+    }];
+    
+    UITextField *field = UITextField.new;
+    kai_view_border_radius(field, 8, 1, UIColor.redColor);
+    [scrollView addSubview:field];
+    [field mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(placeholderView.mas_bottom).offset(40);
+        make.size.mas_equalTo(CGSizeMake(220, 30));
+        make.centerX.equalTo(scrollView);
     }];
     
     UIView *view = UIView.new;
@@ -244,6 +254,23 @@
         make.centerX.equalTo(self.view);
         make.top.equalTo(action.mas_bottom).offset(20);
         make.bottom.lessThanOrEqualTo(scrollView).offset(-20);
+    }];
+    
+    action             = [[ZKTintedActionButton alloc] initWithText:@"Self"];
+    action.tintColor          = UIColor.redColor;
+    action.layer.cornerRadius = 8;
+    [action addBlockForControlEvents:UIControlEventTouchUpInside
+                               block:^(__kindof UIControl *_Nonnull sender) {
+        @strongify(self);
+        ZKAuto controller = ZKViewController.new;
+        [self kai_pushViewController:controller];
+    }];
+    [scrollView addSubview:action];
+    [action mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(220);
+        make.height.mas_equalTo(48);
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(test.mas_bottom).offset(20);
     }];
     
     if (self.navigationController.viewControllers.count != 1) {

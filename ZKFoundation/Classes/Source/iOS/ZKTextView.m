@@ -1,21 +1,15 @@
-/**
- * Tencent is pleased to support the open source community by making QMUI_iOS available.
- * Copyright (C) 2016-2021 THL A29 Limited, a Tencent company. All rights reserved.
- * Licensed under the MIT License (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
- * http://opensource.org/licenses/MIT
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
- */
+//
+//  ZKTextView.h
+//  ZKFoundation
+//
+//  Created by zhangkai on 2024/6/28.
+//
 
-//
-//  ZKTextView.m
-//  qmui
-//
-//  Created by QMUI Team on 14-8-5.
-//
 #import "ZKTextView.h"
 #import <ZKCategories/ZKCGUtilities.h>
 #import <ZKCategories/NSString+ZKAdd.h>
 #import <ZKCategories/UITextView+ZKAdd.h>
+#import "NSObject+ZKMultipleDelegates.h"
 
 /// 系统 textView 默认的字号大小，用于 placeholder 默认的文字大小。实测得到，请勿修改。
 const CGFloat kSystemTextViewDefaultFontPointSize = 12.0f;
@@ -62,7 +56,7 @@ const UIEdgeInsets kSystemTextViewFixTextInsets = {0, 5, 0, 5};
 - (void)commonInit {
     self.debug = NO;
     
-//    self.qmui_multipleDelegatesEnabled = YES;
+    self.kai_multipleDelegatesEnabled = YES;
     self.delegator = [[_ZKTextViewDelegator alloc] init];
     self.delegator.textView = self;
     self.delegate = self.delegator;

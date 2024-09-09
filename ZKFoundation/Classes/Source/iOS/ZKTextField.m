@@ -8,6 +8,7 @@
 #import "ZKTextField.h"
 #import <ZKCategories/NSString+ZKAdd.h>
 #import <ZKCategories/UITextField+ZKAdd.h>
+#import "NSObject+ZKMultipleDelegates.h"
 
 // 私有的类，专用于实现 ZKTextFieldDelegate，避免 self.delegate = self 的写法（以前是 ZKTextField 自己实现了 delegate）
 @interface _KAITextFieldDelegator : NSObject <ZKTextFieldDelegate, UIScrollViewDelegate>
@@ -41,7 +42,7 @@
 }
 
 - (void)commonInit {
-//    self.qmui_multipleDelegatesEnabled = YES;
+    self.kai_multipleDelegatesEnabled = YES;
     self.delegator = [[_KAITextFieldDelegator alloc] init];
     self.delegator.textField = self;
     self.delegate = self.delegator;
