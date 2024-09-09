@@ -9,7 +9,7 @@
 #import <ZKCategories/ZKCategories.h>
 #import "NSObject+ZKMultipleDelegates.h"
 
-@class KAIKeyboardViewFrameObserver;
+@class _KAIKeyboardViewFrameObserver;
 @protocol KAIKeyboardViewFrameObserverDelegate <NSObject>
 @required
 - (void)keyboardViewFrameDidChange:(UIView *)keyboardView;
@@ -117,7 +117,7 @@
 @end
 
 
-@interface KAIKeyboardViewFrameObserver : NSObject
+@interface _KAIKeyboardViewFrameObserver : NSObject
 
 @property (nonatomic, weak) id <KAIKeyboardViewFrameObserverDelegate> delegate;
 - (void)addToKeyboardView:(UIView *)keyboardView;
@@ -127,7 +127,7 @@
 
 static char kAssociatedObjectKey_KeyboardViewFrameObserver;
 
-@implementation KAIKeyboardViewFrameObserver {
+@implementation _KAIKeyboardViewFrameObserver {
     __unsafe_unretained UIView *_keyboardView;
 }
 
@@ -657,9 +657,9 @@ static char kAssociatedObjectKey_KeyboardViewFrameObserver;
         return;
     }
     UIView *keyboardView = [self.class keyboardView];
-    KAIKeyboardViewFrameObserver *observer = [KAIKeyboardViewFrameObserver observerForView:keyboardView];
+    _KAIKeyboardViewFrameObserver *observer = [_KAIKeyboardViewFrameObserver observerForView:keyboardView];
     if (!observer) {
-        observer = [[KAIKeyboardViewFrameObserver alloc] init];
+        observer = [[_KAIKeyboardViewFrameObserver alloc] init];
         observer.kai_multipleDelegatesEnabled = YES;
         [observer addToKeyboardView:keyboardView];
     }
