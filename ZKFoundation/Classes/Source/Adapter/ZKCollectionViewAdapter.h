@@ -55,7 +55,7 @@ typedef id _Nullable (^ZKCollectionAdapterCurrentFooterModelAtIndexPathBlock)(id
 @property (nonatomic, strong) NSArray *kai_cellXIB;
 
 /**
- Hader 是否加载XIB
+ Header 是否加载XIB
  */
 @property (nonatomic, strong) NSArray *kai_cellHeaderXIB;
 

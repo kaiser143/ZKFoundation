@@ -135,7 +135,7 @@
     if (self.itemAutoHeightBlock) {
         id curModel                 = [self currentModelAtIndexPath:indexPath];
         NSString *curCellIdentifier = [self cellIdentifierForRowAtIndexPath:indexPath model:curModel];
-        self.itemAutoHeightBlock(collectionView, indexPath, curCellIdentifier, curModel);
+        curSize.height = self.itemAutoHeightBlock(collectionView, indexPath, curCellIdentifier, curModel);
     } else if (self.sizeForItemAtIndexPathBlock) {
         id curModel = [self currentModelAtIndexPath:indexPath];
         curSize     = self.sizeForItemAtIndexPathBlock(collectionView, collectionViewLayout, indexPath, curModel);

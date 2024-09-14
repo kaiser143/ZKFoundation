@@ -20,7 +20,7 @@ typedef CGFloat (^ZKTableAdapterCellAutoHeightForRowBlock)(UITableView *tableVie
 
 typedef void (^ZKTableAdapterMoveRowBlock)(UITableView *tableView, NSIndexPath *sourceIndexPath, id sourceModel, NSIndexPath *destinationIndexPath, id destinationModel);
 
-typedef void (^ZKTableAdapterCellWillDisplayBlock)(__kindof UITableViewCell *cell, NSIndexPath *indexPath, id dataSource, BOOL isCellDisplay);
+typedef void (^ZKTableAdapterCellWillDisplayBlock)(__kindof UITableViewCell *cell, NSIndexPath *indexPath, id _Nullable dataSource, BOOL isCellDisplay);
 typedef void(^ZKTableAdapterHeaderWillDisplayBlock)(__kindof UIView *view, NSInteger section, id dataSource);
 typedef void(^ZKTableAdapterFooterWillDisplayBlock)(__kindof UIView *view, NSInteger section, id dataSource);
 
@@ -31,14 +31,14 @@ typedef BOOL (^ZKTableAdapterCanEditRowAtIndexPathBlock)(NSIndexPath *indexPath,
 typedef UITableViewCellEditingStyle (^ZKTableAdapterEditingStyleForRowBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
 typedef NSArray<UITableViewRowAction *> *_Nullable (^ZKTableAdapterEditActionsForRowBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
 
-typedef __kindof UITableViewHeaderFooterView *_Nullable (^ZKTableAdapterHeaderBlock)(UITableView *tableView, NSInteger section, id dataSource);
-typedef __kindof UITableViewHeaderFooterView *_Nullable (^ZKTableAdapterFooterBlock)(UITableView *tableView, NSInteger section, id dataSource);
+typedef __kindof UITableViewHeaderFooterView *_Nullable (^ZKTableAdapterHeaderBlock)(UITableView *tableView, NSInteger section, id _Nullable dataSource);
+typedef __kindof UITableViewHeaderFooterView *_Nullable (^ZKTableAdapterFooterBlock)(UITableView *tableView, NSInteger section, id _Nullable dataSource);
 
 typedef UITableViewCellAccessoryType(^ZKTableAdapterAccessoryTypeBlock)(UITableView *tableView, NSIndexPath *indexPath, id dataSource);
 typedef void(^ZKTableAdapterAccessoryButtonTappedForRowAtIndexPathBlock)(NSIndexPath *indexPath, id dataSource);
 
-typedef CGFloat (^ZKTableAdapterHeightForHeaderBlock)(UITableView *tableView, NSInteger section, id dataSource);
-typedef CGFloat (^ZKTableAdapterHeightForFooterBlock)(UITableView *tableView, NSInteger section, id dataSource);
+typedef CGFloat (^ZKTableAdapterHeightForHeaderBlock)(UITableView *tableView, NSInteger section, id _Nullable dataSource);
+typedef CGFloat (^ZKTableAdapterHeightForFooterBlock)(UITableView *tableView, NSInteger section, id _Nullable dataSource);
 
 typedef NSString *_Nullable (^ZKTableAdapterTitleHeaderBlock)(UITableView *tableView, NSInteger section);
 typedef NSString *_Nullable (^ZKTableAdapterTitleFooterBlock)(UITableView *tableView, NSInteger section);
