@@ -138,72 +138,75 @@ static struct {
 
     [navigationController.transitionCoordinator
         animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> _Nonnull context) {
-            if (showFakeBar) {
-                [UIView setAnimationsEnabled:NO];
+        if (showFakeBar) {
+            [UIView setAnimationsEnabled:NO];
 
-                UIViewController *const fromVC = [context viewControllerForKey:UITransitionContextFromViewControllerKey];
-                UIViewController *const toVC   = [context viewControllerForKey:UITransitionContextToViewControllerKey];
+            UIViewController *const fromVC = [context viewControllerForKey:UITransitionContextFromViewControllerKey];
+            UIViewController *const toVC   = [context viewControllerForKey:UITransitionContextToViewControllerKey];
 
-                if (fromVC && [currentConfigure isVisible]) {
-                    CGRect fakeBarFrame = [fromVC kai_fakeBarFrameForNavigationBar:navigationBar];
-                    if (!CGRectIsNull(fakeBarFrame)) {
-                        UIToolbar *fakeBar = self.fromViewControllerFakeBar;
-                        [fakeBar kai_commitBarConfiguration:currentConfigure];
-                        fakeBar.frame = fakeBarFrame;
-                        [fromVC.view addSubview:fakeBar];
-                    }
+            if (fromVC && [currentConfigure isVisible]) {
+                CGRect fakeBarFrame = [fromVC kai_fakeBarFrameForNavigationBar:navigationBar];
+                if (!CGRectIsNull(fakeBarFrame)) {
+                    UIToolbar *fakeBar = self.fromViewControllerFakeBar;
+                    [fakeBar kai_commitBarConfiguration:currentConfigure];
+                    fakeBar.frame = fakeBarFrame;
+                    [fromVC.view addSubview:fakeBar];
                 }
+            }
 
-                if (toVC && [showConfigure isVisible]) {
-                    CGRect fakeBarFrame = [toVC kai_fakeBarFrameForNavigationBar:navigationBar];
-                    if (!CGRectIsNull(fakeBarFrame)) {
+            if (toVC && [showConfigure isVisible]) {
+                CGRect fakeBarFrame = [toVC kai_fakeBarFrameForNavigationBar:navigationBar];
+                if (!CGRectIsNull(fakeBarFrame)) {
 //                        if (toVC.extendedLayoutIncludesOpaqueBars ||
 //                            showConfigure.translucent) {
 //                            fakeBarFrame.origin.y = toVC.view.bounds.origin.y;
 //                        }
 
-                        UIToolbar *fakeBar = self.toViewControllerFakeBar;
-                        [fakeBar kai_commitBarConfiguration:showConfigure];
-                        fakeBar.frame = fakeBarFrame;
-                        [toVC.view addSubview:fakeBar];
-                    }
+                    UIToolbar *fakeBar = self.toViewControllerFakeBar;
+                    [fakeBar kai_commitBarConfiguration:showConfigure];
+                    fakeBar.frame = fakeBarFrame;
+                    [toVC.view addSubview:fakeBar];
                 }
+            }
 
-                ctx.toVC = toVC;
-                [toVC.view addObserver:self
-                            forKeyPath:NSStringFromSelector(@selector(bounds))
-                               options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
-                               context:&ctx];
-                [toVC.view addObserver:self
-                            forKeyPath:NSStringFromSelector(@selector(frame))
-                               options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
-                               context:&ctx];
+            ctx.toVC = toVC;
+            [toVC setAssociateValue:@YES withKey:_cmd];
+            [toVC.view addObserver:self
+                        forKeyPath:NSStringFromSelector(@selector(bounds))
+                            options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+                            context:&ctx];
+            [toVC.view addObserver:self
+                        forKeyPath:NSStringFromSelector(@selector(frame))
+                            options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+                            context:&ctx];
 
-                [UIView setAnimationsEnabled:YES];
+            [UIView setAnimationsEnabled:YES];
+        }
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> _Nonnull context) {
+        UIViewController *const toVC = [context viewControllerForKey:UITransitionContextToViewControllerKey];
+        if ([context isCancelled] && viewController == toVC) {
+            [self removeFakeBars];
+            [navigationBar kai_commitBarConfiguration:currentConfigure];
+            
+            if (currentConfigure.navigationBarHidden != navigationController.navigationBarHidden) {
+                [navigationController setNavigationBarHidden:showConfigure.navigationBarHidden animated:animated];
             }
         }
-        completion:^(id<UIViewControllerTransitionCoordinatorContext> _Nonnull context) {
-            if ([context isCancelled]) {
-                [self removeFakeBars];
-                [navigationBar kai_commitBarConfiguration:currentConfigure];
-
-                if (currentConfigure.navigationBarHidden != navigationController.navigationBarHidden) {
-                    [navigationController setNavigationBarHidden:showConfigure.navigationBarHidden animated:animated];
-                }
-            }
-
-            UIViewController *const toVC = [context viewControllerForKey:UITransitionContextToViewControllerKey];
-            if (showFakeBar && ctx.toVC == toVC) {
-                [toVC.view removeObserver:self
-                               forKeyPath:NSStringFromSelector(@selector(bounds))
-                                  context:&ctx];
-                [toVC.view removeObserver:self
-                               forKeyPath:NSStringFromSelector(@selector(frame))
-                                  context:&ctx];
-            }
-
-            if (self) self.transitionNavigationBar = NO;
-        }];
+        
+        /// Xcode 16, iOS 18 这个completion Block 会调用两次，animateAlongsideTransition 的block 之调用一次
+        /// 两次 removeObserver 会导致程序闪退，这里加个判断
+        if (showFakeBar && ctx.toVC == toVC && [[toVC associatedValueForKey:_cmd] boolValue]) {
+            [toVC setAssociateValue:@NO withKey:_cmd];
+            [toVC.view removeObserver:self
+                           forKeyPath:NSStringFromSelector(@selector(bounds))
+                              context:&ctx];
+            [toVC.view removeObserver:self
+                           forKeyPath:NSStringFromSelector(@selector(frame))
+                              context:&ctx];
+        }
+        
+        if (self) self.transitionNavigationBar = NO;
+    }];
 
     void (^popInteractionEndBlock)(id<UIViewControllerTransitionCoordinatorContext>) =
         ^(id<UIViewControllerTransitionCoordinatorContext> context) {
