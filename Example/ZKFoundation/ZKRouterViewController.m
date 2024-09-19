@@ -178,14 +178,28 @@
 #pragma mark - :. ZKNavigationBarConfigureStyle
 
 - (ZKNavigationBarConfigurations)kai_navigtionBarConfiguration {
-    //    return ZKNavigationBarBackgroundStyleColor | ZKNavigationBarBackgroundStyleTranslucent | ZKNavigationBarConfigurationsDefault;
     ZKNavigationBarConfigurations configurations = ZKNavigationBarConfigurationsDefault;
-    if (_progress < 0.5) configurations |= ZKNavigationBarStyleBlack;
-    else if (_progress == 1) configurations |= ZKNavigationBarBackgroundStyleOpaque;
-
-    configurations |= ZKNavigationBarBackgroundStyleColor;
-    return configurations;
-    ;
+    
+    if (@available(iOS 13.0, *)) {
+        if (_progress <= 0) {
+            configurations |= ZKNavigationBarBackgroundStyleTransparent;
+        } else {
+            configurations |= ZKNavigationBarBackgroundStyleOpaque;
+            configurations |= ZKNavigationBarBackgroundStyleColor;
+        }
+    } else {
+        if (_progress < 0.5) {
+            configurations |= ZKNavigationBarStyleBlack;
+        }
+        
+        if (_progress == 1) {
+            configurations |= ZKNavigationBarBackgroundStyleOpaque;
+        }
+        
+        configurations |= ZKNavigationBarBackgroundStyleColor;
+    }
+    
+    return configurations;;
 }
 
 - (UIColor *)kai_navigationBarTintColor {
