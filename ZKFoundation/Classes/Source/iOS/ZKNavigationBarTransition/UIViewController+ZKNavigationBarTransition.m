@@ -37,7 +37,14 @@
     if (!navigationBar) return CGRectNull;
 
     UIView *backgroundView = [navigationBar kai_backgroundView];
-    CGRect frame           = [backgroundView.superview convertRect:backgroundView.frame toView:self.view];
+    
+    CGRect frame;
+    if (@available(iOS 18, *)) {
+        // iOS 18 backgroundView.superview 返回了 nil
+        frame = [navigationBar convertRect:backgroundView.frame toView:self.view];
+    } else {
+        frame = [backgroundView.superview convertRect:backgroundView.frame toView:self.view];
+    }
     frame.origin.x         = self.view.bounds.origin.x;
     return frame;
 }

@@ -3,12 +3,14 @@ use_frameworks!
 platform :ios, '12.0'
 inhibit_all_warnings!
 
-#source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
+source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
 
 target 'ZKFoundation_Example' do
   pod 'ZKFoundation', :path => '../'
   pod 'Masonry'
   pod 'AXWebViewController', :git => 'https://github.com/kaiser143/AXWebViewController.git', :commit => '5cebcc4fcdb269cf96c80dc6893b653cc29be2bb'
+  
+  pod 'LookinServer', :configurations => ['Debug']
 
  # target 'ZKFoundation_Tests' do
  #   inherit! :search_paths
