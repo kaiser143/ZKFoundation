@@ -11,13 +11,13 @@
 
 @interface NSPointerArray (ZKFoundation)
 
-- (NSUInteger)indexOfPointer:(nullable void *)pointer;
-- (BOOL)containsPointer:(nullable void *)pointer;
+- (NSUInteger)kai_indexOfPointer:(nullable void *)pointer;
+- (BOOL)kai_containsPointer:(nullable void *)pointer;
 @end
 
 @implementation NSPointerArray (ZKFoundation)
 
-- (NSUInteger)indexOfPointer:(nullable void *)pointer {
+- (NSUInteger)kai_indexOfPointer:(nullable void *)pointer {
     if (!pointer) {
         return NSNotFound;
     }
@@ -31,11 +31,11 @@
     return NSNotFound;
 }
 
-- (BOOL)containsPointer:(void *)pointer {
+- (BOOL)kai_containsPointer:(void *)pointer {
     if (!pointer) {
         return NO;
     }
-    if ([self indexOfPointer:pointer] != NSNotFound) {
+    if ([self kai_indexOfPointer:pointer] != NSNotFound) {
         return YES;
     }
     return NO;
@@ -162,7 +162,7 @@
 }
 
 - (BOOL)removeDelegate:(id)delegate {
-    NSUInteger index = [self.delegates indexOfPointer:(__bridge void *)delegate];
+    NSUInteger index = [self.delegates kai_indexOfPointer:(__bridge void *)delegate];
     if (index != NSNotFound) {
         [self.delegates removePointerAtIndex:index];
         return YES;
@@ -177,7 +177,7 @@
 }
 
 - (BOOL)containsDelegate:(id)delegate {
-    return [self.delegates containsPointer:(__bridge void *)delegate];
+    return [self.delegates kai_containsPointer:(__bridge void *)delegate];
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {

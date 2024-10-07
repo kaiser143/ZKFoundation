@@ -18,7 +18,7 @@
 #import "ZKNavigationConfigureViewController.h"
 #import "NavigationController.h"
 
-@interface ZKViewController () <ZKNavigationBarConfigureStyle, UIScrollViewDelegate, ZKPopupControllerDelegate>
+@interface ZKViewController () <ZKNavigationBarConfigureStyle, UIScrollViewDelegate, ZKPopupControllerDelegate, ZKTextFieldDelegate>
 
 @property (nonatomic, strong) UIColor *barTintColor;
 @property (nonatomic, strong) ZKStorkInteractiveTransition *animator;
@@ -68,7 +68,10 @@
         make.size.mas_equalTo(CGSizeMake(50, 50));
     }];
     
-    UITextField *field = UITextField.new;
+    ZKTextField *field = ZKTextField.new;
+    if (self.navigationController.viewControllers.count > 1) {
+        field.delegate = self;
+    }
     kai_view_border_radius(field, 8, 1, UIColor.redColor);
     [scrollView addSubview:field];
     [field mas_makeConstraints:^(MASConstraintMaker *make) {

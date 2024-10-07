@@ -189,7 +189,7 @@ CG_INLINE SEL setterWithGetter(SEL getter) {
 
 // 根据 delegate property 的 getter，得到 ZKMultipleDelegates 为它的 setter 创建的新 setter 方法，最终交换原方法，因此利用这个方法返回的 SEL，可以调用到原来的 delegate property setter 的实现
 - (SEL)newSetterWithGetter:(SEL)getter {
-    return NSSelectorFromString([NSString stringWithFormat:@"kaim_%@", NSStringFromSelector(setterWithGetter(getter))]);
+    return NSSelectorFromString([NSString stringWithFormat:@"kai_%@", NSStringFromSelector(setterWithGetter(getter))]);
 }
 
 @end
