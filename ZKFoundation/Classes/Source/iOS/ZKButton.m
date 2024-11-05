@@ -145,11 +145,13 @@
 - (void)setTitle:(NSString *)title forState:(UIControlState)state {
     [super setTitle:title forState:state];
     [self layoutIfNeeded];
+    [self invalidateIntrinsicContentSize];
 }
 
 - (void)setImage:(nullable UIImage *)image forState:(UIControlState)state {
     [super setImage:image forState:state];
     [self layoutIfNeeded];
+    [self invalidateIntrinsicContentSize];
 }
 
 - (void)setBackgroundImage:(nullable UIImage *)image forState:(UIControlState)state {
@@ -161,12 +163,14 @@
     _spacingBetweenImageAndTitle = spacingBetweenImageAndTitle;
     
     [self setNeedsLayout];
+    [self invalidateIntrinsicContentSize];
 }
 
 - (void)setStyle:(ZKButtonStyle)style {
     _style = style;
     
     [self setNeedsLayout];
+    [self invalidateIntrinsicContentSize];
 }
 
 @end
