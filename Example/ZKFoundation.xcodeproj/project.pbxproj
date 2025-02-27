@@ -16,6 +16,7 @@
 		4BD3443B23A3D34F00F6C677 /* ZKMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BD3443923A3D34F00F6C677 /* ZKMapViewController.m */; };
 		4BE6F1B023FD8BB400017F28 /* ZKTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BE6F1AF23FD8BB400017F28 /* ZKTableViewController.m */; };
 		4BE6F1B323FD8FAD00017F28 /* ZKTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BE6F1B223FD8FAD00017F28 /* ZKTableViewCell.m */; };
+		4BEB7DB22D70B03100F56605 /* ZKBlurEffectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BEB7DB12D70B03100F56605 /* ZKBlurEffectViewController.m */; };
 		4BFF716826B128B200F960A5 /* ZKNavigationConfigureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BFF716726B128B100F960A5 /* ZKNavigationConfigureViewController.m */; };
 		4BFF716B26B12D0A00F960A5 /* ZKTableViewSwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BFF716A26B12D0A00F960A5 /* ZKTableViewSwitchCell.m */; };
 		4BFF716E26B1314500F960A5 /* ZKSwitchItemViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BFF716D26B1314500F960A5 /* ZKSwitchItemViewModel.m */; };
@@ -65,6 +66,8 @@
 		4BE6F1AF23FD8BB400017F28 /* ZKTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKTableViewController.m; sourceTree = "<group>"; };
 		4BE6F1B123FD8FAD00017F28 /* ZKTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKTableViewCell.h; sourceTree = "<group>"; };
 		4BE6F1B223FD8FAD00017F28 /* ZKTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKTableViewCell.m; sourceTree = "<group>"; };
+		4BEB7DB02D70B03100F56605 /* ZKBlurEffectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKBlurEffectViewController.h; sourceTree = "<group>"; };
+		4BEB7DB12D70B03100F56605 /* ZKBlurEffectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKBlurEffectViewController.m; sourceTree = "<group>"; };
 		4BFF716626B128B100F960A5 /* ZKNavigationConfigureViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKNavigationConfigureViewController.h; sourceTree = "<group>"; };
 		4BFF716726B128B100F960A5 /* ZKNavigationConfigureViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKNavigationConfigureViewController.m; sourceTree = "<group>"; };
 		4BFF716926B12D0A00F960A5 /* ZKTableViewSwitchCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKTableViewSwitchCell.h; sourceTree = "<group>"; };
@@ -208,6 +211,8 @@
 				4BFF716726B128B100F960A5 /* ZKNavigationConfigureViewController.m */,
 				4BFF716C26B1314500F960A5 /* ZKSwitchItemViewModel.h */,
 				4BFF716D26B1314500F960A5 /* ZKSwitchItemViewModel.m */,
+				4BEB7DB02D70B03100F56605 /* ZKBlurEffectViewController.h */,
+				4BEB7DB12D70B03100F56605 /* ZKBlurEffectViewController.m */,
 			);
 			name = "Example for ZKFoundation";
 			path = ZKFoundation;
@@ -425,6 +430,7 @@
 				4B0DB860237EBD0A00F11E19 /* ZKWebViewController.m in Sources */,
 				4BFF716E26B1314500F960A5 /* ZKSwitchItemViewModel.m in Sources */,
 				6003F5A7195388D20070C39A /* ZKViewController.m in Sources */,
+				4BEB7DB22D70B03100F56605 /* ZKBlurEffectViewController.m in Sources */,
 				4B6951F823963C7000A828D4 /* ZKCollectionViewCell.m in Sources */,
 				4BE6F1B023FD8BB400017F28 /* ZKTableViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
@@ -592,6 +598,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ZKFoundation/ZKFoundation-Prefix.pch";
 				INFOPLIST_FILE = "ZKFoundation/ZKFoundation-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.ZKFoundation-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -611,6 +618,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ZKFoundation/ZKFoundation-Prefix.pch";
 				INFOPLIST_FILE = "ZKFoundation/ZKFoundation-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.ZKFoundation-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -17,6 +17,7 @@
 #import "ZKRouterViewController.h"
 #import "ZKNavigationConfigureViewController.h"
 #import "NavigationController.h"
+#import "ZKBlurEffectViewController.h"
 
 @interface ZKViewController () <ZKNavigationBarConfigureStyle, UIScrollViewDelegate, ZKPopupControllerDelegate, ZKTextFieldDelegate>
 
@@ -256,16 +257,15 @@
         make.height.mas_equalTo(48);
         make.centerX.equalTo(self.view);
         make.top.equalTo(action.mas_bottom).offset(20);
-        make.bottom.lessThanOrEqualTo(scrollView).offset(-20);
     }];
     
-    action             = [[ZKTintedActionButton alloc] initWithText:@"Self"];
+    action             = [[ZKTintedActionButton alloc] initWithText:@"BlurEffect"];
     action.tintColor          = UIColor.redColor;
     action.layer.cornerRadius = 8;
     [action addBlockForControlEvents:UIControlEventTouchUpInside
                                block:^(__kindof UIControl *_Nonnull sender) {
         @strongify(self);
-        ZKAuto controller = ZKViewController.new;
+        ZKAuto controller = ZKBlurEffectViewController.new;
         [self kai_pushViewController:controller];
     }];
     [scrollView addSubview:action];
@@ -274,6 +274,23 @@
         make.height.mas_equalTo(48);
         make.centerX.equalTo(self.view);
         make.top.equalTo(test.mas_bottom).offset(20);
+    }];
+    
+    test             = [[ZKTintedActionButton alloc] initWithText:@"Self"];
+    test.tintColor          = UIColor.redColor;
+    [test addBlockForControlEvents:UIControlEventTouchUpInside
+                             block:^(__kindof UIControl *_Nonnull sender) {
+        @strongify(self);
+        ZKAuto controller = ZKViewController.new;
+        [self kai_pushViewController:controller];
+    }];
+    [scrollView addSubview:test];
+    [test mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(220);
+        make.height.mas_equalTo(48);
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(action.mas_bottom).offset(20);
+        make.bottom.lessThanOrEqualTo(scrollView).offset(-20);
     }];
     
     if (self.navigationController.viewControllers.count != 1) {
