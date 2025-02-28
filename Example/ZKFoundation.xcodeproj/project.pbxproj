@@ -13,6 +13,7 @@
 		4B61282C241B23CE00F3559D /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B61282A241B23CE00F3559D /* Launch Screen.storyboard */; };
 		4B6951F523963A5300A828D4 /* ZKCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6951F423963A5300A828D4 /* ZKCollectionViewController.m */; };
 		4B6951F823963C7000A828D4 /* ZKCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B6951F723963C7000A828D4 /* ZKCollectionViewCell.m */; };
+		4BC34FF32D71469A00AC1586 /* ZKAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC34FF22D71469A00AC1586 /* ZKAlertViewController.m */; };
 		4BD3443B23A3D34F00F6C677 /* ZKMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BD3443923A3D34F00F6C677 /* ZKMapViewController.m */; };
 		4BE6F1B023FD8BB400017F28 /* ZKTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BE6F1AF23FD8BB400017F28 /* ZKTableViewController.m */; };
 		4BE6F1B323FD8FAD00017F28 /* ZKTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BE6F1B223FD8FAD00017F28 /* ZKTableViewCell.m */; };
@@ -60,6 +61,8 @@
 		4B6951F423963A5300A828D4 /* ZKCollectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKCollectionViewController.m; sourceTree = "<group>"; };
 		4B6951F623963C7000A828D4 /* ZKCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKCollectionViewCell.h; sourceTree = "<group>"; };
 		4B6951F723963C7000A828D4 /* ZKCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKCollectionViewCell.m; sourceTree = "<group>"; };
+		4BC34FF12D71469A00AC1586 /* ZKAlertViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKAlertViewController.h; sourceTree = "<group>"; };
+		4BC34FF22D71469A00AC1586 /* ZKAlertViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKAlertViewController.m; sourceTree = "<group>"; };
 		4BD3443923A3D34F00F6C677 /* ZKMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKMapViewController.m; sourceTree = "<group>"; };
 		4BD3443A23A3D34F00F6C677 /* ZKMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKMapViewController.h; sourceTree = "<group>"; };
 		4BE6F1AE23FD8BB400017F28 /* ZKTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKTableViewController.h; sourceTree = "<group>"; };
@@ -213,6 +216,8 @@
 				4BFF716D26B1314500F960A5 /* ZKSwitchItemViewModel.m */,
 				4BEB7DB02D70B03100F56605 /* ZKBlurEffectViewController.h */,
 				4BEB7DB12D70B03100F56605 /* ZKBlurEffectViewController.m */,
+				4BC34FF12D71469A00AC1586 /* ZKAlertViewController.h */,
+				4BC34FF22D71469A00AC1586 /* ZKAlertViewController.m */,
 			);
 			name = "Example for ZKFoundation";
 			path = ZKFoundation;
@@ -434,6 +439,7 @@
 				4B6951F823963C7000A828D4 /* ZKCollectionViewCell.m in Sources */,
 				4BE6F1B023FD8BB400017F28 /* ZKTableViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				4BC34FF32D71469A00AC1586 /* ZKAlertViewController.m in Sources */,
 				4B6951F523963A5300A828D4 /* ZKCollectionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

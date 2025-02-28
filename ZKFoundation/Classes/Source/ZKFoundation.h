@@ -30,6 +30,7 @@
     #import <ZKFoundation/ZKLocationRequestDefines.h>
     #import <ZKFoundation/ZKRequestIDGenerator.h>
     #import <ZKFoundation/ZKButton.h>
+    #import <ZKFoundation/ZKAlert.h>
     #import <ZKFoundation/ZKTextField.h>
     #import <ZKFoundation/ZKTextView.h>
     #import <ZKFoundation/ZKPageControl.h>
@@ -72,6 +73,7 @@
     #import "ZKLocationRequestDefines.h"
     #import "ZKRequestIDGenerator.h"
     #import "ZKButton.h"
+    #import "ZKAlert.h"
     #import "ZKTextField.h"
     #import "ZKTextView.h"
     #import "ZKPageControl.h"

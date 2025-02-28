@@ -18,6 +18,7 @@
 #import "ZKNavigationConfigureViewController.h"
 #import "NavigationController.h"
 #import "ZKBlurEffectViewController.h"
+#import "ZKAlertViewController.h"
 
 @interface ZKViewController () <ZKNavigationBarConfigureStyle, UIScrollViewDelegate, ZKPopupControllerDelegate, ZKTextFieldDelegate>
 
@@ -290,6 +291,23 @@
         make.height.mas_equalTo(48);
         make.centerX.equalTo(self.view);
         make.top.equalTo(action.mas_bottom).offset(20);
+    }];
+    
+    action             = [[ZKTintedActionButton alloc] initWithText:@"Alert"];
+    action.tintColor          = UIColor.redColor;
+    action.layer.cornerRadius = 8;
+    [action addBlockForControlEvents:UIControlEventTouchUpInside
+                               block:^(__kindof UIControl *_Nonnull sender) {
+        @strongify(self);
+        ZKAuto controller = ZKAlertViewController.new;
+        [self kai_pushViewController:controller];
+    }];
+    [scrollView addSubview:action];
+    [action mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(220);
+        make.height.mas_equalTo(48);
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(test.mas_bottom).offset(20);
         make.bottom.lessThanOrEqualTo(scrollView).offset(-20);
     }];
     

@@ -55,7 +55,6 @@ SPEC REPOS:
     - LookinServer
     - Masonry
     - Stinger
-  trunk:
     - ZKCategories
 
 EXTERNAL SOURCES:
@@ -78,8 +77,8 @@ SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   Stinger: 65d5a5749cb487d35676a2e8bba63a4239b6ccc3
   ZKCategories: 10d9e63d540f9bb2bec369e83daf1916b2ca399e
-  ZKFoundation: fc4ccef9ae065ecc4e45c6de0beed763f31ce942
+  ZKFoundation: 4d3e0c6306ae9ee83d9cdf87c1580d22e80f3bf9
 
-PODFILE CHECKSUM: 61abc6004820942779376b1e92814ded97cf2566
+PODFILE CHECKSUM: 15d8ec28bf37054f9b02fd8c64899ead8ff02e81
 
-COCOAPODS: 1.16.2
+COCOAPODS: 1.15.2
