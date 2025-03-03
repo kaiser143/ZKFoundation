@@ -22,20 +22,20 @@ typedef NS_ENUM(NSInteger, ZKAlertActionStyle) {
 @interface ZKAlertAction : NSObject
 
 // 动作的标题
-@property (nonatomic, copy) NSString * _Nullable title;
+@property (nonatomic, copy) NSString *title;
 // 标题的内边距
 @property (nonatomic, assign) UIEdgeInsets titleEdgeInsets;
 // 标题的颜色
-@property (nonatomic, strong) UIColor * _Nullable titleColor;
+@property (nonatomic, strong, nullable) UIColor * titleColor;
 // 字体
 @property (nonatomic, strong) UIFont *font;
 // 副标题
-@property (nonatomic, copy) NSString * _Nullable subtitle;
+@property (nonatomic, copy, nullable) NSString *subtitle;
 // 副标题的颜色
-@property (nonatomic, strong) UIColor * _Nullable subtitleColor;
+@property (nonatomic, strong, nullable) UIColor *subtitleColor;
 // 图像
-@property (nonatomic, strong) UIImage * _Nullable image;
-// 图像的内边距
+@property (nonatomic, strong, nullable) UIImage *image;
+// 图像的内边距, default UIEdgeInsetsZero
 @property (nonatomic, assign) UIEdgeInsets imageEdgeInsets;
 // 动作的样式
 @property (nonatomic, assign) ZKAlertActionStyle style;
@@ -45,11 +45,11 @@ typedef NS_ENUM(NSInteger, ZKAlertActionStyle) {
 // 便利构造器，只传入标题
 - (instancetype)initWithTitle:(NSString *)title;
 // 便利构造器，传入标题和处理闭包
-- (instancetype)initWithTitle:(NSString *)title handler:(ZKAlertActionHandler)handler;
+- (instancetype)initWithTitle:(NSString *)title handler:(ZKAlertActionHandler _Nullable)handler;
 // 初始化方法，传入标题、处理闭包和样式
 - (instancetype)initWithTitle:(NSString *)title handler:(ZKAlertActionHandler _Nullable)handler style:(ZKAlertActionStyle)style;
 // 初始化方法，传入标题、描述、处理闭包和样式
-- (instancetype)initWithTitle:(NSString *)title desc:(NSString *)desc handler:(ZKAlertActionHandler _Nullable)handler style:(ZKAlertActionStyle)style;
+- (instancetype)initWithTitle:(NSString *)title subtitle:(NSString *)subtitle handler:(ZKAlertActionHandler _Nullable)handler style:(ZKAlertActionStyle)style;
 
 @end
 

@@ -34,10 +34,10 @@
 }
 
 // 初始化方法，传入标题、描述、处理闭包和样式
-- (instancetype)initWithTitle:(NSString *)title desc:(NSString *)desc handler:(ZKAlertActionHandler _Nullable)handler style:(ZKAlertActionStyle)style {
+- (instancetype)initWithTitle:(NSString *)title subtitle:(NSString *)subtitle handler:(ZKAlertActionHandler _Nullable)handler style:(ZKAlertActionStyle)style {
     self = [self initWithTitle:title handler:handler style:style];
     if (self) {
-        self.subtitle = desc;
+        self.subtitle = subtitle;
     }
     return self;
 }

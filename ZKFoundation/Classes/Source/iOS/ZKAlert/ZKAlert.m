@@ -285,9 +285,7 @@
     
     [self dismiss];
     
-    if (item.handler) {
-        item.handler(self);
-    }
+    !item.handler ?: item.handler(self);
 }
 
 // 手势识别器代理方法，判断是否接收触摸事件
