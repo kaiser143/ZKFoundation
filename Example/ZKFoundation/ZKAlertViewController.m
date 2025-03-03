@@ -35,7 +35,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return 5;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -170,6 +170,26 @@
             [actionSheet present];
         }
             break;
+        case 4: {
+            // 创建 ZKAlert 实例并设置取消按钮标题
+            ZKAlert *actionSheet = [[ZKAlert alloc] initWithCancelButtonTitle:@"取消"];
+            
+            // 创建“拍摄”动作，带有描述信息
+            ZKAlertAction *takePhotoOrVideoAction = [[ZKAlertAction alloc] initWithTitle:@"拍摄" subtitle:@"照片或视频" handler:^(ZKAlert * _Nonnull alert) {
+                // 这里可以添加点击“拍摄”后的处理逻辑
+            } style:ZKAlertActionStyleDefault];
+            [actionSheet addAction:takePhotoOrVideoAction];
+            
+            // 创建“从手机相册选择”动作
+            ZKAlertAction *selectFromAlbumAction = [[ZKAlertAction alloc] initWithTitle:@"从手机相册选择" handler:^(ZKAlert * _Nonnull alert) {
+                // 这里可以添加点击“从手机相册选择”后的处理逻辑
+            } style:ZKAlertActionStyleDefault];
+            [actionSheet addAction:selectFromAlbumAction];
+            
+            // 展示动作表
+            [actionSheet present];
+        }
+            break;
             
         default:
             break;
@@ -195,7 +215,10 @@
             cell.textLabel.text = @"自定义标题";
             cell.detailTextLabel.text = @"Custom titleView";
             break;
-            
+        case 4:
+            cell.textLabel.text = @"带副标题";
+            cell.detailTextLabel.text = @"With Subtitle";
+            break;
         default:
             break;
     }
