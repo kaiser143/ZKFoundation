@@ -104,19 +104,20 @@
     }];
     
     ZKButton *button = [ZKButton buttonWithType:UIButtonTypeCustom];
-    button.style     = ZKButtonStyleImageAtLeft;
+    button.imagePosition = ZKButtonImagePositionLeft;
     [button setImage:[UIImage imageNamed:@"arrow_l"] forState:UIControlStateNormal];
     [button setTitle:@"去开启" forState:UIControlStateNormal];
     [button setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont systemFontOfSize:12];
     button.spacingBetweenImageAndTitle = 8.f;
-    button.contentEdgeInsets = UIEdgeInsetsMake(4, 8, 4, 8);
+    button.contentEdgeInsets = UIEdgeInsetsMake(10, 8, 10, 8);
     kai_view_border_radius(button, 3, 1.f, UIColor.redColor);
     [view addSubview:button];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(normal.mas_right).offset(20);
         make.right.centerY.equalTo(view);
         make.height.lessThanOrEqualTo(view);
+        make.width.mas_equalTo(100);
         //        make.size.mas_equalTo(CGSizeMake(100, 100));
     }];
     
