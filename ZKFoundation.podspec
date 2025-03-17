@@ -28,7 +28,7 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'https://github.com/kaiser143/ZKFoundation.git', :tag => s.version.to_s }
   s.ios.deployment_target = '9.0'
   s.requires_arc    = true
-  s.default_subspecs = 'LocationManager', 'Permission', 'UIKit', 'Adapter', 'Categories', 'AuthContext', 'URLProtocol'
+  s.default_subspecs = ['LocationManager', 'Permission', 'UIKit', 'Adapter', 'Categories', 'AuthContext', 'URLProtocol']
   
   s.source_files = 'ZKFoundation/Classes/Source/*.{h,m}'
   
