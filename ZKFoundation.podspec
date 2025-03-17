@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ZKFoundation'
-  s.version          = "0.1.16"
+  s.version          = "0.2.0"
   s.summary          = 'A short description of ZKFoundation.'
 
 # This description is used to generate tags and improve search results.
@@ -28,44 +28,44 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'https://github.com/kaiser143/ZKFoundation.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
   s.requires_arc    = true
   s.default_subspecs = 'LocationManager', 'Permission', 'UIKit', 'Adapter', 'Categories', 'AuthContext', 'URLProtocol'
   
   s.source_files = 'ZKFoundation/Classes/Source/*.{h,m}'
   
   s.subspec 'LocationManager' do |ss|
-      ss.ios.deployment_target = '8.0'
+      ss.ios.deployment_target = '9.0'
       ss.source_files = 'ZKFoundation/Classes/Source/LocationManager/*.{h,m}'
   end
   
   s.subspec 'Permission' do |ss|
-      ss.ios.deployment_target = '8.0'
+      ss.ios.deployment_target = '9.0'
       ss.source_files = 'ZKFoundation/Classes/Source/Permission/*.{h,m}'
   end
   
   s.subspec 'UIKit' do |ss|
-      ss.ios.deployment_target = '8.0'
+      ss.ios.deployment_target = '9.0'
       ss.source_files = 'ZKFoundation/Classes/Source/iOS/*.{h,m}', 'ZKFoundation/Classes/Source/iOS/ZKNavigationBarTransition/*.{h,m}', 'ZKFoundation/Classes/Source/iOS/ZKNavigationBarTransition/internal/*.{h,m}', 'ZKFoundation/Classes/Source/iOS/ZKAlert/*.{h,m}'
   end
   
   s.subspec 'Adapter' do |ss|
-      ss.ios.deployment_target = '8.0'
+      ss.ios.deployment_target = '9.0'
       ss.source_files = 'ZKFoundation/Classes/Source/Adapter/*.{h,m}'
   end
   
   s.subspec 'Categories' do |ss|
-      ss.ios.deployment_target = '8.0'
+      ss.ios.deployment_target = '9.0'
       ss.source_files = 'ZKFoundation/Classes/Source/Categories/*.{h,m}'
   end
   
   s.subspec 'AuthContext' do |ss|
-      ss.ios.deployment_target = '8.0'
+      ss.ios.deployment_target = '9.0'
       ss.source_files = 'ZKFoundation/Classes/Source/AuthContext/*.{h,m}'
   end
   
   s.subspec 'URLProtocol' do |ss|
-      ss.ios.deployment_target = '8.0'
+      ss.ios.deployment_target = '9.0'
       ss.source_files = 'ZKFoundation/Classes/Source/URLProtocol/*.{h,m}'
   end
   
