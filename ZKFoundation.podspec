@@ -44,7 +44,7 @@ TODO: Add long description of the pod here.
   
   s.subspec 'UIKit' do |ss|
       ss.ios.deployment_target = '9.0'
-      ss.source_files = 'ZKFoundation/Classes/Source/iOS/*.{h,m}', 'ZKFoundation/Classes/Source/iOS/ZKNavigationBarTransition/*.{h,m}', 'ZKFoundation/Classes/Source/iOS/ZKNavigationBarTransition/internal/*.{h,m}', 'ZKFoundation/Classes/Source/iOS/ZKAlert/*.{h,m}'
+      ss.source_files = 'ZKFoundation/Classes/Source/UIKit/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKNavigationBarTransition/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKNavigationBarTransition/internal/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKAlert/*.{h,m}'
   end
   
   s.subspec 'Adapter' do |ss|
