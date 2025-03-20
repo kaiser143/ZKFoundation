@@ -75,7 +75,7 @@ typedef id _Nullable (^ZKTableAdapterFlattenMapBlock)(id dataSource, NSIndexPath
 /**
  *  @brief 是否显示侧边字母
  */
-@property (nonatomic, assign) BOOL isSection;
+@property (nonatomic, assign) BOOL allowsSideLetterPresentation;
 
 /**
  是否移动行
@@ -95,6 +95,12 @@ typedef id _Nullable (^ZKTableAdapterFlattenMapBlock)(id dataSource, NSIndexPath
 
 // default is NO. Controls whether multiple rows can be selected simultaneously in editing
 @property (nonatomic) BOOL allowsMultipleSelectionDuringEditing NS_AVAILABLE_IOS(5_0);
+
+/*!
+ * iOS 11 之后 estimatedRowHeight 如果值为 UITableViewAutomaticDimension，estimate 效果也会生效（iOS 11 以前要 > 0 才会生效）。
+ * 而当使用 estimate 效果时，会导致 contentSize 之类的计算不准确，所以这里给一个途径让项目可以方便地控制 UITableView（不包含子类，例如 UIPickerTableView）的 estimatedRowHeight 效果的开关
+ */
+@property (nonatomic, assign) BOOL estimatedHeightEnable;
 
 /**
  *  When using the storyboard and a single cell, set the property inspector same identifier
@@ -119,7 +125,8 @@ typedef id _Nullable (^ZKTableAdapterFlattenMapBlock)(id dataSource, NSIndexPath
 #pragma mark - :. Block事件
 
 /*!
- *  @brief    动态计算高度cell的高度并返回
+ *  @brief    动态计算高度cell的高度并返回,这个方法一般搭配 `UITableView+FDTemplateLayoutCell` 代码使用
+ *  @note 注意，使用了该方法后，建议把`estimatedRowHeight`设置成0，关掉系统的 self-sizing,避免页面跳动。可以通过`estimatedHeightEnable`控制。
  */
 - (void)autoHeightCell:(ZKTableAdapterCellAutoHeightForRowBlock)block;
 
@@ -152,6 +159,7 @@ typedef id _Nullable (^ZKTableAdapterFlattenMapBlock)(id dataSource, NSIndexPath
  *  @brief  cell侧滑编辑事件
  */
 - (void)commitEditingStyleForRow:(ZKTableAdapterCommitEditingStyleForRowBlock)block;
+
 /**
  *  @brief  cell侧滑标题
  */
@@ -179,6 +187,11 @@ typedef id _Nullable (^ZKTableAdapterFlattenMapBlock)(id dataSource, NSIndexPath
  */
 - (void)headerView:(ZKTableAdapterHeaderBlock)block;
 - (void)headerTitle:(ZKTableAdapterTitleHeaderBlock)block;
+
+/*!
+ *  @brief  动态返回 headerView 的高度
+ *  @note 注意，使用了该方法后，建议把`estimatedSectionHeaderHeight`设置成0，关掉系统的 self-sizing,避免页面跳动。
+ */
 - (void)heightForHeaderView:(ZKTableAdapterHeightForHeaderBlock)block;
 
 /*!
@@ -192,9 +205,15 @@ typedef id _Nullable (^ZKTableAdapterFlattenMapBlock)(id dataSource, NSIndexPath
  */
 - (void)footerView:(ZKTableAdapterFooterBlock)block;
 - (void)footerTitle:(ZKTableAdapterTitleFooterBlock)block;
+
+/*!
+ *  @brief  动态返回 footerView 的高度
+ *  @note 注意，使用了该方法后，建议把`estimatedSectionFooterHeight`设置成0，关掉系统的 self-sizing,避免页面跳动。
+ */
 - (void)heightForFooterView:(ZKTableAdapterHeightForFooterBlock)block;
 
 - (void)numberOfSections:(ZKTableAdapterNumberOfSectionsBlock)block;
+
 /**
  *  @brief  NumberOfRowsInSection
  */
@@ -260,6 +279,7 @@ typedef id _Nullable (^ZKTableAdapterFlattenMapBlock)(id dataSource, NSIndexPath
 - (void)deleteSection:(NSInteger)section;
 
 #pragma mark - :. Plain
+
 /**
  *  @brief  显示数据
  *
@@ -295,6 +315,7 @@ typedef id _Nullable (^ZKTableAdapterFlattenMapBlock)(id dataSource, NSIndexPath
  *  @param data 数据源
  */
 - (void)insertRows:(NSArray *)data;
+
 /**
  *  @brief  批量添加
  *

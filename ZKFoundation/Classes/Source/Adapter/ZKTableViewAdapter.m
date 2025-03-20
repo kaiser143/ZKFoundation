@@ -345,7 +345,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
  */
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
     NSArray *sectionArr = nil;
-    if (self.isSection) {
+    if (self.allowsSideLetterPresentation) {
         sectionArr = self.sectionIndexTitles;
     }
     return sectionArr;
@@ -527,7 +527,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
     headerLabel.textColor       = [UIColor darkGrayColor];
     [customHeaderView addSubview:headerLabel];
 
-    if (self.isSection) {
+    if (self.allowsSideLetterPresentation) {
         BOOL showSection = NO;
         showSection      = [tableView numberOfRowsInSection:section] != 0;
         headerLabel.text = (showSection) ? (self.sectionIndexTitles.count == [[_theCollation sectionTitles] count] ? [_sectionIndexTitles objectAtIndex:section] : [_sectionIndexTitles objectAtIndex:section + 1]) : nil;
@@ -559,7 +559,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
         lineView.backgroundColor = [UIColor colorWithRed:246.0 / 255.0 green:245.0 / 255.0 blue:245.0 / 255.0 alpha:1];
         [customHeaderView addSubview:lineView];
 
-        if (self.isSection) {
+        if (self.allowsSideLetterPresentation) {
             BOOL showSection = NO;
             showSection      = [self.kai_tableView numberOfRowsInSection:section] != 0;
             headerLabel.text = (showSection) ? (self.sectionIndexTitles.count == [[_theCollation sectionTitles] count] ? [_sectionIndexTitles objectAtIndex:section] : [_sectionIndexTitles objectAtIndex:section + 1]) : nil;
@@ -928,6 +928,13 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 - (void)setAllowsMultipleSelectionDuringEditing:(BOOL)allowsMultipleSelectionDuringEditing {
     self.kai_tableView.allowsMultipleSelectionDuringEditing = allowsMultipleSelectionDuringEditing;
     self.kai_tableView.editing                              = allowsMultipleSelectionDuringEditing;
+}
+
+- (void)setEstimatedHeightEnable:(BOOL)estimatedHeightEnable {
+    _estimatedHeightEnable = estimatedHeightEnable;
+    self.kai_tableView.estimatedRowHeight = estimatedHeightEnable ? UITableViewAutomaticDimension : 0;
+    self.kai_tableView.estimatedSectionHeaderHeight = estimatedHeightEnable ? UITableViewAutomaticDimension : 0;
+    self.kai_tableView.estimatedSectionFooterHeight = estimatedHeightEnable ? UITableViewAutomaticDimension : 0;
 }
 
 - (NSString *)cellIdentifier {
