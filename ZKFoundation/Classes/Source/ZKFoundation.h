@@ -35,6 +35,7 @@
     #import <ZKFoundation/ZKTextView.h>
     #import <ZKFoundation/ZKPageControl.h>
     #import <ZKFoundation/ZKTintedActionButton.h>
+    #import <ZKFoundation/ZKFloatLayoutView.h>
     #import <ZKFoundation/ZKInitialsPlaceholderView.h>
     #import <ZKFoundation/ZKPopupController.h>
     #import <ZKFoundation/ZKLoadingSpinner.h>
@@ -78,6 +79,7 @@
     #import "ZKTextView.h"
     #import "ZKPageControl.h"
     #import "ZKTintedActionButton.h"
+    #import "ZKFloatLayoutView.h"
     #import "ZKInitialsPlaceholderView.h"
     #import "ZKPopupController.h"
     #import "ZKLoadingSpinner.h"
