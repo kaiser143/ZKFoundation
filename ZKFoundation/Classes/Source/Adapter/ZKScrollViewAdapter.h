@@ -20,13 +20,13 @@ typedef void (^ZKScrollAdapterDidEndDeceleratingBlock)(UIScrollView *scrollView)
 
 @property (nonatomic, weak) UIScrollView *kai_scrollView;
 
-- (void)didScrollViewWillBeginDragging:(ZKScrollAdapterWillBeginDraggingBlock)block;
-- (void)didScrollViewDidScroll:(ZKScrollAdapterDidScrollBlock)block;
+- (void)willBeginDragging:(ZKScrollAdapterWillBeginDraggingBlock)block;
+- (void)didScroll:(ZKScrollAdapterDidScrollBlock)block;
 
-- (void)scrollViewWillEndDragging:(ZKScrollAdapterWillEndDraggingBlock)block;
-- (void)scrollViewDidEndDragging:(ZKScrollAdapterDidEndDraggingBlock)block;
+- (void)willEndDragging:(ZKScrollAdapterWillEndDraggingBlock)block;
+- (void)didEndDragging:(ZKScrollAdapterDidEndDraggingBlock)block;
 
-- (void)didScrollViewDidEndDecelerating:(ZKScrollAdapterDidEndDeceleratingBlock)block;
+- (void)didEndDecelerating:(ZKScrollAdapterDidEndDeceleratingBlock)block;
 
 @end
 
