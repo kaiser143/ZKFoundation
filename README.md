@@ -112,9 +112,21 @@ adapter.didSelectRowAtIndexPathBlock = ^(UITableView *tableView, NSIndexPath *in
 
 ```objc
 // 在 ViewController 中启用导航栏过渡
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.zk_navigationBarTransitionEnabled = YES;
+ - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+         CGFloat headerHeight = CGRectGetHeight(self.headerView.frame);
+         if (@available(iOS 11, *)) {
+             headerHeight -= self.view.safeAreaInsets.top;
+         } else {
+             headerHeight -= [self.topLayoutGuide length];
+         }
+
+         CGFloat progress         = scrollView.contentOffset.y + scrollView.contentInset.top;
+         CGFloat gradientProgress = MIN(1, MAX(0, progress / headerHeight));
+         gradientProgress         = gradientProgress * gradientProgress * gradientProgress * gradientProgress;
+         if (gradientProgress != _gradientProgress) {
+             _gradientProgress         = gradientProgress;
+             [self kai_refreshNavigationBarStyle];
+         }
 }
 ```
 
