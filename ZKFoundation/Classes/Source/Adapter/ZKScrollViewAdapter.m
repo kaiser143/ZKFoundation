@@ -59,23 +59,23 @@
 
 #pragma mark - :. public methods
 
-- (void)didScrollViewWillBeginDragging:(ZKScrollAdapterWillBeginDraggingBlock)block {
+- (void)willBeginDragging:(ZKScrollAdapterWillBeginDraggingBlock)block {
     self.scrollViewBdBlock = block;
 }
 
-- (void)didScrollViewDidScroll:(ZKScrollAdapterDidScrollBlock)block {
+- (void)didScroll:(ZKScrollAdapterDidScrollBlock)block {
     self.scrollViewddBlock = block;
 }
 
-- (void)scrollViewWillEndDragging:(ZKScrollAdapterWillEndDraggingBlock)block {
+- (void)willEndDragging:(ZKScrollAdapterWillEndDraggingBlock)block {
     self.scrollViewWillEndDraggingBlock = block;
 }
 
-- (void)scrollViewDidEndDragging:(ZKScrollAdapterDidEndDraggingBlock)block {
+- (void)didEndDragging:(ZKScrollAdapterDidEndDraggingBlock)block {
     self.scrollViewDidEndDraggingBlock = block;
 }
 
-- (void)didScrollViewDidEndDecelerating:(ZKScrollAdapterDidEndDeceleratingBlock)block {
+- (void)didEndDecelerating:(ZKScrollAdapterDidEndDeceleratingBlock)block {
     self.scrollViewDidEndDeceleratingBlock = block;
 }
 

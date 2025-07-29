@@ -97,10 +97,10 @@
     [self.tableView.adapter cellWillDisplay:^(__kindof UITableViewCell *_Nonnull cell, NSIndexPath *_Nonnull indexPath, id _Nonnull dataSource, BOOL isCellDisplay) {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }];
-    [self.tableView.adapter scrollViewWillEndDragging:^(UIScrollView *_Nonnull scrollView, CGPoint velocity, CGPoint *_Nonnull targetContentOffset){
+    [self.tableView.adapter willEndDragging:^(UIScrollView *_Nonnull scrollView, CGPoint velocity, CGPoint *_Nonnull targetContentOffset){
 
     }];
-    [self.tableView.adapter didScrollViewDidScroll:^(UIScrollView *_Nonnull scrollView) {
+    [self.tableView.adapter didScroll:^(UIScrollView *_Nonnull scrollView) {
         @strongify(self);
         CGFloat headerHeight = 550;
         if (@available(iOS 11, *)) {
