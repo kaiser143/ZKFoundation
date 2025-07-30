@@ -2,8 +2,8 @@
 //  ZKSessionConfiguration.m
 //  ZKURLProtocol
 //
-//  Created by ZhangJingHao2345 on 2018/8/24.
-//  Copyright © 2018年 ZhangJingHao2345. All rights reserved.
+//  Created by Kaiser on 2018/8/24.
+//  Copyright © 2018年 Kaiser. All rights reserved.
 //
 
 #import "ZKSessionConfiguration.h"
@@ -16,7 +16,7 @@
     static ZKSessionConfiguration *staticConfiguration;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        staticConfiguration=[[ZKSessionConfiguration alloc] init];
+        staticConfiguration = [[ZKSessionConfiguration alloc] init];
     });
     return staticConfiguration;
 }
@@ -30,14 +30,14 @@
 }
 
 - (void)load {
-    self.isSwizzle=YES;
+    self.isSwizzle = YES;
     Class cls = NSClassFromString(@"__NSCFURLSessionConfiguration") ?: NSClassFromString(@"NSURLSessionConfiguration");
     [self swizzleSelector:@selector(protocolClasses) fromClass:cls toClass:[self class]];
     
 }
 
 - (void)unload {
-    self.isSwizzle=NO;
+    self.isSwizzle = NO;
     Class cls = NSClassFromString(@"__NSCFURLSessionConfiguration") ?: NSClassFromString(@"NSURLSessionConfiguration");
     [self swizzleSelector:@selector(protocolClasses) fromClass:cls toClass:[self class]];
 }
@@ -46,7 +46,7 @@
     Method originalMethod = class_getInstanceMethod(original, selector);
     Method stubMethod = class_getInstanceMethod(stub, selector);
     if (!originalMethod || !stubMethod) {
-        [NSException raise:NSInternalInconsistencyException format:@"Couldn't load NEURLSessionConfiguration."];
+        [NSException raise:NSInternalInconsistencyException format:@"Couldn't load ZKSessionConfiguration."];
     }
     method_exchangeImplementations(originalMethod, stubMethod);
 }

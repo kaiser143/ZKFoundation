@@ -22,32 +22,46 @@ static inline void _kai_dispatch_async_on_main_queue(void (^block)(void)) {
     static dispatch_once_t onceToken;
     static ZKAuthContext *instance = nil;
     dispatch_once(&onceToken, ^{
-        instance = ZKAuthContext.new;
+        instance = [[ZKAuthContext alloc] init];
     });
 
     return instance;
 }
 
 - (BOOL)canEvaluate {
-    return [self canEvaluate:nil];
+    NSError *error = nil;
+    return [self canEvaluateWithError:&error];
 }
 
-- (BOOL)canEvaluate:(NSError *__autoreleasing *)error {
-    return [self canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:error];
+- (BOOL)canEvaluateWithError:(NSError *__autoreleasing *)error {
+    if (@available(iOS 11.0, *)) {
+        // 优先使用更通用的生物识别策略
+        return [self canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:error];
+    } else {
+        return NO;
+    }
 }
 
-- (void)authWithDescribe:(NSString *)desc callback:(void (^)(ZKAuthContextType, NSError *_Nullable))block {
+- (void)authWithDescribe:(NSString *)desc callback:(void(^)(ZKAuthContextType type, NSError *_Nullable error))block {
+    [self authWithDescribe:desc fallbackTitle:nil callback:block];
+}
+
+- (void)authWithDescribe:(NSString *)desc 
+         fallbackTitle:(NSString * _Nullable)fallbackTitle
+              callback:(void(^)(ZKAuthContextType type, NSError *_Nullable error))block {
     if (!block) return;
-
-    if (@available(iOS 8.0, *)) {
+    
+    if (@available(iOS 11.0, *)) {
         NSError *error = nil;
-        if ([self canEvaluate:&error]) {
-            __weak __typeof(self) weakSelf = self;
+        if ([self canEvaluateWithError:&error]) {
+            if (fallbackTitle) {
+                self.localizedFallbackTitle = fallbackTitle;
+            }
+            
             [self evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
                  localizedReason:desc
                            reply:^(BOOL success, NSError *_Nullable error) {
-                               __strong __typeof(weakSelf) strongSelf = weakSelf;
-                               ZKAuthContextType type                 = success ? ZKAuthContextTypeSuccess : [strongSelf translateTypeFrom:error.code];
+                               ZKAuthContextType type = success ? ZKAuthContextTypeSuccess : [self translateTypeFrom:error.code];
                                _kai_dispatch_async_on_main_queue(^{
                                    block(type, error);
                                });
@@ -59,7 +73,7 @@ static inline void _kai_dispatch_async_on_main_queue(void (^block)(void)) {
         }
     } else {
         _kai_dispatch_async_on_main_queue(^{
-            block(ZKAuthContextTypeNotSupport, nil);
+            block(ZKAuthContextTypeVersionNotSupport, nil);
         });
     }
 }
@@ -82,14 +96,15 @@ static inline void _kai_dispatch_async_on_main_queue(void (^block)(void)) {
         case LAErrorPasscodeNotSet:
             type = ZKAuthContextTypePasswordNotSet;
             break;
-        case LAErrorTouchIDNotEnrolled:
-            type = ZKAuthContextTypeTouchIDNotSet;
+        // 使用新的生物识别错误码（iOS 11.0+），它们与旧的TouchID错误码值相同
+        case LAErrorBiometryNotEnrolled:  // 等同于 LAErrorTouchIDNotEnrolled
+            type = ZKAuthContextTypeBiometricNotSet;
             break;
-        case LAErrorTouchIDNotAvailable:
-            type = ZKAuthContextTypeTouchIDNotAvailable;
+        case LAErrorBiometryNotAvailable:  // 等同于 LAErrorTouchIDNotAvailable  
+            type = ZKAuthContextTypeBiometricNotAvailable;
             break;
-        case LAErrorTouchIDLockout:
-            type = ZKAuthContextTypeTouchIDLockout;
+        case LAErrorBiometryLockout:  // 等同于 LAErrorTouchIDLockout
+            type = ZKAuthContextTypeBiometricLockout;
             break;
         case LAErrorAppCancel:
             type = ZKAuthContextTypeAppCancel;
@@ -103,6 +118,25 @@ static inline void _kai_dispatch_async_on_main_queue(void (^block)(void)) {
     }
 
     return type;
+}
+
+- (LABiometryType)biometryType API_AVAILABLE(ios(11.0)) {
+    NSError *error = nil;
+    [self canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
+    return self.biometryType;
+}
+
+- (NSString *)biometryTypeDescription API_AVAILABLE(ios(11.0)) {
+    switch (self.biometryType) {
+        case LABiometryTypeFaceID:
+            return @"Face ID";
+        case LABiometryTypeTouchID:
+            return @"Touch ID";
+        case LABiometryTypeNone:
+            return @"无生物识别";
+        default:
+            return @"未知类型";
+    }
 }
 
 @end

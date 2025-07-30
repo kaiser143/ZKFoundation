@@ -2,8 +2,8 @@
 //  ZKSessionConfiguration.h
 //  ZKURLProtocol
 //
-//  Created by ZhangJingHao2345 on 2018/8/24.
-//  Copyright © 2018年 ZhangJingHao2345. All rights reserved.
+//  Created by Kaiser on 2018/8/24.
+//  Copyright © 2018年 Kaiser. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

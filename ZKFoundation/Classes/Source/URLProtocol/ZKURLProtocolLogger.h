@@ -27,7 +27,7 @@ typedef NS_ENUM(NSUInteger, ZKHTTPRequestLoggerLevel) {
 + (void)setLogLevel:(ZKHTTPRequestLoggerLevel)level;
 
 /*!
- *  @brief    <#Description#>
+ *  @brief    添加自定义网络日志记录器
  *  @code
     @interface ZKNetworkConsoleLogger : NSObject <ZKNetworkLoggerProtocol> @end
 
@@ -37,7 +37,7 @@ typedef NS_ENUM(NSUInteger, ZKHTTPRequestLoggerLevel) {
  
     ZKNetworkConsoleLogger<ZKNetworkLoggerProtocol> *testLogger = [ZKNetworkConsoleLogger new];
     NSPredicate *filter = [NSPredicate predicateWithBlock:^BOOL(NSURLRequest *request, NSDictionary<NSString *,id> * _Nullable bindings) {
-        return !([request.URL.baseURL.absoluteString isEqualToString:@"httpbin.org"]);
+        return !([request.URL.absoluteString containsString:@"httpbin.org"]);
     }];
     testLogger.filter = filter;
  

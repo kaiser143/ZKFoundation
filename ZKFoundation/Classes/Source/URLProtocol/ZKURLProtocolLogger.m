@@ -31,7 +31,7 @@
 
 - (NSMutableSet *)mutableLoggers {
     if (!_mutableLoggers) {
-        _mutableLoggers = NSMutableSet.new;
+        _mutableLoggers = [[NSMutableSet alloc] init];
     }
     return _mutableLoggers;
 }
@@ -40,7 +40,7 @@
 
 @interface NSObject (__KAIURL)
 
-- (id)KAI_defaultValue:(id)defaultData;
+- (id)__kai_defaultValue:(id)defaultData;
 
 @end
 
@@ -151,7 +151,8 @@ static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
         [strings appendFormat:@"\n\n********************************************************\nRequest End\n********************************************************\n\n\n\n"];
         NSLog(@"%@", strings);
     } else {
-        NSLog(@"%@ '%@': %@", [self.request HTTPMethod], [[self.request URL] absoluteString], [self.request.HTTPBody utf8String]);
+        NSString *bodyString = self.request.HTTPBody ? [self.request.HTTPBody utf8String] : @"";
+        NSLog(@"%@ '%@': %@", [self.request HTTPMethod], [[self.request URL] absoluteString], bodyString);
     }
 #endif
 
@@ -256,7 +257,7 @@ static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
 
 @implementation NSObject (__KAIURL)
 
-- (id)KAI_defaultValue:(id)defaultData {
+- (id)__kai_defaultValue:(id)defaultData {
     BOOL shouldContinue = NO;
     if ([self isKindOfClass:[NSString class]] || [self isKindOfClass:NSClassFromString(@"NSTaggedPointerString")] || [self isKindOfClass:NSClassFromString(@"__NSCFConstantString")]) {
         if ([defaultData isKindOfClass:[NSString class]] || [defaultData isKindOfClass:NSClassFromString(@"NSTaggedPointerString")] || [defaultData isKindOfClass:NSClassFromString(@"__NSCFConstantString")]) {
@@ -270,14 +271,14 @@ static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
         return [NSString stringWithFormat:@"%@", defaultData];
     }
 
-    if ([self KAI_isEmptyObject]) {
+    if ([self __kai_isEmptyObject]) {
         return defaultData;
     }
 
     return self;
 }
 
-- (BOOL)KAI_isEmptyObject {
+- (BOOL)__kai_isEmptyObject {
     if ([self isEqual:[NSNull null]]) {
         return YES;
     }
@@ -312,7 +313,7 @@ static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
     [self appendFormat:@"\n\nHTTP Header:\n%@", request.allHTTPHeaderFields ? request.allHTTPHeaderFields : @"\t\t\t\t\tN/A"];
     //    [self appendFormat:@"\n\nHTTP Origin Params:\n\t%@", request.originRequestParams.CT_jsonString];
     //    [self appendFormat:@"\n\nHTTP Actual Params:\n\t%@", request.actualRequestParams.CT_jsonString];
-    [self appendFormat:@"\n\nHTTP Body:\n\t%@", [[[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding] KAI_defaultValue:@"\t\t\t\tN/A"]];
+    [self appendFormat:@"\n\nHTTP Body:\n\t%@", [[[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding] __kai_defaultValue:@"\t\t\t\tN/A"]];
 
     NSMutableString *headerString = [[NSMutableString alloc] init];
     [request.allHTTPHeaderFields enumerateKeysAndObjectsUsingBlock:^(NSString *_Nonnull key, NSString *_Nonnull obj, BOOL *_Nonnull stop) {
@@ -327,7 +328,7 @@ static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
         [self appendString:headerString];
     }
     if (request.HTTPBody.length > 0) {
-        [self appendFormat:@" -d '%@'", [[[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding] KAI_defaultValue:@"\t\t\t\tN/A"]];
+        [self appendFormat:@" -d '%@'", [[[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding] __kai_defaultValue:@"\t\t\t\tN/A"]];
     }
 
     [self appendFormat:@" %@", request.URL];

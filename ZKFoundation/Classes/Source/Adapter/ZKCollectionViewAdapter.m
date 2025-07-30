@@ -50,7 +50,7 @@
 - (void)registerNibs:(NSArray<NSString *> *)cellNibNames {
     if (cellNibNames.count > 0) {
         [cellNibNames enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-            if (!self.kai_cellXIB && [[self.kai_cellXIB objectAtIndex:idx] boolValue])
+            if (self.kai_cellXIB && idx < self.kai_cellXIB.count && [[self.kai_cellXIB objectAtIndex:idx] boolValue])
                 [self.kai_collectionView registerNib:[UINib nibWithNibName:obj bundle:nil] forCellWithReuseIdentifier:obj];
             else
                 [self.kai_collectionView registerClass:NSClassFromString(obj) forCellWithReuseIdentifier:obj];
@@ -64,7 +64,7 @@
 - (void)registerNibHeaders:(NSArray<NSString *> *)cellNibNames {
     if (cellNibNames) {
         [cellNibNames enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-            if (self.kai_cellHeaderXIB && [[self.kai_cellHeaderXIB objectAtIndex:idx] boolValue])
+            if (self.kai_cellHeaderXIB && idx < self.kai_cellHeaderXIB.count && [[self.kai_cellHeaderXIB objectAtIndex:idx] boolValue])
                 [self.kai_collectionView registerNib:[UINib nibWithNibName:obj bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:obj];
             else
                 [self.kai_collectionView registerClass:NSClassFromString(obj) forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:obj];
@@ -431,7 +431,7 @@
     if (subAry.count <= indexPath.row) return;
 
     [subAry removeObjectAtIndex:indexPath.row];
-    [self.kai_collectionView insertItemsAtIndexPaths:@[indexPath]];
+    [self.kai_collectionView deleteItemsAtIndexPaths:@[indexPath]];
 }
 
 - (void)reloadItem:(id)model
@@ -618,7 +618,7 @@
     if (_footerIdentifier == nil) {
         NSString *curVCIdentifier = NSStringFromClass(self.class);
         if (curVCIdentifier) {
-            NSString *curCellIdentifier = [NSString stringWithFormat:@"ZK%@Header", curVCIdentifier];
+            NSString *curCellIdentifier = [NSString stringWithFormat:@"ZK%@Footer", curVCIdentifier];
             _footerIdentifier           = curCellIdentifier;
         }
     }
@@ -669,11 +669,11 @@
     self.cellForItemAtIndexPathBlock = block;
 }
 
-- (void)headerForItemAtIndexPah:(ZKCollectionAdapterHeaderForItemAtIndexPathBlock)block {
+- (void)headerForItemAtIndexPath:(ZKCollectionAdapterHeaderForItemAtIndexPathBlock)block {
     self.headerForItemAtIndexPathBlock = block;
 }
 
-- (void)footerForItemAtIndexPah:(ZKCollectionAdapterFooterForItemAtIndexPathBlock)block {
+- (void)footerForItemAtIndexPath:(ZKCollectionAdapterFooterForItemAtIndexPathBlock)block {
     self.footerForItemAtIndexPathBlock = block;
 }
 
