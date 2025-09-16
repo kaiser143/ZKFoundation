@@ -6,7 +6,6 @@
 //
 
 #import "UITableView+ZKAdapter.h"
-#import "NSObject+ZKMultipleDelegates.h"
 #import "ZKTableViewAdapter.h"
 #import <ZKCategories/ZKCategories.h>
 
@@ -18,7 +17,6 @@
     
     tableHelper = ZKTableViewAdapter.new;
     tableHelper.kai_tableView = self;
-    self.kai_multipleDelegatesEnabled = YES;
     self.dataSource = tableHelper;
     self.delegate = tableHelper;
     [self setAssociateValue:tableHelper withKey:_cmd];

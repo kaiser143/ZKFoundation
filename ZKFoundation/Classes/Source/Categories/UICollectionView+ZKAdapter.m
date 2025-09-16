@@ -6,7 +6,6 @@
 //
 
 #import "UICollectionView+ZKAdapter.h"
-#import "NSObject+ZKMultipleDelegates.h"
 #import <ZKCategories/ZKCategories.h>
 
 @implementation UICollectionView (ZKAdapter)
@@ -17,7 +16,6 @@
     
     tableHelper = ZKCollectionViewAdapter.new;
     tableHelper.kai_collectionView = self;
-    self.kai_multipleDelegatesEnabled = YES;
     self.delegate = tableHelper;
     self.dataSource = tableHelper;
     [self setAssociateValue:tableHelper withKey:_cmd];
