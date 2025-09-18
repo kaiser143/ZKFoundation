@@ -697,8 +697,8 @@
     self.insetForSectionAtIndexBlock = block;
 }
 
-- (void)minimumInteritemSpacingForSection:(ZKCollectionAdapterMinimumInteritemSpacingForSectionBlock)blcok {
-    self.minimumInteritemSpacingForSectionBlock = blcok;
+- (void)minimumInteritemSpacingForSection:(ZKCollectionAdapterMinimumInteritemSpacingForSectionBlock)block {
+    self.minimumInteritemSpacingForSectionBlock = block;
 }
 
 - (void)minimumLineSpacingForSection:(ZKCollectionAdapterMinimumLineSpacingForSectionBlock)block {

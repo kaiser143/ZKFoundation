@@ -156,7 +156,7 @@ typedef id _Nullable (^ZKCollectionAdapterCurrentFooterModelAtIndexPathBlock)(id
 /// 设置section的边距
 - (void)insetForSectionAtIndex:(ZKCollectionAdapterInsetForSectionAtIndexBlock)block;
 /// 这是左右两个cell之间的间距
-- (void)minimumInteritemSpacingForSection:(ZKCollectionAdapterMinimumInteritemSpacingForSectionBlock)blcok;
+- (void)minimumInteritemSpacingForSection:(ZKCollectionAdapterMinimumInteritemSpacingForSectionBlock)block;
 /// 设置上下两个cell之间的间距
 - (void)minimumLineSpacingForSection:(ZKCollectionAdapterMinimumLineSpacingForSectionBlock)block;
 
@@ -177,8 +177,8 @@ typedef id _Nullable (^ZKCollectionAdapterCurrentFooterModelAtIndexPathBlock)(id
 - (void)currentFooterModel:(ZKCollectionAdapterCurrentFooterModelAtIndexPathBlock)block;
 
 - (void)cellForItemAtIndexPath:(ZKCollectionAdapterCellForItemAtIndexPathBlock)block;
-- (void)headerForItemAtIndexPah:(ZKCollectionAdapterHeaderForItemAtIndexPathBlock)block;
-- (void)footerForItemAtIndexPah:(ZKCollectionAdapterFooterForItemAtIndexPathBlock)block;
+- (void)headerForItemAtIndexPath:(ZKCollectionAdapterHeaderForItemAtIndexPathBlock)block;
+- (void)footerForItemAtIndexPath:(ZKCollectionAdapterFooterForItemAtIndexPathBlock)block;
 
 - (void)sizeForItemAtIndexPath:(ZKCollectionAdapterCellForItemSizeBlock)block;
 - (void)referenceHeaderSize:(ZKCollectionAdapterReferenceHeaderSizeBlock)block;
