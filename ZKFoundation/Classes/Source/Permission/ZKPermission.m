@@ -7,22 +7,51 @@
 //
 
 #import "ZKPermission.h"
-#import <Photos/Photos.h>
-#import <AVFoundation/AVFoundation.h>
-#import <EventKit/EventKit.h>
-#import <Contacts/Contacts.h>
-#import <Speech/Speech.h>
-#import <HealthKit/HealthKit.h>
-#import <MediaPlayer/MediaPlayer.h>
-#import <UserNotifications/UserNotifications.h>
-#import <CoreBluetooth/CoreBluetooth.h>
-#import <CoreLocation/CoreLocation.h>
 
+// 条件导入框架，只导入项目中已引入的框架
+// 使用 __has_include() 自动检测，无需手动配置
+#if ZK_PERMISSION_PHOTO
+#import <Photos/Photos.h>
+#endif
+
+#if ZK_PERMISSION_CAMERA || ZK_PERMISSION_MICROPHONE
+#import <AVFoundation/AVFoundation.h>
+#endif
+
+#if ZK_PERMISSION_EVENT || ZK_PERMISSION_REMINDER
+#import <EventKit/EventKit.h>
+#endif
+
+#if ZK_PERMISSION_CONTACT
+#import <Contacts/Contacts.h>
+#endif
+
+#if ZK_PERMISSION_SPEECH
+#import <Speech/Speech.h>
+#endif
+
+#if ZK_PERMISSION_MEDIA
+#import <MediaPlayer/MediaPlayer.h>
+#endif
+
+#if ZK_PERMISSION_NOTIFICATION
+#import <UserNotifications/UserNotifications.h>
+#endif
+
+#if ZK_PERMISSION_BLUETOOTH
+#import <CoreBluetooth/CoreBluetooth.h>
+#endif
+
+#if ZK_PERMISSION_LOCATION
+#import <CoreLocation/CoreLocation.h>
 static NSInteger const ZKPermissionTypeLocationDistanceFilter = 10; //`Positioning accuracy` -> 定位精度
+#endif
 
 @interface ZKPermission ()
 
+#if ZK_PERMISSION_LOCATION
 @property (nonatomic, strong) CLLocationManager *locationManager;
+#endif
 
 @end
 
@@ -40,6 +69,7 @@ static NSInteger const ZKPermissionTypeLocationDistanceFilter = 10; //`Positioni
 - (void)requestWithType:(ZKPermissionType)type
                callback:(void (^)(BOOL response, ZKPermissionAuthorizationStatus status))callback {
     switch (type) {
+#if ZK_PERMISSION_PHOTO
         case ZKPermissionTypePhoto: {
             [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
                 if (status == PHAuthorizationStatusDenied) {
@@ -53,7 +83,9 @@ static NSInteger const ZKPermissionTypeLocationDistanceFilter = 10; //`Positioni
                 }
             }];
         } break;
+#endif
 
+#if ZK_PERMISSION_CAMERA
         case ZKPermissionTypeCamera: {
             [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo
                                      completionHandler:^(BOOL granted) {
@@ -71,7 +103,9 @@ static NSInteger const ZKPermissionTypeLocationDistanceFilter = 10; //`Positioni
                                          }
                                      }];
         } break;
+#endif
 
+#if ZK_PERMISSION_MEDIA
         case ZKPermissionTypeMedia: {
             if (@available(iOS 9.3, *)) {
                 [MPMediaLibrary requestAuthorization:^(MPMediaLibraryAuthorizationStatus status) {
@@ -87,7 +121,9 @@ static NSInteger const ZKPermissionTypeLocationDistanceFilter = 10; //`Positioni
                 }];
             }
         } break;
+#endif
 
+#if ZK_PERMISSION_MICROPHONE
         case ZKPermissionTypeMicrophone: {
             [AVCaptureDevice requestAccessForMediaType:AVMediaTypeAudio
                                      completionHandler:^(BOOL granted) {
@@ -105,7 +141,9 @@ static NSInteger const ZKPermissionTypeLocationDistanceFilter = 10; //`Positioni
                                          }
                                      }];
         } break;
+#endif
 
+#if ZK_PERMISSION_LOCATION
         case ZKPermissionTypeLocationWhenInUse:
         case ZKPermissionTypeLocationAlways: {
             if ([CLLocationManager locationServicesEnabled]) {
@@ -133,7 +171,9 @@ static NSInteger const ZKPermissionTypeLocationDistanceFilter = 10; //`Positioni
                 callback(NO, ZKPermissionAuthorizationStatusRestricted);
             }
         } break;
+#endif
 
+#if ZK_PERMISSION_BLUETOOTH
         case ZKPermissionTypeBluetooth: {
             if (@available(iOS 10.0, *)) {
                 CBCentralManager *centralManager = [[CBCentralManager alloc] init];
@@ -145,7 +185,9 @@ static NSInteger const ZKPermissionTypeLocationDistanceFilter = 10; //`Positioni
                 }
             }
         } break;
+#endif
 
+#if ZK_PERMISSION_NOTIFICATION
         case ZKPermissionTypePushNotification: {
             if (@available(iOS 10.0, *)) {
                 UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
@@ -167,7 +209,9 @@ static NSInteger const ZKPermissionTypeLocationDistanceFilter = 10; //`Positioni
             }
 #pragma clang diagnostic pop
         } break;
+#endif
 
+#if ZK_PERMISSION_SPEECH
         case ZKPermissionTypeSpeech: {
             if (@available(iOS 10, *)) {
                 [SFSpeechRecognizer requestAuthorization:^(SFSpeechRecognizerAuthorizationStatus status) {
@@ -183,7 +227,9 @@ static NSInteger const ZKPermissionTypeLocationDistanceFilter = 10; //`Positioni
                 }];
             }
         } break;
+#endif
 
+#if ZK_PERMISSION_EVENT
         case ZKPermissionTypeEvent: {
             EKEventStore *store = [[EKEventStore alloc] init];
             [store requestAccessToEntityType:EKEntityTypeEvent
@@ -202,7 +248,9 @@ static NSInteger const ZKPermissionTypeLocationDistanceFilter = 10; //`Positioni
                                       }
                                   }];
         } break;
+#endif
 
+#if ZK_PERMISSION_CONTACT
         case ZKPermissionTypeContact: {
             if (@available(iOS 9.0, *)) {
                 CNContactStore *contactStore = [[CNContactStore alloc] init];
@@ -223,7 +271,9 @@ static NSInteger const ZKPermissionTypeLocationDistanceFilter = 10; //`Positioni
                                        }];
             }
         } break;
+#endif
 
+#if ZK_PERMISSION_REMINDER
         case ZKPermissionTypeReminder: {
             EKEventStore *eventStore = [[EKEventStore alloc] init];
             [eventStore requestAccessToEntityType:EKEntityTypeReminder
@@ -242,6 +292,7 @@ static NSInteger const ZKPermissionTypeLocationDistanceFilter = 10; //`Positioni
                                            }
                                        }];
         } break;
+#endif
 
         default:
             break;
