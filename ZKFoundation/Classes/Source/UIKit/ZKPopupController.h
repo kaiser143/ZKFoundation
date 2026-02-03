@@ -35,14 +35,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-// ZKPopupStyle: Controls how the popup looks once presented
+// ZKPopupStyle：控制弹窗展示后的外观样式
 typedef NS_ENUM(NSUInteger, ZKPopupStyle) {
-    ZKPopupStyleActionSheet = 0, // Displays the popup similar to an action sheet from the bottom.
-    ZKPopupStyleCentered, // Displays the popup in the center of the screen.
-    ZKPopupStyleFullscreen // Displays the popup similar to a fullscreen viewcontroller.
+    ZKPopupStyleActionSheet = 0, // 从底部展示，类似系统 Action Sheet
+    ZKPopupStyleCentered, // 在屏幕中央展示
+    ZKPopupStyleFullscreen // 全屏展示，类似全屏视图控制器
 };
 
-// ZKPopupPresentationStyle: Controls how the popup is presented
+// ZKPopupPresentationStyle：控制弹窗的出场动画方式
 typedef NS_ENUM(NSInteger, ZKPopupPresentationStyle) {
     ZKPopupPresentationStyleFadeIn = 0,
     ZKPopupPresentationStyleSlideInFromTop,
@@ -51,7 +51,7 @@ typedef NS_ENUM(NSInteger, ZKPopupPresentationStyle) {
     ZKPopupPresentationStyleSlideInFromRight
 };
 
-// ZKPopupMaskType
+// ZKPopupMaskType：弹窗背景遮罩类型
 typedef NS_ENUM(NSInteger, ZKPopupMaskType) {
     ZKPopupMaskTypeClear,
     ZKPopupMaskTypeDimmed,
@@ -60,20 +60,20 @@ typedef NS_ENUM(NSInteger, ZKPopupMaskType) {
 
 @interface ZKPopupTheme : NSObject
 
-@property (nonatomic, strong) UIColor *backgroundColor; // Background color of the popup content view (Default white)
-@property (nonatomic, strong) UIColor *customMaskColor; // Custom color for ZKPopupMaskTypeCustom
-@property (nonatomic, assign) CGFloat cornerRadius; // Corner radius of the popup content view (Default 4.0)
-@property (nonatomic, assign) UIEdgeInsets popupContentInsets; // Inset of labels, images and buttons on the popup content view (Default 16.0 on all sides)
-@property (nonatomic, assign) ZKPopupStyle popupStyle; // How the popup looks once presented (Default centered)
-@property (nonatomic, assign) ZKPopupPresentationStyle presentationStyle; // How the popup is presented (Defauly slide in from bottom. NOTE: Only applicable to ZKPopupStyleCentered)
-@property (nonatomic, assign) ZKPopupMaskType maskType; // Backgound mask of the popup (Default dimmed)
-@property (nonatomic, assign) BOOL dismissesOppositeDirection; // If presented from a direction, should it dismiss in the opposite? (Defaults to NO. i.e. Goes back the way it came in)
-@property (nonatomic, assign) BOOL shouldDismissOnBackgroundTouch; // Popup should dismiss on tapping on background mask (Default yes)
-@property (nonatomic, assign) BOOL movesAboveKeyboard; // Popup should move up when the keyboard appears (Default yes)
-@property (nonatomic, assign) CGFloat blurEffectAlpha; // Alpha of the background blur effect (Default 0.0)
-@property (nonatomic, assign) CGFloat contentVerticalPadding; // Spacing between each vertical element (Default 12.0)
-@property (nonatomic, assign) CGFloat maxPopupWidth; // Maxiumum width that the popup should be (Default 300)
-@property (nonatomic, assign) CGFloat animationDuration; // Duration of presentation animations (Default 0.3s)
+@property (nonatomic, strong) UIColor *backgroundColor; // 弹窗内容视图背景色（默认白色）
+@property (nonatomic, strong) UIColor *customMaskColor; // ZKPopupMaskTypeCustom 时的自定义遮罩颜色
+@property (nonatomic, assign) CGFloat cornerRadius; // 弹窗内容视图圆角（默认 4.0）
+@property (nonatomic, assign) UIEdgeInsets popupContentInsets; // 弹窗内容内边距（默认四边 16.0）
+@property (nonatomic, assign) ZKPopupStyle popupStyle; // 弹窗展示样式（默认居中）
+@property (nonatomic, assign) ZKPopupPresentationStyle presentationStyle; // 出场动画方式（默认从底部滑入。仅对 ZKPopupStyleCentered 生效）
+@property (nonatomic, assign) ZKPopupMaskType maskType; // 背景遮罩类型（默认半透明暗色）
+@property (nonatomic, assign) BOOL dismissesOppositeDirection; // 是否沿出场反方向消失（默认 NO，即原路返回）
+@property (nonatomic, assign) BOOL shouldDismissOnBackgroundTouch; // 点击背景遮罩是否关闭弹窗（默认 YES）
+@property (nonatomic, assign) BOOL movesAboveKeyboard; // 键盘弹出时弹窗是否上移（默认 YES）
+@property (nonatomic, assign) CGFloat blurEffectAlpha; // 背景模糊效果透明度（默认 0.0）
+@property (nonatomic, assign) CGFloat contentVerticalPadding; // 垂直方向元素间距（默认 12.0）
+@property (nonatomic, assign) CGFloat maxPopupWidth; // 弹窗最大宽度（默认 300）
+@property (nonatomic, assign) CGFloat animationDuration; // 出场/退场动画时长（默认 0.3 秒）
 
 // Factory method to help build a default theme
 + (ZKPopupTheme *)defaultTheme;
