@@ -9,155 +9,144 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*!
- *  @brief    compares two software versions
- *  Examples
- *      "3.0" = "3.0"
- *      "3.0a2" = "3.0a2"
- *      "3.0" > "2.5"
- *      "3.1" > "3.0"
- *      "3.02" < "3.03"
- *      "3.0.2" < "3.0.3"
- *      "3.00" = "3.0"
- *      "3.02" > "3.0.3"
- *      "3.02" > "3.0.2"
+/**
+ * 用于比较两个软件版本号。
+ * 示例：
+ *     "3.0" = "3.0"
+ *     "3.0a2" = "3.0a2"
+ *     "3.0" > "2.5"
+ *     "3.1" > "3.0"
+ *     "3.02" < "3.03"
+ *     "3.0.2" < "3.0.3"
+ *     "3.00" = "3.0"
+ *     "3.02" > "3.0.3"
+ *     "3.02" > "3.0.2"
  */
 @interface ZKVersion : NSObject
 
-/**-------------------------------------------------------------------------------------
- @name Properties
- ---------------------------------------------------------------------------------------
- */
+#pragma mark - 属性
 
-/**
- The major version number
- */
+/** 主版本号 */
 @property (nonatomic, readonly) NSUInteger major;
 
-/**
- The minor version number
- */
+/** 次版本号 */
 @property (nonatomic, readonly) NSUInteger minor;
 
-/**
- The maintenance/hotfix version number
- */
+/** 修订/热修复版本号 */
 @property (nonatomic, readonly) NSUInteger maintenance;
 
-/**
- The build number
- */
+/** 构建号 */
 @property (nonatomic, readonly) NSUInteger build;
 
-/**-------------------------------------------------------------------------------------
- @name Creating Versions
- ---------------------------------------------------------------------------------------
- */
+#pragma mark - 创建版本对象
 
 /**
- Initializes the receiver with major, minor and maintenance version.
- @param major The major version number
- @param minor The minor version number
- @param maintenance The maintainance/hotfix version number
- @returns The initialized `ZKVersion`
+ * 使用主版本号、次版本号、修订号初始化。
+ * @param major        主版本号
+ * @param minor        次版本号
+ * @param maintenance  修订/热修复版本号
+ * @return 初始化后的 ZKVersion
  */
 - (ZKVersion *)initWithMajor:(NSUInteger)major minor:(NSUInteger)minor maintenance:(NSUInteger)maintenance;
 
 /**
- Initializes the receiver with major, minor and maintenance version.
- @param major The major version number
- @param minor The minor version number
- @param maintenance The maintainance/hotfix version number
- @param build The build number
- @returns The initialized `ZKVersion`
+ * 使用主版本号、次版本号、修订号、构建号初始化。
+ * @param major        主版本号
+ * @param minor        次版本号
+ * @param maintenance  修订/热修复版本号
+ * @param build        构建号
+ * @return 初始化后的 ZKVersion
  */
 - (ZKVersion *)initWithMajor:(NSUInteger)major minor:(NSUInteger)minor maintenance:(NSUInteger)maintenance build:(NSUInteger)build;
 
 /**
- creates and returns a ZKVersion object initialized using the provided string
- @param versionString The `NSString` to create a `ZKVersion` from
- @returns A ZKVersion object or <code>nil</code> if the string is not a valid version number
+ * 根据版本字符串创建并返回 ZKVersion 对象。
+ * @param versionString 用于解析的版本字符串
+ * @return 解析成功返回 ZKVersion，否则返回 nil
  */
 + (ZKVersion *)versionWithString:(NSString *)versionString;
 
 /**
- creates and retuns a ZKVersion object initialized with the version information of the current application
- @returns A ZKVersion object or <code>nil</code> if the string of the current application is not a valid version number
+ * 返回当前 App 的 Bundle 版本信息对应的 ZKVersion。
+ * @return 解析成功返回 ZKVersion，否则返回 nil
  */
 + (ZKVersion *)appBundleVersion;
 
 /**
- creates and retuns a ZKVersion object initialized with the version information of the operating system
- @returns A ZKVersion object or <code>nil</code> if the string of the current application is not a valid version number
+ * 返回当前系统版本对应的 ZKVersion。
+ * @return 解析成功返回 ZKVersion，否则返回 nil
  */
 + (ZKVersion *)osVersion;
 
-/**-------------------------------------------------------------------------------------
- @name Comparing Versions
- ---------------------------------------------------------------------------------------
- */
+#pragma mark - 版本比较
 
 /**
- @param versionString The OS version as `NSString` to compare the receiver to
- @returns <code>true</code> if the given version string is valid and less then the osVersion
+ * 判断当前系统版本是否小于给定版本字符串。
+ * @param versionString 用于比较的系统版本字符串
+ * @return 若字符串合法且当前系统版本小于该版本则返回 YES
  */
 + (BOOL)osVersionIsLessThen:(NSString *)versionString;
 
 /**
- @param versionString The OS version as `NSString` to compare the receiver to
- @returns <code>true</code> if the given version string is valid and greater then the osVersion
+ * 判断当前系统版本是否大于给定版本字符串。
+ * @param versionString 用于比较的系统版本字符串
+ * @return 若字符串合法且当前系统版本大于该版本则返回 YES
  */
 + (BOOL)osVersionIsGreaterThen:(NSString *)versionString;
 
 /**
- @param version The `ZKVersion` to compare the receiver to
- @returns <code>true</code> if the give version is less then this version
+ * 判断当前版本是否小于给定 ZKVersion。
+ * @param version 用于比较的版本对象
+ * @return 若给定版本小于当前版本则返回 YES
  */
 - (BOOL)isLessThenVersion:(ZKVersion *)version;
 
 /**
- @param version The `ZKVersion` to compare the receiver to
- @returns <code>true</code> if the give version is greater then this version
+ * 判断当前版本是否大于给定 ZKVersion。
+ * @param version 用于比较的版本对象
+ * @return 若给定版本大于当前版本则返回 YES
  */
 - (BOOL)isGreaterThenVersion:(ZKVersion *)version;
 
 /**
- @param versionString The version as `NSString` to compare the receiver to
- @returns <code>true</code> if the give version is less then this version string
+ * 判断当前版本是否小于给定版本字符串。
+ * @param versionString 用于比较的版本字符串
+ * @return 若给定版本小于当前版本则返回 YES
  */
 - (BOOL)isLessThenVersionString:(NSString *)versionString;
 
 /**
- @param versionString The version as `NSString` to compare the receiver to
- * @returns <code>true</code> if the give version is greater then version string
+ * 判断当前版本是否大于给定版本字符串。
+ * @param versionString 用于比较的版本字符串
+ * @return 若给定版本大于当前版本则返回 YES
  */
 - (BOOL)isGreaterThenVersionString:(NSString *)versionString;
 
 /**
- Compares the receiver against a passed `ZKVersion` instance
- @param version The `ZKVersion` to compare the receiver to
- @returns `YES` is the versions are equal
+ * 与给定 ZKVersion 比较是否相等。
+ * @param version 用于比较的版本对象
+ * @return 版本相等返回 YES
  */
 - (BOOL)isEqualToVersion:(ZKVersion *)version;
 
 /**
- Compares the receiver against a passed version as `NSString`
- @param versionString The version as `NSString` to compare the receiver to
- @returns `YES` is the versions are equal
+ * 与给定版本字符串比较是否相等。
+ * @param versionString 用于比较的版本字符串
+ * @return 版本相等返回 YES
  */
 - (BOOL)isEqualToString:(NSString *)versionString;
 
 /**
- Compares the receiver against a passed object
- @param object An object of either `NSString` or `ZKVersion`
- @returns `YES` is the versions are equal
+ * 与给定对象比较是否版本相等，支持 NSString 或 ZKVersion。
+ * @param object NSString 或 ZKVersion 实例
+ * @return 版本相等返回 YES
  */
 - (BOOL)isEqual:(id)object;
 
 /**
- Compares the receiver against a passed `ZKVersion` instance
- @param version The `ZKVersion` to compare the receiver to
- @returns The comparison result
+ * 与给定 ZKVersion 比较大小。
+ * @param version 用于比较的版本对象
+ * @return 比较结果（NSOrderedAscending / NSOrderedSame / NSOrderedDescending）
  */
 - (NSComparisonResult)compare:(ZKVersion *)version;
 
