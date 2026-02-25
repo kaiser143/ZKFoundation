@@ -1,5 +1,5 @@
 //
-//  ZKTableViewHelper.m
+//  ZKTableViewAdapter.m
 //  ZKFoundation
 //
 //  Created by Kaiser on 2019/3/12.
@@ -41,7 +41,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 @property (nonatomic, copy) ZKTableAdapterFooterWillDisplayBlock didFooterWillDisplayBlock;
 
 @property (nonatomic, copy) ZKTableAdapterCommitEditingStyleForRowBlock didEditingBlock;
-@property (nonatomic, copy) ZKTableAdapterTitleForDeleteConfirmationButtonForRowBlock didEditTileBlock;
+@property (nonatomic, copy) ZKTableAdapterTitleForDeleteConfirmationButtonForRowBlock didEditTitleBlock;
 
 @property (nonatomic, copy) ZKTableAdapterEditingStyleForRowBlock didEditingStyleBlock;
 @property (nonatomic, copy) ZKTableAdapterEditActionsForRowBlock didEditActionsBlock;
@@ -54,7 +54,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 @property (nonatomic, copy) ZKTableAdapterTitleFooterBlock footerTitleBlock;
 @property (nonatomic, copy) ZKTableAdapterHeightForFooterBlock heightForFooterBlock;
 
-@property (nonatomic, copy) ZKTableAdapterAccessoryTypeBlock accessoryTypeBlock API_DEPRECATED("", ios(2.0, 3.0));
+@property (nonatomic, copy) ZKTableAdapterAccessoryTypeBlock accessoryTypeBlock API_DEPRECATED("请改用 cell 的 accessoryType / editingAccessoryType 属性", ios(2.0, 15.0));
 @property (nonatomic, copy) ZKTableAdapterAccessoryButtonTappedForRowAtIndexPathBlock accessoryButtonTappedForRowAtIndexPathBlock;
 
 @property (nonatomic, copy) ZKTableAdapterNumberOfSectionsBlock numberOfSectionsBlock;
@@ -137,7 +137,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 }
 
 - (void)titleForDeleteConfirmationButtonForRow:(ZKTableAdapterTitleForDeleteConfirmationButtonForRowBlock)block {
-    self.didEditTileBlock = block;
+    self.didEditTitleBlock = block;
 }
 
 - (void)canEditRow:(ZKTableAdapterCanEditRowAtIndexPathBlock)block {
@@ -392,8 +392,8 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *title = nil;
-    if (self.didEditTileBlock)
-        title = self.didEditTileBlock(tableView, indexPath, [self currentModelAtIndexPath:indexPath]);
+    if (self.didEditTitleBlock)
+        title = self.didEditTitleBlock(tableView, indexPath, [self currentModelAtIndexPath:indexPath]);
 
     return title;
 }
@@ -423,9 +423,22 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+    id sourceModel = [self currentModelAtIndexPath:sourceIndexPath];
+    id destinationModel = [self currentModelAtIndexPath:destinationIndexPath];
+
+    // 同步内部数据源：从源 section 移除并插入到目标 section
+    if (sourceIndexPath.section < (NSInteger)self.data.count && destinationIndexPath.section < (NSInteger)self.data.count) {
+        NSMutableArray *sourceSection = self.data[sourceIndexPath.section];
+        NSMutableArray *destSection = self.data[destinationIndexPath.section];
+        if (sourceIndexPath.row < (NSInteger)sourceSection.count) {
+            id model = sourceSection[sourceIndexPath.row];
+            [sourceSection removeObjectAtIndex:sourceIndexPath.row];
+            NSInteger destRow = MIN((NSInteger)destSection.count, destinationIndexPath.row);
+            [destSection insertObject:model atIndex:destRow];
+        }
+    }
+
     if (self.moveRowBlock) {
-        id sourceModel      = [self currentModelAtIndexPath:sourceIndexPath];
-        id destinationModel = [self currentModelAtIndexPath:destinationIndexPath];
         self.moveRowBlock(tableView, sourceIndexPath, sourceModel, destinationIndexPath, destinationModel);
     }
 }
@@ -498,7 +511,8 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
         self.scrollViewddBlock(scrollView);
 
     if (self.isHover) {
-        CGFloat sectionHeaderHeight = 40;
+        static const CGFloat kDefaultSectionHeaderHeightForHover = 40.f;  // 不悬停时用于 contentInset 计算的默认 section 头部高度
+        CGFloat sectionHeaderHeight = kDefaultSectionHeaderHeightForHover;
         if (scrollView.contentOffset.y <= sectionHeaderHeight && scrollView.contentOffset.y >= 0) {
             scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
         } else if (scrollView.contentOffset.y >= sectionHeaderHeight) {
@@ -655,8 +669,8 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 }
 
 - (void)stripAdapterGroupData:(NSArray *)data forSection:(NSInteger)section {
-    if (data.count == 0)
-        return;
+    if (data.count == 0) return;
+    if (section < 0 || section >= self.data.count) return;
 
     NSMutableArray *subAry = self.data[section];
     if (subAry.count)
@@ -710,9 +724,9 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 }
 
 - (void)deleteSection:(NSInteger)section {
-    NSMutableArray *subAry = self.data[ section ];
-    if (subAry.count)
-        [subAry removeAllObjects];
+    if (section < 0 || section >= self.data.count) return;
+
+    [self.data removeObjectAtIndex:section];
 
     [self.kai_tableView beginUpdates];
     [self.kai_tableView deleteSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationNone];
@@ -794,7 +808,7 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 - (void)insertData:(id)model forIndexPath:(NSIndexPath *)indexPath {
     NSIndexSet *curIndexSet = [self kai_makeUpDataAryForSection:indexPath.section];
     NSMutableArray *subAry  = self.data[indexPath.section];
-    if (subAry.count < indexPath.row)
+    if (indexPath.row > (NSInteger)subAry.count)
         return;
     [subAry insertObject:model atIndex:indexPath.row];
 
@@ -938,13 +952,6 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
 }
 
 - (NSString *)cellIdentifier {
-    if (_cellIdentifier == nil) {
-        NSString *curVCIdentifier = nil;
-        if (curVCIdentifier) {
-            NSString *curCellIdentifier = [NSString stringWithFormat:@"KAI%@Cell", curVCIdentifier];
-            _cellIdentifier             = curCellIdentifier;
-        }
-    }
     return _cellIdentifier;
 }
 

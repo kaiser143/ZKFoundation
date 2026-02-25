@@ -19,7 +19,7 @@ extern const CGSize ZKUIFloatLayoutViewAutomaticalMaximumItemSize;
  *  @code
      - (void)viewDidLayoutSubviews {
          [super viewDidLayoutSubviews];
-         
+
          UIEdgeInsets margins = UIEdgeInsetsMake(24, 24 + self.view.safeAreaInsets.left, 24, 24 + self.view.safeAreaInsets.right);
          CGFloat contentWidth = self.view.width - UIEdgeInsetsGetHorizontalValue(margins);
          NSInteger column = IS_IPAD || IS_LANDSCAPE ? self.images.count : 3;
@@ -33,26 +33,26 @@ extern const CGSize ZKUIFloatLayoutViewAutomaticalMaximumItemSize;
 @interface ZKFloatLayoutView : UIView
 
 /**
- *  QMUIFloatLayoutView 内部的间距，默认为 UIEdgeInsetsZero
+ *  ZKFloatLayoutView 内部的间距，默认为 UIEdgeInsetsZero
  */
-@property(nonatomic, assign) UIEdgeInsets padding;
+@property (nonatomic, assign) UIEdgeInsets padding;
 
 /**
  *  item 的最小宽高，默认为 CGSizeZero，也即不限制。
  */
-@property(nonatomic, assign) IBInspectable CGSize minimumItemSize;
+@property (nonatomic, assign) IBInspectable CGSize minimumItemSize;
 
 /**
  *  item 的最大宽高，默认为 ZKUIFloatLayoutViewAutomaticalMaximumItemSize，也即不超过 floatLayoutView 自身最大内容宽高。
  */
-@property(nonatomic, assign) IBInspectable CGSize maximumItemSize;
+@property (nonatomic, assign) IBInspectable CGSize maximumItemSize;
 
 /**
  *  item 之间的间距，默认为 UIEdgeInsetsZero。
  *
  *  @warning 上、下、左、右四个边缘的 item 布局时不会考虑 itemMargins.top/bottom/left/right。
  */
-@property(nonatomic, assign) UIEdgeInsets itemMargins;
+@property (nonatomic, assign) UIEdgeInsets itemMargins;
 
 @end
 

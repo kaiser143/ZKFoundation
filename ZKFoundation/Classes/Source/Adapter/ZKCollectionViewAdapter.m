@@ -1,5 +1,5 @@
 //
-//  ZKCollectionViewHelper.m
+//  ZKCollectionViewAdapter.m
 //  ZKFoundation
 //
 //  Created by Kaiser on 2019/3/12.
@@ -77,9 +77,9 @@
 }
 
 - (void)registerNibFooters:(NSArray<NSString *> *)cellNibNames {
-    if (cellNibNames) {
+    if (cellNibNames.count > 0) {
         [cellNibNames enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-            if ([[self.kai_cellFooterXIB objectAtIndex:idx] boolValue])
+            if (self.kai_cellFooterXIB && idx < self.kai_cellFooterXIB.count && [[self.kai_cellFooterXIB objectAtIndex:idx] boolValue])
                 [self.kai_collectionView registerNib:[UINib nibWithNibName:obj bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:obj];
             else
                 [self.kai_collectionView registerClass:NSClassFromString(obj) forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:obj];
@@ -98,6 +98,14 @@
         array = self.dataArray.firstObject;
 
     return array;
+}
+
+- (NSMutableArray *)headerSource {
+    return self.headerArray;
+}
+
+- (NSMutableArray *)footerSource {
+    return self.footerArray;
 }
 
 #pragma mark - :. UICollectionViewDelegateFlowLayout
@@ -191,31 +199,25 @@
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    UICollectionReusableView *reusableView;
+    UICollectionReusableView *reusableView = nil;
     if (kind == UICollectionElementKindSectionHeader) {
         id curModel                 = [self currentHeaderModelAtIndexPath:indexPath];
         NSString *curCellIdentifier = [self headerIdentifierForRowAtIndexPath:indexPath model:curModel];
         if (self.headerViewBlock)
             reusableView = self.headerViewBlock(collectionView, kind, curCellIdentifier, indexPath, curModel);
-
-        if (!reusableView && !self.headerViewBlock)
+        if (!reusableView)
             reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:curCellIdentifier forIndexPath:indexPath];
-
-        if (self.headerForItemAtIndexPathBlock) {
+        if (reusableView && self.headerForItemAtIndexPathBlock)
             self.headerForItemAtIndexPathBlock(reusableView, indexPath, curModel, YES);
-        }
     } else if (kind == UICollectionElementKindSectionFooter) {
         id curModel                 = [self currentFooterModelAtIndexPath:indexPath];
         NSString *curCellIdentifier = [self footerIdentifierForRowAtIndexPath:indexPath model:curModel];
         if (self.footerViewBlock)
             reusableView = self.footerViewBlock(collectionView, kind, curCellIdentifier, indexPath, curModel);
-
-        if (!reusableView && !self.footerViewBlock)
+        if (!reusableView)
             reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:curCellIdentifier forIndexPath:indexPath];
-
-        if (self.footerForItemAtIndexPathBlock) {
+        if (reusableView && self.footerForItemAtIndexPathBlock)
             self.footerForItemAtIndexPathBlock(reusableView, indexPath, curModel, YES);
-        }
     }
     return reusableView;
 }
@@ -261,10 +263,11 @@
 
 - (id)currentSectionModel:(NSInteger)section {
     id currentModel = nil;
-    NSArray *arr    = [self.dataArray objectAtIndex:section];
-    if (arr.count)
-        currentModel = [arr objectAtIndex:0];
-
+    if (section >= 0 && section < (NSInteger)self.dataArray.count) {
+        NSArray *arr = [self.dataArray objectAtIndex:section];
+        if (arr.count)
+            currentModel = [arr objectAtIndex:0];
+    }
     return currentModel;
 }
 
@@ -340,7 +343,7 @@
         NSMutableArray *subAry = self.dataArray[idx];
         if (subAry.count) [subAry removeAllObjects];
         id obj = [data objectAtIndex:i];
-        if ([data isKindOfClass:[NSArray class]]) {
+        if ([obj isKindOfClass:[NSArray class]]) {
             [subAry addObjectsFromArray:obj];
         } else {
             [subAry addObject:obj];
@@ -357,7 +360,9 @@
 }
 
 - (void)stripAdapterData:(NSArray *)data forSection:(NSInteger)cSection {
+    if (cSection < 0) return;
     [self _kai_makeUpDataAryForSection:cSection];
+    if (cSection >= (NSInteger)self.dataArray.count) return;
     NSMutableArray *subAry = self.dataArray[cSection];
     if (subAry.count) [subAry removeAllObjects];
     if (data.count) {
@@ -372,8 +377,10 @@
 
 - (void)reloadItems:(NSArray *)data forSection:(NSInteger)cSection {
     if (data.count == 0) return;
+    if (cSection < 0) return;
 
     NSIndexSet *curIndexSet = [self _kai_makeUpDataAryForSection:cSection];
+    if (cSection >= (NSInteger)self.dataArray.count) return;
     NSMutableArray *subAry  = self.dataArray[cSection];
     if (subAry.count) [subAry removeAllObjects];
     [subAry addObjectsFromArray:data];
@@ -414,13 +421,13 @@
 
 - (void)insertItem:(id)cModel forIndexPath:(NSIndexPath *)indexPath {
     NSIndexSet *curIndexSet = [self _kai_makeUpDataAryForSection:indexPath.section];
+    if (indexPath.section >= (NSInteger)self.dataArray.count) return;
     NSMutableArray *subAry  = self.dataArray[indexPath.section];
-    if (subAry.count < indexPath.row) return;
+    if (indexPath.row > (NSInteger)subAry.count) return;
     [subAry insertObject:cModel atIndex:indexPath.row];
     if (curIndexSet) {
         [self.kai_collectionView insertSections:curIndexSet];
     } else {
-        [subAry insertObject:cModel atIndex:indexPath.row];
         [self.kai_collectionView insertItemsAtIndexPaths:@[indexPath]];
     }
 }
@@ -436,11 +443,11 @@
 
 - (void)reloadItem:(id)model
       forIndexPath:(NSIndexPath *)indexPath {
-    if (self.dataArray.count > indexPath.section) {
+    if (self.dataArray.count > (NSUInteger)indexPath.section) {
         NSMutableArray *subDataAry = self.dataArray[indexPath.section];
-        if (subDataAry.count > indexPath.row) {
+        if (subDataAry.count > (NSUInteger)indexPath.row) {
             [subDataAry replaceObjectAtIndex:indexPath.row withObject:model];
-            [self.kai_collectionView reloadData];
+            [self.kai_collectionView reloadItemsAtIndexPaths:@[indexPath]];
         }
     }
 }
@@ -483,14 +490,16 @@
 
 - (void)insertHeaderData:(NSArray *)data
               forSection:(NSInteger)cSection {
+    if (data.count == 0) return;
+    if (cSection > (NSInteger)self.headerArray.count) return;
     NSMutableIndexSet *set = [NSMutableIndexSet indexSet];
-    for (NSInteger i = 0; i < data.count; i++)
+    for (NSInteger i = 0; i < (NSInteger)data.count; i++)
         [set addIndex:cSection + i];
-
     [self.headerArray insertObjects:data atIndexes:set];
 }
 
 - (void)removeHeaderData:(NSInteger)cSection {
+    if (cSection < 0 || cSection >= (NSInteger)self.headerArray.count) return;
     [self.headerArray removeObjectAtIndex:cSection];
 }
 
@@ -533,14 +542,16 @@
 
 - (void)insertFooterData:(NSArray *)data
               forSection:(NSInteger)cSection {
+    if (data.count == 0) return;
+    if (cSection > (NSInteger)self.footerArray.count) return;
     NSMutableIndexSet *set = [NSMutableIndexSet indexSet];
-    for (NSInteger i = 0; i < data.count; i++)
+    for (NSInteger i = 0; i < (NSInteger)data.count; i++)
         [set addIndex:cSection + i];
-
     [self.footerArray insertObjects:data atIndexes:set];
 }
 
 - (void)removeFooterData:(NSInteger)cSection {
+    if (cSection < 0 || cSection >= (NSInteger)self.footerArray.count) return;
     [self.footerArray removeObjectAtIndex:cSection];
 }
 

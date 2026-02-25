@@ -9,81 +9,63 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/** 旋转方向 */
 typedef NS_ENUM(NSUInteger, ZKRotationDirection) {
-    ZKRotationDirectionClockwise,
-    ZKRotationDirectionCounterClockwise,
+    ZKRotationDirectionClockwise,        ///< 顺时针
+    ZKRotationDirectionCounterClockwise, ///< 逆时针
 };
 
 @interface ZKLoadingSpinner : UIView
 
-/**
- *  @brief Which direction the spinner should spin. Defaults to clockwise.
- */
+/** 旋转方向，默认为顺时针 */
 @property (nonatomic, assign) ZKRotationDirection rotationDirection;
 
 /**
- *  @brief When the spinner is not animating, the length of the arc to be drawn. This can
- *         be used to implement things like pull-to-refresh as seen in DRPRefreshControl.
+ * 未在动画时绘制的弧长（弧度）。
+ * 可用于实现类似下拉刷新中静止时的弧线效果。
  */
 @property (nonatomic, assign) CGFloat staticArcLength;
 
-/**
- @brief When the arc is shrinking, how small it should get at a minimum in radians.
- */
+/** 弧线收缩时的最小弧长（弧度） */
 @property (assign) CGFloat minimumArcLength;
 
-/**
- *  @brief When the arc is growing, how large it should get at a maximum in radians
- */
+/** 弧线展开时的最大弧长（弧度） */
 @property (assign) CGFloat maximumArcLength;
 
-/**
- *  @brief The width of the arc's line.
- */
+/** 弧线线条宽度 */
 @property (nonatomic) CGFloat lineWidth;
 
 /**
- @brief How long in seconds it should take for the drawing to rotate 360 degrees.
- No easing function is applied to this duration, i.e. it is linear.
+ * 旋转一圈（360 度）所需时间（秒）。
+ * 为匀速旋转，无缓动。
  */
 @property (assign) CFTimeInterval rotationCycleDuration;
 
 /**
- @brief How long in seconds it should take for a complete circle to be drawn
- or erased. An in-out easing function is applied to this duration.
+ * 弧线画满一整圈或擦除一整圈所需时间（秒）。
+ * 使用 in-out 缓动。
  */
 @property (assign) CFTimeInterval drawCycleDuration;
 
-/**
- @brief The timing function that should be used for drawing the rail.
- */
+/** 绘制弧线时使用的时间曲线（如加速/减速） */
 @property (strong) CAMediaTimingFunction *drawTimingFunction;
 
 /**
- @brief An array of UIColors that defines the colors the spinner will draw in
- and their order. The colors will loop back to the beginning when the
- cycle for the last color has been completed.
+ * 弧线颜色序列（UIColor 数组），按顺序循环使用。
+ * 最后一色播完后会回到第一种颜色。
  */
 @property (strong) NSArray<UIColor *> *colorSequence UI_APPEARANCE_SELECTOR;
 
-/**
- @brief The color of the rail behind the spinner. Defaults to clear.
- */
+/** 弧线背后轨道（背景圆环）的颜色，默认为透明 */
 @property (nonatomic) UIColor *backgroundRailColor;
 
-/**
- @return YES if the spinner is animating, otherwise NO
- */
+/** 当前是否正在动画中 */
 @property (readonly) BOOL isAnimating;
 
-/**
- @brief Start animating.
- */
+/** 开始旋转动画 */
 - (void)startAnimating;
 
-/**
- @brief Stop animating and clear the drawing context.
- */
+/** 停止动画并清空绘制 */
 - (void)stopAnimating;
 
 @end
