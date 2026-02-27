@@ -73,6 +73,12 @@ NS_ASSUME_NONNULL_BEGIN
 + (ZKVersion *)appBundleVersion;
 
 /**
+ * 从 Main Bundle 的 CFBundleShortVersionString、CFBundleVersion 获取当前应用版本并初始化。
+ * @return 解析成功返回 ZKVersion，否则返回 nil
+ */
++ (nullable ZKVersion *)currentAppVersion;
+
+/**
  * 返回当前系统版本对应的 ZKVersion。
  * @return 解析成功返回 ZKVersion，否则返回 nil
  */
