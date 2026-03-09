@@ -10,30 +10,30 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Specifies where the contentView will stick to the top or the bottom of the header view.
- *  This property is used when the scrollView bounces (scrollView.contentOffset < scrollView.contentInset.top)
+ *  指定 contentView 固定在头部视图的顶部还是底部。
+ *  该属性在 scrollView 回弹时使用（scrollView.contentOffset < scrollView.contentInset.top）。
  */
 typedef NS_ENUM(NSUInteger, ZKStretchyHeaderViewContentAnchor) {
     /**
-     *  The content view sticks to the top of the header view when it bounces
+     *  回弹时内容视图固定在头部视图顶部
      */
     ZKStretchyHeaderViewContentAnchorTop = 0,
     /**
-     *  The content view sticks to the bottom of the header view when it bounces
+     *  回弹时内容视图固定在头部视图底部
      */
     ZKStretchyHeaderViewContentAnchorBottom = 1
 };
 
 /**
- *  Specifies wether how the stretchy header view will be expanded
+ *  指定可拉伸头部视图的展开方式
  */
 typedef NS_ENUM(NSUInteger, ZKStretchyHeaderViewExpansionMode) {
     /**
-     *  The header view will expand only at the top of the scroll view
+     *  头部视图仅在滚动到顶部时展开
      */
     ZKStretchyHeaderViewExpansionModeTopOnly = 0,
     /**
-     *  The header view will expand as soon as the user scrolls down
+     *  用户向下滚动时头部视图立即展开
      */
     ZKStretchyHeaderViewExpansionModeImmediate = 1
 };
@@ -41,8 +41,7 @@ typedef NS_ENUM(NSUInteger, ZKStretchyHeaderViewExpansionMode) {
 @interface ZKStretchyHeaderView : UIView
 
 /**
- *  Specifies wether the header view will grow only when the top of the scroll view
- *  is visible, or as soon as the user scrolls down.
+ *  指定头部视图仅在滚动视图顶部可见时展开，还是在用户向下滚动时立即展开。
  */
 #if TARGET_INTERFACE_BUILDER
 @property(nonatomic) IBInspectable NSUInteger expansionMode;
@@ -51,29 +50,29 @@ typedef NS_ENUM(NSUInteger, ZKStretchyHeaderViewExpansionMode) {
 #endif
 
 /**
- *  The main view to which you add your custom content.
+ *  用于添加自定义内容的主视图。
  */
 @property(nonatomic, readonly) UIView *contentView;
 
 /**
- *  The height of the header view when it's expanded. Default value is equal to the initial frame height, or 240 if unspecified.
+ *  头部视图展开时的高度。默认值为初始 frame 高度，未指定时为 240。
  */
 @property(nonatomic) IBInspectable CGFloat maximumContentHeight;
 
 /**
- *  The minimum height of the header view. You usually want to set it to a value larger than 64 if you want to simulate a navigation bar. Defaults to 0.
+ *  头部视图的最小高度。若要模拟导航栏，通常可设为大于 64 的值。默认为 0。
  */
 @property(nonatomic) IBInspectable CGFloat minimumContentHeight;
 
 /**
- *  The contentInset for the contentView. Defaults to UIEdgeInsetsZero.
+ *  contentView 的 contentInset。默认为 UIEdgeInsetsZero。
  */
 @property(nonatomic) IBInspectable UIEdgeInsets contentInset;
 
 /**
- *  Specifies wether the contentView sticks to the top or the bottom of the headerView.
- *  Default value is ZKStretchyHeaderContentViewAnchorTop.
- *  This has effect only if contentShrinks and/or contentExpands are set to NO.
+ *  指定 contentView 固定在 headerView 的顶部还是底部。
+ *  默认值为 ZKStretchyHeaderContentViewAnchorTop。
+ *  仅当 contentShrinks 和/或 contentExpands 设为 NO 时生效。
  */
 #if TARGET_INTERFACE_BUILDER
 @property(nonatomic) IBInspectable NSUInteger contentAnchor;
@@ -82,40 +81,38 @@ typedef NS_ENUM(NSUInteger, ZKStretchyHeaderViewExpansionMode) {
 #endif
 
 /**
- *  Indicates if the header view changes the scrollView insets automatically. You usually want to
- *  enable this property, unless you have a table view with sticky visible section headers.
- *  Have a look at this issue for more information: https://github.com/gskbyte/GSKStretchyHeaderView/issues/17
- *  Default value is YES.
+ *  是否由头部视图自动修改 scrollView 的 insets。通常建议开启，除非使用带吸顶 section header 的 tableView。
+ *  详见：https://github.com/gskbyte/GSKStretchyHeaderView/issues/17
+ *  默认值为 YES。
  */
 @property(nonatomic) BOOL manageScrollViewInsets;
 
 /**
- * Indicates if the view hierarchy of the containing scroll view should be manipulated to fix some artifacts,
- * such as section header and supplementary views appearing on top of this header view.
- * This may involve moving views behind the header view, like UICollectionReusableView and UITableViewHeaderFooterView,
- * and adjusting `zPosition` for some views on iOS 11.
+ *  是否调整包含的 scrollView 的视图层级以修复一些显示问题，
+ *  例如 section header 和 supplementary 视图出现在本头部视图上方。
+ *  可能包括将 UICollectionReusableView、UITableViewHeaderFooterView 等视图移到头部视图后面，
+ *  以及在 iOS 11 上调整部分视图的 `zPosition`。
  *
- * - Please see UIScrollView+ZKHelper.m for more information.
- * - Have a look at this issue for more information: https://github.com/gskbyte/GSKStretchyHeaderView/issues/63
- * - OpenRadar issue: http://www.openradar.me/34308893
+ * - 更多说明见 UIScrollView+ZKHelper.m。
+ * - 详见：https://github.com/gskbyte/GSKStretchyHeaderView/issues/63
+ * - OpenRadar：http://www.openradar.me/34308893
  *
- * Default value is YES
+ * 默认值为 YES。
  */
 @property(nonatomic) BOOL manageScrollViewSubviewHierarchy;
 
 /**
- *  Specifies wether the contentView height shrinks when scrolling up. Default is YES.
+ *  指定向上滚动时 contentView 高度是否缩小。默认为 YES。
  */
 @property(nonatomic) IBInspectable BOOL contentShrinks;
 
 /**
- *  Specifies wether the contentView height will be increased when scrolling down.
- *  Default is YES.
+ *  指定向下滚动时 contentView 高度是否增加。默认为 YES。
  */
 @property(nonatomic) IBInspectable BOOL contentExpands;
 
 /**
- *  Sets a new maximumContent height and scrolls to the top.
+ *  设置新的 maximumContent 高度并滚动到顶部。
  */
 - (void)setMaximumContentHeight:(CGFloat)maximumContentHeight
                   resetAnimated:(BOOL)animated;
@@ -126,10 +123,10 @@ typedef NS_ENUM(NSUInteger, ZKStretchyHeaderViewExpansionMode) {
 @protocol ZKStretchyHeaderViewStretchDelegate <NSObject>
 
 /**
- *  Called when the stretchy header view's stretch factor changes
+ *  当可拉伸头部视图的拉伸系数发生变化时调用
  *
- *  @param headerView    The header view this object is delegate of
- *  @param stretchFactor The new stretch factor for the given header view
+ *  @param headerView    作为代理的头部视图
+ *  @param stretchFactor 该头部视图新的拉伸系数
  */
 - (void)stretchyHeaderView:(ZKStretchyHeaderView *)headerView
     didChangeStretchFactor:(CGFloat)stretchFactor;
@@ -140,20 +137,20 @@ typedef NS_ENUM(NSUInteger, ZKStretchyHeaderViewExpansionMode) {
 @interface ZKStretchyHeaderView (StretchFactor)
 
 /**
- *  The stretch factor is the relation between the current content height and the maximum (1) and minimum (0) contentHeight.
- *  Can be greater than 1 if contentViewBounces equals YES.
+ *  拉伸系数为当前内容高度与最大(1)、最小(0) contentHeight 的比值。
+ *  当 contentViewBounces 为 YES 时可能大于 1。
  */
 @property (nonatomic, readonly) CGFloat stretchFactor;
 
 /**
- *  The stretch delegate will be notified every time the stretchFactor changes.
+ *  每次 stretchFactor 变化时会通知该拉伸代理。
  */
 @property (nonatomic, weak) id<ZKStretchyHeaderViewStretchDelegate> stretchDelegate;
 
 /**
- *  This method will be called every time the stretchFactor changes.
- *  Can be overriden by subclasses to adjust subviews depending on the value of the stretchFactor.
- *  @param stretchFactor The new stretchFactor
+ *  每次 stretchFactor 变化时调用。
+ *  子类可重写以根据 stretchFactor 调整子视图。
+ *  @param stretchFactor 新的 stretchFactor
  */
 - (void)didChangeStretchFactor:(CGFloat)stretchFactor;
 
@@ -163,8 +160,8 @@ typedef NS_ENUM(NSUInteger, ZKStretchyHeaderViewExpansionMode) {
 @interface ZKStretchyHeaderView (Layout)
 
 /**
- *  This method will be called after the contentView performs -layoutSubviews. It can be useful to
- *  retrieve initial values for views added to the contentView. The default implementation does nothing.
+ *  在 contentView 执行 -layoutSubviews 之后调用。可用于获取添加到 contentView 的视图的初始值。
+ *  默认实现为空。
  */
 - (void)contentViewDidLayoutSubviews;
 
