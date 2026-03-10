@@ -9,40 +9,40 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// The block to execute if a monitored folder changes
+// 当监视的文件夹发生变化时执行的块
 typedef void (^ZKFolderMonitorBlock)(void);
 
 /**
- Class for monitoring changes on a folder. This can be used to monitor the application documents folder for changes in the files there if the user adds or removes files via iTunes file sharing.
+ 用于监视文件夹变化的类。这可用于监视应用程序文档文件夹中的文件更改，例如用户通过 iTunes 文件共享添加或删除文件。
  */
 @interface ZKFolderMonitor : NSObject
 
 /**
- @name Creating a Folder Monitor
+ @name 创建文件夹监视器
  */
 
 /**
- Creates a new ZKFolderMonitor to watch the folder at the given URL. Whenever there is a change on this folder the block is executed.
+ 创建一个新的 ZKFolderMonitor 来监视给定 URL 的文件夹。每当该文件夹发生更改时，将执行该块。
  
- The URL must be a file URL. Both the URL and the block parameter are mandatory. The block is being dispatched on a background queue.
+ URL 必须是文件 URL。URL 和块参数都是必需的。该块在后台队列上分派。
  
- @param URL The monitored folder URL
- @param block The block to execute if the folder is being modified
- @returns The instantiated monitor in suspended mode. Call -startMonitoring to start monitoring.
+ @param URL 被监视的文件夹 URL
+ @param block 如果文件夹被修改则执行的块
+ @returns 处于暂停模式的实例化监视器。调用 -startMonitoring 开始监视。
  */
 + (ZKFolderMonitor *_Nonnull)folderMonitorForURL:(NSURL *_Nonnull)URL block:(ZKFolderMonitorBlock _Nonnull)block;
 
 /**
- @name Starting/Stopping Monitoring
+ @name 开始/停止监视
  */
 
 /**
- Start monitoring the folder. A monitor can be started and stopped multiple times.
+ 开始监视文件夹。监视器可以多次启动和停止。
  */
 - (void)startMonitoring;
 
 /**
- Stop monitoring the folder. A monitor can be started and stopped multiple times.
+ 停止监视文件夹。监视器可以多次启动和停止。
  */
 - (void)stopMonitoring;
 

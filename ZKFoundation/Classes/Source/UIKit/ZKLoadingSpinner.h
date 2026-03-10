@@ -17,72 +17,71 @@ typedef NS_ENUM(NSUInteger, ZKRotationDirection) {
 @interface ZKLoadingSpinner : UIView
 
 /**
- *  @brief Which direction the spinner should spin. Defaults to clockwise.
+ *  @brief 加载器旋转的方向。默认为顺时针。
  */
 @property (nonatomic, assign) ZKRotationDirection rotationDirection;
 
 /**
- *  @brief When the spinner is not animating, the length of the arc to be drawn. This can
- *         be used to implement things like pull-to-refresh as seen in DRPRefreshControl.
+ *  @brief 当加载器未处于动画状态时，要绘制的弧的长度。这可以
+ *         用于实现类似 DRPRefreshControl 中的下拉刷新功能。
  */
 @property (nonatomic, assign) CGFloat staticArcLength;
 
 /**
- @brief When the arc is shrinking, how small it should get at a minimum in radians.
+ @brief 当弧线缩小时，它最小应达到的弧度值。
  */
 @property (assign) CGFloat minimumArcLength;
 
 /**
- *  @brief When the arc is growing, how large it should get at a maximum in radians
+ *  @brief 当弧线增长时，它最大应达到的弧度值。
  */
 @property (assign) CGFloat maximumArcLength;
 
 /**
- *  @brief The width of the arc's line.
+ *  @brief 弧线的线宽。
  */
 @property (nonatomic) CGFloat lineWidth;
 
 /**
- @brief How long in seconds it should take for the drawing to rotate 360 degrees.
- No easing function is applied to this duration, i.e. it is linear.
+ @brief 绘图旋转 360 度所需的时间（秒）。
+ 此持续时间不应用缓动函数，即为线性变化。
  */
 @property (assign) CFTimeInterval rotationCycleDuration;
 
 /**
- @brief How long in seconds it should take for a complete circle to be drawn
- or erased. An in-out easing function is applied to this duration.
+ @brief 绘制或擦除一个完整圆所需的时间（秒）。
+ 此持续时间应用了缓入缓出函数。
  */
 @property (assign) CFTimeInterval drawCycleDuration;
 
 /**
- @brief The timing function that should be used for drawing the rail.
+ @brief 用于绘制轨道的计时函数。
  */
 @property (strong) CAMediaTimingFunction *drawTimingFunction;
 
 /**
- @brief An array of UIColors that defines the colors the spinner will draw in
- and their order. The colors will loop back to the beginning when the
- cycle for the last color has been completed.
+ @brief 一个 UIColor 数组，定义了加载器将绘制的颜色
+ 及其顺序。当最后一个颜色的循环完成后，颜色将循环回到开头。
  */
 @property (strong) NSArray<UIColor *> *colorSequence UI_APPEARANCE_SELECTOR;
 
 /**
- @brief The color of the rail behind the spinner. Defaults to clear.
+ @brief 加载器后面轨道的颜色。默认为透明色。
  */
 @property (nonatomic) UIColor *backgroundRailColor;
 
 /**
- @return YES if the spinner is animating, otherwise NO
+ @return 如果加载器正在动画，则为 YES，否则为 NO
  */
 @property (readonly) BOOL isAnimating;
 
 /**
- @brief Start animating.
+ @brief 开始动画。
  */
 - (void)startAnimating;
 
 /**
- @brief Stop animating and clear the drawing context.
+ @brief 停止动画并清除绘图上下文。
  */
 - (void)stopAnimating;
 

@@ -12,10 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ZKApp : NSObject
 
 /**
- *  Executes a block on first start of the App for current version.
- *  Remember to execute UI instuctions on main thread
+ *  在当前版本的应用首次启动时执行一个回调块。
+ *  注意：与 UI 相关的操作请在主线程执行。
  *
- *  @param block The block to execute, returns isFirstLaunchForCurrentVersion
+ *  @param block 要执行的回调，参数 didLaunched 表示是否为当前版本的首次启动
  */
 + (void)applicationDidLaunched:(void(^ _Nullable)(BOOL didLaunched))block;
 
