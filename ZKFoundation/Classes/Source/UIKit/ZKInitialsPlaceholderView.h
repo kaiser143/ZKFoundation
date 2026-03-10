@@ -10,57 +10,45 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- A view that will facilitate the drawing of a placeholder
- image which contains the specified initials drawn over top
- of a circle.
- 
- This behavior can be seen in iMessage (iOS7 7.0+ and greater)
- when you are in a group chat.
+ * 用于绘制占位图的视图：在圆形背景上显示指定首字母（如群聊头像）。
+ * 效果类似 iMessage 群聊中的联系人占位头像（iOS 7.0+）。
  */
 @interface ZKInitialsPlaceholderView : UIView
 
 /**
- Font to use for drawing
- 
- @note The size doesn't matter as it is dynamically determined based on
- the frame of this view. The default is [UIFont boldSystemFontOfSize:16]
+ * 绘制首字母时使用的字体。
+ * @note 字号会根据视图的 frame 自动计算，此处设置的 size 不生效。默认为 [UIFont boldSystemFontOfSize:16]。
  */
 @property (strong) UIFont *font;
 
 /**
- Color to use when drawing initial text.
- 
- @note This defaults to [UIColor whiteColor]
+ * 首字母文字颜色。
+ * @note 默认为 [UIColor whiteColor]。
  */
 @property (strong) UIColor *textColor;
 
 /**
- Color to use when drawing the background circle.
- 
- @note THis defaults to [UIColor lightGrayColor]
+ * 背景圆的填充颜色。
+ * @note 默认为 [UIColor lightGrayColor]。
  */
 @property (strong) UIColor *circleColor;
 
 /**
- String of initials to draw over top of the circle.
- 
- @note If there are more than 2 character supplied in this string
- it will be truncated to 2 characters
+ * 要显示的首字母字符串。
+ * @note 若超过 2 个字符会被截断为 2 个字符。
  */
 @property (strong) NSString *initials;
 
 /**
- The designated initializer (using another initializer will produce
- undefined results)
+ * 指定初始化方法，用直径创建视图（使用其他初始化方法会产生未定义行为）。
  */
 - (instancetype)initWithDiameter:(CGFloat)diameter NS_DESIGNATED_INITIALIZER;
 
 /**
- Performant ways to set all of your options without redrawing the view on
- EACH property set.  (i.e. this will save upto 3 draw calls if you set all 4 options)
- Safe to pass nil to the circleColor, textColor and font args.
+ * 一次性设置首字母、圆色、文字色、字体，只触发一次重绘（避免多次单独设置属性导致多次绘制）。
+ * circleColor、textColor、font 可传 nil。
  */
--(void)batchUpdateViewWithInitials:(NSString *)initials circleColor:(UIColor *)circleColor textColor:(UIColor *)textColor font:(UIFont *)font;
+- (void)batchUpdateViewWithInitials:(NSString *)initials circleColor:(UIColor *)circleColor textColor:(UIColor *)textColor font:(UIFont *)font;
 
 @end
 

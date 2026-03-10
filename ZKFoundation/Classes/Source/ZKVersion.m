@@ -92,6 +92,20 @@
     return [ZKVersion versionWithString:version];
 }
 
++ (ZKVersion *)currentAppVersion {
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+    NSString *appVersion = info[@"CFBundleShortVersionString"];
+    NSString *appBuildVersion = info[@"CFBundleVersion"];
+    if (!appVersion.length) {
+        return nil;
+    }
+    NSString *versionString = appVersion;
+    if (appBuildVersion.length > 0) {
+        versionString = [NSString stringWithFormat:@"%@.%@", appVersion, appBuildVersion];
+    }
+    return [ZKVersion versionWithString:versionString];
+}
+
 + (ZKVersion *)osVersion {
     static dispatch_once_t onceToken;
     static ZKVersion *version = nil;

@@ -9,80 +9,63 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/** 旋转方向 */
 typedef NS_ENUM(NSUInteger, ZKRotationDirection) {
-    ZKRotationDirectionClockwise,
-    ZKRotationDirectionCounterClockwise,
+    ZKRotationDirectionClockwise,        ///< 顺时针
+    ZKRotationDirectionCounterClockwise, ///< 逆时针
 };
 
 @interface ZKLoadingSpinner : UIView
 
-/**
- *  @brief 加载器旋转的方向。默认为顺时针。
- */
+/** 旋转方向，默认为顺时针 */
 @property (nonatomic, assign) ZKRotationDirection rotationDirection;
 
 /**
- *  @brief 当加载器未处于动画状态时，要绘制的弧的长度。这可以
- *         用于实现类似 DRPRefreshControl 中的下拉刷新功能。
+ * 未在动画时绘制的弧长（弧度）。
+ * 可用于实现类似下拉刷新中静止时的弧线效果。
  */
 @property (nonatomic, assign) CGFloat staticArcLength;
 
-/**
- @brief 当弧线缩小时，它最小应达到的弧度值。
- */
+/** 弧线收缩时的最小弧长（弧度） */
 @property (assign) CGFloat minimumArcLength;
 
-/**
- *  @brief 当弧线增长时，它最大应达到的弧度值。
- */
+/** 弧线展开时的最大弧长（弧度） */
 @property (assign) CGFloat maximumArcLength;
 
-/**
- *  @brief 弧线的线宽。
- */
+/** 弧线线条宽度 */
 @property (nonatomic) CGFloat lineWidth;
 
 /**
- @brief 绘图旋转 360 度所需的时间（秒）。
- 此持续时间不应用缓动函数，即为线性变化。
+ * 旋转一圈（360 度）所需时间（秒）。
+ * 为匀速旋转，无缓动。
  */
 @property (assign) CFTimeInterval rotationCycleDuration;
 
 /**
- @brief 绘制或擦除一个完整圆所需的时间（秒）。
- 此持续时间应用了缓入缓出函数。
+ * 弧线画满一整圈或擦除一整圈所需时间（秒）。
+ * 使用 in-out 缓动。
  */
 @property (assign) CFTimeInterval drawCycleDuration;
 
-/**
- @brief 用于绘制轨道的计时函数。
- */
+/** 绘制弧线时使用的时间曲线（如加速/减速） */
 @property (strong) CAMediaTimingFunction *drawTimingFunction;
 
 /**
- @brief 一个 UIColor 数组，定义了加载器将绘制的颜色
- 及其顺序。当最后一个颜色的循环完成后，颜色将循环回到开头。
+ * 弧线颜色序列（UIColor 数组），按顺序循环使用。
+ * 最后一色播完后会回到第一种颜色。
  */
 @property (strong) NSArray<UIColor *> *colorSequence UI_APPEARANCE_SELECTOR;
 
-/**
- @brief 加载器后面轨道的颜色。默认为透明色。
- */
+/** 弧线背后轨道（背景圆环）的颜色，默认为透明 */
 @property (nonatomic) UIColor *backgroundRailColor;
 
-/**
- @return 如果加载器正在动画，则为 YES，否则为 NO
- */
+/** 当前是否正在动画中 */
 @property (readonly) BOOL isAnimating;
 
-/**
- @brief 开始动画。
- */
+/** 开始旋转动画 */
 - (void)startAnimating;
 
-/**
- @brief 停止动画并清除绘图上下文。
- */
+/** 停止动画并清空绘制 */
 - (void)stopAnimating;
 
 @end
