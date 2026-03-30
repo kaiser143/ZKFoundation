@@ -80,6 +80,10 @@ static NSInteger const ZKPermissionTypeLocationDistanceFilter = 10; //`Positioni
                     callback(NO, ZKPermissionAuthorizationStatusRestricted);
                 } else if (status == PHAuthorizationStatusAuthorized) {
                     callback(YES, ZKPermissionAuthorizationStatusAuthorized);
+                } else if (@available(iOS 14, *)) {
+                    if (status == PHAuthorizationStatusLimited) {
+                        callback(YES, ZKPermissionAuthorizationStatusAuthorized);
+                    }
                 }
             }];
         } break;
@@ -263,9 +267,9 @@ static NSInteger const ZKPermissionTypeLocationDistanceFilter = 10; //`Positioni
                                                if (status == CNAuthorizationStatusDenied) {
                                                    callback(NO, ZKPermissionAuthorizationStatusDenied);
                                                } else if (status == CNAuthorizationStatusRestricted) {
-                                                   callback(NO, ZKPermissionAuthorizationStatusNotDetermined);
-                                               } else if (status == CNAuthorizationStatusNotDetermined) {
                                                    callback(NO, ZKPermissionAuthorizationStatusRestricted);
+                                               } else if (status == CNAuthorizationStatusNotDetermined) {
+                                                   callback(NO, ZKPermissionAuthorizationStatusNotDetermined);
                                                }
                                            }
                                        }];
@@ -278,7 +282,7 @@ static NSInteger const ZKPermissionTypeLocationDistanceFilter = 10; //`Positioni
             EKEventStore *eventStore = [[EKEventStore alloc] init];
             [eventStore requestAccessToEntityType:EKEntityTypeReminder
                                        completion:^(BOOL granted, NSError *_Nullable error) {
-                                           EKAuthorizationStatus status = [EKEventStore authorizationStatusForEntityType:EKEntityTypeEvent];
+                                           EKAuthorizationStatus status = [EKEventStore authorizationStatusForEntityType:EKEntityTypeReminder];
                                            if (granted) {
                                                callback(YES, ZKPermissionAuthorizationStatusAuthorized);
                                            } else {

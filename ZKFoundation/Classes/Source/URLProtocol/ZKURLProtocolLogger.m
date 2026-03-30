@@ -52,7 +52,7 @@
 static NSString *const kProtocolHandledKey = @"kProtocolHandledKey";
 static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
 
-@interface ZKURLProtocolLogger () <NSURLConnectionDelegate, NSURLConnectionDataDelegate, NSURLSessionDelegate>
+@interface ZKURLProtocolLogger () <NSURLSessionDataDelegate>
 
 @property (nonatomic, strong) NSURLSessionDataTask *dataTask;
 @property (nonatomic, strong) NSOperationQueue *sessionDelegateQueue;
