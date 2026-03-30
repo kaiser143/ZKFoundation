@@ -944,11 +944,11 @@ CGFloat ZKAutoHeightForHeaderFooterView = -1;
     self.kai_tableView.editing                              = allowsMultipleSelectionDuringEditing;
 }
 
-- (void)setEstimatedHeightEnable:(BOOL)estimatedHeightEnable {
-    _estimatedHeightEnable = estimatedHeightEnable;
-    self.kai_tableView.estimatedRowHeight = estimatedHeightEnable ? UITableViewAutomaticDimension : 0;
-    self.kai_tableView.estimatedSectionHeaderHeight = estimatedHeightEnable ? UITableViewAutomaticDimension : 0;
-    self.kai_tableView.estimatedSectionFooterHeight = estimatedHeightEnable ? UITableViewAutomaticDimension : 0;
+- (void)setSelfSizingEstimateEnabled:(BOOL)selfSizingEstimateEnabled {
+    _selfSizingEstimateEnabled = selfSizingEstimateEnabled;
+    self.kai_tableView.estimatedRowHeight = selfSizingEstimateEnabled ? UITableViewAutomaticDimension : 0;
+    self.kai_tableView.estimatedSectionHeaderHeight = selfSizingEstimateEnabled ? UITableViewAutomaticDimension : 0;
+    self.kai_tableView.estimatedSectionFooterHeight = selfSizingEstimateEnabled ? UITableViewAutomaticDimension : 0;
 }
 
 - (NSString *)cellIdentifier {
