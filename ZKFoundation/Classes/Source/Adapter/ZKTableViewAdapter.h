@@ -100,6 +100,8 @@ typedef id _Nullable (^ZKTableAdapterFlattenMapBlock)(id dataSource, NSIndexPath
 /**
  *  是否开启自适配 cell 的系统预估行高/区头区尾高（estimatedRowHeight 等为 UITableViewAutomaticDimension）。
  *  iOS 11+ 启用后可能影响 contentSize 等计算的准确性，需要精确滚动或配合自定义算高时可设为 NO
+ *  是否开启自适配 cell 的系统预估行高/区头区尾高（estimatedRowHeight 等为 UITableViewAutomaticDimension）。
+ *  iOS 11+ 启用后可能影响 contentSize 等计算的准确性，需要精确滚动或配合自定义算高时可设为 NO
  */
 // 读取侧 getter 为 isEstimatedHeightEnabled，符合 UIKit BOOL 命名习惯。
 @property (nonatomic, assign, getter=isEstimatedHeightEnabled) BOOL estimatedHeightEnabled;
