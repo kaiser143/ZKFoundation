@@ -98,10 +98,11 @@ typedef id _Nullable (^ZKTableAdapterFlattenMapBlock)(id dataSource, NSIndexPath
 @property (nonatomic) BOOL allowsMultipleSelectionDuringEditing NS_AVAILABLE_IOS(5_0);
 
 /**
- *  是否开启预估行高/区头区尾高度（estimatedRowHeight 等）。
- *  iOS 11+ 设为 UITableViewAutomaticDimension 即会启用预估，可能导致 contentSize 等计算不准确，可通过本属性统一关闭
+ *  是否开启自适配 cell 的系统预估行高/区头区尾高（estimatedRowHeight 等为 UITableViewAutomaticDimension）。
+ *  iOS 11+ 启用后可能影响 contentSize 等计算的准确性，需要精确滚动或配合自定义算高时可设为 NO
  */
-@property (nonatomic, assign) BOOL estimatedHeightEnable;
+// 读取侧 getter 为 isEstimatedHeightEnabled，符合 UIKit BOOL 命名习惯。
+@property (nonatomic, assign, getter=isEstimatedHeightEnabled) BOOL estimatedHeightEnabled;
 
 /** 当前使用的 cell 复用标识符（只读）。使用 Storyboard 且仅有一种 cell 时，需在属性检查器中设置相同 identifier */
 @property (nullable, nonatomic, copy, readonly) NSString *cellIdentifier;
@@ -127,7 +128,7 @@ typedef id _Nullable (^ZKTableAdapterFlattenMapBlock)(id dataSource, NSIndexPath
 
 #pragma mark - :. Block事件
 
-/** 设置动态计算行高的 block，常与 UITableView+FDTemplateLayoutCell 等方案配合；使用后建议将 estimatedRowHeight 设为 0，可通过 estimatedHeightEnable 统一控制 */
+/** 设置动态计算行高的 block，常与 UITableView+FDTemplateLayoutCell 等方案配合；使用后建议将 estimatedRowHeight 设为 0，可通过 estimatedHeightEnabled 统一控制 */
 - (void)autoHeightCell:(ZKTableAdapterCellAutoHeightForRowBlock)block;
 
 /** 多种 cell 时，通过 block 按 indexPath 与数据返回对应的 cell 复用标识符 */
