@@ -42,6 +42,7 @@
     #import <ZKFoundation/ZKSegmentControl.h>
     #import <ZKFoundation/ZKHTTPURLResponse.h>
     #import <ZKFoundation/ZKStretchyHeaderView.h>
+    #import <ZKFoundation/ZKMarqueeLabel.h>
     #import <ZKFoundation/ZKPermission.h>
     #import <ZKFoundation/ZKNavigationBarProtocol.h>
     #import <ZKFoundation/ZKNavigationController.h>
@@ -86,6 +87,7 @@
     #import "ZKSegmentControl.h"
     #import "ZKHTTPURLResponse.h"
     #import "ZKStretchyHeaderView.h"
+    #import "ZKMarqueeLabel.h"
     #import "ZKPermission.h"
     #import "ZKNavigationBarProtocol.h"
     #import "ZKNavigationController.h"
