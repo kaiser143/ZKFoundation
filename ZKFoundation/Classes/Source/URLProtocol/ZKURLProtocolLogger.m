@@ -44,6 +44,11 @@
 
 @end
 
+@interface NSURLRequest (__KAIURL)
+- (NSData *)__kai_bodyData;
+- (NSString *)__kai_bodyString;
+@end
+
 @interface NSMutableString (__KAIURL)
 - (void)appendURLRequest:(NSURLRequest *)request;
 @end
@@ -151,8 +156,8 @@ static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
         [strings appendFormat:@"\n\n********************************************************\nRequest End\n********************************************************\n\n\n\n"];
         NSLog(@"%@", strings);
     } else {
-        NSString *bodyString = self.request.HTTPBody ? [self.request.HTTPBody utf8String] : @"";
-        NSLog(@"%@ '%@': %@", [self.request HTTPMethod], [[self.request URL] absoluteString], bodyString);
+        NSString *bodyString = [self.request __kai_requestBodyString];
+        NSLog(@"%@ '%@': %@", [self.request HTTPMethod], [[self.request URL] absoluteString], [bodyString __kai_defaultValue:@""]);
     }
 #endif
 
@@ -306,6 +311,44 @@ static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
 
 @end
 
+// NSURLRequest body 读取，兼容 HTTPBody 为空但数据在 HTTPBodyStream 的场景
+@implementation NSURLRequest (__KAIURL)
+
+- (NSData *)__kai_requestBodyData {
+    NSData *bodyData = self.HTTPBody;
+    if (bodyData.length > 0) {
+        return bodyData;
+    }
+
+    NSInputStream *inputStream = self.HTTPBodyStream;
+    if (!inputStream) {
+        return nil;
+    }
+
+    NSMutableData *mutableData = [NSMutableData data];
+    [inputStream open];
+    uint8_t buffer[1024];
+    NSInteger length = 0;
+    while ((length = [inputStream read:buffer maxLength:sizeof(buffer)]) > 0) {
+        [mutableData appendBytes:buffer length:(NSUInteger)length];
+    }
+    [inputStream close];
+
+    return mutableData.length > 0 ? [mutableData copy] : nil;
+}
+
+- (NSString *)__kai_requestBodyString {
+    NSData *bodyData = [self __kai_requestBodyData];
+    if (!bodyData.length) {
+        return @"\t\t\t\t\tN/A";
+    }
+
+    NSString *bodyString = [[NSString alloc] initWithData:bodyData encoding:NSUTF8StringEncoding];
+    return [bodyString __kai_defaultValue:@"\t\t\t\t\tN/A"];
+}
+
+@end
+
 @implementation NSMutableString (__KAIURL)
 
 - (void)appendURLRequest:(NSURLRequest *)request {
@@ -313,7 +356,9 @@ static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
     [self appendFormat:@"\n\nHTTP Header:\n%@", request.allHTTPHeaderFields ? request.allHTTPHeaderFields : @"\t\t\t\t\tN/A"];
     //    [self appendFormat:@"\n\nHTTP Origin Params:\n\t%@", request.originRequestParams.CT_jsonString];
     //    [self appendFormat:@"\n\nHTTP Actual Params:\n\t%@", request.actualRequestParams.CT_jsonString];
-    [self appendFormat:@"\n\nHTTP Body:\n\t%@", [[[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding] __kai_defaultValue:@"\t\t\t\tN/A"]];
+
+    NSData *bodyData = [request __kai_requestBodyData];
+    [self appendFormat:@"\n\nHTTP Body:\n\t%@", [request __kai_requestBodyString]];
 
     NSMutableString *headerString = [[NSMutableString alloc] init];
     [request.allHTTPHeaderFields enumerateKeysAndObjectsUsingBlock:^(NSString *_Nonnull key, NSString *_Nonnull obj, BOOL *_Nonnull stop) {
@@ -327,8 +372,8 @@ static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
     if (headerString.length > 0) {
         [self appendString:headerString];
     }
-    if (request.HTTPBody.length > 0) {
-        [self appendFormat:@" -d '%@'", [[[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding] __kai_defaultValue:@"\t\t\t\tN/A"]];
+    if (bodyData.length > 0) {
+        [self appendFormat:@" -d '%@'", [request __kai_requestBodyString]];
     }
 
     [self appendFormat:@" %@", request.URL];
