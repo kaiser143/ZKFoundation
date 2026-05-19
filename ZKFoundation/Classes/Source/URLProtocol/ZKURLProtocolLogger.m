@@ -38,6 +38,21 @@
 
 @end
 
+static void KAINotifyNetworkLoggers(NSURLRequest *request, NSString *message, ZKNetworkLoggerPhase phase) {
+    if (message.length == 0) {
+        return;
+    }
+    for (id<ZKNetworkLoggerProtocol> logger in [__KAILogger manager].mutableLoggers) {
+        if (![logger respondsToSelector:@selector(logger:didOutputNetworkLog:forRequest:phase:)]) {
+            continue;
+        }
+        if (request && logger.filter && ![logger.filter evaluateWithObject:request]) {
+            continue;
+        }
+        [logger logger:logger didOutputNetworkLog:message forRequest:request phase:phase];
+    }
+}
+
 @interface NSObject (__KAIURL)
 
 - (id)__kai_defaultValue:(id)defaultData;
@@ -149,19 +164,68 @@ static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
     return [mutableReqeust copy];
 }
 
-// 重新父类的开始加载方法
-- (void)startLoading {
-#ifdef DEBUG
+- (NSString *)__kai_requestLogMessage {
     if ([__KAILogger manager].level == ZKHTTPRequestLoggerLevelVerbose) {
         NSMutableString *strings = [NSMutableString stringWithString:@"\n\n********************************************************\nRequest Start\n********************************************************\n\n"];
         [strings appendFormat:@"Method:\t\t\t%@\n", self.request.HTTPMethod];
         [strings appendURLRequest:self.request];
         [strings appendFormat:@"\n\n********************************************************\nRequest End\n********************************************************\n\n\n\n"];
-        NSLog(@"%@", strings);
-    } else {
-        NSString *bodyString = [self.request __kai_requestBodyString];
-        NSLog(@"%@ '%@': %@", [self.request HTTPMethod], [[self.request URL] absoluteString], [bodyString __kai_defaultValue:@""]);
+        return strings;
     }
+    NSString *bodyString = [self.request __kai_requestBodyString];
+    return [NSString stringWithFormat:@"%@ '%@': %@", [self.request HTTPMethod], [[self.request URL] absoluteString], [bodyString __kai_defaultValue:@""]];
+}
+
+- (NSString *)__kai_responseLogMessageWithData:(NSData *)data elapsedTime:(NSTimeInterval)elapsedTime error:(NSError *)error {
+    NSHTTPURLResponse *response = nil;
+    NSString *content = nil;
+    id obj = nil;
+    if ([self.response isKindOfClass:NSHTTPURLResponse.class]) {
+        response = (NSHTTPURLResponse *)self.response;
+    }
+    if (data) {
+        content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    }
+    if (content) {
+        obj = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:NULL];
+    }
+
+    if ([__KAILogger manager].level == ZKHTTPRequestLoggerLevelVerbose) {
+        NSMutableString *strings = [NSMutableString stringWithString:@"\n\n=========================================\nAPI Response\n=========================================\n\n"];
+        [strings appendFormat:@"Status:\t%ld\t(%@) [%.04f s]\n\n", (long)response.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:response.statusCode], elapsedTime];
+        [strings appendFormat:@"Request URL:\n\t%@\n\n", self.request.URL];
+        if ([obj isKindOfClass:NSDictionary.class]) {
+            [strings appendFormat:@"Raw Response String:\n\t%@\n\n", [obj jsonPrettyStringEncoded]];
+        } else if (obj) {
+            [strings appendFormat:@"Raw Response String:\n\t%@\n\n", obj];
+        } else {
+            [strings appendFormat:@"Raw Response String:\n\t%@\n\n", content];
+        }
+
+        [strings appendFormat:@"Raw Response Header:\n\t%@\n\n", response.allHeaderFields];
+
+        if (error) {
+            [strings appendFormat:@"Error Domain:\t\t\t\t\t\t\t%@\n", error.domain];
+            [strings appendFormat:@"Error Domain Code:\t\t\t\t\t\t%ld\n", (long)error.code];
+            [strings appendFormat:@"Error Localized Description:\t\t\t%@\n", error.localizedDescription];
+            [strings appendFormat:@"Error Localized Failure Reason:\t\t\t%@\n", error.localizedFailureReason];
+            [strings appendFormat:@"Error Localized Recovery Suggestion:\t%@\n\n", error.localizedRecoverySuggestion];
+        }
+
+        [strings appendString:@"\n---------------  Related Request Content  --------------\n"];
+        [strings appendURLRequest:self.request];
+        [strings appendFormat:@"\n\n=========================================\nResponse End\n=========================================\n\n"];
+        return strings;
+    }
+    return [NSString stringWithFormat:@"%ld '%@' [%.04f s]", (long)response.statusCode, [self.request.URL absoluteString], elapsedTime];
+}
+
+// 重新父类的开始加载方法
+- (void)startLoading {
+    NSString *logMessage = [self __kai_requestLogMessage];
+    KAINotifyNetworkLoggers(self.request, logMessage, ZKNetworkLoggerPhaseRequest);
+#ifdef DEBUG
+    NSLog(@"%@", logMessage);
 #endif
 
     NSURLSessionConfiguration *configuration =
@@ -205,46 +269,12 @@ static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
     didReceiveData:(NSData *)data {
     // 返回给URL Loading System接收到的数据，这个很重要，不然光截取不返回，就瞎了。
     [self.client URLProtocol:self didLoadData:data];
-    
-#ifdef DEBUG
+
     NSTimeInterval elapsedTime = [[NSDate date] timeIntervalSinceDate:[self.dataTask associatedValueForKey:kNetworkRequestStartDate]];
-    NSHTTPURLResponse *response;
-    NSString *content = nil;
-    NSDictionary *obj = nil;
-    if ([self.response isKindOfClass:NSHTTPURLResponse.class]) response = (NSHTTPURLResponse *)self.response;
-    if (data) content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    if (content) obj = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:NULL];
-    
-    if ([__KAILogger manager].level == ZKHTTPRequestLoggerLevelVerbose) {
-        NSMutableString *strings = [NSMutableString stringWithString:@"\n\n=========================================\nAPI Response\n=========================================\n\n"];
-        [strings appendFormat:@"Status:\t%ld\t(%@) [%.04f s]\n\n", (long)response.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:response.statusCode], elapsedTime];
-        [strings appendFormat:@"Request URL:\n\t%@\n\n", self.request.URL];
-        if ([obj isKindOfClass:NSDictionary.class]) {
-            [strings appendFormat:@"Raw Response String:\n\t%@\n\n", [obj jsonPrettyStringEncoded]];
-        } else if (obj) {
-            [strings appendFormat:@"Raw Response String:\n\t%@\n\n", obj];
-        } else {
-            [strings appendFormat:@"Raw Response String:\n\t%@\n\n", content];
-        }
-
-        [strings appendFormat:@"Raw Response Header:\n\t%@\n\n", response.allHeaderFields];
-       
-        if (dataTask.error) {
-            NSError *error = dataTask.error;
-            [strings appendFormat:@"Error Domain:\t\t\t\t\t\t\t%@\n", error.domain];
-            [strings appendFormat:@"Error Domain Code:\t\t\t\t\t\t%ld\n", (long)error.code];
-            [strings appendFormat:@"Error Localized Description:\t\t\t%@\n", error.localizedDescription];
-            [strings appendFormat:@"Error Localized Failure Reason:\t\t\t%@\n", error.localizedFailureReason];
-            [strings appendFormat:@"Error Localized Recovery Suggestion:\t%@\n\n", error.localizedRecoverySuggestion];
-        }
-
-        [strings appendString:@"\n---------------  Related Request Content  --------------\n"];
-        [strings appendURLRequest:self.request];
-        [strings appendFormat:@"\n\n=========================================\nResponse End\n=========================================\n\n"];
-        NSLog(@"%@", strings);
-    } else {
-        NSLog(@"%ld '%@' [%.04f s]", (long)response.statusCode, [self.request.URL absoluteString], elapsedTime);
-    }
+    NSString *logMessage = [self __kai_responseLogMessageWithData:data elapsedTime:elapsedTime error:dataTask.error];
+    KAINotifyNetworkLoggers(self.request, logMessage, ZKNetworkLoggerPhaseResponse);
+#ifdef DEBUG
+    NSLog(@"%@", logMessage);
 #endif
 }
 

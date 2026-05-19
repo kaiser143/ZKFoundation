@@ -271,7 +271,7 @@ static char kZKNativeMarqueeWasRunningKey;
     self.clipsToBounds = YES;
     [self safePerform:NSSelectorFromString(@"setMarqueeEnabled:") withArguments:&running, nil];
     [self safePerform:NSSelectorFromString(@"setMarqueeRunning:") withArguments:&running, nil];
-    [self zk_mq_removeObservers];
+    [self kai_removeObservers];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(__kai_handleApplicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(__kai_handleApplicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
@@ -280,7 +280,7 @@ static char kZKNativeMarqueeWasRunningKey;
     BOOL running = NO;
     [self safePerform:NSSelectorFromString(@"setMarqueeRunning:") withArguments:&running, nil];
     [self safePerform:NSSelectorFromString(@"setMarqueeEnabled:") withArguments:&running, nil];
-    [self zk_mq_removeObservers];
+    [self kai_removeObservers];
 }
 
 - (BOOL)kai_nativeMarqueeRunning {
@@ -301,7 +301,7 @@ static char kZKNativeMarqueeWasRunningKey;
     }
 }
 
-- (void)zk_mq_removeObservers {
+- (void)kai_removeObservers {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }

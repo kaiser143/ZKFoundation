@@ -12,8 +12,20 @@ typedef NS_ENUM(NSUInteger, ZKHTTPRequestLoggerLevel) {
     ZKHTTPRequestLoggerLevelInfo,              // 打印简短信息
 };
 
+typedef NS_ENUM(NSUInteger, ZKNetworkLoggerPhase) {
+    ZKNetworkLoggerPhaseRequest,               // 请求发出
+    ZKNetworkLoggerPhaseResponse,              // 收到响应
+};
+
 @protocol ZKNetworkLoggerProtocol <NSObject>
 @property (nonatomic, strong) NSPredicate *filter;
+
+@optional
+/// 与控制台 NSLog 输出内容一致的网络日志回调
+- (void)logger:(id<ZKNetworkLoggerProtocol>)logger
+didOutputNetworkLog:(NSString *)message
+     forRequest:(NSURLRequest *)request
+          phase:(ZKNetworkLoggerPhase)phase;
 @end
 
 @interface ZKURLProtocolLogger : NSURLProtocol
@@ -33,6 +45,13 @@ typedef NS_ENUM(NSUInteger, ZKHTTPRequestLoggerLevel) {
 
     @implementation ZKNetworkConsoleLogger
     @synthesize filter = _filter;
+
+    - (void)logger:(id<ZKNetworkLoggerProtocol>)logger
+didOutputNetworkLog:(NSString *)message
+     forRequest:(NSURLRequest *)request
+          phase:(ZKNetworkLoggerPhase)phase {
+        // 自定义展示，例如写入文件
+    }
     @end
  
     ZKNetworkConsoleLogger<ZKNetworkLoggerProtocol> *testLogger = [ZKNetworkConsoleLogger new];
