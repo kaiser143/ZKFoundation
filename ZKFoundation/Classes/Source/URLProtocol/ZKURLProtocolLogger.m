@@ -45,8 +45,11 @@
 @end
 
 @interface NSURLRequest (__KAIURL)
+
 - (NSData *)__kai_bodyData;
-- (NSString *)__kai_bodyString;
+
+- (NSString *)__kai_requestBodyString;
+
 @end
 
 @interface NSMutableString (__KAIURL)
