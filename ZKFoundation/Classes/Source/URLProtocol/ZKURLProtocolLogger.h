@@ -10,6 +10,7 @@
 typedef NS_ENUM(NSUInteger, ZKHTTPRequestLoggerLevel) {
     ZKHTTPRequestLoggerLevelVerbose,           // 打印全部信息
     ZKHTTPRequestLoggerLevelInfo,              // 打印简短信息
+    ZKHTTPRequestLoggerLevelError,             // 仅打印 HTTP 状态码不为 200 或发生网络错误的请求（按 HTTP status 判断，不含业务 code）
 };
 
 typedef NS_ENUM(NSUInteger, ZKNetworkLoggerPhase) {

@@ -38,6 +38,23 @@
 
 @end
 
+static BOOL KAIShouldLogRequestPhase(void) {
+    return [__KAILogger manager].level != ZKHTTPRequestLoggerLevelError;
+}
+
+static BOOL KAIShouldLogResponsePhase(NSHTTPURLResponse *response, NSError *error) {
+    if ([__KAILogger manager].level != ZKHTTPRequestLoggerLevelError) {
+        return YES;
+    }
+    if (error) {
+        return YES;
+    }
+    if (!response) {
+        return YES;
+    }
+    return response.statusCode != 200;
+}
+
 static void KAINotifyNetworkLoggers(NSURLRequest *request, NSString *message, ZKNetworkLoggerPhase phase) {
     if (message.length == 0) {
         return;
@@ -80,6 +97,8 @@ static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
 @property (nonatomic, strong) NSURLSessionDataTask *dataTask;
 @property (nonatomic, strong) NSOperationQueue *sessionDelegateQueue;
 @property (nonatomic, strong) NSURLResponse *response;
+@property (nonatomic, strong) NSMutableData *accumulatedResponseData;
+@property (nonatomic, assign) BOOL didLogResponse;
 
 @end
 
@@ -220,13 +239,58 @@ static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
     return [NSString stringWithFormat:@"%ld '%@' [%.04f s]", (long)response.statusCode, [self.request.URL absoluteString], elapsedTime];
 }
 
-// 重新父类的开始加载方法
-- (void)startLoading {
-    NSString *logMessage = [self __kai_requestLogMessage];
-    KAINotifyNetworkLoggers(self.request, logMessage, ZKNetworkLoggerPhaseRequest);
+- (NSTimeInterval)__kai_elapsedTime {
+    NSDate *startDate = [self.dataTask associatedValueForKey:kNetworkRequestStartDate];
+    if (!startDate) {
+        return 0;
+    }
+    return [[NSDate date] timeIntervalSinceDate:startDate];
+}
+
+- (NSHTTPURLResponse *)__kai_httpResponse {
+    if ([self.response isKindOfClass:NSHTTPURLResponse.class]) {
+        return (NSHTTPURLResponse *)self.response;
+    }
+    return nil;
+}
+
+- (void)__kai_emitResponseLogIfNeededWithError:(NSError *)error {
+    if (self.didLogResponse) {
+        return;
+    }
+    NSHTTPURLResponse *httpResponse = [self __kai_httpResponse];
+    if (!KAIShouldLogResponsePhase(httpResponse, error)) {
+        return;
+    }
+    self.didLogResponse = YES;
+
+    if ([__KAILogger manager].level == ZKHTTPRequestLoggerLevelError) {
+        NSString *requestLogMessage = [self __kai_requestLogMessage];
+        KAINotifyNetworkLoggers(self.request, requestLogMessage, ZKNetworkLoggerPhaseRequest);
+#ifdef DEBUG
+        NSLog(@"%@", requestLogMessage);
+#endif
+    }
+
+    NSData *responseData = self.accumulatedResponseData.length > 0 ? [self.accumulatedResponseData copy] : nil;
+    NSString *logMessage = [self __kai_responseLogMessageWithData:responseData
+                                                      elapsedTime:[self __kai_elapsedTime]
+                                                            error:error];
+    KAINotifyNetworkLoggers(self.request, logMessage, ZKNetworkLoggerPhaseResponse);
 #ifdef DEBUG
     NSLog(@"%@", logMessage);
 #endif
+}
+
+// 重新父类的开始加载方法
+- (void)startLoading {
+    if (KAIShouldLogRequestPhase()) {
+        NSString *logMessage = [self __kai_requestLogMessage];
+        KAINotifyNetworkLoggers(self.request, logMessage, ZKNetworkLoggerPhaseRequest);
+#ifdef DEBUG
+        NSLog(@"%@", logMessage);
+#endif
+    }
 
     NSURLSessionConfiguration *configuration =
         [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -253,11 +317,15 @@ static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
 #pragma mark - NSURLSessionTaskDelegate
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
-    if (!error) {
-        [self.client URLProtocolDidFinishLoading:self];
-    } else if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled) {
+    if (error) {
+        if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled) {
+        } else {
+            [self __kai_emitResponseLogIfNeededWithError:error];
+            [self.client URLProtocol:self didFailWithError:error];
+        }
     } else {
-        [self.client URLProtocol:self didFailWithError:error];
+        [self __kai_emitResponseLogIfNeededWithError:nil];
+        [self.client URLProtocolDidFinishLoading:self];
     }
     self.dataTask = nil;
 }
@@ -270,12 +338,10 @@ static void * kNetworkRequestStartDate = &kNetworkRequestStartDate;
     // 返回给URL Loading System接收到的数据，这个很重要，不然光截取不返回，就瞎了。
     [self.client URLProtocol:self didLoadData:data];
 
-    NSTimeInterval elapsedTime = [[NSDate date] timeIntervalSinceDate:[self.dataTask associatedValueForKey:kNetworkRequestStartDate]];
-    NSString *logMessage = [self __kai_responseLogMessageWithData:data elapsedTime:elapsedTime error:dataTask.error];
-    KAINotifyNetworkLoggers(self.request, logMessage, ZKNetworkLoggerPhaseResponse);
-#ifdef DEBUG
-    NSLog(@"%@", logMessage);
-#endif
+    if (!self.accumulatedResponseData) {
+        self.accumulatedResponseData = [NSMutableData dataWithCapacity:data.length];
+    }
+    [self.accumulatedResponseData appendData:data];
 }
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler {
