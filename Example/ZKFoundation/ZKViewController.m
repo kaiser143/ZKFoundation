@@ -496,6 +496,12 @@
     
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithColor:[UIColor randomColor]]];
     imageView.size = CGSizeMake(150, 200);
+    [imageView setTapActionWithBlock:^{
+        @strongify(self);
+        [self.popup updateLayoutWithChanges:^{
+            imageView.height += 50;
+        }];
+    }];
     
     UILabel *lineTwoLabel = [[UILabel alloc] init];
     lineTwoLabel.numberOfLines = 0;

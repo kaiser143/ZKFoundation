@@ -23,6 +23,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)presentPopupControllerAnimated:(BOOL)flag;
 - (void)dismissPopupControllerAnimated:(BOOL)flag;
 
+/// 内容尺寸变化后调用，重新计算并更新弹窗布局（建议在已 present 后调用）。
+/// ZKPopupStyleActionSheet：水平居中，垂直方向保持底部边缘位置不变；
+/// ZKPopupStyleCentered：保持弹窗中心点位置不变。
+- (void)updateLayout;
+
+/// 在布局动画中同步修改内容尺寸。需要动画展示高度/宽度变化时，应在 block 内修改子视图尺寸。
+- (void)updateLayoutWithChanges:(nullable void (^)(void))changes;
+
 @end
 
 @protocol ZKPopupControllerDelegate <NSObject>
@@ -62,11 +70,11 @@ typedef NS_ENUM(NSInteger, ZKPopupMaskType) {
 
 @property (nonatomic, strong) UIColor *backgroundColor; // 弹窗内容视图背景色（默认白色）
 @property (nonatomic, strong) UIColor *customMaskColor; // ZKPopupMaskTypeCustom 时的自定义遮罩颜色
-@property (nonatomic, assign) CGFloat cornerRadius; // 弹窗内容视图圆角（默认 4.0）
+@property (nonatomic, assign) CGFloat cornerRadius; // 弹窗内容视图圆角（默认 15.0）；ZKPopupStyleActionSheet 时仅作用于左上和右上
 @property (nonatomic, assign) UIEdgeInsets popupContentInsets; // 弹窗内容内边距（默认四边 16.0）
 @property (nonatomic, assign) ZKPopupStyle popupStyle; // 弹窗展示样式（默认居中）
 @property (nonatomic, assign) ZKPopupPresentationStyle presentationStyle; // 出场动画方式（默认从底部滑入。仅对 ZKPopupStyleCentered 生效）
-@property (nonatomic, assign) ZKPopupMaskType maskType; // 背景遮罩类型（默认半透明暗色）
+@property (nonatomic, assign) ZKPopupMaskType maskType; // 背景遮罩类型（默认黑色 50% 透明度，与 ZKAlert 一致）
 @property (nonatomic, assign) BOOL dismissesOppositeDirection; // 是否沿出场反方向消失（默认 NO，即原路返回）
 @property (nonatomic, assign) BOOL shouldDismissOnBackgroundTouch; // 点击背景遮罩是否关闭弹窗（默认 YES）
 @property (nonatomic, assign) BOOL movesAboveKeyboard; // 键盘弹出时弹窗是否上移（默认 YES）
