@@ -15,8 +15,10 @@ extern const CGSize ZKUIFloatLayoutViewAutomaticalMaximumItemSize;
 /**
  *  做类似 CSS 里的 float:left 的布局，自行使用 addSubview: 将子 View 添加进来即可。
  *  支持通过 `contentMode` 属性修改子 View 的对齐方式，目前仅支持 `UIViewContentModeLeft` 和 `UIViewContentModeRight`，默认为 `UIViewContentModeLeft`。
+ *  支持 Auto Layout：可直接用约束固定宽度，高度会根据内容自适应；子 View 若使用 Auto Layout 构建，会通过 `systemLayoutSizeFittingSize:` 计算尺寸。
  *
  *  @code
+     // Frame 布局
      - (void)viewDidLayoutSubviews {
          [super viewDidLayoutSubviews];
 
@@ -28,6 +30,15 @@ extern const CGSize ZKUIFloatLayoutViewAutomaticalMaximumItemSize;
          self.floatLayoutView.maximumItemSize = self.floatLayoutView.minimumItemSize;
          self.floatLayoutView.frame = CGRectMake(margins.left, margins.top, contentWidth, INFINITY);
      }
+ *
+ *  @code
+     // Auto Layout 布局
+     self.floatLayoutView.translatesAutoresizingMaskIntoConstraints = NO;
+     [NSLayoutConstraint activateConstraints:@[
+         [self.floatLayoutView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:24],
+         [self.floatLayoutView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-24],
+         [self.floatLayoutView.topAnchor constraintEqualToAnchor:self.titleLabel.bottomAnchor constant:16],
+     ]];
  *  @endcode
  */
 @interface ZKFloatLayoutView : UIView
