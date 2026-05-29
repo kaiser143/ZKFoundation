@@ -10,7 +10,7 @@ target 'ZKFoundation_Example' do
   pod 'Masonry'
   pod 'AXWebViewController', :git => 'https://github.com/kaiser143/AXWebViewController.git', :commit => '5cebcc4fcdb269cf96c80dc6893b653cc29be2bb'
   
-  pod 'LookinServer', :configurations => ['Debug']
+  pod "LookInsideServer", :git => "https://github.com/LookInsideApp/LookInside-Release.git", :tag => "0.2.2", :configurations => ["Debug"]
 
  # target 'ZKFoundation_Tests' do
  #   inherit! :search_paths

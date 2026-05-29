@@ -175,8 +175,22 @@ CGFloat KAI_UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orie
     }
 }
 
+- (CGFloat)bottomSafeAreaInsetIfNeed {
+    if (self.theme.popupStyle != ZKPopupStyleActionSheet) {
+        return 0;
+    }
+    UIWindow *window = self.maskView.window ?: self.applicationWindow;
+    if (@available(iOS 11.0, *)) {
+        return window.safeAreaInsets.bottom;
+    }
+    return 0;
+}
+
 - (CGSize)calculateContentSizeThatFits:(CGSize)size andUpdateLayout:(BOOL)update {
     UIEdgeInsets inset = self.theme.popupContentInsets;
+    if (self.theme.popupStyle == ZKPopupStyleActionSheet) {
+        inset.bottom += [self bottomSafeAreaInsetIfNeed];
+    }
     size.width -= (inset.left + inset.right);
     size.height -= (inset.top + inset.bottom);
 
