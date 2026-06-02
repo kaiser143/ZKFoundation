@@ -10,18 +10,60 @@
 
 const CGFloat ZKButtonCornerRadiusAdjustsBounds = -1;
 
+static CGFloat _ZKButtonHighlightedAlpha = 0.5;
+static CGFloat _ZKButtonDisabledAlpha = 0.5;
+
+@interface ZKButton ()
+
+@property (nonatomic, strong) CALayer *highlightedBackgroundLayer;
+@property (nonatomic, strong) UIColor *originBorderColor;
+
+@end
+
 @implementation ZKButton
 
++ (CGFloat)highlightedAlpha {
+    return _ZKButtonHighlightedAlpha;
+}
+
++ (void)setHighlightedAlpha:(CGFloat)highlightedAlpha {
+    _ZKButtonHighlightedAlpha = highlightedAlpha;
+}
+
++ (CGFloat)disabledAlpha {
+    return _ZKButtonDisabledAlpha;
+}
+
++ (void)setDisabledAlpha:(CGFloat)disabledAlpha {
+    _ZKButtonDisabledAlpha = disabledAlpha;
+}
+
 - (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self == nil) return nil;
-    
-    _spacingBetweenImageAndTitle = 0.f;
-    _imagePosition = ZKButtonImagePositionLeft;
-    
-    // iOS7以后的button，sizeToFit后默认会自带一个上下的contentInsets，为了保证按钮大小即为内容大小，这里直接去掉，改为一个最小的值。
-    self.contentEdgeInsets = UIEdgeInsetsMake(CGFLOAT_MIN, 0, CGFLOAT_MIN, 0);
-    
+    if (self = [super initWithFrame:frame]) {
+        [self setTitleColor:self.tintColor forState:UIControlStateNormal];
+        
+        // iOS7以后的button，sizeToFit后默认会自带一个上下的contentInsets，为了保证按钮大小即为内容大小，这里直接去掉，改为一个最小的值。
+        self.contentEdgeInsets = UIEdgeInsetsMake(CGFLOAT_MIN, 0, CGFLOAT_MIN, 0);
+        
+        self.adjustsImageWhenHighlighted = NO;
+        self.adjustsImageWhenDisabled = NO;
+        self.adjustsButtonWhenHighlighted = YES;
+        self.adjustsButtonWhenDisabled = YES;
+        self.imagePosition = ZKButtonImagePositionLeft;
+        self.spacingBetweenImageAndTitle = 0.f;
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super initWithCoder:aDecoder]) {
+        self.adjustsImageWhenHighlighted = NO;
+        self.adjustsImageWhenDisabled = NO;
+        self.adjustsButtonWhenHighlighted = YES;
+        self.adjustsButtonWhenDisabled = YES;
+        self.imagePosition = ZKButtonImagePositionLeft;
+        self.spacingBetweenImageAndTitle = 0.f;
+    }
     return self;
 }
 
@@ -401,6 +443,10 @@ const CGFloat ZKButtonCornerRadiusAdjustsBounds = -1;
             self.titleLabel.frame = titleFrame;
         }
     }
+    
+    if (self.highlightedBackgroundColor || self.highlightedBorderColor) {
+        [self adjustsButtonHighlighted];
+    }
 }
 
 - (void)setSpacingBetweenImageAndTitle:(CGFloat)spacingBetweenImageAndTitle {
@@ -413,6 +459,156 @@ const CGFloat ZKButtonCornerRadiusAdjustsBounds = -1;
     _imagePosition = imagePosition;
     
     [self setNeedsLayout];
+}
+
+- (void)setHighlightedBackgroundColor:(UIColor *)highlightedBackgroundColor {
+    _highlightedBackgroundColor = highlightedBackgroundColor;
+    if (_highlightedBackgroundColor) {
+        // 只要开启了 highlightedBackgroundColor，就默认不需要 alpha 的高亮
+        self.adjustsButtonWhenHighlighted = NO;
+    }
+}
+
+- (void)setHighlightedBorderColor:(UIColor *)highlightedBorderColor {
+    _highlightedBorderColor = highlightedBorderColor;
+    if (_highlightedBorderColor) {
+        // 只要开启了 highlightedBorderColor，就默认不需要 alpha 的高亮
+        self.adjustsButtonWhenHighlighted = NO;
+    }
+}
+
+- (void)setHighlighted:(BOOL)highlighted {
+    [super setHighlighted:highlighted];
+    
+    if (highlighted && !self.originBorderColor) {
+        // 手指按在按钮上会不断触发 setHighlighted:，所以这里做了保护，设置过一次就不用再设置了
+        self.originBorderColor = [UIColor colorWithCGColor:self.layer.borderColor];
+    }
+    
+    // 渲染背景色和边框色
+    if (self.highlightedBackgroundColor || self.highlightedBorderColor) {
+        [self adjustsButtonHighlighted];
+    }
+    // 如果此时是 disabled，则 disabled 的样式优先
+    if (!self.enabled) {
+        return;
+    }
+    // 自定义 highlighted 样式
+    if (self.adjustsButtonWhenHighlighted) {
+        if (highlighted) {
+            self.alpha = [ZKButton highlightedAlpha];
+        } else {
+            self.alpha = 1;
+        }
+    }
+}
+
+- (void)setEnabled:(BOOL)enabled {
+    [super setEnabled:enabled];
+    if (self.adjustsButtonWhenDisabled) {
+        self.alpha = enabled ? 1 : [ZKButton disabledAlpha];
+    }
+}
+
+- (void)adjustsButtonHighlighted {
+    if (self.highlightedBackgroundColor) {
+        if (!self.highlightedBackgroundLayer) {
+            self.highlightedBackgroundLayer = [CALayer layer];
+            self.highlightedBackgroundLayer.actions = @{
+                @"bounds": [NSNull null],
+                @"position": [NSNull null],
+                @"backgroundColor": [NSNull null],
+                @"cornerRadius": [NSNull null],
+            };
+            [self.layer insertSublayer:self.highlightedBackgroundLayer atIndex:0];
+        }
+        self.highlightedBackgroundLayer.frame = self.bounds;
+        self.highlightedBackgroundLayer.cornerRadius = self.layer.cornerRadius;
+        if (@available(iOS 11.0, *)) {
+            self.highlightedBackgroundLayer.maskedCorners = self.layer.maskedCorners;
+        }
+        self.highlightedBackgroundLayer.backgroundColor = self.highlighted ? self.highlightedBackgroundColor.CGColor : [UIColor clearColor].CGColor;
+    }
+    
+    if (self.highlightedBorderColor) {
+        self.layer.borderColor = self.highlighted ? self.highlightedBorderColor.CGColor : self.originBorderColor.CGColor;
+    }
+}
+
+- (void)setAdjustsTitleTintColorAutomatically:(BOOL)adjustsTitleTintColorAutomatically {
+    _adjustsTitleTintColorAutomatically = adjustsTitleTintColorAutomatically;
+    [self updateTitleColorIfNeeded];
+}
+
+- (void)updateTitleColorIfNeeded {
+    if (self.adjustsTitleTintColorAutomatically && self.currentTitleColor) {
+        [self setTitleColor:self.tintColor forState:UIControlStateNormal];
+    }
+    if (self.adjustsTitleTintColorAutomatically && self.currentAttributedTitle) {
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:self.currentAttributedTitle];
+        [attributedString addAttribute:NSForegroundColorAttributeName value:self.tintColor range:NSMakeRange(0, attributedString.length)];
+        [self setAttributedTitle:attributedString forState:UIControlStateNormal];
+    }
+}
+
+- (void)setAdjustsImageTintColorAutomatically:(BOOL)adjustsImageTintColorAutomatically {
+    BOOL valueDifference = _adjustsImageTintColorAutomatically != adjustsImageTintColorAutomatically;
+    _adjustsImageTintColorAutomatically = adjustsImageTintColorAutomatically;
+    
+    if (valueDifference) {
+        [self updateImageRenderingModeIfNeeded];
+    }
+}
+
+- (void)updateImageRenderingModeIfNeeded {
+    if (self.currentImage) {
+        NSArray<NSNumber *> *states = @[@(UIControlStateNormal), @(UIControlStateHighlighted), @(UIControlStateSelected), @(UIControlStateSelected|UIControlStateHighlighted), @(UIControlStateDisabled)];
+        
+        for (NSNumber *number in states) {
+            UIImage *image = [self imageForState:number.unsignedIntegerValue];
+            if (!image) {
+                continue;
+            }
+            if (number.unsignedIntegerValue != UIControlStateNormal && image == [self imageForState:UIControlStateNormal]) {
+                continue;
+            }
+            
+            if (self.adjustsImageTintColorAutomatically) {
+                // 这里的 setImage: 操作不需要使用 renderingMode 对 image 重新处理，而是放到重写的 setImage:forState: 里去做就行了
+                [self setImage:image forState:[number unsignedIntegerValue]];
+            } else {
+                // 如果不需要用 template 的模式渲染，并且之前是使用 template 的，则把 renderingMode 改回 Original
+                [self setImage:[image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:[number unsignedIntegerValue]];
+            }
+        }
+    }
+}
+
+- (void)setImage:(UIImage *)image forState:(UIControlState)state {
+    if (self.adjustsImageTintColorAutomatically) {
+        image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    }
+    
+    [super setImage:image forState:state];
+}
+
+- (void)tintColorDidChange {
+    [super tintColorDidChange];
+    
+    [self updateTitleColorIfNeeded];
+    
+    if (self.adjustsImageTintColorAutomatically) {
+        [self updateImageRenderingModeIfNeeded];
+    }
+}
+
+- (void)setTintColorAdjustsTitleAndImage:(UIColor *)tintColorAdjustsTitleAndImage {
+    _tintColorAdjustsTitleAndImage = tintColorAdjustsTitleAndImage;
+    if (tintColorAdjustsTitleAndImage) {
+        self.tintColor = tintColorAdjustsTitleAndImage;
+        self.adjustsTitleTintColorAutomatically = YES;
+        self.adjustsImageTintColorAutomatically = YES;
+    }
 }
 
 - (void)setCornerRadius:(CGFloat)cornerRadius {
