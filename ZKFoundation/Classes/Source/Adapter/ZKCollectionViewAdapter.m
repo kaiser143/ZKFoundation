@@ -6,6 +6,7 @@
 //
 
 #import "ZKCollectionViewAdapter.h"
+#import "ZKCategoriesImport.h"
 #import "UITableViewHeaderFooterView+ZKHelper.h"
 #import "ZKCollectionViewAdapterInjectionDelegate.h"
 

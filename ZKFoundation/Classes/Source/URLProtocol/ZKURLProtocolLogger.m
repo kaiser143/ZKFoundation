@@ -7,7 +7,7 @@
 
 #import "ZKURLProtocolLogger.h"
 #import "ZKSessionConfiguration.h"
-#import <ZKCategories/ZKCategories.h>
+#import "ZKCategoriesImport.h"
 
 @interface __KAILogger : NSObject
 @property (nonatomic, assign) ZKHTTPRequestLoggerLevel level;

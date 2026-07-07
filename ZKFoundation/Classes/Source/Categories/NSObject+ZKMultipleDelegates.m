@@ -7,7 +7,7 @@
 
 #import "NSObject+ZKMultipleDelegates.h"
 #import "ZKMultipleDelegates.h"
-#import <ZKCategories/ZKCategories.h>
+#import "ZKCategoriesImport.h"
 
 /**
  根据给定的 getter selector 获取对应的 setter selector

@@ -166,6 +166,38 @@ pod 'ZKFoundation/AuthContext'
 pod 'ZKFoundation/URLProtocol'
 ```
 
+### Swift Package Manager 安装
+
+在 Xcode 中选择 **File → Add Package Dependencies...**，填入仓库地址：
+
+```
+https://github.com/kaiser143/ZKFoundation.git
+```
+
+或在 `Package.swift` 中添加依赖：
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/kaiser143/ZKFoundation.git", from: "0.1.22"),
+],
+targets: [
+    .target(
+        name: "YourTarget",
+        dependencies: [
+            .product(name: "ZKFoundation", package: "ZKFoundation"),
+        ]
+    ),
+]
+```
+
+> ZKFoundation 依赖 [ZKCategories](https://github.com/kaiser143/ZKCategories)，SPM 会自动解析该依赖。
+
+安装完成后在代码中导入：
+
+```objc
+#import <ZKFoundation/ZKFoundation.h>
+```
+
 ### 手动安装
 
 1. 下载项目源码

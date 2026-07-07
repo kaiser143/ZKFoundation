@@ -10,7 +10,7 @@
 #import "ZKNavigationController.h"
 #import "ZKNavigationBarTransitionCenterInternal.h"
 #import "UIViewController+ZKNavigationBarTransition.h"
-#import <ZKCategories/ZKCategories.h>
+#import "ZKCategoriesImport.h"
 
 BOOL KAITransitionNeedShowFakeBar(ZKBarConfiguration *from, ZKBarConfiguration *to) {
     BOOL showFakeBar = NO;

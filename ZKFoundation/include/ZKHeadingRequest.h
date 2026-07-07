@@ -1,0 +1,1 @@
+../Classes/Source/LocationManager/ZKHeadingRequest.h

@@ -7,7 +7,7 @@
 
 #import "UITableView+ZKAdapter.h"
 #import "ZKTableViewAdapter.h"
-#import <ZKCategories/ZKCategories.h>
+#import "ZKCategoriesImport.h"
 
 @implementation UITableView (ZKAdapter)
 

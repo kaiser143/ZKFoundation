@@ -6,7 +6,7 @@
 //
 
 #import "ZKBarConfiguration.h"
-#import <ZKCategories/ZKCategories.h>
+#import "ZKCategoriesImport.h"
 
 @implementation ZKBarConfiguration
 

@@ -8,7 +8,7 @@
 #ifndef ZKNavigationBarTransitionCenterInternal_h
 #define ZKNavigationBarTransitionCenterInternal_h
 
-#import <ZKFoundation/ZKBarConfiguration.h>
+#import "ZKBarConfiguration.h"
 
 BOOL KAITransitionNeedShowFakeBar(ZKBarConfiguration *from, ZKBarConfiguration *to);
 

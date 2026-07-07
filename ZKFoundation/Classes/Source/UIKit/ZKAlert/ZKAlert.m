@@ -6,7 +6,7 @@
 //
 
 #import "ZKAlert.h"
-#import <ZKCategories/ZKCategories.h>
+#import "ZKCategoriesImport.h"
 
 @interface ZKAlert () <UIGestureRecognizerDelegate>
 

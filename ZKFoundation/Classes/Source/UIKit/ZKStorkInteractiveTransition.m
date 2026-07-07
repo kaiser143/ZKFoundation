@@ -6,7 +6,7 @@
 //
 
 #import "ZKStorkInteractiveTransition.h"
-#import <ZKCategories/ZKCategories.h>
+#import "ZKCategoriesImport.h"
 
 @interface ZKStorkInteractiveTransition ()
 @property (nonatomic, weak) UIViewController *modalController;

@@ -7,7 +7,7 @@
 
 #import "UITableViewHeaderFooterView+ZKHelper.h"
 #import <objc/runtime.h>
-#import "ZKCategories.h"
+#import "ZKCategoriesImport.h"
 
 @implementation UITableViewHeaderFooterView (Helper)
 

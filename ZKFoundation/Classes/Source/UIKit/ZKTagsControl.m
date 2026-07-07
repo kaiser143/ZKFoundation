@@ -7,7 +7,7 @@
 //
 
 #import "ZKTagsControl.h"
-#import <ZKCategories/ZKCategories.h>
+#import "ZKCategoriesImport.h"
 #import "ZKCollectionViewAdapterInjectionDelegate.h"
 
 @class _KAITextField;

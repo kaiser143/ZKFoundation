@@ -6,7 +6,7 @@
 //
 
 #import "ZKMarqueeLabel.h"
-#import <ZKCategories/ZKCategories.h>
+#import "ZKCategoriesImport.h"
 
 @interface ZKMarqueeLabel ()
 

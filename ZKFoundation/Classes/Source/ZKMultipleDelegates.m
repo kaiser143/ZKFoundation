@@ -7,7 +7,7 @@
 
 #import "ZKMultipleDelegates.h"
 #import <objc/runtime.h>
-#import <ZKCategories/ZKCategories.h>
+#import "ZKCategoriesImport.h"
 
 @interface NSPointerArray (ZKFoundation)
 

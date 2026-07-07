@@ -6,9 +6,9 @@
 //
 
 #import "ZKTextView.h"
-#import <ZKCategories/ZKCGUtilities.h>
-#import <ZKCategories/NSString+ZKAdd.h>
-#import <ZKCategories/UITextView+ZKAdd.h>
+#import "ZKCategoriesImport.h"
+
+
 #import "NSObject+ZKMultipleDelegates.h"
 
 /// 系统 textView 默认的字号大小，用于 placeholder 默认的文字大小。实测得到，请勿修改。

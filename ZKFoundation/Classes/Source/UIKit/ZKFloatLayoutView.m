@@ -6,7 +6,7 @@
 //
 
 #import "ZKFloatLayoutView.h"
-#import <ZKCategories/ZKCategories.h>
+#import "ZKCategoriesImport.h"
 
 #define ValueSwitchAlignLeftOrRight(alignRight, valueLeft, valueRight) ((alignRight) ? (valueRight) : (valueLeft))
 

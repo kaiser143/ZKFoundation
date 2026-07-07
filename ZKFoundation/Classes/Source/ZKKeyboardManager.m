@@ -6,7 +6,7 @@
 //
 
 #import "ZKKeyboardManager.h"
-#import <ZKCategories/ZKCategories.h>
+#import "ZKCategoriesImport.h"
 #import "NSObject+ZKMultipleDelegates.h"
 
 @class _KAIKeyboardViewFrameObserver;

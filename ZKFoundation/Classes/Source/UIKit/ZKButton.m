@@ -6,7 +6,7 @@
 //
 
 #import "ZKButton.h"
-#import <ZKCategories/ZKCategories.h>
+#import "ZKCategoriesImport.h"
 
 const CGFloat ZKButtonCornerRadiusAdjustsBounds = -1;
 

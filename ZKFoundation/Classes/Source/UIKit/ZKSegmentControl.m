@@ -6,7 +6,7 @@
 //
 
 #import "ZKSegmentControl.h"
-#import <ZKCategories/ZKCategories.h>
+#import "ZKCategoriesImport.h"
 
 @interface ZKSegmentControl () <UIScrollViewDelegate>
 

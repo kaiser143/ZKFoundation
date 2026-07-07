@@ -6,7 +6,7 @@
 //
 
 #import "UICollectionView+ZKAdapter.h"
-#import <ZKCategories/ZKCategories.h>
+#import "ZKCategoriesImport.h"
 
 @implementation UICollectionView (ZKAdapter)
 

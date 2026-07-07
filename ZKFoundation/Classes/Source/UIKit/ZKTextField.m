@@ -6,8 +6,7 @@
 //
 
 #import "ZKTextField.h"
-#import <ZKCategories/NSString+ZKAdd.h>
-#import <ZKCategories/UITextField+ZKAdd.h>
+#import "ZKCategoriesImport.h"
 #import "NSObject+ZKMultipleDelegates.h"
 
 // 私有的类，专用于实现 ZKTextFieldDelegate，避免 self.delegate = self 的写法（以前是 ZKTextField 自己实现了 delegate）
