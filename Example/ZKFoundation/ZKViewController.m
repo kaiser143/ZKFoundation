@@ -19,12 +19,14 @@
 #import "NavigationController.h"
 #import "ZKBlurEffectViewController.h"
 #import "ZKAlertViewController.h"
+#import "ZKUIImagePreviewDemoViewController.h"
 
 @interface ZKViewController () <ZKNavigationBarConfigureStyle, UIScrollViewDelegate, ZKPopupControllerDelegate, ZKTextFieldDelegate>
 
 @property (nonatomic, strong) UIColor *barTintColor;
 @property (nonatomic, strong) ZKStorkInteractiveTransition *animator;
 @property (nonatomic, strong) ZKPopupController *popup;
+@property (nonatomic, strong) ZKFloatLayoutView *actionFloatLayoutView;
 
 @end
 
@@ -121,194 +123,14 @@
         //        make.size.mas_equalTo(CGSizeMake(100, 100));
     }];
     
-    ZKTintedActionButton *action = [[ZKTintedActionButton alloc] initWithText:@"Collection"];
-    action.tappedButtonScale = 1;
-    action.tintColor             = UIColor.redColor;
-    [action addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [scrollView addSubview:action];
-    [action mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(220);
-        make.height.mas_equalTo(48);
-        make.centerX.equalTo(self.view);
+    self.actionFloatLayoutView = [[ZKFloatLayoutView alloc] init];
+    self.actionFloatLayoutView.itemMargins = UIEdgeInsetsMake(0, 0, 20, 20);
+    [self setupActionButtonsInFloatLayoutView];
+    [scrollView addSubview:self.actionFloatLayoutView];
+    [self.actionFloatLayoutView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view).offset(24);
+        make.right.equalTo(self.view).offset(-24);
         make.top.equalTo(view.mas_bottom).offset(30);
-    }];
-    
-    ZKAuto test             = [[ZKTintedActionButton alloc] initWithText:@"Table"];
-    test.tintColor          = UIColor.redColor;
-    [test addBlockForControlEvents:UIControlEventTouchUpInside
-                             block:^(__kindof UIControl *_Nonnull sender) {
-        @strongify(self);
-        [self kai_pushViewController:ZKTableViewController.new];
-    }];
-    [scrollView addSubview:test];
-    [test mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(220);
-        make.height.mas_equalTo(48);
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(action.mas_bottom).offset(20);
-    }];
-    
-    action             = [[ZKTintedActionButton alloc] initWithText:@"地图"];
-    action.tintColor          = UIColor.redColor;
-    [action addBlockForControlEvents:UIControlEventTouchUpInside
-                               block:^(__kindof UIControl *_Nonnull sender) {
-        @strongify(self);
-        [self kai_pushViewController:ZKMapViewController.new];
-    }];
-    [scrollView addSubview:action];
-    [action mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(220);
-        make.height.mas_equalTo(48);
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(test.mas_bottom).offset(20);
-    }];
-    
-    test             = [[ZKTintedActionButton alloc] initWithText:@"webView"];
-    test.tintColor          = UIColor.redColor;
-    [test addBlockForControlEvents:UIControlEventTouchUpInside
-                             block:^(__kindof UIControl *_Nonnull sender) {
-        @strongify(self);
-        NSString *const githubLink = @"http://www.baidu.com";
-        ZKWebViewController *controller = [[ZKWebViewController alloc] initWithURL:githubLink.URL];
-        [self kai_pushViewController:controller];
-    }];
-    [scrollView addSubview:test];
-    [test mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(220);
-        make.height.mas_equalTo(48);
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(action.mas_bottom).offset(20);
-    }];
-    
-    action             = [[ZKTintedActionButton alloc] initWithText:@"地图&Table"];
-    action.tintColor          = UIColor.redColor;
-    [action addBlockForControlEvents:UIControlEventTouchUpInside
-                               block:^(__kindof UIControl *_Nonnull sender) {
-        @strongify(self);
-        [self kai_pushViewController:ZKRouterViewController.new];
-    }];
-    [scrollView addSubview:action];
-    [action mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(220);
-        make.height.mas_equalTo(48);
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(test.mas_bottom).offset(20);
-    }];
-    
-    test                    = [[ZKTintedActionButton alloc] initWithText:@"present"];
-    test.tintColor          = UIColor.redColor;
-    [test addBlockForControlEvents:UIControlEventTouchUpInside
-                             block:^(__kindof UIControl *_Nonnull sender) {
-        @strongify(self);
-        ZKAuto controller           = ZKTableViewController.new;
-        NavigationController *nav = [[NavigationController alloc] initWithRootViewController:controller];
-        nav.modalPresentationStyle  = UIModalPresentationCustom;
-        
-        if (@available(iOS 15.0, *)) {
-            UINavigationBarAppearance *appearance = nav.navigationBar.standardAppearance.copy;
-            [appearance configureWithTransparentBackground];
-            appearance.backgroundColor = UIColor.whiteColor;
-            //        appearance.backgroundImage = transpanrentImage;
-            nav.navigationBar.scrollEdgeAppearance = appearance;
-            nav.navigationBar.standardAppearance   = appearance;
-        }
-        
-        self.animator                    = [[ZKStorkInteractiveTransition alloc] initWithModalViewController:nav];
-        self.animator.transitionDuration = 0.6f;
-        [self.animator setContentScrollView:controller.tableView];
-        
-        nav.transitioningDelegate = self.animator;
-        [self presentViewController:nav animated:YES completion:nil];
-    }];
-    [scrollView addSubview:test];
-    [test mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(220);
-        make.height.mas_equalTo(48);
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(action.mas_bottom).offset(20);
-    }];
-    
-    action             = [[ZKTintedActionButton alloc] initWithText:@"Popup"];
-    action.tintColor          = UIColor.redColor;
-    action.layer.cornerRadius = 8;
-    [action addBlockForControlEvents:UIControlEventTouchUpInside
-                               block:^(__kindof UIControl *_Nonnull sender) {
-        @strongify(self);
-        [self showPopupWithStyle:ZKPopupStyleActionSheet];
-    }];
-    [scrollView addSubview:action];
-    [action mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(220);
-        make.height.mas_equalTo(48);
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(test.mas_bottom).offset(20);
-    }];
-    
-    test             = [[ZKTintedActionButton alloc] initWithText:@"NavigationBar"];
-    test.tintColor          = UIColor.redColor;
-    [test addBlockForControlEvents:UIControlEventTouchUpInside
-                             block:^(__kindof UIControl *_Nonnull sender) {
-        @strongify(self);
-        ZKAuto controller         = ZKNavigationConfigureViewController.new;
-        controller.configurations = ZKNavigationBarBackgroundStyleTranslucent | ZKNavigationBarStyleLight | ZKNavigationBarBackgroundStyleNone;
-        [self kai_pushViewController:controller];
-    }];
-    [scrollView addSubview:test];
-    [test mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(220);
-        make.height.mas_equalTo(48);
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(action.mas_bottom).offset(20);
-    }];
-    
-    action             = [[ZKTintedActionButton alloc] initWithText:@"BlurEffect"];
-    action.tintColor          = UIColor.redColor;
-    action.layer.cornerRadius = 8;
-    [action addBlockForControlEvents:UIControlEventTouchUpInside
-                               block:^(__kindof UIControl *_Nonnull sender) {
-        @strongify(self);
-        ZKAuto controller = ZKBlurEffectViewController.new;
-        [self kai_pushViewController:controller];
-    }];
-    [scrollView addSubview:action];
-    [action mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(220);
-        make.height.mas_equalTo(48);
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(test.mas_bottom).offset(20);
-    }];
-    
-    test             = [[ZKTintedActionButton alloc] initWithText:@"Self"];
-    test.tintColor          = UIColor.redColor;
-    [test addBlockForControlEvents:UIControlEventTouchUpInside
-                             block:^(__kindof UIControl *_Nonnull sender) {
-        @strongify(self);
-        ZKAuto controller = ZKViewController.new;
-        [self kai_pushViewController:controller];
-    }];
-    [scrollView addSubview:test];
-    [test mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(220);
-        make.height.mas_equalTo(48);
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(action.mas_bottom).offset(20);
-    }];
-    
-    action             = [[ZKTintedActionButton alloc] initWithText:@"Alert"];
-    action.tintColor          = UIColor.redColor;
-    action.layer.cornerRadius = 8;
-    [action addBlockForControlEvents:UIControlEventTouchUpInside
-                               block:^(__kindof UIControl *_Nonnull sender) {
-        @strongify(self);
-        ZKAuto controller = ZKAlertViewController.new;
-        [self kai_pushViewController:controller];
-    }];
-    [scrollView addSubview:action];
-    [action mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(220);
-        make.height.mas_equalTo(48);
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(test.mas_bottom).offset(20);
         make.bottom.lessThanOrEqualTo(scrollView).offset(-20);
     }];
     
@@ -463,6 +285,115 @@
 }
 
 #pragma mark - :. private methods
+
+- (ZKTintedActionButton *)actionButtonWithText:(NSString *)text cornerRadius:(CGFloat)cornerRadius action:(void (^)(void))action {
+    ZKTintedActionButton *button = [[ZKTintedActionButton alloc] initWithText:text];
+    button.tintColor = UIColor.redColor;
+    if (cornerRadius > 0) {
+        button.layer.cornerRadius = cornerRadius;
+    }
+    if (action) {
+        [button addBlockForControlEvents:UIControlEventTouchUpInside block:^(__kindof UIControl *sender) {
+            action();
+        }];
+    }
+    return button;
+}
+
+- (void)setupActionButtonsInFloatLayoutView {
+    @weakify(self);
+    ZKTintedActionButton *collectionButton = [[ZKTintedActionButton alloc] initWithText:@"Collection"];
+    collectionButton.tappedButtonScale = 1;
+    collectionButton.tintColor = UIColor.redColor;
+    [collectionButton addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.actionFloatLayoutView addSubview:collectionButton];
+    
+    [self.actionFloatLayoutView addSubview:[self actionButtonWithText:@"Table" cornerRadius:0 action:^{
+        @strongify(self);
+        [self kai_pushViewController:ZKTableViewController.new];
+    }]];
+    [self.actionFloatLayoutView addSubview:[self actionButtonWithText:@"地图" cornerRadius:0 action:^{
+        @strongify(self);
+        [self kai_pushViewController:ZKMapViewController.new];
+    }]];
+    [self.actionFloatLayoutView addSubview:[self actionButtonWithText:@"webView" cornerRadius:0 action:^{
+        @strongify(self);
+        NSString *const githubLink = @"http://www.baidu.com";
+        ZKWebViewController *controller = [[ZKWebViewController alloc] initWithURL:githubLink.URL];
+        [self kai_pushViewController:controller];
+    }]];
+    [self.actionFloatLayoutView addSubview:[self actionButtonWithText:@"地图&Table" cornerRadius:0 action:^{
+        @strongify(self);
+        [self kai_pushViewController:ZKRouterViewController.new];
+    }]];
+    [self.actionFloatLayoutView addSubview:[self actionButtonWithText:@"present" cornerRadius:0 action:^{
+        @strongify(self);
+        ZKAuto controller = ZKTableViewController.new;
+        NavigationController *nav = [[NavigationController alloc] initWithRootViewController:controller];
+        nav.modalPresentationStyle = UIModalPresentationCustom;
+        
+        if (@available(iOS 15.0, *)) {
+            UINavigationBarAppearance *appearance = nav.navigationBar.standardAppearance.copy;
+            [appearance configureWithTransparentBackground];
+            appearance.backgroundColor = UIColor.whiteColor;
+            nav.navigationBar.scrollEdgeAppearance = appearance;
+            nav.navigationBar.standardAppearance = appearance;
+        }
+        
+        self.animator = [[ZKStorkInteractiveTransition alloc] initWithModalViewController:nav];
+        self.animator.transitionDuration = 0.6f;
+        [self.animator setContentScrollView:controller.tableView];
+        
+        nav.transitioningDelegate = self.animator;
+        [self presentViewController:nav animated:YES completion:nil];
+    }]];
+    [self.actionFloatLayoutView addSubview:[self actionButtonWithText:@"Popup" cornerRadius:8 action:^{
+        @strongify(self);
+        [self showPopupWithStyle:ZKPopupStyleActionSheet];
+    }]];
+    [self.actionFloatLayoutView addSubview:[self actionButtonWithText:@"NavigationBar" cornerRadius:0 action:^{
+        @strongify(self);
+        ZKAuto controller = ZKNavigationConfigureViewController.new;
+        controller.configurations = ZKNavigationBarBackgroundStyleTranslucent | ZKNavigationBarStyleLight | ZKNavigationBarBackgroundStyleNone;
+        [self kai_pushViewController:controller];
+    }]];
+    [self.actionFloatLayoutView addSubview:[self actionButtonWithText:@"BlurEffect" cornerRadius:8 action:^{
+        @strongify(self);
+        [self kai_pushViewController:ZKBlurEffectViewController.new];
+    }]];
+    [self.actionFloatLayoutView addSubview:[self actionButtonWithText:@"Self" cornerRadius:0 action:^{
+        @strongify(self);
+        [self kai_pushViewController:ZKViewController.new];
+    }]];
+    [self.actionFloatLayoutView addSubview:[self actionButtonWithText:@"Alert" cornerRadius:8 action:^{
+        @strongify(self);
+        [self kai_pushViewController:ZKAlertViewController.new];
+    }]];
+    [self.actionFloatLayoutView addSubview:[self actionButtonWithText:@"ImagePreview" cornerRadius:0 action:^{
+        @strongify(self);
+        [self kai_pushViewController:ZKUIImagePreviewDemoViewController.new];
+    }]];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    if (!self.actionFloatLayoutView) {
+        return;
+    }
+    
+    CGFloat contentWidth = CGRectGetWidth(self.view.bounds) - 48;
+    NSInteger column = 2;
+    CGFloat spacing = UIEdgeInsetsGetHorizontalValue(self.actionFloatLayoutView.itemMargins);
+    CGFloat itemWidth = (contentWidth - (column - 1) * spacing) / column;
+    self.actionFloatLayoutView.minimumItemSize = CGSizeMake(itemWidth, 48);
+    self.actionFloatLayoutView.maximumItemSize = self.actionFloatLayoutView.minimumItemSize;
+    
+    CGSize fitting = [self.actionFloatLayoutView sizeThatFits:CGSizeMake(contentWidth, CGFLOAT_MAX)];
+    [self.actionFloatLayoutView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(fitting.height);
+    }];
+}
 
 - (void)showPopupWithStyle:(ZKPopupStyle)popupStyle {
     @weakify(self);

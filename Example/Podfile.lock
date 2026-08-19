@@ -13,11 +13,11 @@ PODS:
   - Stinger/Core (1.0.0):
     - Stinger/libffi
   - Stinger/libffi (1.0.0)
-  - ZKCategories (0.4.22):
-    - ZKCategories/Core (= 0.4.22)
-  - ZKCategories/Core (0.4.22)
+  - ZKCategories (0.4.26):
+    - ZKCategories/Core (= 0.4.26)
+  - ZKCategories/Core (0.4.26)
   - ZKFoundation (0.1.22):
-    - ZKCategories (~> 0.4.22)
+    - ZKCategories (~> 0.4.26)
     - ZKFoundation/Adapter (= 0.1.22)
     - ZKFoundation/AuthContext (= 0.1.22)
     - ZKFoundation/Categories (= 0.1.22)
@@ -26,19 +26,19 @@ PODS:
     - ZKFoundation/UIKit (= 0.1.22)
     - ZKFoundation/URLProtocol (= 0.1.22)
   - ZKFoundation/Adapter (0.1.22):
-    - ZKCategories (~> 0.4.22)
+    - ZKCategories (~> 0.4.26)
   - ZKFoundation/AuthContext (0.1.22):
-    - ZKCategories (~> 0.4.22)
+    - ZKCategories (~> 0.4.26)
   - ZKFoundation/Categories (0.1.22):
-    - ZKCategories (~> 0.4.22)
+    - ZKCategories (~> 0.4.26)
   - ZKFoundation/LocationManager (0.1.22):
-    - ZKCategories (~> 0.4.22)
+    - ZKCategories (~> 0.4.26)
   - ZKFoundation/Permission (0.1.22):
-    - ZKCategories (~> 0.4.22)
+    - ZKCategories (~> 0.4.26)
   - ZKFoundation/UIKit (0.1.22):
-    - ZKCategories (~> 0.4.22)
+    - ZKCategories (~> 0.4.26)
   - ZKFoundation/URLProtocol (0.1.22):
-    - ZKCategories (~> 0.4.22)
+    - ZKCategories (~> 0.4.26)
 
 DEPENDENCIES:
   - AXWebViewController (from `https://github.com/kaiser143/AXWebViewController.git`, commit `5cebcc4fcdb269cf96c80dc6893b653cc29be2bb`)
@@ -79,8 +79,8 @@ SPEC CHECKSUMS:
   LookInsideServer: 8d33aaddfecb2779076253eb0f481e494c7b755a
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   Stinger: 65d5a5749cb487d35676a2e8bba63a4239b6ccc3
-  ZKCategories: e9266f0f431c6cc4068ed5a7967e274b8eee1e0b
-  ZKFoundation: 53448e05b4c14f96f0c4a1b5191b533c325b3115
+  ZKCategories: ee936a56881727ea4b8ff221664d0ccb8c42b3fe
+  ZKFoundation: 3f955ab641a0ad792d83587fdc0f5e5cb4242ecf
 
 PODFILE CHECKSUM: c01e07e635402cdfb37235e37db874bbf39f2413
 

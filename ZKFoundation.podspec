@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ZKFoundation'
-  s.version          = "0.1.22"
+  s.version          = "0.1.23"
   s.summary          = 'A short description of ZKFoundation.'
 
 # This description is used to generate tags and improve search results.
@@ -31,6 +31,10 @@ TODO: Add long description of the pod here.
   s.default_subspecs = ['LocationManager', 'Permission', 'UIKit', 'Adapter', 'Categories', 'AuthContext', 'URLProtocol']
   
   s.source_files = 'ZKFoundation/Classes/Source/*.{h,m}'
+  s.private_header_files = 'ZKFoundation/Classes/Source/ZKCategoriesImport.h'
+  s.pod_target_xcconfig = {
+    'USER_HEADER_SEARCH_PATHS' => '${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source'
+  }
   
   s.subspec 'LocationManager' do |ss|
       ss.ios.deployment_target = '9.0'
@@ -44,7 +48,7 @@ TODO: Add long description of the pod here.
   
   s.subspec 'UIKit' do |ss|
       ss.ios.deployment_target = '9.0'
-      ss.source_files = 'ZKFoundation/Classes/Source/UIKit/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKNavigationBarTransition/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKNavigationBarTransition/internal/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKAlert/*.{h,m}'
+      ss.source_files = 'ZKFoundation/Classes/Source/UIKit/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKNavigationBarTransition/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKNavigationBarTransition/internal/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKAlert/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKUIImagePreview/*.{h,m}'
   end
   
   s.subspec 'Adapter' do |ss|
@@ -74,5 +78,5 @@ TODO: Add long description of the pod here.
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
-  s.dependency 'ZKCategories', '~> 0.4.22'
+  s.dependency 'ZKCategories', '~> 0.4.26'
 end

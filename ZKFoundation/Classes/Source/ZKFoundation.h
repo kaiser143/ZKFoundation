@@ -52,6 +52,11 @@
     #import <ZKFoundation/ZKTagsControl.h>
     #import <ZKFoundation/ZKURLProtocolLogger.h>
     #import <ZKFoundation/ZKKeyboardManager.h>
+    #import <ZKFoundation/ZKZoomImageView.h>
+    #import <ZKFoundation/ZKCollectionViewPagingLayout.h>
+    #import <ZKFoundation/ZKUIImagePreviewView.h>
+    #import <ZKFoundation/ZKUIImagePreviewViewController.h>
+    #import <ZKFoundation/ZKUIImagePreviewViewTransitionAnimator.h>
 
 #else
 
@@ -97,6 +102,11 @@
     #import "ZKTagsControl.h"
     #import "ZKURLProtocolLogger.h"
     #import "ZKKeyboardManager.h"
+    #import "ZKZoomImageView.h"
+    #import "ZKCollectionViewPagingLayout.h"
+    #import "ZKUIImagePreviewView.h"
+    #import "ZKUIImagePreviewViewController.h"
+    #import "ZKUIImagePreviewViewTransitionAnimator.h"
 #endif /* __has_include*/
 
 #endif /* ZKFoundation_h */

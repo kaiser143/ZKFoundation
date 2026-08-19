@@ -34,6 +34,7 @@ let package = Package(
                 .headerSearchPath("Classes/Source/URLProtocol"),
                 .headerSearchPath("Classes/Source/UIKit"),
                 .headerSearchPath("Classes/Source/UIKit/ZKAlert"),
+                .headerSearchPath("Classes/Source/UIKit/ZKUIImagePreview"),
                 .headerSearchPath("Classes/Source/UIKit/ZKNavigationBarTransition"),
                 .headerSearchPath("Classes/Source/UIKit/ZKNavigationBarTransition/internal"),
             ],
