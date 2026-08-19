@@ -14,8 +14,7 @@ let package = Package(
         ),
     ],
     dependencies: [
-        // ZKCategories SPM support is on master; tagged releases do not yet include Package.swift.
-        .package(url: "https://github.com/kaiser143/ZKCategories.git", branch: "master"),
+        .package(url: "https://github.com/kaiser143/ZKCategories.git", from: "0.4.26"),
     ],
     targets: [
         .target(
