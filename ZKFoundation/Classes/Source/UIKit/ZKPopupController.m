@@ -581,13 +581,22 @@ CGFloat KAI_UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orie
     [self calculateContentSizeThatFits:CGSizeMake([self popupWidth], self.maskView.bounds.size.height) andUpdateLayout:YES];
     self.popupView.center = [self originPoint];
 
+    BOOL fadeContent = (self.theme.presentationStyle == ZKPopupPresentationStyleFadeIn &&
+                        self.theme.popupStyle == ZKPopupStyleCentered);
+
     [self.applicationWindow addSubview:self.maskView];
     self.backdropView.alpha = 0;
+    if (fadeContent) {
+        // 与系统 Alert 一致：蒙版与内容同步淡入
+        self.popupView.alpha = 0;
+    }
     [UIView animateWithDuration:flag ? self.theme.animationDuration : 0.0
         animations:^{
             self.backdropView.alpha = 1.0;
             self.popupView.center   = [self endingPoint];
-            ;
+            if (fadeContent) {
+                self.popupView.alpha = 1.0;
+            }
         }
         completion:^(BOOL finished) {
             self.popupView.userInteractionEnabled = YES;
@@ -601,14 +610,20 @@ CGFloat KAI_UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orie
     if ([self.delegate respondsToSelector:@selector(popupControllerWillDismiss:)]) {
         [self.delegate popupControllerWillDismiss:self];
     }
+    BOOL fadeContent = (self.theme.presentationStyle == ZKPopupPresentationStyleFadeIn &&
+                        self.theme.popupStyle == ZKPopupStyleCentered);
     [UIView animateWithDuration:flag ? self.theme.animationDuration : 0.0
         animations:^{
             self.backdropView.alpha = 0.0;
             self.popupView.center   = [self dismissedPoint];
-            ;
+            if (fadeContent) {
+                // 与系统 Alert 一致：蒙版与内容同步淡出，避免蒙版消失后内容忽然被移除
+                self.popupView.alpha = 0.0;
+            }
         }
         completion:^(BOOL finished) {
             [self.maskView removeFromSuperview];
+            self.popupView.alpha = 1.0;
             if ([self.delegate respondsToSelector:@selector(popupControllerDidDismiss:)]) {
                 [self.delegate popupControllerDidDismiss:self];
             }
