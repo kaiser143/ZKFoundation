@@ -20,6 +20,7 @@
 #import "ZKBlurEffectViewController.h"
 #import "ZKAlertViewController.h"
 #import "ZKUIImagePreviewDemoViewController.h"
+#import "ZKBackBarButtonViewController.h"
 
 @interface ZKViewController () <ZKNavigationBarConfigureStyle, UIScrollViewDelegate, ZKPopupControllerDelegate, ZKTextFieldDelegate>
 
@@ -372,6 +373,10 @@
     [self.actionFloatLayoutView addSubview:[self actionButtonWithText:@"ImagePreview" cornerRadius:0 action:^{
         @strongify(self);
         [self kai_pushViewController:ZKUIImagePreviewDemoViewController.new];
+    }]];
+    [self.actionFloatLayoutView addSubview:[self actionButtonWithText:@"BackBarButton" cornerRadius:0 action:^{
+        @strongify(self);
+        [self kai_pushViewController:ZKBackBarButtonViewController.new];
     }]];
 }
 

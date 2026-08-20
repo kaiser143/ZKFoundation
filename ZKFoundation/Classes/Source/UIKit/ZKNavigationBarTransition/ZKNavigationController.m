@@ -124,6 +124,16 @@
     self.animation = NO;
 }
 
+#pragma mark - UIGestureRecognizerDelegate
+
+/// 自定义 leftBarButtonItem（含 kai_backBarButton）后，系统默认会禁用侧滑返回；这里在栈深 > 1 时重新允许。
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer == self.interactivePopGestureRecognizer) {
+        return self.viewControllers.count > 1;
+    }
+    return YES;
+}
+
 #pragma mark - :. private methods
 
 - (BOOL)shouldAutorotate {
