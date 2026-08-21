@@ -6,15 +6,12 @@
 //
 
 #import "ZKPopupController.h"
+#import "ZKKeyboardManager.h"
 
 #define KAI_SYSTEM_VERSION_LESS_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 #define KAI_IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
-static inline UIViewAnimationOptions UIViewAnimationCurveToAnimationOptions(UIViewAnimationCurve curve) {
-    return curve << 16;
-}
-
-@interface ZKPopupController () <UIGestureRecognizerDelegate>
+@interface ZKPopupController () <UIGestureRecognizerDelegate, ZKKeyboardManagerDelegate>
 
 @property (nonatomic, strong) UIWindow *applicationWindow;
 @property (nonatomic, strong) UIView *maskView;
@@ -28,6 +25,7 @@ static inline UIViewAnimationOptions UIViewAnimationCurveToAnimationOptions(UIVi
 @property (nonatomic, strong) NSMutableDictionary<NSValue *, NSLayoutConstraint *> *contentHeightConstraintsByView;
 @property (nonatomic, strong) NSMutableDictionary<NSValue *, NSLayoutConstraint *> *contentTopConstraintsByView;
 @property (nonatomic, strong) NSMutableDictionary<NSValue *, NSLayoutConstraint *> *contentBottomConstraintsByView;
+@property (nonatomic, strong) ZKKeyboardManager *keyboardManager;
 
 @end
 
@@ -75,8 +73,7 @@ static inline UIViewAnimationOptions UIViewAnimationCurveToAnimationOptions(UIVi
 
         [self addPopupContents];
 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+        self.keyboardManager = [[ZKKeyboardManager alloc] initWithDelegate:self];
 
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -100,8 +97,6 @@ static inline UIViewAnimationOptions UIViewAnimationCurveToAnimationOptions(UIVi
     [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)orientationWillChange {
@@ -513,15 +508,15 @@ CGFloat KAI_UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orie
 
 #pragma mark - Keyboard
 
-- (void)keyboardWillShow:(NSNotification *)notification {
-    if (self.theme.movesAboveKeyboard) {
-        CGRect frame               = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-        frame                      = [self.popupView convertRect:frame fromView:nil];
-        NSTimeInterval duration    = [(notification.userInfo)[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-        UIViewAnimationCurve curve = [(notification.userInfo)[UIKeyboardAnimationCurveUserInfoKey] integerValue];
-
-        [self keyboardWithEndFrame:frame willShowAfterDuration:duration withOptions:UIViewAnimationCurveToAnimationOptions(curve)];
+- (void)keyboardWillShowWithUserInfo:(ZKKeyboardUserInfo *)keyboardUserInfo {
+    if (!self.theme.movesAboveKeyboard) {
+        return;
     }
+
+    CGRect frame = [self.popupView convertRect:keyboardUserInfo.endFrame fromView:nil];
+    [self keyboardWithEndFrame:frame
+        willShowAfterDuration:keyboardUserInfo.animationDuration
+                  withOptions:keyboardUserInfo.animationOptions];
 }
 
 - (void)keyboardWithEndFrame:(CGRect)keyboardFrame willShowAfterDuration:(NSTimeInterval)duration withOptions:(UIViewAnimationOptions)options {
@@ -545,15 +540,14 @@ CGFloat KAI_UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orie
     }
 }
 
-- (void)keyboardWillHide:(NSNotification *)notification {
-    if (self.theme.movesAboveKeyboard) {
-        CGRect frame               = [notification.userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue];
-        frame                      = [self.popupView convertRect:frame fromView:nil];
-        NSTimeInterval duration    = [(notification.userInfo)[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-        UIViewAnimationCurve curve = [(notification.userInfo)[UIKeyboardAnimationCurveUserInfoKey] integerValue];
-
-        [self keyboardWithStartFrame:frame willHideAfterDuration:duration withOptions:UIViewAnimationCurveToAnimationOptions(curve)];
+- (void)keyboardWillHideWithUserInfo:(ZKKeyboardUserInfo *)keyboardUserInfo {
+    if (!self.theme.movesAboveKeyboard) {
+        return;
     }
+
+    [self keyboardWithStartFrame:keyboardUserInfo.beginFrame
+         willHideAfterDuration:keyboardUserInfo.animationDuration
+                   withOptions:keyboardUserInfo.animationOptions];
 }
 
 - (void)keyboardWithStartFrame:(CGRect)keyboardFrame willHideAfterDuration:(NSTimeInterval)duration withOptions:(UIViewAnimationOptions)options {
@@ -607,6 +601,9 @@ CGFloat KAI_UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orie
 }
 
 - (void)dismissPopupControllerAnimated:(BOOL)flag {
+    // 先收起键盘，再播 dismiss，保证关闭按钮与点蒙版一样：弹框与键盘同步下落
+    [self.popupView endEditing:YES];
+
     if ([self.delegate respondsToSelector:@selector(popupControllerWillDismiss:)]) {
         [self.delegate popupControllerWillDismiss:self];
     }
@@ -706,7 +703,6 @@ CGFloat KAI_UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orie
 
 - (void)handleBackgroundTapGesture:(id)sender {
     if (self.theme.shouldDismissOnBackgroundTouch) {
-        [self.popupView endEditing:YES];
         [self dismissPopupControllerAnimated:self.dismissAnimated];
     }
 }
