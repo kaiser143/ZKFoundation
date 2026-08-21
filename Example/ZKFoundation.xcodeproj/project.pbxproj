@@ -16,6 +16,7 @@
 		4BC34FF32D71469A00AC1586 /* ZKAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC34FF22D71469A00AC1586 /* ZKAlertViewController.m */; };
 		4BD0A1012E73A00100A1F001 /* ZKUIImagePreviewDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BD0A1002E73A00100A1F000 /* ZKUIImagePreviewDemoViewController.m */; };
 		4BD0A1122E8A000100A1F012 /* ZKBackBarButtonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BD0A1112E8A000100A1F011 /* ZKBackBarButtonViewController.m */; };
+		4BD0A2012E8B000100A1F021 /* ZKPopupDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BD0A2002E8B000100A1F020 /* ZKPopupDemoViewController.m */; };
 		4BD3443B23A3D34F00F6C677 /* ZKMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BD3443923A3D34F00F6C677 /* ZKMapViewController.m */; };
 		4BE6F1B023FD8BB400017F28 /* ZKTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BE6F1AF23FD8BB400017F28 /* ZKTableViewController.m */; };
 		4BE6F1B323FD8FAD00017F28 /* ZKTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BE6F1B223FD8FAD00017F28 /* ZKTableViewCell.m */; };
@@ -69,6 +70,8 @@
 		4BD0A1002E73A00100A1F000 /* ZKUIImagePreviewDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKUIImagePreviewDemoViewController.m; sourceTree = "<group>"; };
 		4BD0A1102E8A000100A1F010 /* ZKBackBarButtonViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKBackBarButtonViewController.h; sourceTree = "<group>"; };
 		4BD0A1112E8A000100A1F011 /* ZKBackBarButtonViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKBackBarButtonViewController.m; sourceTree = "<group>"; };
+		4BD0A1FF2E8B000100A1F022 /* ZKPopupDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKPopupDemoViewController.h; sourceTree = "<group>"; };
+		4BD0A2002E8B000100A1F020 /* ZKPopupDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKPopupDemoViewController.m; sourceTree = "<group>"; };
 		4BD3443923A3D34F00F6C677 /* ZKMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKMapViewController.m; sourceTree = "<group>"; };
 		4BD3443A23A3D34F00F6C677 /* ZKMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKMapViewController.h; sourceTree = "<group>"; };
 		4BE6F1AE23FD8BB400017F28 /* ZKTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKTableViewController.h; sourceTree = "<group>"; };
@@ -228,6 +231,8 @@
 				4BD0A1002E73A00100A1F000 /* ZKUIImagePreviewDemoViewController.m */,
 				4BD0A1102E8A000100A1F010 /* ZKBackBarButtonViewController.h */,
 				4BD0A1112E8A000100A1F011 /* ZKBackBarButtonViewController.m */,
+				4BD0A1FF2E8B000100A1F022 /* ZKPopupDemoViewController.h */,
+				4BD0A2002E8B000100A1F020 /* ZKPopupDemoViewController.m */,
 			);
 			name = "Example for ZKFoundation";
 			path = ZKFoundation;
@@ -452,6 +457,7 @@
 				4BC34FF32D71469A00AC1586 /* ZKAlertViewController.m in Sources */,
 				4BD0A1012E73A00100A1F001 /* ZKUIImagePreviewDemoViewController.m in Sources */,
 				4BD0A1122E8A000100A1F012 /* ZKBackBarButtonViewController.m in Sources */,
+				4BD0A2012E8B000100A1F021 /* ZKPopupDemoViewController.m in Sources */,
 				4B6951F523963A5300A828D4 /* ZKCollectionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

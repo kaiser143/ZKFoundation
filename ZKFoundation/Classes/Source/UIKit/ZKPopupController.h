@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZKPopupController : NSObject
 
+/// 弹窗主题；未赋值时默认使用 `[ZKPopupTheme defaultTheme]`
 @property (nonatomic, strong) ZKPopupTheme *_Nonnull theme;
 @property (nonatomic, weak) id <ZKPopupControllerDelegate> _Nullable delegate;
 
