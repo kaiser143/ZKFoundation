@@ -50,6 +50,7 @@ Carthage/Build
 # Swift Package Manager
 .build/
 .swiftpm/
+.cursor/
 Package.resolved
 
 # fastlane

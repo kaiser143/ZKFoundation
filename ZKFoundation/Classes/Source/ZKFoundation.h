@@ -17,6 +17,8 @@
     #import <ZKFoundation/UICollectionView+ZKAdapter.h>
     #import <ZKFoundation/UITableView+ZKAdapter.h>
     #import <ZKFoundation/UIView+ZKHelper.h>
+    #import <ZKFoundation/ZKBadgeProtocol.h>
+    #import <ZKFoundation/UIView+ZKBadge.h>
     #import <ZKFoundation/UITableViewHeaderFooterView+ZKHelper.h>
     #import <ZKFoundation/ZKCollectionViewAdapter.h>
     #import <ZKFoundation/ZKTableViewAdapter.h>
@@ -68,6 +70,8 @@
     #import "UICollectionView+ZKAdapter.h"
     #import "UITableView+ZKAdapter.h"
     #import "UIView+ZKHelper.h"
+    #import "ZKBadgeProtocol.h"
+    #import "UIView+ZKBadge.h"
     #import "UITableViewHeaderFooterView+ZKHelper.h"
     #import "ZKCollectionViewAdapter.h"
     #import "ZKTableViewAdapter.h"

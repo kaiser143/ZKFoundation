@@ -22,6 +22,7 @@
 #import "ZKUIImagePreviewDemoViewController.h"
 #import "ZKBackBarButtonViewController.h"
 #import "ZKPopupDemoViewController.h"
+#import "ZKBadgeDemoViewController.h"
 
 @interface ZKViewController () <ZKNavigationBarConfigureStyle, UIScrollViewDelegate, ZKTextFieldDelegate>
 
@@ -367,6 +368,10 @@
     [self.actionFloatLayoutView addSubview:[self actionButtonWithText:@"BackBarButton" cornerRadius:0 action:^{
         @strongify(self);
         [self kai_pushViewController:ZKBackBarButtonViewController.new];
+    }]];
+    [self.actionFloatLayoutView addSubview:[self actionButtonWithText:@"Badge" cornerRadius:8 action:^{
+        @strongify(self);
+        [self kai_pushViewController:ZKBadgeDemoViewController.new];
     }]];
 }
 
