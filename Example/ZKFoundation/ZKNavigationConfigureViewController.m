@@ -34,14 +34,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
+    [self configureStateFromNavigationBarConfigurations];
+    self.edgesForExtendedLayout = UIRectEdgeAll;
+    self.extendedLayoutIncludesOpaqueBars = YES;
     
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
     
-    self.translucent = NO;
-    self.barStyle = UIBarStyleBlack;
     self.title = self.title.isNotBlank ? self.title : @"NavigationBarTransition";
         
     @weakify(self);
@@ -107,19 +109,16 @@
             ZKNavigationConfigureViewController *controller = ZKNavigationConfigureViewController.new;
             controller.title = @"Color";
             
-            ZKSwitchItemViewModel *item = [self.styles objectOrNilAtIndex:0];
-            controller.barHidden = item.on;
+            controller.barHidden = self.barHidden;
             
             ZKNavigationBarConfigurations conf = ZKNavigationBarConfigurationsDefault;
             if (self.barHidden) {
                 conf |= ZKNavigationBarHidden;
             }
             
-            BOOL transparent = [[self.styles objectOrNilAtIndex:1] on];
-            BOOL translucent = [[self.styles objectOrNilAtIndex:2] on];
-            if (transparent) {
+            if (self.transparent) {
                 conf |= ZKNavigationBarBackgroundStyleTransparent;
-            } else if (!translucent) {
+            } else if (!self.translucent) {
                 conf |= ZKNavigationBarBackgroundStyleOpaque;
             }
             
@@ -143,11 +142,9 @@
             controller.title = imageName;
             
             ZKNavigationBarConfigurations conf = ZKNavigationBarConfigurationsDefault;
-            BOOL transparent = [[self.styles objectOrNilAtIndex:1] on];
-            BOOL translucent = [[self.styles objectOrNilAtIndex:2] on];
-            if (transparent) {
+            if (self.transparent) {
                 conf |= ZKNavigationBarBackgroundStyleTransparent;
-            } else if (!translucent) {
+            } else if (!self.translucent) {
                 conf |= ZKNavigationBarBackgroundStyleOpaque;
             }
             
@@ -203,6 +200,20 @@
 
 #pragma mark - :. private methods
 
+- (void)configureStateFromNavigationBarConfigurations {
+    ZKNavigationBarConfigurations backgroundStyleMask =
+        ZKNavigationBarBackgroundStyleOpaque | ZKNavigationBarBackgroundStyleTransparent;
+    ZKNavigationBarConfigurations backgroundStyle = self.configurations & backgroundStyleMask;
+
+    self.barHidden = (self.configurations & ZKNavigationBarHidden) != 0;
+    self.transparent = backgroundStyle == ZKNavigationBarBackgroundStyleTransparent;
+    self.translucent = backgroundStyle == ZKNavigationBarBackgroundStyleTranslucent;
+    self.barStyle = (self.configurations & ZKNavigationBarStyleBlack) != 0
+        ? UIBarStyleBlack
+        : UIBarStyleDefault;
+    self.shadowImage = (self.configurations & ZKNavigationBarShowShadowImage) != 0;
+}
+
 - (void)valueChanged:(NSDictionary *)info {
     NSIndexPath *indexPath = [info valueForKey:@"index"];
     NSNumber *value = [info valueForKey:@"value"];
@@ -217,18 +228,21 @@
             break;
         case 1: {
             self.transparent = value.boolValue;
-            if (value.boolValue && _barStyle != UIBarStyleDefault) {
-                // 为了更好的 demo 展示效果
-                // bar 全透明之后把 barStyle 设置成 UIBarStyleDefault
-                self.barStyle = UIBarStyleDefault;
-                item = [self.styles objectAtIndex:2];
-                item.on = NO;
+            if (value.boolValue) {
+                self.translucent = NO;
+                [self.styles objectAtIndex:2].on = NO;
                 [self.tableView reloadData];
             }
         }
             break;
-        case 2:
+        case 2: {
             self.translucent = value.boolValue;
+            if (value.boolValue) {
+                self.transparent = NO;
+                [self.styles objectAtIndex:1].on = NO;
+                [self.tableView reloadData];
+            }
+        }
             break;
         case 3:
             self.barStyle = value.boolValue ? UIBarStyleBlack : UIBarStyleDefault;
@@ -269,10 +283,10 @@
     if (!_styles) {
         _styles = @[
             [ZKSwitchItemViewModel itemWithTitle:@"Hidden" on:_barHidden],
-            [ZKSwitchItemViewModel itemWithTitle:@"Transparent" on:NO],
-            [ZKSwitchItemViewModel itemWithTitle:@"Translucent" on:NO],
+            [ZKSwitchItemViewModel itemWithTitle:@"Transparent" on:_transparent],
+            [ZKSwitchItemViewModel itemWithTitle:@"Translucent" on:_translucent],
             [ZKSwitchItemViewModel itemWithTitle:@"Black Bar Style" on:_barStyle == UIBarStyleBlack],
-            [ZKSwitchItemViewModel itemWithTitle:@"Shadow Image" on:NO],
+            [ZKSwitchItemViewModel itemWithTitle:@"Shadow Image" on:_shadowImage],
         ];
     }
     return _styles;

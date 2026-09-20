@@ -36,16 +36,21 @@
 - (CGRect)kai_fakeBarFrameForNavigationBar:(UINavigationBar *)navigationBar {
     if (!navigationBar) return CGRectNull;
 
-    UIView *backgroundView = [navigationBar kai_backgroundView];
-    
-    CGRect frame;
-    if (@available(iOS 18, *)) {
-        // iOS 18 backgroundView.superview 返回了 nil
-        frame = [navigationBar convertRect:backgroundView.frame toView:self.view];
-    } else {
-        frame = [backgroundView.superview convertRect:backgroundView.frame toView:self.view];
-    }
-    frame.origin.x         = self.view.bounds.origin.x;
+    // Do not use UINavigationBar's private _backgroundView here. Starting with
+    // the Liquid Glass design, a navigation bar no longer has a stable,
+    // full-width background view that can be used as a geometry reference.
+    CGRect navigationBarFrame = [navigationBar convertRect:navigationBar.bounds toView:self.view];
+    if (CGRectIsNull(navigationBarFrame) || CGRectIsInfinite(navigationBarFrame)) return CGRectNull;
+
+    // The old bar background extended behind the status bar. Recreate that
+    // geometry from public view coordinates so the fake background continues
+    // to cover the complete top edge during a transition.
+    CGFloat minY = MIN(CGRectGetMinY(self.view.bounds), CGRectGetMinY(navigationBarFrame));
+    CGFloat maxY = CGRectGetMaxY(navigationBarFrame);
+    CGRect frame = CGRectMake(CGRectGetMinX(self.view.bounds),
+                              minY,
+                              CGRectGetWidth(self.view.bounds),
+                              MAX(0, maxY - minY));
     return frame;
 }
 

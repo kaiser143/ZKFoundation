@@ -42,7 +42,10 @@
     self.view.backgroundColor = UIColor.lightGrayColor;
     self.title                = @"ZKFoundation";
     
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+    // Liquid Glass bars float above content. Let the scroll view extend under
+    // the navigation bar and rely on UIKit's adjusted content inset instead of
+    // the old fixed 64/92-point navigation-bar offsets.
+    self.edgesForExtendedLayout = UIRectEdgeAll;
     self.extendedLayoutIncludesOpaqueBars = YES;
     
     //    self.barTintColor = [UIColor.redColor colorWithAlphaComponent:0.5];
@@ -51,16 +54,11 @@
     
     UIScrollView *scrollView = UIScrollView.new;
     scrollView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDragWithAccessory;
-    //    scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
+    scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
     scrollView.delegate = self;
     [self.view addSubview:scrollView];
     [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view).priorityHigh();
-        
-        CGFloat top = 64;
-        if (@available(iOS 11, *)) top += (UIDevice.currentDevice.iPhoneX ? 28 : 0);
-        
-        make.top.equalTo(self.view).offset(-top);
+        make.edges.equalTo(self.view);
     }];
     
     @weakify(self);
@@ -169,13 +167,7 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     CGFloat headerHeight = 80;
-    if (@available(iOS 11,*)) {
-        headerHeight -= self.view.safeAreaInsets.top;
-    } else {
-        headerHeight -= [self.topLayoutGuide length];
-    }
-    
-    CGFloat progress = scrollView.contentOffset.y + scrollView.contentInset.top;
+    CGFloat progress = scrollView.contentOffset.y + scrollView.adjustedContentInset.top;
     CGFloat gradientProgress = MIN(1, MAX(0, progress  / headerHeight));
     gradientProgress = gradientProgress * gradientProgress * gradientProgress * gradientProgress;
     if (gradientProgress != _progress) {

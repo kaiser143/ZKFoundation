@@ -49,14 +49,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)kai_adaptWithBarStyle:(UIBarStyle)barStyle tintColor:(UIColor *)tintColor;
 - (void)kai_commitBarConfiguration:(ZKBarConfiguration *)configure;
 
-- (UIView *)kai_backgroundView;
-
-@end
-
-@interface UIToolbar (ZKPrivate)
-
-- (void)kai_commitBarConfiguration:(ZKBarConfiguration *)configure;
-
 @end
 
 NS_ASSUME_NONNULL_END

@@ -99,10 +99,6 @@
     self.tintColor = tintColor;
 }
 
-- (UIView *)kai_backgroundView {
-    return [self valueForKey:@"_backgroundView"];
-}
-
 - (void)kai_commitBarConfiguration:(ZKBarConfiguration *)configure {
 #if DEBUG
     if (@available(iOS 11, *)) {
@@ -113,10 +109,8 @@
     [self kai_adaptWithBarStyle:configure.barStyle
                       tintColor:configure.tintColor];
     
-    UIView *barBackgroundView        = [self kai_backgroundView];
     UIImage *const transpanrentImage = UIImage.new;
     if (configure.transparent) {
-        barBackgroundView.alpha = 0;
         if (@available(iOS 13.0, *)) {
             UINavigationBarAppearance *appearance = [[self standardAppearance] copy];
             [appearance configureWithTransparentBackground];
@@ -127,7 +121,6 @@
             [self setBackgroundImage:transpanrentImage forBarMetrics:UIBarMetricsDefault];
         }
     } else {
-        barBackgroundView.alpha = 1;
         if (@available(iOS 13.0, *)) {
             UINavigationBarAppearance *appearance = [[self standardAppearance] copy];
             if (configure.translucent) {
@@ -169,63 +162,6 @@
 
 - (void)setCurrentBarConfigure:(ZKBarConfiguration *)currentBarConfigure {
     [self setAssociateValue:currentBarConfigure withKey:@selector(currentBarConfigure)];
-}
-
-@end
-
-@implementation UIToolbar (ZKPrivate)
-
-- (void)kai_commitBarConfiguration:(ZKBarConfiguration *)configure {
-    self.barStyle = configure.barStyle;
-    
-    UIImage* const transpanrentImage = UIImage.new;
-    if (configure.transparent) {
-        if (@available(iOS 13.0, *)) {
-            UIToolbarAppearance *appearance = [[self standardAppearance] copy];
-            [appearance configureWithTransparentBackground];
-            if (@available(iOS 15.0, *)) {
-                self.scrollEdgeAppearance = appearance;
-            }
-            self.standardAppearance = appearance;
-        } else {
-            self.translucent = YES;
-            [self setBackgroundImage:transpanrentImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-        }
-    } else {
-        if (@available(iOS 13.0, *)) {
-            UIToolbarAppearance *appearance = [[self standardAppearance] copy];
-            if (configure.translucent) {
-                [appearance configureWithDefaultBackground];
-                UIBlurEffectStyle effectStyle = configure.barStyle == UIBarStyleDefault ? UIBlurEffectStyleLight : UIBlurEffectStyleDark;
-                appearance.backgroundEffect = [UIBlurEffect effectWithStyle:effectStyle];
-            } else {
-                [appearance configureWithOpaqueBackground];
-            }
-            if (configure.backgroundImage) {
-                appearance.backgroundImage = configure.backgroundImage;
-            } else if (configure.backgroundColor) {
-                appearance.backgroundColor = configure.backgroundColor;
-            }
-            if (!configure.shadowImage) {
-                appearance.shadowImage = nil;
-                appearance.shadowColor = nil;
-            }
-            if (@available(iOS 15.0, *)) {
-                self.scrollEdgeAppearance = appearance;
-            }
-            self.standardAppearance = appearance;
-        } else {
-            self.translucent = configure.translucent;
-            UIImage* backgroundImage = configure.backgroundImage;
-            if (!backgroundImage && configure.backgroundColor) {
-                backgroundImage = [UIImage imageWithColor:configure.backgroundColor];
-            }
-            [self setBackgroundImage:backgroundImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-        }
-    }
-    
-    UIImage* shadowImage = configure.shadowImage ? nil : transpanrentImage;
-    [self setShadowImage:shadowImage forToolbarPosition:UIBarPositionAny];
 }
 
 @end

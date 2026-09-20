@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSArray<UIImage *> *images;
 @property (nonatomic, strong) ZKFloatLayoutView *floatLayoutView;
 @property (nonatomic, strong) UILabel *tipsLabel;
+@property (nonatomic, assign) CGFloat lastFittingHeight;
 
 @end
 
@@ -25,7 +26,10 @@
     [super viewDidLoad];
     self.title = @"ImagePreview";
     self.view.backgroundColor = UIColor.whiteColor;
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+    // 与 ZKTableViewController 保持一致：内容延伸到导航栏下方，适配悬浮样式导航栏，
+    // 保证 push/pop 过程中假导航栏能正确盖住顶部，避免露出上一页的导航栏底色。
+    self.edgesForExtendedLayout = UIRectEdgeAll;
+    self.extendedLayoutIncludesOpaqueBars = YES;
     
     NSMutableArray<UIImage *> *images = [NSMutableArray array];
     NSArray<NSString *> *names = @[@"image2", @"image4", @"image3", @"green", @"purple", @"yellow", @"red"];
@@ -62,8 +66,10 @@
     self.tipsLabel.text = @"点击图片进入预览：可左右滑动、双击缩放、单击/下拉退出";
     [self.view addSubview:self.tipsLabel];
     
+    // 和 ZKTableViewController 一样：view 延伸到导航栏下方，内容约束只对齐安全区，
+    // 保证动画期间假导航栏能盖住整个顶部，避免露出上一页底色。
     [self.floatLayoutView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(24);
+        make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(24);
         make.left.equalTo(self.view).offset(24);
         make.right.equalTo(self.view).offset(-24);
     }];
@@ -84,9 +90,13 @@
     self.floatLayoutView.maximumItemSize = self.floatLayoutView.minimumItemSize;
     
     CGSize fitting = [self.floatLayoutView sizeThatFits:CGSizeMake(contentWidth, CGFLOAT_MAX)];
-    [self.floatLayoutView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(fitting.height);
-    }];
+    if (fabs(fitting.height - self.lastFittingHeight) > 0.5) {
+        self.lastFittingHeight = fitting.height;
+        [self.floatLayoutView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(fitting.height);
+        }];
+        [self.view setNeedsLayout];
+    }
 }
 
 - (void)handleImageButtonEvent:(UIButton *)button {
@@ -151,7 +161,7 @@
 #pragma mark - ZKNavigationBarConfigureStyle
 
 - (ZKNavigationBarConfigurations)kai_navigtionBarConfiguration {
-    return ZKNavigationBarConfigurationsDefault | ZKNavigationBarBackgroundStyleOpaque | ZKNavigationBarBackgroundStyleColor;
+    return ZKNavigationBarBackgroundStyleOpaque | ZKNavigationBarBackgroundStyleColor | ZKNavigationBarShowShadowImage;
 }
 
 - (UIColor *)kai_navigationBarTintColor {

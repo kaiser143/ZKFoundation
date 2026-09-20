@@ -46,6 +46,106 @@ static struct {
     __unsafe_unretained UIViewController *toVC;
 } ctx;
 
+/// 仅在转场期间使用的导航栏背景视图。
+///
+/// 直接按配置绘制背景，不依赖导航栏私有视图层级，
+/// 在液态玻璃风格下也能保证全宽背景可见。
+@interface ZKNavigationBarFakeView : UIView
+
+@property (nonatomic, strong) UIVisualEffectView *effectView;
+@property (nonatomic, strong) UIImageView *backgroundImageView;
+@property (nonatomic, strong) UIView *backgroundColorView;
+@property (nonatomic, strong) UIView *shadowView;
+
+- (void)applyBarConfiguration:(ZKBarConfiguration *)configuration;
+
+@end
+
+@implementation ZKNavigationBarFakeView
+
+- (instancetype)init {
+    self = [super initWithFrame:CGRectZero];
+    if (!self) return nil;
+
+    self.userInteractionEnabled = NO;
+    self.clipsToBounds = YES;
+
+    _effectView = [[UIVisualEffectView alloc] initWithEffect:nil];
+    _backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _backgroundImageView.contentMode = UIViewContentModeScaleToFill;
+    _backgroundColorView = [[UIView alloc] initWithFrame:CGRectZero];
+    _shadowView = [[UIView alloc] initWithFrame:CGRectZero];
+
+    [self addSubview:_effectView];
+    [self addSubview:_backgroundImageView];
+    [self addSubview:_backgroundColorView];
+    [self addSubview:_shadowView];
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+
+    self.effectView.frame = self.bounds;
+    self.backgroundImageView.frame = self.bounds;
+    self.backgroundColorView.frame = self.bounds;
+
+    CGFloat screenScale = self.window.screen.scale;
+    if (screenScale <= 0) screenScale = UIScreen.mainScreen.scale;
+    CGFloat pixelHeight = 1.0 / MAX(screenScale, 1.0);
+    self.shadowView.frame = CGRectMake(0,
+                                       MAX(0, CGRectGetHeight(self.bounds) - pixelHeight),
+                                       CGRectGetWidth(self.bounds),
+                                       pixelHeight);
+}
+
+- (void)applyBarConfiguration:(ZKBarConfiguration *)configuration {
+    // 透明栏不绘制任何背景，调用方已用是否可见过滤，此处再兜底一次。
+    if (configuration.transparent) {
+        self.effectView.effect = nil;
+        self.backgroundImageView.image = nil;
+        self.backgroundImageView.hidden = YES;
+        self.backgroundColorView.backgroundColor = UIColor.clearColor;
+        self.shadowView.hidden = YES;
+        [self setNeedsLayout];
+        return;
+    }
+
+    // 层级从下到上：模糊 -> 背景图 -> 底色，与真实导航栏一致，
+    // 保证半透明颜色能正确叠加在模糊之上，背景图保持清晰。
+    self.backgroundImageView.image = configuration.backgroundImage;
+    self.backgroundImageView.hidden = !configuration.backgroundImage;
+
+    UIColor *backgroundColor = configuration.backgroundColor;
+    if (!backgroundColor && !configuration.backgroundImage && !configuration.translucent) {
+        if (@available(iOS 13.0, *)) {
+            backgroundColor = UIColor.systemBackgroundColor;
+        } else {
+            backgroundColor = configuration.barStyle == UIBarStyleDefault
+                ? UIColor.whiteColor
+                : UIColor.blackColor;
+        }
+    }
+    self.backgroundColorView.backgroundColor = backgroundColor ?: UIColor.clearColor;
+
+    UIBlurEffectStyle effectStyle = configuration.barStyle == UIBarStyleDefault
+        ? UIBlurEffectStyleLight
+        : UIBlurEffectStyleDark;
+    self.effectView.effect = configuration.translucent
+        ? [UIBlurEffect effectWithStyle:effectStyle]
+        : nil;
+
+    self.shadowView.hidden = !configuration.shadowImage;
+    if (@available(iOS 13.0, *)) {
+        self.shadowView.backgroundColor = UIColor.separatorColor;
+    } else {
+        self.shadowView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
+    }
+    [self setNeedsLayout];
+}
+
+@end
+
 @implementation ZKNavigationBarTransitionCenter
 
 - (instancetype)initWithDefaultBarConfiguration:(id<ZKNavigationBarConfigureStyle>)_default {
@@ -60,19 +160,17 @@ static struct {
 
 #pragma mark - fakeBar
 
-- (UIToolbar *)fromViewControllerFakeBar {
+- (UIView *)fromViewControllerFakeBar {
     if (!_fromViewControllerFakeBar) {
-        _fromViewControllerFakeBar          = [[UIToolbar alloc] init];
-        _fromViewControllerFakeBar.delegate = self;
+        _fromViewControllerFakeBar = [[ZKNavigationBarFakeView alloc] init];
     }
 
     return _fromViewControllerFakeBar;
 }
 
-- (UIToolbar *)toViewControllerFakeBar {
+- (UIView *)toViewControllerFakeBar {
     if (!_toViewControllerFakeBar) {
-        _toViewControllerFakeBar          = [[UIToolbar alloc] init];
-        _toViewControllerFakeBar.delegate = self;
+        _toViewControllerFakeBar = [[ZKNavigationBarFakeView alloc] init];
     }
 
     return _toViewControllerFakeBar;
@@ -81,12 +179,6 @@ static struct {
 - (void)removeFakeBars {
     [_fromViewControllerFakeBar removeFromSuperview];
     [_toViewControllerFakeBar removeFromSuperview];
-}
-
-#pragma mark - :. UIToolbarDelegate
-
-- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar {
-    return UIBarPositionTop;
 }
 
 #pragma mark - transition
@@ -147,8 +239,8 @@ static struct {
             if (fromVC && [currentConfigure isVisible]) {
                 CGRect fakeBarFrame = [fromVC kai_fakeBarFrameForNavigationBar:navigationBar];
                 if (!CGRectIsNull(fakeBarFrame)) {
-                    UIToolbar *fakeBar = self.fromViewControllerFakeBar;
-                    [fakeBar kai_commitBarConfiguration:currentConfigure];
+                    ZKNavigationBarFakeView *fakeBar = (ZKNavigationBarFakeView *)self.fromViewControllerFakeBar;
+                    [fakeBar applyBarConfiguration:currentConfigure];
                     fakeBar.frame = fakeBarFrame;
                     [fromVC.view addSubview:fakeBar];
                 }
@@ -162,8 +254,8 @@ static struct {
 //                            fakeBarFrame.origin.y = toVC.view.bounds.origin.y;
 //                        }
 
-                    UIToolbar *fakeBar = self.toViewControllerFakeBar;
-                    [fakeBar kai_commitBarConfiguration:showConfigure];
+                    ZKNavigationBarFakeView *fakeBar = (ZKNavigationBarFakeView *)self.toViewControllerFakeBar;
+                    [fakeBar applyBarConfiguration:showConfigure];
                     fakeBar.frame = fakeBarFrame;
                     [toVC.view addSubview:fakeBar];
                 }
@@ -250,7 +342,7 @@ static struct {
                        context:(void *)context {
     if (context == &ctx) {
         UIViewController *tovc = ctx.toVC;
-        UIToolbar *fakeBar     = self.toViewControllerFakeBar;
+        UIView *fakeBar        = self.toViewControllerFakeBar;
         if (fakeBar.superview == tovc.view) {
             UINavigationBar *bar = tovc.navigationController.navigationBar;
             CGRect fakeBarFrame  = [tovc kai_fakeBarFrameForNavigationBar:bar];

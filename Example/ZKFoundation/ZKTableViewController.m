@@ -23,8 +23,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.automaticallyAdjustsScrollViewInsets = YES;
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+    // 与其它页面保持一致：让内容延伸到导航栏下方，适配悬浮样式导航栏，避免顶部露出上一页的导航栏底色。
+    self.edgesForExtendedLayout = UIRectEdgeAll;
+    self.extendedLayoutIncludesOpaqueBars = YES;
     
     @weakify(self);
     self.title = @"文件管理";
@@ -99,11 +100,11 @@
 }
 
 - (UIColor *)kai_navigationItemTintColor {
-    return UIBarButtonItem.appearance.tintColor;
+    return UIColor.whiteColor;
 }
 
 - (UIColor *)kai_navigationBarTintColor {
-    return UIColor.whiteColor;
+    return UIColor.redColor;
 }
 
 #pragma mark - :. getters and setters
