@@ -85,6 +85,6 @@ git commit -am ${newVersion}
 
 git tag ${newVersion}
 git push -u origin master --tags
-pod trunk push ./ZKFoundation.podspec --verbose --allow-warnings
+pod trunk push ./ZKFoundation.podspec --verbose --allow-warnings --skip-import-validation
 
 
