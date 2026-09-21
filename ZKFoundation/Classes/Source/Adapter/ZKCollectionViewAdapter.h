@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "ZKCategoriesMacro.h"
+#import <ZKCategories/ZKCategoriesMacro.h>
 #import "ZKScrollViewAdapter.h"
 
 NS_ASSUME_NONNULL_BEGIN

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ZKFoundation'
-  s.version          = "0.1.25"
+  s.version          = "0.1.26"
   s.summary          = 'A short description of ZKFoundation.'
 
 # This description is used to generate tags and improve search results.
@@ -26,49 +26,74 @@ TODO: Add long description of the pod here.
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'zhangkai' => 'deyang143@126.com' }
   s.source           = { :git => 'https://github.com/kaiser143/ZKFoundation.git', :tag => s.version.to_s }
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '12.0'
   s.requires_arc    = true
-  s.default_subspecs = ['LocationManager', 'Permission', 'UIKit', 'Adapter', 'Categories', 'AuthContext', 'URLProtocol']
-  
-  s.source_files = 'ZKFoundation/Classes/Source/*.{h,m}'
-  s.private_header_files = 'ZKFoundation/Classes/Source/ZKCategoriesImport.h'
+  s.default_subspecs = ['Core', 'LocationManager', 'Permission', 'UIKit', 'Adapter', 'Categories', 'AuthContext', 'URLProtocol']
+
+  s.source_files = 'ZKFoundation/Classes/Source/ZKFoundation.h', 'ZKFoundation/Classes/Source/ZKCategoriesImport.h'
+  s.frameworks = 'UIKit', 'Foundation'
   s.pod_target_xcconfig = {
-    'USER_HEADER_SEARCH_PATHS' => '${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source'
+    'HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/Adapter" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/Categories" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/UIKit"',
+    'USER_HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source"',
+    'OTHER_LDFLAGS' => '$(inherited) -weak_framework UIUtilities',
+    'FRAMEWORK_SEARCH_PATHS' => '$(inherited) "$(SDKROOT)/System/Library/SubFrameworks"'
   }
-  
+  # 同上，宿主 App 链接 UIKit 同样需要解析 UIUtilities 的 re-export。
+  s.user_target_xcconfig = { 'FRAMEWORK_SEARCH_PATHS' => '$(inherited) "$(SDKROOT)/System/Library/SubFrameworks"' }
+
+  # 顶层 Source/*.m（ZKApp、ZKKeyboardManager、ZKMultipleDelegates 等）被多个子库引用，
+  # 为保证单独验证任一 subspec 时符号齐全，统一收进 Core，各子库显式依赖它。
+  s.subspec 'Core' do |ss|
+      ss.ios.deployment_target = '12.0'
+      ss.source_files = 'ZKFoundation/Classes/Source/ZKApp.{h,m}', 'ZKFoundation/Classes/Source/ZKFolderMonitor.{h,m}', 'ZKFoundation/Classes/Source/ZKHTTPURLResponse.{h,m}', 'ZKFoundation/Classes/Source/ZKKeyboardManager.{h,m}', 'ZKFoundation/Classes/Source/ZKMultipleDelegates.{h,m}', 'ZKFoundation/Classes/Source/ZKVersion.{h,m}'
+      ss.dependency 'ZKCategories', '~> 0.4.26'
+  end
+
   s.subspec 'LocationManager' do |ss|
-      ss.ios.deployment_target = '9.0'
+      ss.ios.deployment_target = '12.0'
       ss.source_files = 'ZKFoundation/Classes/Source/LocationManager/*.{h,m}'
+      ss.frameworks = 'CoreLocation'
+      ss.dependency 'ZKFoundation/Core'
   end
-  
+
   s.subspec 'Permission' do |ss|
-      ss.ios.deployment_target = '9.0'
+      ss.ios.deployment_target = '12.0'
       ss.source_files = 'ZKFoundation/Classes/Source/Permission/*.{h,m}'
+      ss.dependency 'ZKFoundation/Core'
   end
-  
+
   s.subspec 'UIKit' do |ss|
-      ss.ios.deployment_target = '9.0'
+      ss.ios.deployment_target = '12.0'
       ss.source_files = 'ZKFoundation/Classes/Source/UIKit/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKNavigationBarTransition/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKNavigationBarTransition/internal/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKAlert/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKUIImagePreview/*.{h,m}'
+      ss.dependency 'ZKFoundation/Core'
+      ss.dependency 'ZKFoundation/Categories'
+      ss.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/Adapter" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/Categories" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/UIKit"' }
   end
-  
+
+  # Adapter 与 Categories 在头文件层面互相引用（循环依赖），CocoaPods 不允许
+  # subspec 循环依赖，因此文件合并放在 Adapter，Categories 保留为空壳转依赖，
+  # 老用户写 pod 'ZKFoundation/Categories' 不受影响。
   s.subspec 'Adapter' do |ss|
-      ss.ios.deployment_target = '9.0'
-      ss.source_files = 'ZKFoundation/Classes/Source/Adapter/*.{h,m}'
+      ss.ios.deployment_target = '12.0'
+      ss.source_files = 'ZKFoundation/Classes/Source/Adapter/*.{h,m}', 'ZKFoundation/Classes/Source/Categories/*.{h,m}'
+      ss.dependency 'ZKFoundation/Core'
+      ss.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/Adapter" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/Categories" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/UIKit"' }
   end
-  
+
   s.subspec 'Categories' do |ss|
-      ss.ios.deployment_target = '9.0'
-      ss.source_files = 'ZKFoundation/Classes/Source/Categories/*.{h,m}'
+      ss.ios.deployment_target = '12.0'
+      ss.dependency 'ZKFoundation/Adapter'
   end
-  
+
   s.subspec 'AuthContext' do |ss|
-      ss.ios.deployment_target = '9.0'
+      ss.ios.deployment_target = '12.0'
       ss.source_files = 'ZKFoundation/Classes/Source/AuthContext/*.{h,m}'
   end
-  
+
   s.subspec 'URLProtocol' do |ss|
-      ss.ios.deployment_target = '9.0'
+      ss.ios.deployment_target = '12.0'
       ss.source_files = 'ZKFoundation/Classes/Source/URLProtocol/*.{h,m}'
+      ss.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source"' }
   end
   
   # s.resource_bundles = {

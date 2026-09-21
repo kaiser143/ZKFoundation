@@ -8,6 +8,9 @@
 #ifndef ZKLocationManager_Internal_h
 #define ZKLocationManager_Internal_h
 
+#import <CoreLocation/CoreLocation.h>
+#import "ZKLocationManager.h"
+
 /**
  A category that exposes the internal (private) methods of ZKLocationManager.
  */
