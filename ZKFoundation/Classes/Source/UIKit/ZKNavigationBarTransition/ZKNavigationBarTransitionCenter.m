@@ -222,9 +222,8 @@ static struct {
     }
 
     if (!animated) {
-        // If animated if false, navigation controller will call did show immediately
-        // So Fake bar is not needed any more
-        // just return is ok
+        // 如果 animated 为 false，导航控制器会立即调用 did show，
+        // 因此不再需要模拟栏，直接返回即可。
         return;
     }
 
@@ -285,8 +284,8 @@ static struct {
             }
         }
         
-        /// Xcode 16, iOS 18 这个completion Block 会调用两次，animateAlongsideTransition 的block 之调用一次
-        /// 两次 removeObserver 会导致程序闪退，这里加个判断
+        /// 在 Xcode 16、iOS 18 中，这个 completion Block 会调用两次，而 animateAlongsideTransition 的 Block 只调用一次。
+        /// 两次调用 removeObserver 会导致程序闪退，因此在这里增加判断。
         if (showFakeBar && ctx.toVC == toVC && [[toVC associatedValueForKey:_cmd] boolValue]) {
             [toVC setAssociateValue:@NO withKey:_cmd];
             [toVC.view removeObserver:self

@@ -38,13 +38,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    // 视图（通常从 nib）加载完成后执行其他所需的设置。
     self.view.backgroundColor = UIColor.lightGrayColor;
     self.title                = @"ZKFoundation";
     
-    // Liquid Glass bars float above content. Let the scroll view extend under
-    // the navigation bar and rely on UIKit's adjusted content inset instead of
-    // the old fixed 64/92-point navigation-bar offsets.
+    // Liquid Glass 栏悬浮在内容上方。让滚动视图延伸到导航栏下方，并依赖 UIKit 调整后的内容内边距，
+    // 而不是沿用旧的、固定为 64/92 点的导航栏偏移量。
     self.edgesForExtendedLayout = UIRectEdgeAll;
     self.extendedLayoutIncludesOpaqueBars = YES;
     

@@ -20,7 +20,7 @@
 @implementation ZKAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    // 应用启动后进行自定义的入口。
     // iOS 13+ 使用 SceneDelegate 创建 window，这里仅做全局外观等配置，兼容 iOS 12 及以下才使用 self.window。
     if (@available(iOS 13.0, *)) {
     } else {
@@ -57,25 +57,27 @@
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    // 当应用即将从活动状态转为非活动状态时，会调用此方法。这可能是由某些临时中断（例如收到电话或短信）引起的，
+    // 也可能是用户退出应用、应用开始转入后台所致。可在此暂停正在执行的任务、停用计时器，并降低 OpenGL ES 的帧率；
+    // 游戏应使用此方法暂停游戏。
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    // 可使用此方法释放共享资源、保存用户数据、使计时器失效，并保存足够的应用状态信息，
+    // 以便应用之后被终止时能够恢复到当前状态。
+    // 如果应用支持后台执行，那么用户退出应用时会调用此方法，而不是 applicationWillTerminate:。
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    // 在应用从后台状态转为非活动状态的过程中会调用此方法；可在此撤销应用进入后台时所做的许多改动。
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    // 重新启动应用处于非活动状态时暂停（或尚未启动）的所有任务。如果应用此前位于后台，还可以选择刷新用户界面。
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    // 应用即将终止时会调用此方法。请酌情保存数据。另请参阅 applicationDidEnterBackground:。
 }
 
 #pragma mark - UISceneSession Lifecycle

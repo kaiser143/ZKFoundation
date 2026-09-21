@@ -33,7 +33,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    // 视图加载完成后执行其他所需的设置。
 
     [self configureStateFromNavigationBarConfigurations];
     self.edgesForExtendedLayout = UIRectEdgeAll;

@@ -40,7 +40,7 @@
         _transparent = (configurations & ZKNavigationBarBackgroundStyleTransparent) > 0;
         if (_transparent) break;
         
-        // show shadow image only if not transparent
+        // 仅在非透明时显示阴影图像
         _shadowImage = (configurations & ZKNavigationBarShowShadowImage) > 0;
         _translucent = (configurations & ZKNavigationBarBackgroundStyleOpaque) == 0;
         

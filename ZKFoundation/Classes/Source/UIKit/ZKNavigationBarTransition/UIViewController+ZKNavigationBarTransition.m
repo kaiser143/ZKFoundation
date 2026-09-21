@@ -36,15 +36,13 @@
 - (CGRect)kai_fakeBarFrameForNavigationBar:(UINavigationBar *)navigationBar {
     if (!navigationBar) return CGRectNull;
 
-    // Do not use UINavigationBar's private _backgroundView here. Starting with
-    // the Liquid Glass design, a navigation bar no longer has a stable,
-    // full-width background view that can be used as a geometry reference.
+    // 此处不要使用 UINavigationBar 的私有 _backgroundView。从 Liquid Glass 设计开始，导航栏不再拥有一个稳定的、
+    // 可用作几何参照的全宽背景视图。
     CGRect navigationBarFrame = [navigationBar convertRect:navigationBar.bounds toView:self.view];
     if (CGRectIsNull(navigationBarFrame) || CGRectIsInfinite(navigationBarFrame)) return CGRectNull;
 
-    // The old bar background extended behind the status bar. Recreate that
-    // geometry from public view coordinates so the fake background continues
-    // to cover the complete top edge during a transition.
+    // 旧版栏背景会延伸到状态栏后方。这里通过公开的视图坐标重建这一几何区域，
+    // 使模拟背景在转场期间仍能覆盖完整的顶部边缘。
     CGFloat minY = MIN(CGRectGetMinY(self.view.bounds), CGRectGetMinY(navigationBarFrame));
     CGFloat maxY = CGRectGetMaxY(navigationBarFrame);
     CGRect frame = CGRectMake(CGRectGetMinX(self.view.bounds),
