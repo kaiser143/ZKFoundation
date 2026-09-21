@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ZKFoundation'
-  s.version          = "0.1.26"
+  s.version          = "0.1.27"
   s.summary          = 'A short description of ZKFoundation.'
 
 # This description is used to generate tags and improve search results.
@@ -30,7 +30,7 @@ TODO: Add long description of the pod here.
   s.requires_arc    = true
   s.default_subspecs = ['Core', 'LocationManager', 'Permission', 'UIKit', 'Adapter', 'Categories', 'AuthContext', 'URLProtocol']
 
-  s.source_files = 'ZKFoundation/Classes/Source/ZKFoundation.h', 'ZKFoundation/Classes/Source/ZKCategoriesImport.h'
+  s.source_files = 'ZKFoundation/Classes/Source/ZKFoundation.h'
   s.frameworks = 'UIKit', 'Foundation'
   s.pod_target_xcconfig = {
     'HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/Adapter" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/Categories" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/UIKit"',
