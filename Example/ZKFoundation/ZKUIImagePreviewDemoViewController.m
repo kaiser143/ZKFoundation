@@ -32,7 +32,7 @@
     self.extendedLayoutIncludesOpaqueBars = YES;
     
     NSMutableArray<UIImage *> *images = [NSMutableArray array];
-    NSArray<NSString *> *names = @[@"image2", @"image4", @"image3", @"green", @"purple", @"yellow", @"red"];
+    NSArray<NSString *> *names = @[@"image2", @"image4", @"image3"];
     for (NSString *name in names) {
         UIImage *image = [UIImage imageNamed:name];
         if (image) {
@@ -161,7 +161,7 @@
 #pragma mark - ZKNavigationBarConfigureStyle
 
 - (ZKNavigationBarConfigurations)kai_navigtionBarConfiguration {
-    return ZKNavigationBarBackgroundStyleOpaque | ZKNavigationBarBackgroundStyleColor | ZKNavigationBarShowShadowImage;
+    return ZKNavigationBarBackgroundStyleOpaque | ZKNavigationBarBackgroundStyleColor;
 }
 
 - (UIColor *)kai_navigationBarTintColor {

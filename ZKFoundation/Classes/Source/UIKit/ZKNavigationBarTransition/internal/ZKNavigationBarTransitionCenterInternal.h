@@ -12,7 +12,7 @@
 
 BOOL KAITransitionNeedShowFakeBar(ZKBarConfiguration *from, ZKBarConfiguration *to);
 
-@interface ZKNavigationBarTransitionCenter ()
+@interface ZKNavigationBarTransitionCenter () <UIToolbarDelegate>
 
 @property (nonatomic, strong) UIView *fromViewControllerFakeBar;
 @property (nonatomic, strong) UIView *toViewControllerFakeBar;

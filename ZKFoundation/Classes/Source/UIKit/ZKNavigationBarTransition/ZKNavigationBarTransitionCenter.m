@@ -49,7 +49,7 @@ static struct {
 /// 仅在转场期间使用的导航栏背景视图。
 ///
 /// 直接按配置绘制背景，不依赖导航栏私有视图层级，
-/// 在液态玻璃风格下也能保证全宽背景可见。
+/// 在Liquid Glass风格下也能保证全宽背景可见。
 @interface ZKNavigationBarFakeView : UIView
 
 @property (nonatomic, strong) UIVisualEffectView *effectView;
@@ -160,6 +160,32 @@ static struct {
 
 #pragma mark - fakeBar
 
+// 按是否Liquid Glass选择假栏类型：旧系统用 UIToolbar（需 Top 定位以延伸到状态栏），
+// Liquid Glass用自绘 ZKNavigationBarFakeView。类型不对时重建，保证两者不混用。
+- (UIView *)fakeBar:(UIView *)bar liquidGlass:(BOOL)liquidGlass {
+    BOOL isFakeView = [bar isKindOfClass:[ZKNavigationBarFakeView class]];
+    if (!bar || isFakeView != liquidGlass) {
+        [bar removeFromSuperview];
+        if (liquidGlass) {
+            bar = [[ZKNavigationBarFakeView alloc] init];
+        } else {
+            UIToolbar *toolbar = [[UIToolbar alloc] init];
+            toolbar.delegate = self;
+            bar = toolbar;
+        }
+    }
+    return bar;
+}
+
+// 假栏绘制入口统一收敛：旧 Toolbar 走系统提交，Liquid Glass 假视图走自绘，避免调用方分支写错。
+- (void)commitFakeBar:(UIView *)fakeBar configuration:(ZKBarConfiguration *)configuration {
+    if ([fakeBar isKindOfClass:[ZKNavigationBarFakeView class]]) {
+        [(ZKNavigationBarFakeView *)fakeBar applyBarConfiguration:configuration];
+    } else {
+        [(UIToolbar *)fakeBar kai_commitBarConfiguration:configuration];
+    }
+}
+
 - (UIView *)fromViewControllerFakeBar {
     if (!_fromViewControllerFakeBar) {
         _fromViewControllerFakeBar = [[ZKNavigationBarFakeView alloc] init];
@@ -179,6 +205,13 @@ static struct {
 - (void)removeFakeBars {
     [_fromViewControllerFakeBar removeFromSuperview];
     [_toViewControllerFakeBar removeFromSuperview];
+}
+
+#pragma mark - :. UIToolbarDelegate
+
+// 旧 UIToolbar 假栏必须返回 Top，背景才会延伸到状态栏后方，与真栏等高。
+- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar {
+    return UIBarPositionTop;
 }
 
 #pragma mark - transition
@@ -238,8 +271,11 @@ static struct {
             if (fromVC && [currentConfigure isVisible]) {
                 CGRect fakeBarFrame = [fromVC kai_fakeBarFrameForNavigationBar:navigationBar];
                 if (!CGRectIsNull(fakeBarFrame)) {
-                    ZKNavigationBarFakeView *fakeBar = (ZKNavigationBarFakeView *)self.fromViewControllerFakeBar;
-                    [fakeBar applyBarConfiguration:currentConfigure];
+                    // 转场内按当前导航栏是否 Liquid Glass 即时选型，非 Liquid Glass保持旧 Toolbar 效果。
+                    BOOL glass = ZKNavigationBarUsesLiquidGlass(navigationBar);
+                    self.fromViewControllerFakeBar = [self fakeBar:self.fromViewControllerFakeBar liquidGlass:glass];
+                    UIView *fakeBar = self.fromViewControllerFakeBar;
+                    [self commitFakeBar:fakeBar configuration:currentConfigure];
                     fakeBar.frame = fakeBarFrame;
                     [fromVC.view addSubview:fakeBar];
                 }
@@ -253,8 +289,10 @@ static struct {
 //                            fakeBarFrame.origin.y = toVC.view.bounds.origin.y;
 //                        }
 
-                    ZKNavigationBarFakeView *fakeBar = (ZKNavigationBarFakeView *)self.toViewControllerFakeBar;
-                    [fakeBar applyBarConfiguration:showConfigure];
+                    BOOL glass = ZKNavigationBarUsesLiquidGlass(navigationBar);
+                    self.toViewControllerFakeBar = [self fakeBar:self.toViewControllerFakeBar liquidGlass:glass];
+                    UIView *fakeBar = self.toViewControllerFakeBar;
+                    [self commitFakeBar:fakeBar configuration:showConfigure];
                     fakeBar.frame = fakeBarFrame;
                     [toVC.view addSubview:fakeBar];
                 }

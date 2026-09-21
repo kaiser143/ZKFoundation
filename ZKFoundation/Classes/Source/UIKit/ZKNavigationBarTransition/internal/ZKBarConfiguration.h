@@ -45,8 +45,18 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UINavigationBar (ZKPrivate)
 
 @property (nonatomic, strong, readonly) ZKBarConfiguration *currentBarConfigure;
+@property (nonatomic, strong, readonly, nullable) UIView *kai_backgroundView;
+
+/// 仅Liquid Glass悬浮栏返回 YES，其它系统版本与风格一律返回 NO，保证旧交互不变。
+BOOL ZKNavigationBarUsesLiquidGlass(UINavigationBar *navigationBar);
 
 - (void)kai_adaptWithBarStyle:(UIBarStyle)barStyle tintColor:(UIColor *)tintColor;
+- (void)kai_commitBarConfiguration:(ZKBarConfiguration *)configure;
+
+@end
+
+@interface UIToolbar (ZKPrivate)
+
 - (void)kai_commitBarConfiguration:(ZKBarConfiguration *)configure;
 
 @end
