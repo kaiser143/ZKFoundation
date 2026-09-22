@@ -1,1 +1,1 @@
-../Classes/Source/Categories/UITableView+ZKAdapter.h
+../Classes/Source/Adapter/UITableView+ZKAdapter.h

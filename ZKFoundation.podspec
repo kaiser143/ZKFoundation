@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ZKFoundation'
-  s.version          = "0.1.28"
+  s.version          = "0.1.29"
   s.summary          = 'A short description of ZKFoundation.'
 
 # This description is used to generate tags and improve search results.
@@ -67,23 +67,24 @@ TODO: Add long description of the pod here.
       ss.ios.deployment_target = '12.0'
       ss.source_files = 'ZKFoundation/Classes/Source/UIKit/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKNavigationBarTransition/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKNavigationBarTransition/internal/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKAlert/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKUIImagePreview/*.{h,m}'
       ss.dependency 'ZKFoundation/Core'
-      ss.dependency 'ZKFoundation/Categories'
+      ss.dependency 'ZKFoundation/Adapter'
       ss.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/Adapter" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/Categories" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/UIKit"' }
   end
 
-  # Adapter 与 Categories 在头文件层面互相引用（循环依赖），CocoaPods 不允许
-  # subspec 循环依赖，因此文件合并放在 Adapter，Categories 保留为空壳转依赖，
-  # 老用户写 pod 'ZKFoundation/Categories' 不受影响。
+  # Categories 为纯分类（UIView+ZKHelper、徽标等），不引用 Adapter；
+  # Adapter 单向依赖 Categories；UIKit 依赖 Adapter。无循环。
   s.subspec 'Adapter' do |ss|
       ss.ios.deployment_target = '12.0'
-      ss.source_files = 'ZKFoundation/Classes/Source/Adapter/*.{h,m}', 'ZKFoundation/Classes/Source/Categories/*.{h,m}'
+      ss.source_files = 'ZKFoundation/Classes/Source/Adapter/*.{h,m}'
       ss.dependency 'ZKFoundation/Core'
+      ss.dependency 'ZKFoundation/Categories'
       ss.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/Adapter" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/Categories" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/UIKit"' }
   end
 
   s.subspec 'Categories' do |ss|
       ss.ios.deployment_target = '12.0'
-      ss.dependency 'ZKFoundation/Adapter'
+      ss.source_files = 'ZKFoundation/Classes/Source/Categories/*.{h,m}'
+      ss.dependency 'ZKFoundation/Core'
   end
 
   s.subspec 'AuthContext' do |ss|

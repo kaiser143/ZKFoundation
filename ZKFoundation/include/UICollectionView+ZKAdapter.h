@@ -1,1 +1,1 @@
-../Classes/Source/Categories/UICollectionView+ZKAdapter.h
+../Classes/Source/Adapter/UICollectionView+ZKAdapter.h
