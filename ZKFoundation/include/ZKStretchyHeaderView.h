@@ -1,1 +1,1 @@
-../Classes/Source/UIKit/ZKStretchyHeaderView.h
+../Classes/Source/Adapter/ZKStretchyHeaderView.h

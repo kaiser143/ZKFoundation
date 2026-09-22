@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ZKFoundation'
-  s.version          = "0.1.27"
+  s.version          = "0.1.28"
   s.summary          = 'A short description of ZKFoundation.'
 
 # This description is used to generate tags and improve search results.
@@ -45,7 +45,7 @@ TODO: Add long description of the pod here.
   # 为保证单独验证任一 subspec 时符号齐全，统一收进 Core，各子库显式依赖它。
   s.subspec 'Core' do |ss|
       ss.ios.deployment_target = '12.0'
-      ss.source_files = 'ZKFoundation/Classes/Source/ZKApp.{h,m}', 'ZKFoundation/Classes/Source/ZKFolderMonitor.{h,m}', 'ZKFoundation/Classes/Source/ZKHTTPURLResponse.{h,m}', 'ZKFoundation/Classes/Source/ZKKeyboardManager.{h,m}', 'ZKFoundation/Classes/Source/ZKMultipleDelegates.{h,m}', 'ZKFoundation/Classes/Source/ZKVersion.{h,m}', 'ZKFoundation/Classes/Source/ZKCategoriesImport.h'
+      ss.source_files = 'ZKFoundation/Classes/Source/ZKApp.{h,m}', 'ZKFoundation/Classes/Source/ZKFolderMonitor.{h,m}', 'ZKFoundation/Classes/Source/ZKHTTPURLResponse.{h,m}', 'ZKFoundation/Classes/Source/ZKKeyboardManager.{h,m}', 'ZKFoundation/Classes/Source/ZKMultipleDelegates.{h,m}', 'ZKFoundation/Classes/Source/NSObject+ZKMultipleDelegates.{h,m}', 'ZKFoundation/Classes/Source/ZKVersion.{h,m}', 'ZKFoundation/Classes/Source/ZKCategoriesImport.h'
       ss.dependency 'ZKCategories', '~> 0.4.26'
       ss.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source"' }
   end
