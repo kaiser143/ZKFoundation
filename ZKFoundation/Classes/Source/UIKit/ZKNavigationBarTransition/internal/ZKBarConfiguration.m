@@ -112,6 +112,51 @@ BOOL ZKNavigationBarUsesLiquidGlass(UINavigationBar *navigationBar) {
     return NO;
 }
 
+/// 液态玻璃圆角补偿：有底色时 _UIBarBackground 会填满直角盖住系统圆角，
+/// 无底色时看到的即系统圆角。单次遍历同时找到背景视图与系统圆角，对齐系统数值后只保留左上右上。
+static void ZKApplyLiquidGlassTopCorners(UINavigationBar *navigationBar, BOOL hiddenOrTransparent) {
+    if (@available(iOS 26.0, *)) {
+        UIView *bg = nil;
+        CGFloat radius = 0;
+        NSMutableArray<UIView *> *stack = [NSMutableArray arrayWithObject:navigationBar];
+        while (stack.count) {
+            UIView *v = stack.lastObject;
+            [stack removeLastObject];
+            NSString *clsName = NSStringFromClass(v.class);
+            if ([clsName isEqualToString:@"_UIBarBackground"] || [clsName hasSuffix:@"BarBackground"]) {
+                bg = v;
+                break;
+            }
+            for (UIView *sub in v.subviews) [stack addObject:sub];
+        }
+        if (!bg) return;
+        if (hiddenOrTransparent) {
+            bg.layer.mask = nil;
+            bg.layer.cornerRadius = 0;
+            return;
+        }
+        stack = [NSMutableArray arrayWithObject:bg];
+        while (stack.count) {
+            UIView *v = stack.lastObject;
+            [stack removeLastObject];
+            if (v != bg && v.layer.cornerRadius > radius) radius = v.layer.cornerRadius;
+            for (UIView *sub in v.subviews) [stack addObject:sub];
+        }
+        if (radius <= 0) radius = navigationBar.layer.cornerRadius;
+        if (radius <= 0) {
+            CGFloat h = CGRectGetHeight(bg.bounds);
+            if (h <= 0) h = CGRectGetHeight(navigationBar.bounds);
+            if (h > 0) radius = round(h / 2.0);
+        }
+        if (radius <= 0) return;
+        CAShapeLayer *mask = [CAShapeLayer layer];
+        mask.path = [UIBezierPath bezierPathWithRoundedRect:bg.bounds
+                                          byRoundingCorners:(UIRectCornerTopLeft | UIRectCornerTopRight)
+                                                cornerRadii:CGSizeMake(radius, radius)].CGPath;
+        bg.layer.mask = mask;
+    }
+}
+
 - (void)kai_adaptWithBarStyle:(UIBarStyle)barStyle tintColor:(UIColor *)tintColor {
     self.barStyle  = barStyle;
     self.tintColor = tintColor;
@@ -181,6 +226,15 @@ BOOL ZKNavigationBarUsesLiquidGlass(UINavigationBar *navigationBar) {
     self.shadowImage = configure.shadowImage ? nil : transpanrentImage;
     
     [self setCurrentBarConfigure:configure];
+
+    // 液态玻璃：有底色时给 _UIBarBackground 补左上/右上圆角，防止直角盖住系统圆角。
+    if (ZKNavigationBarUsesLiquidGlass(self)) {
+        ZKApplyLiquidGlassTopCorners(self, configure.navigationBarHidden || configure.transparent);
+        // 布局完成后 bounds 才稳定，再校准一次 mask 路径。
+        dispatch_async(dispatch_get_main_queue(), ^{
+            ZKApplyLiquidGlassTopCorners(self, configure.navigationBarHidden || configure.transparent);
+        });
+    }
 }
 
 - (ZKBarConfiguration *)currentBarConfigure {
