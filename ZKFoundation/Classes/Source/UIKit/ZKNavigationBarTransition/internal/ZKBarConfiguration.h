@@ -49,6 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 仅Liquid Glass悬浮栏返回 YES，其它系统版本与风格一律返回 NO，保证旧交互不变。
 BOOL ZKNavigationBarUsesLiquidGlass(UINavigationBar *navigationBar);
+CGRect ZKNavigationBarGlassRectForBar(UINavigationBar *navigationBar, CGFloat *outRadius);
 
 - (void)kai_adaptWithBarStyle:(UIBarStyle)barStyle tintColor:(UIColor *)tintColor;
 - (void)kai_commitBarConfiguration:(ZKBarConfiguration *)configure;

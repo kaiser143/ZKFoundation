@@ -94,10 +94,8 @@
 
 @implementation UINavigationBar (ZKPrivate)
 
-/// Liquid Glass判定集中在一处：只有同时满足以下条件才返回 YES。
-/// 1. iOS 26 及以上；2. 未通过 UIDesignRequiresCompatibility 禁用新设计；
-/// 3. 当前运行时存在 UIGlassEffect（ glass 实际可用）。
-/// 任一条件不满足即返回 NO，调用方走旧 UIToolbar 假栏逻辑，交互与提交前完全一致。
+/// 任一条件不满足即返回 NO，调用方走旧 UIToolbar 假栏逻辑。
+/// iOS15~25、以及 iOS26 开启 UIDesignRequiresCompatibility 时一律走旧逻辑。
 BOOL ZKNavigationBarUsesLiquidGlass(UINavigationBar *navigationBar) {
     if (!navigationBar) return NO;
     if (@available(iOS 26.0, *)) {
@@ -112,6 +110,71 @@ BOOL ZKNavigationBarUsesLiquidGlass(UINavigationBar *navigationBar) {
     return NO;
 }
 
+/// 玻璃背景几何查找：返回与 _UIBarBackground 等高的全宽顶部区（带顶部安全距离），
+/// 圆角取其内部悬浮内容的最大圆角。假栏按此绘制：宽度为屏幕宽，仅左上右上圆角。
+CGRect ZKNavigationBarGlassRectForBar(UINavigationBar *navigationBar, CGFloat *outRadius) {
+    if (outRadius) *outRadius = 0;
+    if (!navigationBar || CGRectIsEmpty(navigationBar.bounds)) return CGRectNull;
+    UIView *bg = nil;
+    NSMutableArray<UIView *> *stack = [NSMutableArray arrayWithObject:navigationBar];
+    while (stack.count) {
+        UIView *v = stack.lastObject;
+        [stack removeLastObject];
+        if (v != (UIView *)navigationBar) {
+            NSString *clsName = NSStringFromClass(v.class);
+            if ([clsName isEqualToString:@"_UIBarBackground"] || [clsName hasSuffix:@"BarBackground"]) {
+                bg = v;
+                break;
+            }
+        }
+        for (UIView *sub in v.subviews) [stack addObject:sub];
+    }
+    if (!bg) return CGRectNull;
+    CGFloat radius = 0;
+    stack = [NSMutableArray arrayWithObject:bg];
+    while (stack.count) {
+        UIView *v = stack.lastObject;
+        [stack removeLastObject];
+        if (v != bg) {
+            NSString *clsName = NSStringFromClass(v.class);
+            if ([clsName containsString:@"Button"] || [clsName containsString:@"Item"]) {
+                for (UIView *sub in v.subviews) [stack addObject:sub];
+                continue;
+            }
+            CGFloat r = v.layer.cornerRadius;
+            CGFloat w = CGRectGetWidth(v.bounds);
+            CGFloat h = CGRectGetHeight(v.bounds);
+            if (r >= 8 && w >= 100 && h >= 28 && h <= 90 && w >= h * 1.5 && r > radius) {
+                radius = r;
+            }
+        }
+        for (UIView *sub in v.subviews) [stack addObject:sub];
+    }
+    if (outRadius) *outRadius = radius;
+    UIView *parent = bg.superview ?: navigationBar;
+    return [parent convertRect:bg.frame toView:navigationBar];
+}
+
+/// 玻璃真栏显隐：transparent Appearance 在 Liquid Glass 下藏不住悬浮胶囊，
+/// 此处直接按名称找到 _UIBarBackground / 背景容器改 alpha，保证转场期间真假栏不叠加。
+/// 非透明时恢复 alpha = 1。找不到背景视图时不做任何处理，避免误藏标题按钮。
+static void ZKSetGlassBackgroundHidden(UINavigationBar *navigationBar, BOOL hidden) {
+    if (@available(iOS 26.0, *)) {
+        NSMutableArray<UIView *> *stack = [NSMutableArray arrayWithObject:navigationBar];
+        while (stack.count) {
+            UIView *v = stack.lastObject;
+            [stack removeLastObject];
+            if (v != (UIView *)navigationBar) {
+                NSString *clsName = NSStringFromClass(v.class);
+                if ([clsName isEqualToString:@"_UIBarBackground"] || [clsName hasSuffix:@"BarBackground"]) {
+                    v.alpha = hidden ? 0 : 1;
+                    break;
+                }
+            }
+            for (UIView *sub in v.subviews) [stack addObject:sub];
+        }
+    }
+}
 /// 液态玻璃圆角补偿：有底色时 _UIBarBackground 会填满直角盖住系统圆角，
 /// 无底色时看到的即系统圆角。单次遍历同时找到背景视图与系统圆角，对齐系统数值后只保留左上右上。
 static void ZKApplyLiquidGlassTopCorners(UINavigationBar *navigationBar, BOOL hiddenOrTransparent) {
@@ -130,6 +193,24 @@ static void ZKApplyLiquidGlassTopCorners(UINavigationBar *navigationBar, BOOL hi
             for (UIView *sub in v.subviews) [stack addObject:sub];
         }
         if (!bg) return;
+        // 模态浮层（Stork/自定义 present）由浮层自身裁圆角，栏不再叠加 mask，
+        // 否则栏圆角半径与浮层半径不一致，会出现图1这种灰边/双层圆角。
+        UIViewController *host = nil;
+        UIResponder *next = navigationBar.nextResponder;
+        while (next) {
+            if ([next isKindOfClass:[UIViewController class]]) {
+                host = (UIViewController *)next;
+                break;
+            }
+            next = next.nextResponder;
+        }
+        UINavigationController *nav = (UINavigationController *)host;
+        if (![nav isKindOfClass:[UINavigationController class]]) nav = host.navigationController;
+        if (nav && nav.presentingViewController && nav.modalPresentationStyle != UIModalPresentationFullScreen) {
+            bg.layer.mask = nil;
+            bg.layer.cornerRadius = 0;
+            return;
+        }
         if (hiddenOrTransparent) {
             bg.layer.mask = nil;
             bg.layer.cornerRadius = 0;
@@ -182,6 +263,7 @@ static void ZKApplyLiquidGlassTopCorners(UINavigationBar *navigationBar, BOOL hi
     UIImage *const transpanrentImage = UIImage.new;
     if (configure.transparent) {
         barBackgroundView.alpha = 0;
+        if (ZKNavigationBarUsesLiquidGlass(self)) ZKSetGlassBackgroundHidden(self, YES);
         if (@available(iOS 13.0, *)) {
             UINavigationBarAppearance *appearance = [[self standardAppearance] copy];
             [appearance configureWithTransparentBackground];
@@ -193,6 +275,7 @@ static void ZKApplyLiquidGlassTopCorners(UINavigationBar *navigationBar, BOOL hi
         }
     } else {
         barBackgroundView.alpha = 1;
+        if (ZKNavigationBarUsesLiquidGlass(self)) ZKSetGlassBackgroundHidden(self, NO);
         if (@available(iOS 13.0, *)) {
             UINavigationBarAppearance *appearance = [[self standardAppearance] copy];
             if (configure.translucent) {

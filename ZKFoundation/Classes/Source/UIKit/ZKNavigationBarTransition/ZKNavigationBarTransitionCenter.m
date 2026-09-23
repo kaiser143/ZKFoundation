@@ -34,7 +34,8 @@ BOOL KAITransitionNeedShowFakeBar(ZKBarConfiguration *from, ZKBarConfiguration *
             }
             
             showFakeBar = ![from.backgroundImage isEqual:to.backgroundImage];
-        } else if (![from.backgroundColor isEqual:to.backgroundColor]) {
+        } else if (from.backgroundColor != to.backgroundColor &&
+                   ![from.backgroundColor isEqual:to.backgroundColor]) {
             showFakeBar = YES;
         }
     } while (0);
@@ -90,6 +91,32 @@ static struct {
     self.backgroundImageView.frame = self.bounds;
     self.backgroundColorView.frame = self.bounds;
 
+    BOOL isGlassPill = [self.effectView.effect isKindOfClass:NSClassFromString(@"UIGlassEffect")] || self.layer.cornerRadius > 0;
+    if (isGlassPill) {
+        // 玻璃假栏为全宽顶部区：仅左上右上圆角，左下右下直角，与 _UIBarBackground 一致。
+        CGFloat r = self.layer.cornerRadius;
+        if (r <= 0) r = MIN(28, CGRectGetHeight(self.bounds) / 2.0);
+        self.layer.cornerRadius = 0;
+        self.effectView.layer.cornerRadius = 0;
+        self.backgroundImageView.layer.cornerRadius = 0;
+        self.backgroundColorView.layer.cornerRadius = 0;
+        self.effectView.clipsToBounds = NO;
+        self.backgroundImageView.clipsToBounds = NO;
+        self.backgroundColorView.clipsToBounds = NO;
+        if (r > 0 && !CGRectIsEmpty(self.bounds)) {
+            CAShapeLayer *mask = [CAShapeLayer layer];
+            mask.path = [UIBezierPath bezierPathWithRoundedRect:self.bounds
+                                              byRoundingCorners:(UIRectCornerTopLeft | UIRectCornerTopRight)
+                                                    cornerRadii:CGSizeMake(r, r)].CGPath;
+            self.layer.mask = mask;
+        } else {
+            self.layer.mask = nil;
+        }
+        self.shadowView.hidden = YES;
+        return;
+    }
+    self.layer.mask = nil;
+
     CGFloat screenScale = self.window.screen.scale;
     if (screenScale <= 0) screenScale = UIScreen.mainScreen.scale;
     CGFloat pixelHeight = 1.0 / MAX(screenScale, 1.0);
@@ -131,9 +158,24 @@ static struct {
     UIBlurEffectStyle effectStyle = configuration.barStyle == UIBarStyleDefault
         ? UIBlurEffectStyleLight
         : UIBlurEffectStyleDark;
-    self.effectView.effect = configuration.translucent
-        ? [UIBlurEffect effectWithStyle:effectStyle]
-        : nil;
+    // 玻璃胶囊优先使用系统玻璃质感，不可用时回退到模糊，保证旧系统链路不受影响。
+    Class glassCls = NSClassFromString(@"UIGlassEffect");
+    if (glassCls && configuration.translucent) {
+        @try {
+            id glass = [[glassCls alloc] init];
+            if ([glass isKindOfClass:[UIVisualEffect class]]) {
+                self.effectView.effect = glass;
+            } else {
+                self.effectView.effect = [UIBlurEffect effectWithStyle:effectStyle];
+            }
+        } @catch (__unused NSException *e) {
+            self.effectView.effect = [UIBlurEffect effectWithStyle:effectStyle];
+        }
+    } else {
+        self.effectView.effect = configuration.translucent
+            ? [UIBlurEffect effectWithStyle:effectStyle]
+            : nil;
+    }
 
     self.shadowView.hidden = !configuration.shadowImage;
     if (@available(iOS 13.0, *)) {
@@ -272,10 +314,17 @@ static struct {
                 CGRect fakeBarFrame = [fromVC kai_fakeBarFrameForNavigationBar:navigationBar];
                 if (!CGRectIsNull(fakeBarFrame)) {
                     // 转场内按当前导航栏是否 Liquid Glass 即时选型，非 Liquid Glass保持旧 Toolbar 效果。
+                    // iOS15~25 与兼容模式下 glass 为 NO，仍走 UIToolbar 全宽假栏，即原来完美链路。
                     BOOL glass = ZKNavigationBarUsesLiquidGlass(navigationBar);
                     self.fromViewControllerFakeBar = [self fakeBar:self.fromViewControllerFakeBar liquidGlass:glass];
                     UIView *fakeBar = self.fromViewControllerFakeBar;
                     [self commitFakeBar:fakeBar configuration:currentConfigure];
+                    if (glass) {
+                        NSNumber *r = [fromVC.view associatedValueForKey:@selector(kai_fakeBarFrameForNavigationBar:)];
+                        fakeBar.layer.cornerRadius = r ? r.doubleValue : CGRectGetHeight(fakeBarFrame) / 2.0;
+                    } else {
+                        fakeBar.layer.cornerRadius = 0;
+                    }
                     fakeBar.frame = fakeBarFrame;
                     [fromVC.view addSubview:fakeBar];
                 }
@@ -293,6 +342,12 @@ static struct {
                     self.toViewControllerFakeBar = [self fakeBar:self.toViewControllerFakeBar liquidGlass:glass];
                     UIView *fakeBar = self.toViewControllerFakeBar;
                     [self commitFakeBar:fakeBar configuration:showConfigure];
+                    if (glass) {
+                        NSNumber *r = [toVC.view associatedValueForKey:@selector(kai_fakeBarFrameForNavigationBar:)];
+                        fakeBar.layer.cornerRadius = r ? r.doubleValue : CGRectGetHeight(fakeBarFrame) / 2.0;
+                    } else {
+                        fakeBar.layer.cornerRadius = 0;
+                    }
                     fakeBar.frame = fakeBarFrame;
                     [toVC.view addSubview:fakeBar];
                 }

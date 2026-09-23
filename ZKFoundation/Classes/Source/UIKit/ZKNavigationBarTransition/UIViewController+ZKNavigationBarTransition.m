@@ -7,6 +7,7 @@
 
 #import "UIViewController+ZKNavigationBarTransition.h"
 #import "ZKBarConfiguration.h"
+#import "ZKCategoriesImport.h"
 
 @implementation UIViewController (ZKNavigationBarTransition)
 
@@ -50,17 +51,25 @@
         return frame;
     }
 
-    // Liquid Glass下没有稳定的全宽背景视图，才改用公开坐标换算出覆盖状态栏的完整顶部区域。
+    // Liquid Glass：全宽顶部区，与 _UIBarBackground 等高（含顶部安全距离），仅左上右上圆角。
+    CGFloat glassRadius = 0;
+    CGRect glassRect = ZKNavigationBarGlassRectForBar(navigationBar, &glassRadius);
+    if (!CGRectIsNull(glassRect) && !CGRectIsEmpty(glassRect)) {
+        CGRect frame = [navigationBar convertRect:glassRect toView:self.view];
+        frame.origin.x = self.view.bounds.origin.x;
+        frame.size.width = CGRectGetWidth(self.view.bounds);
+        [self.view setAssociateValue:@(glassRadius) withKey:@selector(kai_fakeBarFrameForNavigationBar:)];
+        return frame;
+    }
     CGRect navigationBarFrame = [navigationBar convertRect:navigationBar.bounds toView:self.view];
     if (CGRectIsNull(navigationBarFrame) || CGRectIsInfinite(navigationBarFrame)) return CGRectNull;
 
-    // 旧版栏背景会延伸到状态栏后方，重建该几何，假栏覆盖完整顶部边缘。
+    // 真栏已被置透明导致 _UIBarBackground 查找失败时，按栏 bounds 估算全宽顶部区。
     CGFloat minY = MIN(CGRectGetMinY(self.view.bounds), CGRectGetMinY(navigationBarFrame));
     CGFloat maxY = CGRectGetMaxY(navigationBarFrame);
-    CGRect frame = CGRectMake(CGRectGetMinX(self.view.bounds),
-                              minY,
-                              CGRectGetWidth(self.view.bounds),
-                              MAX(0, maxY - minY));
+    CGRect frame = CGRectMake(CGRectGetMinX(self.view.bounds), minY,
+                              CGRectGetWidth(self.view.bounds), MAX(0, maxY - minY));
+    [self.view setAssociateValue:@(0) withKey:@selector(kai_fakeBarFrameForNavigationBar:)];
     return frame;
 }
 

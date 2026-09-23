@@ -40,7 +40,7 @@
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		9A8B7C6D5E4F3A2B1C0D0E03 /* ZKSceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A8B7C6D5E4F3A2B1C0D0E02 /* ZKSceneDelegate.m */; };
-		DB4B120C8603567B7D0CDFFE /* Pods_ZKFoundation_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD05D24BCA266EB79AA0BB81 /* Pods_ZKFoundation_Example.framework */; };
+		EBCE0B3F609CA1EA67E82616 /* Pods_ZKFoundation_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B457F980588DCE76C36FE254 /* Pods_ZKFoundation_Example.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +55,7 @@
 
 /* Begin PBXFileReference section */
 		11501AFA9081915C2945467F /* ZKFoundation.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = ZKFoundation.podspec; path = ../ZKFoundation.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		36D8E04750D163497206D6EC /* Pods-ZKFoundation_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZKFoundation_Example.release.xcconfig"; path = "Target Support Files/Pods-ZKFoundation_Example/Pods-ZKFoundation_Example.release.xcconfig"; sourceTree = "<group>"; };
 		4B034D68237E9D6900073D23 /* NavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationController.h; sourceTree = "<group>"; };
 		4B034D69237E9D6900073D23 /* NavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
 		4B0DB85E237EBD0A00F11E19 /* ZKWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKWebViewController.h; sourceTree = "<group>"; };
@@ -90,7 +91,6 @@
 		4BFF716A26B12D0A00F960A5 /* ZKTableViewSwitchCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKTableViewSwitchCell.m; sourceTree = "<group>"; };
 		4BFF716C26B1314500F960A5 /* ZKSwitchItemViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKSwitchItemViewModel.h; sourceTree = "<group>"; };
 		4BFF716D26B1314500F960A5 /* ZKSwitchItemViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKSwitchItemViewModel.m; sourceTree = "<group>"; };
-		4C0150DDE719CFFB04D8E0EF /* Pods-ZKFoundation_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZKFoundation_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZKFoundation_Example/Pods-ZKFoundation_Example.release.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* ZKFoundation_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZKFoundation_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -114,10 +114,9 @@
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9A8B7C6D5E4F3A2B1C0D0E01 /* ZKSceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKSceneDelegate.h; sourceTree = "<group>"; };
 		9A8B7C6D5E4F3A2B1C0D0E02 /* ZKSceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKSceneDelegate.m; sourceTree = "<group>"; };
+		B457F980588DCE76C36FE254 /* Pods_ZKFoundation_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZKFoundation_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B67405079FE8E43EF80EA3BA /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		CD05D24BCA266EB79AA0BB81 /* Pods_ZKFoundation_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZKFoundation_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EBC685A3BF45D1131B54A82E /* Pods-ZKFoundation_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZKFoundation_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZKFoundation_Example/Pods-ZKFoundation_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		F8FE7B0A2581D282357200EA /* Pods_ZKFoundation_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZKFoundation_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1128BC5E68888EDA8D6268A /* Pods-ZKFoundation_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZKFoundation_Example.debug.xcconfig"; path = "Target Support Files/Pods-ZKFoundation_Example/Pods-ZKFoundation_Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,7 +127,7 @@
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
-				DB4B120C8603567B7D0CDFFE /* Pods_ZKFoundation_Example.framework in Frameworks */,
+				EBCE0B3F609CA1EA67E82616 /* Pods_ZKFoundation_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,15 +155,6 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		4F25C44CB5C59654E8F8A1BC /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				EBC685A3BF45D1131B54A82E /* Pods-ZKFoundation_Example.debug.xcconfig */,
-				4C0150DDE719CFFB04D8E0EF /* Pods-ZKFoundation_Example.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
@@ -173,7 +163,7 @@
 				6003F5B5195388D20070C39A /* Tests */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
-				4F25C44CB5C59654E8F8A1BC /* Pods */,
+				615075CAD4929BB433F8B321 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -193,8 +183,7 @@
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
 				6003F5AF195388D20070C39A /* XCTest.framework */,
-				CD05D24BCA266EB79AA0BB81 /* Pods_ZKFoundation_Example.framework */,
-				F8FE7B0A2581D282357200EA /* Pods_ZKFoundation_Tests.framework */,
+				B457F980588DCE76C36FE254 /* Pods_ZKFoundation_Example.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -288,6 +277,15 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
+		615075CAD4929BB433F8B321 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E1128BC5E68888EDA8D6268A /* Pods-ZKFoundation_Example.debug.xcconfig */,
+				36D8E04750D163497206D6EC /* Pods-ZKFoundation_Example.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -295,11 +293,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "ZKFoundation_Example" */;
 			buildPhases = (
-				7690BB68338C8968C2DD11CF /* [CP] Check Pods Manifest.lock */,
+				EF020C7189DC02B6B1D5CF2D /* [CP] Check Pods Manifest.lock */,
 				6003F586195388D20070C39A /* Sources */,
 				6003F587195388D20070C39A /* Frameworks */,
 				6003F588195388D20070C39A /* Resources */,
-				9B54A36F69BC5297A4D281C9 /* [CP] Embed Pods Frameworks */,
+				DBFC75D070B3D09E3CEE687B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -389,29 +387,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7690BB68338C8968C2DD11CF /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ZKFoundation_Example-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9B54A36F69BC5297A4D281C9 /* [CP] Embed Pods Frameworks */ = {
+		DBFC75D070B3D09E3CEE687B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -441,6 +417,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ZKFoundation_Example/Pods-ZKFoundation_Example-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EF020C7189DC02B6B1D5CF2D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ZKFoundation_Example-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -625,7 +623,7 @@
 		};
 		6003F5C0195388D20070C39A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EBC685A3BF45D1131B54A82E /* Pods-ZKFoundation_Example.debug.xcconfig */;
+			baseConfigurationReference = E1128BC5E68888EDA8D6268A /* Pods-ZKFoundation_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -645,7 +643,7 @@
 		};
 		6003F5C1195388D20070C39A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4C0150DDE719CFFB04D8E0EF /* Pods-ZKFoundation_Example.release.xcconfig */;
+			baseConfigurationReference = 36D8E04750D163497206D6EC /* Pods-ZKFoundation_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
