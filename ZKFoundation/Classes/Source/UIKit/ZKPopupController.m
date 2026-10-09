@@ -8,6 +8,12 @@
 #import "ZKPopupController.h"
 #import "ZKKeyboardManager.h"
 
+#if __has_include(<ZKCategories/ZKCategories.h>)
+#import <ZKCategories/ZKCategories.h>
+#else
+#import "ZKCategories.h"
+#endif
+
 #define KAI_SYSTEM_VERSION_LESS_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 #define KAI_IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
@@ -714,7 +720,7 @@ CGFloat KAI_UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orie
 }
 
 - (UIWindow *)applicationWindow {
-    return [UIApplication sharedApplication].keyWindow;
+    return UIApplication.sharedApplication.kai_keyWindow;
 }
 
 @end

@@ -65,24 +65,7 @@
 
 // 显示弹窗
 - (void)present {
-    // 过滤出非键盘窗口并反转数组
-    NSArray<UIWindow *> *windows = [UIApplication sharedApplication].windows;
-    NSMutableArray<UIWindow *> *filteredWindows = [NSMutableArray array];
-    for (UIWindow *window in windows) {
-        if (![[NSString stringWithFormat:@"%@", [window classForCoder]] isEqualToString:@"UIRemoteKeyboardWindow"]) {
-            [filteredWindows addObject:window];
-        }
-    }
-    NSArray<UIWindow *> *reversedWindows = [[filteredWindows reverseObjectEnumerator] allObjects];
-    
-    // 找到主窗口
-    UIWindow *keyWindow = nil;
-    for (UIWindow *window in reversedWindows) {
-        if (window.isKeyWindow) {
-            keyWindow = window;
-            break;
-        }
-    }
+    UIWindow *keyWindow = UIApplication.sharedApplication.kai_keyWindow;
     if (!keyWindow) {
         return;
     }
@@ -275,7 +258,7 @@
 
 // 获取安全区域边距
 - (UIEdgeInsets)safeInsets {
-    return [UIApplication sharedApplication].keyWindow.safeAreaInsets;
+    return UIApplication.sharedApplication.kai_keyWindow.safeAreaInsets;
 }
 
 // 处理按钮点击事件

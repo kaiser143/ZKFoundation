@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ZKFoundation'
-  s.version          = "0.1.29"
+  s.version          = "0.1.30"
   s.summary          = 'A short description of ZKFoundation.'
 
 # This description is used to generate tags and improve search results.
@@ -26,7 +26,7 @@ TODO: Add long description of the pod here.
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'zhangkai' => 'deyang143@126.com' }
   s.source           = { :git => 'https://github.com/kaiser143/ZKFoundation.git', :tag => s.version.to_s }
-  s.ios.deployment_target = '12.0'
+  s.ios.deployment_target = '15.0'
   s.requires_arc    = true
   s.default_subspecs = ['Core', 'LocationManager', 'Permission', 'UIKit', 'Adapter', 'Categories', 'AuthContext', 'URLProtocol']
 
@@ -34,12 +34,8 @@ TODO: Add long description of the pod here.
   s.frameworks = 'UIKit', 'Foundation'
   s.pod_target_xcconfig = {
     'HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/Adapter" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/Categories" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/UIKit"',
-    'USER_HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source"',
-    'OTHER_LDFLAGS' => '$(inherited) -weak_framework UIUtilities',
-    'FRAMEWORK_SEARCH_PATHS' => '$(inherited) "$(SDKROOT)/System/Library/SubFrameworks"'
+    'USER_HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source"'
   }
-  # 同上，宿主 App 链接 UIKit 同样需要解析 UIUtilities 的 re-export。
-  s.user_target_xcconfig = { 'FRAMEWORK_SEARCH_PATHS' => '$(inherited) "$(SDKROOT)/System/Library/SubFrameworks"' }
 
   # 顶层 Source/*.m（ZKApp、ZKKeyboardManager、ZKMultipleDelegates 等）被多个子库引用，
   # 为保证单独验证任一 subspec 时符号齐全，统一收进 Core，各子库显式依赖它。
@@ -51,20 +47,20 @@ TODO: Add long description of the pod here.
   end
 
   s.subspec 'LocationManager' do |ss|
-      ss.ios.deployment_target = '12.0'
+      ss.ios.deployment_target = '15.0'
       ss.source_files = 'ZKFoundation/Classes/Source/LocationManager/*.{h,m}'
       ss.frameworks = 'CoreLocation'
       ss.dependency 'ZKFoundation/Core'
   end
 
   s.subspec 'Permission' do |ss|
-      ss.ios.deployment_target = '12.0'
+      ss.ios.deployment_target = '15.0'
       ss.source_files = 'ZKFoundation/Classes/Source/Permission/*.{h,m}'
       ss.dependency 'ZKFoundation/Core'
   end
 
   s.subspec 'UIKit' do |ss|
-      ss.ios.deployment_target = '12.0'
+      ss.ios.deployment_target = '15.0'
       ss.source_files = 'ZKFoundation/Classes/Source/UIKit/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKNavigationBarTransition/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKNavigationBarTransition/internal/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKAlert/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKUIImagePreview/*.{h,m}'
       ss.dependency 'ZKFoundation/Core'
       ss.dependency 'ZKFoundation/Adapter'
@@ -74,7 +70,7 @@ TODO: Add long description of the pod here.
   # Categories 为纯分类（UIView+ZKHelper、徽标等），不引用 Adapter；
   # Adapter 单向依赖 Categories；UIKit 依赖 Adapter。无循环。
   s.subspec 'Adapter' do |ss|
-      ss.ios.deployment_target = '12.0'
+      ss.ios.deployment_target = '15.0'
       ss.source_files = 'ZKFoundation/Classes/Source/Adapter/*.{h,m}'
       ss.dependency 'ZKFoundation/Core'
       ss.dependency 'ZKFoundation/Categories'
@@ -82,7 +78,7 @@ TODO: Add long description of the pod here.
   end
 
   s.subspec 'Categories' do |ss|
-      ss.ios.deployment_target = '12.0'
+      ss.ios.deployment_target = '15.0'
       ss.source_files = 'ZKFoundation/Classes/Source/Categories/*.{h,m}'
       ss.dependency 'ZKFoundation/Core'
   end
@@ -106,5 +102,5 @@ TODO: Add long description of the pod here.
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
-  s.dependency 'ZKCategories', '~> 0.4.26'
+  s.dependency 'ZKCategories', '~> 0.4.27'
 end

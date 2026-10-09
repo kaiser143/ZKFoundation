@@ -88,10 +88,17 @@
     self.tableView.rowHeight       = 100;
     //    self.tableView.contentInsetTop = 550;
 
-    self.tableView.tableHeaderView                 = UIView.new;
-    self.tableView.tableHeaderView.height          = 550;
-    self.tableView.tableHeaderView.backgroundColor = UIColor.clearColor;
-    self.tableView.showsVerticalScrollIndicator    = NO;
+    self.tableView.tableHeaderView                  = UIView.new;
+    self.tableView.tableHeaderView.height           = 550;
+    self.tableView.tableHeaderView.backgroundColor  = UIColor.clearColor;
+    self.tableView.showsVerticalScrollIndicator     = NO;
+    self.tableView.contentInsetAdjustmentBehavior   = UIScrollViewContentInsetAdjustmentNever;
+
+    // iOS 26 新增顶部/底部边缘液态玻璃效果，首页沉浸式背景下需隐藏以避免视觉遮挡
+    // 注：UIScrollEdgeEffectStyle 只有 automaticStyle / softStyle / hardStyle，没有 none，去毛玻璃只能用 hidden
+    if (@available(iOS 26, *)) {
+        self.tableView.topEdgeEffect.hidden = YES;
+    }
 
     [self.tableView.adapter registerNibs:@[@"UITableViewCell"]];
     [self.tableView.adapter cellWillDisplay:^(__kindof UITableViewCell *_Nonnull cell, NSIndexPath *_Nonnull indexPath, id _Nonnull dataSource, BOOL isCellDisplay) {

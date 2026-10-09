@@ -107,16 +107,16 @@
 
         [UIView animateWithDuration:[self transitionDuration:transitionContext]
             delay:0
-            usingSpringWithDamping:0.8
-            initialSpringVelocity:0.1
+            usingSpringWithDamping:1.0
+            initialSpringVelocity:0
             options:UIViewAnimationOptionCurveEaseOut
             animations:^{
                 fromViewController.view.transform = CGAffineTransformScale(fromViewController.view.transform, self.behindViewScale, self.behindViewScale);
                 fromViewController.view.alpha     = self.behindViewAlpha;
 
                 toViewController.view.frame = CGRectMake(0, self.topSpace,
-                                                         CGRectGetWidth(toViewController.view.frame),
-                                                         CGRectGetHeight(toViewController.view.frame));
+                                                         CGRectGetWidth(containerView.bounds),
+                                                         CGRectGetHeight(containerView.bounds) - self.topSpace);
             }
             completion:^(BOOL finished) {
                 if (toViewController.modalPresentationStyle == UIModalPresentationCustom) {
@@ -401,8 +401,22 @@
 #pragma mark - :. getters and setters
 
 - (CGFloat)topSpace {
-    CGFloat statusBarHeight = UIApplication.sharedApplication.statusBarFrame.size.height;
-    return (statusBarHeight < 25) ? 30 : statusBarHeight + 13;
+    CGFloat statusBarHeight = 0;
+    CGFloat safeAreaTop = 0;
+    UIWindow *keyWindow = UIApplication.sharedApplication.kai_keyWindow;
+    if (@available(iOS 13.0, *)) {
+        statusBarHeight = keyWindow.windowScene.statusBarManager.statusBarFrame.size.height;
+        safeAreaTop = keyWindow.safeAreaInsets.top;
+        if (safeAreaTop <= 0) safeAreaTop = keyWindow.rootViewController.view.safeAreaInsets.top;
+    } else {
+        statusBarHeight = UIApplication.sharedApplication.statusBarFrame.size.height;
+    }
+    CGFloat baseTop = MAX(statusBarHeight, safeAreaTop);
+    // 无刘海老机器：状态栏 20，留 10 间隙即可；iOS 26 液态玻璃导航栏偏高也够用
+    if (baseTop < 25) return 30;
+    // 刘海 / 灵动岛：baseTop 约 47~62，灵动岛再多留一点避免遮挡，只加 8~10 即可，此前 +13 偏高
+    BOOL hasDynamicIsland = (safeAreaTop >= 59);
+    return baseTop + (hasDynamicIsland ? 10 : 8);
 }
 
 @end

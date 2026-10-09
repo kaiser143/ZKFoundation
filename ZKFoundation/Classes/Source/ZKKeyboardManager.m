@@ -395,10 +395,10 @@ static char kAssociatedObjectKey_KeyboardViewFrameObserver;
 }
 
 - (UIResponder *)firstResponderInWindows {
-    UIResponder *responder = [UIApplication.sharedApplication.keyWindow kai_findFirstResponder];
+    UIResponder *responder = [UIApplication.sharedApplication.kai_keyWindow kai_findFirstResponder];
     if (!responder) {
-        for (UIWindow *window in UIApplication.sharedApplication.windows) {
-            if (window != UIApplication.sharedApplication.keyWindow) {
+        for (UIWindow *window in UIApplication.sharedApplication.kai_allWindows) {
+            if (window != UIApplication.sharedApplication.kai_keyWindow) {
                 responder = [window kai_findFirstResponder];
                 if (responder) {
                     return responder;
@@ -714,7 +714,7 @@ static char kAssociatedObjectKey_KeyboardViewFrameObserver;
         self.keyboardMoveBeginRect = endFrame;
         
         if (self.currentResponder) {
-            UIWindow *mainWindow = UIApplication.sharedApplication.keyWindow ?: UIApplication.sharedApplication.delegate.window;
+            UIWindow *mainWindow = UIApplication.sharedApplication.kai_keyWindow ?: UIApplication.sharedApplication.delegate.window;
             if (mainWindow) {
                 CGRect keyboardRect = keyboardMoveUserInfo.endFrame;
                 CGFloat distanceFromBottom = [ZKKeyboardManager distanceFromMinYToBottomInView:mainWindow keyboardRect:keyboardRect];
@@ -787,7 +787,7 @@ static char kAssociatedObjectKey_KeyboardViewFrameObserver;
         return rect;
     }
     
-    UIWindow *mainWindow = UIApplication.sharedApplication.keyWindow ?: UIApplication.sharedApplication.delegate.window;
+    UIWindow *mainWindow = UIApplication.sharedApplication.kai_keyWindow ?: UIApplication.sharedApplication.delegate.window;
     if (!mainWindow) {
         if (view) {
             [view convertRect:rect fromView:nil];
