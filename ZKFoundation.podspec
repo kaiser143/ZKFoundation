@@ -9,16 +9,10 @@
 Pod::Spec.new do |s|
   s.name             = 'ZKFoundation'
   s.version          = "0.1.30"
-  s.summary          = 'A short description of ZKFoundation.'
-
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
-
+  s.summary          = 'ZKFoundation: iOS base library (UIKit, Adapter, Categories, Location, Permission, AuthContext).'
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+ZKFoundation is the shared iOS base library for ZK projects, including Core utilities,
+UIKit components, Adapter, Categories, LocationManager, Permission, AuthContext and URLProtocol.
                        DESC
 
   s.homepage         = 'https://github.com/kaiser143/ZKFoundation'
@@ -40,28 +34,24 @@ TODO: Add long description of the pod here.
   # 顶层 Source/*.m（ZKApp、ZKKeyboardManager、ZKMultipleDelegates 等）被多个子库引用，
   # 为保证单独验证任一 subspec 时符号齐全，统一收进 Core，各子库显式依赖它。
   s.subspec 'Core' do |ss|
-      ss.ios.deployment_target = '12.0'
       ss.source_files = 'ZKFoundation/Classes/Source/ZKApp.{h,m}', 'ZKFoundation/Classes/Source/ZKFolderMonitor.{h,m}', 'ZKFoundation/Classes/Source/ZKHTTPURLResponse.{h,m}', 'ZKFoundation/Classes/Source/ZKKeyboardManager.{h,m}', 'ZKFoundation/Classes/Source/ZKMultipleDelegates.{h,m}', 'ZKFoundation/Classes/Source/NSObject+ZKMultipleDelegates.{h,m}', 'ZKFoundation/Classes/Source/ZKVersion.{h,m}', 'ZKFoundation/Classes/Source/ZKCategoriesImport.h'
-      ss.dependency 'ZKCategories', '~> 0.4.26'
+      ss.dependency 'ZKCategories', '~> 0.4.28'
       ss.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source"' }
   end
 
   s.subspec 'LocationManager' do |ss|
-      ss.ios.deployment_target = '15.0'
       ss.source_files = 'ZKFoundation/Classes/Source/LocationManager/*.{h,m}'
       ss.frameworks = 'CoreLocation'
       ss.dependency 'ZKFoundation/Core'
   end
 
   s.subspec 'Permission' do |ss|
-      ss.ios.deployment_target = '15.0'
       ss.source_files = 'ZKFoundation/Classes/Source/Permission/*.{h,m}'
       ss.dependency 'ZKFoundation/Core'
   end
 
   s.subspec 'UIKit' do |ss|
-      ss.ios.deployment_target = '15.0'
-      ss.source_files = 'ZKFoundation/Classes/Source/UIKit/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKNavigationBarTransition/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKNavigationBarTransition/internal/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKAlert/*.{h,m}', 'ZKFoundation/Classes/Source/UIKit/ZKUIImagePreview/*.{h,m}'
+      ss.source_files = 'ZKFoundation/Classes/Source/UIKit/**/*.{h,m}'
       ss.dependency 'ZKFoundation/Core'
       ss.dependency 'ZKFoundation/Adapter'
       ss.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/Adapter" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/Categories" "${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source/UIKit"' }
@@ -70,7 +60,6 @@ TODO: Add long description of the pod here.
   # Categories 为纯分类（UIView+ZKHelper、徽标等），不引用 Adapter；
   # Adapter 单向依赖 Categories；UIKit 依赖 Adapter。无循环。
   s.subspec 'Adapter' do |ss|
-      ss.ios.deployment_target = '15.0'
       ss.source_files = 'ZKFoundation/Classes/Source/Adapter/*.{h,m}'
       ss.dependency 'ZKFoundation/Core'
       ss.dependency 'ZKFoundation/Categories'
@@ -78,18 +67,15 @@ TODO: Add long description of the pod here.
   end
 
   s.subspec 'Categories' do |ss|
-      ss.ios.deployment_target = '15.0'
       ss.source_files = 'ZKFoundation/Classes/Source/Categories/*.{h,m}'
       ss.dependency 'ZKFoundation/Core'
   end
 
   s.subspec 'AuthContext' do |ss|
-      ss.ios.deployment_target = '12.0'
       ss.source_files = 'ZKFoundation/Classes/Source/AuthContext/*.{h,m}'
   end
 
   s.subspec 'URLProtocol' do |ss|
-      ss.ios.deployment_target = '12.0'
       ss.source_files = 'ZKFoundation/Classes/Source/URLProtocol/*.{h,m}'
       ss.dependency 'ZKFoundation/Core'
       ss.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/ZKFoundation/Classes/Source"' }
@@ -102,5 +88,4 @@ TODO: Add long description of the pod here.
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
-  s.dependency 'ZKCategories', '~> 0.4.28'
 end
