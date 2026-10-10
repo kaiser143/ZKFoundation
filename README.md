@@ -39,6 +39,9 @@ Here's how it looks like:
 <img src="https://github.com/kaiser143/ZKFoundation/raw/master/screenshot/screenshot3.png" width = "120">
 <img src="https://github.com/kaiser143/ZKFoundation/raw/master/screenshot/screenshot4.png" width = "120">
 <img src="https://github.com/kaiser143/ZKFoundation/raw/master/screenshot/screenshot5.png" width = "120">
+<img src="https://github.com/kaiser143/ZKFoundation/raw/master/screenshot/screenshot6.png" width = "120">
+<img src="https://github.com/kaiser143/ZKFoundation/raw/master/screenshot/screenshot7.png" width = "120">
+<img src="https://github.com/kaiser143/ZKFoundation/raw/master/screenshot/screenshot8.png" width = "120">
 </p>
 
 ## 🚀 核心模块
