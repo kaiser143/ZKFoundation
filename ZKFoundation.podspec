@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ZKFoundation'
-  s.version          = "0.1.30"
+  s.version          = "0.1.31"
   s.summary          = 'ZKFoundation: iOS base library (UIKit, Adapter, Categories, Location, Permission, AuthContext).'
   s.description      = <<-DESC
 ZKFoundation is the shared iOS base library for ZK projects, including Core utilities,
